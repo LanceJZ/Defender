@@ -20,8 +20,8 @@ public:
 	GameLogic();
 	virtual ~GameLogic();
 
-	void SetCamera(Camera* camera);
 	bool Initialize();
+	void SetCamera(Camera* camera);
 	void Load();
 	bool BeginRun();
 

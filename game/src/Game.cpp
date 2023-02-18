@@ -40,8 +40,8 @@ bool Game::Initialize()
 	camera.fovy = GetScreenHeight();          // Camera field-of-view Y. In Orthographic is scale.
 	camera.projection = CAMERA_ORTHOGRAPHIC;
 	//SetCameraMode(camera, CAMERA_ORBITAL); // Camera mode type
-	gameLogic->SetCamera(&camera);
 	gameLogic->Initialize();
+	gameLogic->SetCamera(&camera);
 
 	return false;
 }

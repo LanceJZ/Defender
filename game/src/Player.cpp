@@ -1,12 +1,19 @@
 #include "Player.h"
 
-Player::Player()
-{
-
-}
-
 Player::~Player()
 {
+}
+
+bool Player::Initialize()
+{
+	Model3D::Initialize();
+
+	for (int i = 0; i < 4; i++)
+	{
+		Shots[i] = new PlayerShot();
+	}
+
+	return false;
 }
 
 void Player::SetCamera(Camera* camera)
@@ -19,13 +26,18 @@ void Player::SetFlameModel(Model model, Texture2D texture)
 	Flame.LoadModel(model, texture);
 }
 
+void Player::SetShotModel(Model model, Texture2D texture)
+{
+
+}
+
 bool Player::BeginRun()
 {
 	ModelScale = 2.0f;
 	Flame.ModelScale = 2.0f;
 	Flame.Position.x = -80.0f;
-	Flame.RotationVelocity = 1000.0f;
-	Flame.RotationAxis.x = 1;
+	Flame.RotationVelocity = 50.0f;
+	Flame.RotationAxis.x = 1.0f;
 	AddChild(&Flame);
 
 	return false;
@@ -99,14 +111,14 @@ void Player::Input()
 	{
 		if (FacingRight)
 		{
-			Rotation = 180;
-			RotationAxis.y = 1;
+			Rotation = PI;
+			RotationAxis.y = 1.0f;
 			FacingRight = false;
 		}
 		else
 		{
 			Rotation = 0;
-			RotationAxis.y = 1;
+			RotationAxis.y = 1.0f;
 			FacingRight = true;
 		}
 	}
@@ -118,7 +130,7 @@ void Player::Update(float deltaTime)
 
 	Flame.Update(deltaTime);
 	ScreenEdgeBoundY();
-	CheckPlayfieldSide();
+	CheckPlayfieldSides(4.0f, 3.0f);
 
 	TheCamera->position.x = X();
 	TheCamera->target.x = X();
@@ -178,18 +190,5 @@ void Player::MoveRight()
 	else
 	{
 		Acceleration.x = 0;
-	}
-}
-
-void Player::CheckPlayfieldSide()
-{
-	if (X() > GetScreenWidth() * 3 + (GetScreenWidth() / 2))
-	{
-		X(-GetScreenWidth() * 4 + (GetScreenWidth() / 2));
-	}
-
-	if (X() < -GetScreenWidth() * 4 + (GetScreenWidth() / 2))
-	{
-		X(GetScreenWidth() * 3 + (GetScreenWidth() / 2));
 	}
 }

@@ -60,6 +60,8 @@ public:
 	bool OffScreenTopBottom();
 	void LeavePlay(float turnSpeed, float speed);
 	void RotateVelocity(Vector3 position, float turnSpeed, float speed);
+	void CheckPlayfieldSides(float left, float right);
+	void CheckPlayfieldHeight(float top, float bottom);
 
 private:
 

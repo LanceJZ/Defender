@@ -1,15 +1,18 @@
 #pragma once
-#include "raylib.h"
 #include "Model3D.h"
+#include "PlayerShot.h"
 
 class Player : public Model3D
 {
 public:
-	Player();
+	PlayerShot* Shots[4];
+
 	virtual ~Player();
 
+	bool Initialize();
 	void SetCamera(Camera* camera);
 	void SetFlameModel(Model model, Texture2D texture);
+	void SetShotModel(Model model, Texture2D texture);
 	void Load();
 	bool BeginRun();
 
@@ -32,6 +35,5 @@ private:
 	void MoveDown();
 	void MoveLeft();
 	void MoveRight();
-	void CheckPlayfieldSide();
 };
 

@@ -17,20 +17,20 @@ void PositionedObject::Update(float deltaTime)
 	RotationVelocity += RotationAcceleration * deltaTime;
 	Rotation += RotationVelocity * deltaTime;
 
-	//if (Rotation > PI * 4)
-	//{
-	//	Rotation = 0;
-	//}
-	//else if (Rotation < 0)
-	//{
-	//	Rotation = PI * 4;
-	//}
-
-	if (Rotation > 360)
+	if (Rotation > PI * 2)
+	{
 		Rotation = 0;
+	}
+	else if (Rotation < 0)
+	{
+		Rotation = PI * 2;
+	}
 
-	if (Rotation < 0)
-		Rotation = 360;
+	//if (Rotation > 360)
+	//	Rotation = 0;
+
+	//if (Rotation < 0)
+	//	Rotation = 360;
 }
 
 float PositionedObject::Chase(PositionedObject Chasing)
@@ -271,5 +271,29 @@ void PositionedObject::RotateVelocity(Vector3 position, float turnSpeed, float s
 {
 	RotationVelocity = RotateTowardsTargetZ(position, turnSpeed);
 	Velocity = VelocityFromAngleZ(Rotation, speed);
+}
+
+void PositionedObject::CheckPlayfieldSides(float left, float right)
+{
+	if (X() > GetScreenWidth() * right + (GetScreenWidth() / 2))
+	{
+		X(-GetScreenWidth() * left + (GetScreenWidth() / 2));
+	}
+	else if (X() < -GetScreenWidth() * left + (GetScreenWidth() / 2))
+	{
+		X(GetScreenWidth() * right + (GetScreenWidth() / 2));
+	}
+}
+
+void PositionedObject::CheckPlayfieldHeight(float top, float bottom)
+{
+	if (Y() > GetScreenHeight() * top + (GetScreenHeight() / 2))
+	{
+		Y(-GetScreenHeight() * bottom + (GetScreenHeight() / 2));
+	}
+	else if (Y() < - GetScreenHeight() * bottom + (GetScreenHeight() / 2))
+	{
+		Y(GetScreenHeight() * top + (GetScreenHeight() / 2));
+	}
 }
 

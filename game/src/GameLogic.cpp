@@ -11,17 +11,17 @@ GameLogic::~GameLogic()
 {
 }
 
-void GameLogic::SetCamera(Camera* camera)
-{
-	TheCamera = camera;
-	ThePlayer->SetCamera(camera);
-}
-
 bool GameLogic::Initialize()
 {
 	ThePlayer->Initialize();
 
 	return false;
+}
+
+void GameLogic::SetCamera(Camera* camera)
+{
+	TheCamera = camera;
+	ThePlayer->SetCamera(camera);
 }
 
 void GameLogic::Load()
