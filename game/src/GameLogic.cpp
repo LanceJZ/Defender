@@ -49,6 +49,12 @@ void GameLogic::Load()
 	ThePlayer->SetFlameModel(LoadModel("models/Player Flame.obj"), LoadTextureFromImage(imagefl)); //Load flame model into Player class.
 	UnloadImage(imagefl); // Unload image from (RAM)
 
+	Image imagesh = LoadImage("models/Player Shot.png");
+	Image imaget = LoadImage("models/Player Shot Tail.png");
+	ThePlayer->SetShotModels(LoadModel("models/Player Shot.obj"), LoadTextureFromImage(imagesh),
+		LoadModel("models/Player Shot tail.obj"), LoadTextureFromImage(imaget)); //Load shot models into Player class.
+	UnloadImage(imagesh); // Unload image from (RAM)
+
 }
 
 bool GameLogic::BeginRun()

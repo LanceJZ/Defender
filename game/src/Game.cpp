@@ -26,7 +26,7 @@ void Game::GameLoop()
 
 bool Game::Initialize()
 {
-	InitWindow(1280, 960, "Game"); //Screen width, height and Window title.
+	InitWindow(1280, 960, "Defender Pre-alpha"); //Screen width, height and Window title.
 	InitAudioDevice();
 	SetTargetFPS(60);
 

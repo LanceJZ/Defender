@@ -55,13 +55,14 @@ public:
 	void CheckScreenEdgeX();
 	void CheckScreenEdgeY();
 	bool ScreenEdgeBoundY();
+	bool ScreenEdgeBoundY(float topOffset, float bottomOffset);
 	bool OffScreen();
 	bool OffScreenSide();
 	bool OffScreenTopBottom();
 	void LeavePlay(float turnSpeed, float speed);
 	void RotateVelocity(Vector3 position, float turnSpeed, float speed);
-	void CheckPlayfieldSides(float left, float right);
-	void CheckPlayfieldHeight(float top, float bottom);
+	void CheckPlayfieldSidesWarp(float left, float right);
+	void CheckPlayfieldHeightWarp(float top, float bottom);
 
 private:
 

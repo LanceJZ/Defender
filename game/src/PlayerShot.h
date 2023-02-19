@@ -1,5 +1,6 @@
 #pragma once
 #include "Model3D.h"
+#include "Timer.h"
 
 class PlayerShot : public Model3D
 {
@@ -8,14 +9,19 @@ public:
 	virtual ~PlayerShot();
 
 	bool Initialize();
+	void SetTailModel(Model model, Texture2D texture);
 	virtual void Load();
 	bool BeginRun();
+
+	void spawn(Vector3 position, Vector3 velocity, bool reverse);
 
 	virtual void Input();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
 private:
+	Timer* LifeTimer;
+	Model3D* Tail;
 
 };
 

@@ -7,12 +7,13 @@ class Player : public Model3D
 public:
 	PlayerShot* Shots[4];
 
+	Player();
 	virtual ~Player();
 
 	bool Initialize();
 	void SetCamera(Camera* camera);
 	void SetFlameModel(Model model, Texture2D texture);
-	void SetShotModel(Model model, Texture2D texture);
+	void SetShotModels(Model model, Texture2D texture, Model tailModel, Texture2D tailTexture);
 	void Load();
 	bool BeginRun();
 
@@ -25,9 +26,10 @@ private:
 	float HorzSpeed = 30;
 	float HorzMaxSpeed = 200;
 	float HorzDrag = 2;
-	float ForwardSpeed = 40;
+	float ForwardAcceleration = 40;
 	float MaxFowardV = 1000;
 	float ForwardDrag = 15;
+	float AirDrag = 0.004;
 	Camera* TheCamera;
 	Model3D Flame;
 
@@ -35,5 +37,8 @@ private:
 	void MoveDown();
 	void MoveLeft();
 	void MoveRight();
+	void Horzfriction();
+	void ThrustOff();
+	void Fire();
 };
 

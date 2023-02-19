@@ -1,5 +1,13 @@
 #include "Player.h"
 
+Player::Player()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		Shots[i] = new PlayerShot();
+	}
+}
+
 Player::~Player()
 {
 }
@@ -8,9 +16,11 @@ bool Player::Initialize()
 {
 	Model3D::Initialize();
 
-	for (int i = 0; i < 4; i++)
+	ModelScale = 2.0f;
+
+	for (auto shot : Shots)
 	{
-		Shots[i] = new PlayerShot();
+		shot->Initialize();
 	}
 
 	return false;
@@ -26,19 +36,27 @@ void Player::SetFlameModel(Model model, Texture2D texture)
 	Flame.LoadModel(model, texture);
 }
 
-void Player::SetShotModel(Model model, Texture2D texture)
+void Player::SetShotModels(Model model, Texture2D texture, Model tailModel, Texture2D tailTexture)
 {
-
+	for (auto shot : Shots)
+	{
+		shot->LoadModel(model, texture);
+		shot->SetTailModel(tailModel, tailTexture);
+	}
 }
 
 bool Player::BeginRun()
 {
-	ModelScale = 2.0f;
 	Flame.ModelScale = 2.0f;
 	Flame.Position.x = -80.0f;
 	Flame.RotationVelocity = 50.0f;
 	Flame.RotationAxis.x = 1.0f;
 	AddChild(&Flame);
+
+	for (auto shot : Shots)
+	{
+		shot->BeginRun();
+	}
 
 	return false;
 }
@@ -60,26 +78,12 @@ void Player::Input()
 	}
 	else
 	{
-		if (Velocity.y > 0)
-		{
-			Acceleration.y = -HorzSpeed / HorzDrag;
-		}
-		else if (Velocity.y < 0)
-		{
-			Acceleration.y = HorzSpeed / HorzDrag;
-		}
+		Horzfriction();
 	}
 
-	if (IsKeyPressed(KEY_LEFT_CONTROL) || IsKeyPressed(KEY_SPACE)) // Fire.
+	if (IsKeyPressed(KEY_LEFT_CONTROL) || IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_SPACE)) // Fire.
 	{
-		if (FacingRight)
-		{
-
-		}
-		else
-		{
-
-		}
+		Fire();
 	}
 
 	if (IsKeyDown(KEY_LEFT_SHIFT)) // Thrust.
@@ -95,19 +99,10 @@ void Player::Input()
 	}
 	else
 	{
-		if (Velocity.x > 0)
-		{
-			Acceleration.x = -ForwardSpeed / ForwardDrag;
-		}
-		else if (Velocity.x < 0)
-		{
-			Acceleration.x = ForwardSpeed / ForwardDrag;
-		}
-
-		Flame.Enabled = false;
+		ThrustOff();
 	}
 
-	if (IsKeyPressed(KEY_Z)) // Flip player ship facing.
+	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_LEFT)) // Flip player ship facing.
 	{
 		if (FacingRight)
 		{
@@ -129,8 +124,14 @@ void Player::Update(float deltaTime)
 	Model3D::Update(deltaTime);
 
 	Flame.Update(deltaTime);
-	ScreenEdgeBoundY();
-	CheckPlayfieldSides(4.0f, 3.0f);
+
+	for (auto shot : Shots)
+	{
+		shot->Update(deltaTime);
+	}
+
+	ScreenEdgeBoundY(GetScreenHeight() / 6, 0);
+	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 
 	TheCamera->position.x = X();
 	TheCamera->target.x = X();
@@ -141,6 +142,11 @@ void Player::Draw()
 	Model3D::Draw();
 
 	Flame.Draw();
+
+	for (auto shot : Shots)
+	{
+		shot->Draw();
+	}
 }
 
 void Player::MoveUp()
@@ -190,5 +196,43 @@ void Player::MoveRight()
 	else
 	{
 		Acceleration.x = 0;
+	}
+}
+
+void Player::Horzfriction()
+{
+		if (Velocity.y > 0)
+		{
+			Acceleration.y = -HorzSpeed / (HorzDrag / (Velocity.y * AirDrag));
+		}
+		else if (Velocity.y < 0)
+		{
+			Acceleration.y = HorzSpeed / (HorzDrag / -(Velocity.y * AirDrag));
+		}
+}
+
+void Player::ThrustOff()
+{
+		if (Velocity.x > 0)
+		{
+			Acceleration.x = -ForwardAcceleration / (ForwardDrag / (Velocity.x * AirDrag));
+		}
+		else if (Velocity.x < 0)
+		{
+			Acceleration.x = ForwardAcceleration / (ForwardDrag / -(Velocity.x * AirDrag));
+		}
+
+		Flame.Enabled = false;
+}
+
+void Player::Fire()
+{
+	for (auto shot : Shots)
+	{
+		if (!shot->Enabled)
+		{
+			shot->spawn(Position, Velocity, !FacingRight);
+			return;
+		}
 	}
 }

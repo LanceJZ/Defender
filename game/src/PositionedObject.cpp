@@ -226,6 +226,32 @@ bool PositionedObject::ScreenEdgeBoundY()
 	return false;
 }
 
+bool PositionedObject::ScreenEdgeBoundY(float topOffset, float bottomOffset)
+{
+	bool hitBound = false;
+
+	if (Y() > WindowHeight - topOffset)
+	{
+		Y(WindowHeight - topOffset);
+		hitBound = true;
+	}
+	else if (Y() < -WindowHeight + bottomOffset)
+	{
+		Y(-WindowHeight + bottomOffset);
+		hitBound = true;
+	}
+
+	if (hitBound)
+	{
+		Acceleration.y = 0;
+		Velocity.y = 0;
+		return true;
+	}
+
+
+	return false;
+}
+
 bool PositionedObject::OffScreen()
 {
 	return OffScreenSide() || OffScreenTopBottom();
@@ -273,7 +299,7 @@ void PositionedObject::RotateVelocity(Vector3 position, float turnSpeed, float s
 	Velocity = VelocityFromAngleZ(Rotation, speed);
 }
 
-void PositionedObject::CheckPlayfieldSides(float left, float right)
+void PositionedObject::CheckPlayfieldSidesWarp(float left, float right)
 {
 	if (X() > GetScreenWidth() * right + (GetScreenWidth() / 2))
 	{
@@ -285,7 +311,7 @@ void PositionedObject::CheckPlayfieldSides(float left, float right)
 	}
 }
 
-void PositionedObject::CheckPlayfieldHeight(float top, float bottom)
+void PositionedObject::CheckPlayfieldHeightWarp(float top, float bottom)
 {
 	if (Y() > GetScreenHeight() * top + (GetScreenHeight() / 2))
 	{
