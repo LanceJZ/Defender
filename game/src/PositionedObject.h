@@ -10,8 +10,8 @@ public:
 	int ChildNumber = 0;
 	float MaxSpeed = 0;
 	float Radius = 0;
-	float WindowWidth = GetScreenWidth() / 2;
-	float WindowHeight = GetScreenHeight() / 2;
+	float WindowWidth = (float)GetScreenWidth() / 2.0f;
+	float WindowHeight = (float)GetScreenHeight() / 2.0f;
 	float Rotation = 0;
 	float RotationVelocity = 0;
 	float RotationAcceleration = 0;

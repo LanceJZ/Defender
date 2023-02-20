@@ -37,7 +37,7 @@ bool Game::Initialize()
 	camera.position = { 0.0f, 0.0f, 500.0f };  // Camera position
 	camera.target = { 0.0f, 0.0f, 0.0f };     // Camera looking at point
 	camera.up = { 0.0f, 1.0f, 0.0f };         // Camera up vector (rotation towards target)
-	camera.fovy = GetScreenHeight();          // Camera field-of-view Y. In Orthographic is scale.
+	camera.fovy = (float)GetScreenHeight();          // Camera field-of-view Y. In Orthographic is scale.
 	camera.projection = CAMERA_ORTHOGRAPHIC;
 	//SetCameraMode(camera, CAMERA_ORBITAL); // Camera mode type
 	gameLogic->Initialize();

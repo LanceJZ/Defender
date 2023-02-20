@@ -6,6 +6,8 @@ Player::Player()
 	{
 		Shots[i] = new PlayerShot();
 	}
+
+	TheCamera = nullptr;
 }
 
 Player::~Player()
@@ -36,12 +38,19 @@ void Player::SetFlameModel(Model model, Texture2D texture)
 	Flame.LoadModel(model, texture);
 }
 
-void Player::SetShotModels(Model model, Texture2D texture, Model tailModel, Texture2D tailTexture)
+void Player::SetShotModel(Model model, Texture2D texture)
 {
 	for (auto shot : Shots)
 	{
 		shot->LoadModel(model, texture);
-		shot->SetTailModel(tailModel, tailTexture);
+	}
+}
+
+void Player::SetTailModel(Model model, Texture2D texture)
+{
+	for (auto shot : Shots)
+	{
+		shot->SetTailModel(model, texture);
 	}
 }
 
@@ -61,11 +70,6 @@ bool Player::BeginRun()
 	return false;
 }
 
-void Player::Load()
-{
-
-}
-
 void Player::Input()
 {
 	if (IsKeyDown(KEY_UP))
@@ -81,41 +85,33 @@ void Player::Input()
 		Horzfriction();
 	}
 
-	if (IsKeyPressed(KEY_LEFT_CONTROL) || IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_SPACE)) // Fire.
+	if (IsKeyPressed(KEY_LEFT_CONTROL) || IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_SPACE))
 	{
 		Fire();
 	}
 
-	if (IsKeyDown(KEY_LEFT_SHIFT)) // Thrust.
+	if (IsKeyDown(KEY_LEFT_SHIFT))
 	{
-		if (FacingRight)
-		{
-			MoveRight();
-		}
-		else
-		{
-			MoveLeft();
-		}
+		Thrust();
 	}
 	else
 	{
 		ThrustOff();
 	}
 
-	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_LEFT)) // Flip player ship facing.
+	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_LEFT))
 	{
-		if (FacingRight)
-		{
-			Rotation = PI;
-			RotationAxis.y = 1.0f;
-			FacingRight = false;
-		}
-		else
-		{
-			Rotation = 0;
-			RotationAxis.y = 1.0f;
-			FacingRight = true;
-		}
+		Reverse();
+	}
+
+	if (IsKeyPressed(KEY_RIGHT_CONTROL))
+	{
+		SmartBomb();
+	}
+
+	if (IsKeyPressed(KEY_RIGHT_SHIFT))
+	{
+		Hyperspace();
 	}
 }
 
@@ -130,7 +126,7 @@ void Player::Update(float deltaTime)
 		shot->Update(deltaTime);
 	}
 
-	ScreenEdgeBoundY(GetScreenHeight() / 6, 0);
+	ScreenEdgeBoundY(GetScreenHeight() / 6.0f, 0);
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 
 	TheCamera->position.x = X();
@@ -199,6 +195,22 @@ void Player::MoveRight()
 	}
 }
 
+void Player::Reverse()
+{
+		if (FacingRight)
+		{
+			Rotation = PI;
+			RotationAxis.y = 1.0f;
+			FacingRight = false;
+		}
+		else
+		{
+			Rotation = 0;
+			RotationAxis.y = 1.0f;
+			FacingRight = true;
+		}
+}
+
 void Player::Horzfriction()
 {
 		if (Velocity.y > 0)
@@ -208,6 +220,18 @@ void Player::Horzfriction()
 		else if (Velocity.y < 0)
 		{
 			Acceleration.y = HorzSpeed / (HorzDrag / -(Velocity.y * AirDrag));
+		}
+}
+
+void Player::Thrust()
+{
+		if (FacingRight)
+		{
+			MoveRight();
+		}
+		else
+		{
+			MoveLeft();
 		}
 }
 
@@ -235,4 +259,12 @@ void Player::Fire()
 			return;
 		}
 	}
+}
+
+void Player::SmartBomb()
+{
+}
+
+void Player::Hyperspace()
+{
 }

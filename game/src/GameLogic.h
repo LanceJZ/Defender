@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Player.h"
 #include "Land.h"
+#include "LanderMutantControl.h"
 
 enum GameState
 {
@@ -33,6 +34,7 @@ public:
 private:
 	Player* ThePlayer;
 	Land* TheLand;
+	LanderMutantControl* ControlLanderMutant;
 	Camera* TheCamera = { 0 };
 };
 

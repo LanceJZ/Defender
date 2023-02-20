@@ -4,8 +4,8 @@ bool PositionedObject::Initialize()
 {
 	Common::Initialize();
 
-	WindowWidth = GetScreenWidth() / 2;
-	WindowHeight = GetScreenHeight() / 2;
+	WindowWidth = (float)GetScreenWidth() / 2.0f;
+	WindowHeight = (float)GetScreenHeight() / 2.0f;
 
 	return false;
 }
@@ -25,12 +25,6 @@ void PositionedObject::Update(float deltaTime)
 	{
 		Rotation = PI * 2;
 	}
-
-	//if (Rotation > 360)
-	//	Rotation = 0;
-
-	//if (Rotation < 0)
-	//	Rotation = 360;
 }
 
 float PositionedObject::Chase(PositionedObject Chasing)

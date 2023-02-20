@@ -5,6 +5,7 @@ GameLogic::GameLogic()
 {
 	ThePlayer = new Player();
 	TheLand = new Land();
+	ControlLanderMutant = new LanderMutantControl();
 }
 
 GameLogic::~GameLogic()
@@ -14,6 +15,8 @@ GameLogic::~GameLogic()
 bool GameLogic::Initialize()
 {
 	ThePlayer->Initialize();
+
+	ControlLanderMutant->Initialize();
 
 	return false;
 }
@@ -49,18 +52,32 @@ void GameLogic::Load()
 	ThePlayer->SetFlameModel(LoadModel("models/Player Flame.obj"), LoadTextureFromImage(imagefl)); //Load flame model into Player class.
 	UnloadImage(imagefl); // Unload image from (RAM)
 
-	Image imagesh = LoadImage("models/Player Shot.png");
-	Image imaget = LoadImage("models/Player Shot Tail.png");
-	ThePlayer->SetShotModels(LoadModel("models/Player Shot.obj"), LoadTextureFromImage(imagesh),
-		LoadModel("models/Player Shot tail.obj"), LoadTextureFromImage(imaget)); //Load shot models into Player class.
-	UnloadImage(imagesh); // Unload image from (RAM)
+	Image imagepsh = LoadImage("models/Player Shot.png");
+	ThePlayer->SetShotModel(LoadModel("models/Player Shot.obj"), LoadTextureFromImage(imagepsh)); //Load shot model into Player class.
+	UnloadImage(imagepsh); // Unload image from (RAM)
 
+	Image imaget = LoadImage("models/Player Shot Tail.png");
+	ThePlayer->SetShotModel(LoadModel("models/Player Shot tail.obj"), LoadTextureFromImage(imaget)); //Load tail model into Player class.
+	UnloadImage(imaget);
+
+	Image imageln = LoadImage("models/Lander.png");
+	ControlLanderMutant->SetLanderModel(LoadModel("models/Lander.obj"), LoadTextureFromImage(imageln));
+	UnloadImage(imageln);
+
+	Image imagemu = LoadImage("models/Mutant.png");
+	ControlLanderMutant->SetMutantModel(LoadModel("models/Mutant.obj"), LoadTextureFromImage(imagemu));
+	UnloadImage(imagemu);
+
+	Image imagesh = LoadImage("models/Shot.png");
+	ControlLanderMutant->SetShotModel(LoadModel("models/Shot.obj"), LoadTextureFromImage(imagesh));
+	UnloadImage(imagesh);
 }
 
 bool GameLogic::BeginRun()
 {
 	ThePlayer->BeginRun();
 	TheLand->BeginRun();
+	ControlLanderMutant->BeginRun();
 
 	return false;
 }
@@ -74,12 +91,14 @@ void GameLogic::Update(float deltaTime)
 {
 	ThePlayer->Update(deltaTime);
 	TheLand->Update(deltaTime);
+	ControlLanderMutant->Update(deltaTime);
 }
 
 void GameLogic::Draw3D()
 {
 	ThePlayer->Draw();
 	TheLand->Draw();
+	ControlLanderMutant->Draw();
 }
 
 void GameLogic::Draw2D()
