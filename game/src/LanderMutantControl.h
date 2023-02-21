@@ -1,8 +1,9 @@
 #pragma once
 #include "raylib.h"
 #include "Lander.h"
+#include "Common.h"
 
-class LanderMutantControl
+class LanderMutantControl : Common
 {
 public:
 	LanderMutantControl();

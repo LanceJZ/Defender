@@ -34,7 +34,7 @@ bool LanderMutantControl::Initialize()
 
 bool LanderMutantControl::BeginRun()
 {
-	SpawnLander(5);
+	SpawnLander(15);
 
 	for (auto lander : Landers)
 	{
@@ -62,13 +62,18 @@ void LanderMutantControl::Draw()
 
 void LanderMutantControl::SpawnLander(int count)
 {
+	//(-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i) land size i = 0 to 6;
+
 	for (int i = 0; i < count; i++)
 	{
+		float x = GetRandomFloat((-GetScreenWidth() * 3), (GetScreenWidth() * 3));
+		float y = GetScreenHeight() / 3;
+
 		Landers.push_back(new Lander());
 		{
 			Landers[Landers.size() - 1]->Initialize();
 			Landers[Landers.size() - 1]->LoadModel(LanderModel, LanderTexture);
-			Landers[Landers.size() - 1]->Position = { 500.0f * i + 300, 100.0f * i, 0 };
+			Landers[Landers.size() - 1]->Spawn({x, y, 0});
 		}
 	}
 }

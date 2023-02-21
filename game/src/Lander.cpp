@@ -21,6 +21,7 @@ bool Lander::Initialize()
 	Shot.Initialize();
 	ShotTimer->Set(5);
 	ModelScale = 14;
+	Radius = 14;
 
 	return false;
 }
@@ -41,13 +42,15 @@ void Lander::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	Shot.Draw();
+	Shot.Update(deltaTime);
 
 	if (ShotTimer->Elapsed())
 	{
 		ShotTimer->Reset();
 		FireShot();
 	}
+
+	CheckScreenEdgeY();
 }
 
 void Lander::Draw()
