@@ -31,14 +31,24 @@ void Model3D::Draw()
 			for (auto parent : Parents)
 			{
 				rlTranslatef(parent->Position.x, parent->Position.y, Position.z);
+
+				rlRotatef(parent->RotationX, 1, 0, 0);
+				rlRotatef(parent->RotationY, 0, 1, 0);
+				rlRotatef(parent->RotationZ, 0, 0, 1);
 				rlRotatef(parent->Rotation, parent->RotationAxis.x, parent->RotationAxis.y, parent->RotationAxis.z);
+				rlScalef(parent->Scale, parent->Scale, parent->Scale);
+				rlColor4ub(parent->TheColor.r, parent->TheColor.g, parent->TheColor.b, parent->TheColor.a);
 			}
 		}
 
 		rlTranslatef(Position.x, Position.y, Position.z);
+
+		rlRotatef(RotationX, 1, 0, 0);
+		rlRotatef(RotationY, 0, 1, 0);
+		rlRotatef(RotationZ, 0, 0, 1);
 		rlRotatef(Rotation, RotationAxis.x, RotationAxis.y, RotationAxis.z);
 		rlScalef(Scale, Scale, Scale);
-		//rlColor4ub(ModelColor.r, ModelColor.g, ModelColor.b, ModelColor.a);
+		rlColor4ub(TheColor.r, TheColor.g, TheColor.b, TheColor.a);
 
 		DrawModel(TheModel, ModelPosition, ModelScale, ModelColor);	// Draw 3D model
 

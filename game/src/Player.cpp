@@ -129,8 +129,10 @@ void Player::Update(float deltaTime)
 	ScreenEdgeBoundY(GetScreenHeight() / 6.0f, 0);
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 
-	TheCamera->position.x = X();
-	TheCamera->target.x = X();
+	if (RotateFacing)
+		RotateShipFacing();
+
+	CameraMovement();
 }
 
 void Player::Draw()
@@ -142,6 +144,80 @@ void Player::Draw()
 	for (auto shot : Shots)
 	{
 		shot->Draw();
+	}
+}
+
+void Player::CameraMovement()
+{
+	float facingOffset = GetScreenWidth() * 0.2f;
+
+	if (ChangedFacing)
+	{
+		if (FacingRight)
+		{
+			if (TheCamera->position.x < X() + facingOffset - 0.05f)
+			{
+				TheCamera->position.x = (X() - facingOffset) + (facingOffset * moveToOffset);
+			}
+			else
+			{
+				ChangedFacing = false;
+			}
+		}
+		else
+		{
+			if (TheCamera->position.x > X() - facingOffset + 0.05f)
+			{
+				TheCamera->position.x = (X() + facingOffset) - (facingOffset * moveToOffset);
+			}
+			else
+			{
+				ChangedFacing = false;
+			}
+		}
+
+		moveToOffset += 0.02f;
+	}
+	else
+	{
+		if (FacingRight)
+		{
+			TheCamera->position.x = X() + facingOffset;
+		}
+		else
+		{
+			TheCamera->position.x = X() - facingOffset;
+		}
+	}
+
+	TheCamera->target.x = TheCamera->position.x;;
+}
+
+void Player::RotateShipFacing()
+{
+	float rotateSpeed = 0.045f;
+
+	if (FacingRight)
+	{
+		if (RotationY > 0)
+		{
+			RotationY -= rotateSpeed;
+		}
+		else
+		{
+			RotateFacing = false;
+		}
+	}
+	else
+	{
+		if (RotationY < PI)
+		{
+			RotationY += rotateSpeed;
+		}
+		else
+		{
+			RotateFacing = false;
+		}
 	}
 }
 
@@ -197,56 +273,56 @@ void Player::MoveRight()
 
 void Player::Reverse()
 {
-		if (FacingRight)
-		{
-			Rotation = PI;
-			RotationAxis.y = 1.0f;
-			FacingRight = false;
-		}
-		else
-		{
-			Rotation = 0;
-			RotationAxis.y = 1.0f;
-			FacingRight = true;
-		}
+	if (FacingRight)
+	{
+		FacingRight = false;
+	}
+	else
+	{
+		FacingRight = true;
+	}
+
+	moveToOffset = 0.01f;
+	RotateFacing = true;
+	ChangedFacing = true;
 }
 
 void Player::Horzfriction()
 {
-		if (Velocity.y > 0)
-		{
-			Acceleration.y = -HorzSpeed / (HorzDrag / (Velocity.y * AirDrag));
-		}
-		else if (Velocity.y < 0)
-		{
-			Acceleration.y = HorzSpeed / (HorzDrag / -(Velocity.y * AirDrag));
-		}
+	if (Velocity.y > 0)
+	{
+		Acceleration.y = -HorzSpeed / (HorzDrag / (Velocity.y * AirDrag));
+	}
+	else if (Velocity.y < 0)
+	{
+		Acceleration.y = HorzSpeed / (HorzDrag / -(Velocity.y * AirDrag));
+	}
 }
 
 void Player::Thrust()
 {
-		if (FacingRight)
-		{
-			MoveRight();
-		}
-		else
-		{
-			MoveLeft();
-		}
+	if (FacingRight)
+	{
+		MoveRight();
+	}
+	else
+	{
+		MoveLeft();
+	}
 }
 
 void Player::ThrustOff()
 {
-		if (Velocity.x > 0)
-		{
-			Acceleration.x = -ForwardAcceleration / (ForwardDrag / (Velocity.x * AirDrag));
-		}
-		else if (Velocity.x < 0)
-		{
-			Acceleration.x = ForwardAcceleration / (ForwardDrag / -(Velocity.x * AirDrag));
-		}
+	if (Velocity.x > 0)
+	{
+		Acceleration.x = -ForwardAcceleration / (ForwardDrag / (Velocity.x * AirDrag));
+	}
+	else if (Velocity.x < 0)
+	{
+		Acceleration.x = ForwardAcceleration / (ForwardDrag / -(Velocity.x * AirDrag));
+	}
 
-		Flame.Enabled = false;
+	Flame.Enabled = false;
 }
 
 void Player::Fire()

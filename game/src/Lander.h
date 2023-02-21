@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Model3D.h"
 #include "EnemyShot.h"
+#include "Timer.h"
 
 class Lander : public Model3D
 {
@@ -21,6 +22,10 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
+	void Spawn(Vector3 position);
+
 private:
+	Timer* ShotTimer;
+	void FireShot();
 };
 

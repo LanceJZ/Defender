@@ -23,6 +23,9 @@ public:
 
 private:
 	bool FacingRight = true;
+	bool ChangedFacing = false;
+	bool RotateFacing = false;
+	float moveToOffset = 1000;
 	float HorzSpeed = 30.0f;
 	float HorzMaxSpeed = 200.0f;
 	float HorzDrag = 2.0f;
@@ -33,6 +36,8 @@ private:
 	Camera* TheCamera;
 	Model3D Flame;
 
+	void CameraMovement();
+	void RotateShipFacing();
 	void MoveUp();
 	void MoveDown();
 	void MoveLeft();

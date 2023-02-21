@@ -13,6 +13,9 @@ public:
 	float WindowWidth = (float)GetScreenWidth() / 2.0f;
 	float WindowHeight = (float)GetScreenHeight() / 2.0f;
 	float Rotation = 0;
+	float RotationX = 0;
+	float RotationY = 0;
+	float RotationZ = 0;
 	float RotationVelocity = 0;
 	float RotationAcceleration = 0;
 	Vector2 Acceleration2 = { 0 };

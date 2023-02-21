@@ -7,6 +7,7 @@ public:
 	Vector3 ModelPosition = { 0 };
 	float ModelScale = 1;
 	Color ModelColor = WHITE;
+	Color TheColor = WHITE;
 	Model TheModel;
 
 	bool Initialize();

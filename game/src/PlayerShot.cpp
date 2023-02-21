@@ -58,12 +58,12 @@ void PlayerShot::spawn(Vector3 position, Vector3 velocity, bool reverse)
 
 	if (reverse)
 	{
-		Velocity.x -= 150;
+		Velocity.x -= 200;
 		Position.x -= 40;
 	}
 	else
 	{
-		Velocity.x += 150;
+		Velocity.x += 200;
 		Position.x += 40;
 	}
 
