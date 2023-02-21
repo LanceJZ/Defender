@@ -19,6 +19,7 @@ bool Player::Initialize()
 	Model3D::Initialize();
 
 	ModelScale = 2.0f;
+	RotationY = (PI * 2) - 0.045f;
 
 	for (auto shot : Shots)
 	{
@@ -195,13 +196,13 @@ void Player::CameraMovement()
 
 void Player::RotateShipFacing()
 {
-	float rotateSpeed = 0.045f;
+	float rotateSpeed = 0.055f;
 
 	if (FacingRight)
 	{
-		if (RotationY > 0)
+		if (RotationY < (PI * 2) -0.045f)
 		{
-			RotationY -= rotateSpeed;
+			RotationY += rotateSpeed;
 		}
 		else
 		{
@@ -210,9 +211,9 @@ void Player::RotateShipFacing()
 	}
 	else
 	{
-		if (RotationY < PI)
+		if (RotationY > PI)
 		{
-			RotationY += rotateSpeed;
+			RotationY -= rotateSpeed;
 		}
 		else
 		{

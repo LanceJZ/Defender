@@ -14,17 +14,11 @@ void PositionedObject::Update(float deltaTime)
 {
 	Velocity = Vector3Add(Velocity, Acceleration);
 	Position = Vector3Add(Vector3Multiply({ deltaTime, deltaTime, deltaTime }, Velocity), Position);
-	RotationVelocity += RotationAcceleration * deltaTime;
-	Rotation += RotationVelocity * deltaTime;
 
-	if (Rotation > PI * 2)
-	{
-		Rotation = 0;
-	}
-	else if (Rotation < 0)
-	{
-		Rotation = PI * 2;
-	}
+	Rotation = AddRotationVelAcc(Rotation, RotationVelocity, RotationAcceleration, deltaTime);
+	RotationX = AddRotationVelAcc(RotationX, RotationVelocityX, RotationAccelerationX, deltaTime);
+	RotationY = AddRotationVelAcc(RotationY, RotationVelocityY, RotationAccelerationY, deltaTime);
+	RotationZ = AddRotationVelAcc(RotationZ, RotationVelocityZ, RotationAccelerationZ, deltaTime);
 }
 
 float PositionedObject::Chase(PositionedObject Chasing)
@@ -317,3 +311,24 @@ void PositionedObject::CheckPlayfieldHeightWarp(float top, float bottom)
 	}
 }
 
+float PositionedObject::RadianSpin(float radian)
+{
+	if (radian > PI * 2)
+	{
+		radian = 0;
+	}
+	else if (radian < 0)
+	{
+		radian = PI * 2;
+	}
+
+	return radian;
+}
+
+float PositionedObject::AddRotationVelAcc(float rotation, float rotationVelocity, float rotationAcceleration, float deltaTime)
+{
+	rotationVelocity += rotationAcceleration * deltaTime;
+	rotation += rotationVelocity * deltaTime;
+
+	return rotation;
+}

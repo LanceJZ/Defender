@@ -17,7 +17,13 @@ public:
 	float RotationY = 0;
 	float RotationZ = 0;
 	float RotationVelocity = 0;
+	float RotationVelocityX = 0;
+	float RotationVelocityY = 0;
+	float RotationVelocityZ = 0;
 	float RotationAcceleration = 0;
+	float RotationAccelerationX = 0;
+	float RotationAccelerationY = 0;
+	float RotationAccelerationZ = 0;
 	Vector2 Acceleration2 = { 0 };
 	Vector2 Velocity2 = { 0 };
 	Vector2 Position2 = { 0 };
@@ -68,6 +74,7 @@ public:
 	void CheckPlayfieldHeightWarp(float top, float bottom);
 
 private:
-
+	float RadianSpin(float radian);
+	float AddRotationVelAcc(float rotation, float rotationVelocity, float rotationAcceleration, float deltaTime);
 };
 

@@ -51,6 +51,7 @@ void Lander::Update(float deltaTime)
 	}
 
 	CheckScreenEdgeY();
+	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 }
 
 void Lander::Draw()
@@ -65,7 +66,9 @@ void Lander::Spawn(Vector3 position)
 	Enabled = true;
 	Position = position;
 	ShotTimer->Reset();
-
+	float velX = GetRandomFloat(-60, 60);
+	float velY = GetRandomFloat(-20, 20);
+	Velocity = { velX, velY, 0 };
 }
 
 void Lander::FireShot()
