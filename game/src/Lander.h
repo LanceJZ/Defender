@@ -25,7 +25,13 @@ public:
 	void Spawn(Vector3 position);
 
 private:
+	float GroundHoverY = 0;
 	Timer* ShotTimer;
+	Model MirrorR;
+	Model MirrorL;
+	Model ShotMirrorR;
+	Model ShotMirrorL;
+
 	void FireShot();
 };
 
