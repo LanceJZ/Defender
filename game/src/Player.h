@@ -31,7 +31,7 @@ private:
 	float HorzDrag = 2.0f;
 	float ForwardAcceleration = 40.0f;
 	float MaxFowardV = 1000.0f;
-	float ForwardDrag = 15.0f;
+	float ForwardDrag = 20.0f;
 	float AirDrag = 0.004f;
 	Camera* TheCamera;
 	Model3D Flame;

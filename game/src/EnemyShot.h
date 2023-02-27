@@ -17,7 +17,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void Spawn(Vector3 position);
+	void Spawn(Vector3 position, Vector3 velocity, float life);
 private:
 	Timer* LifeTimer;
 

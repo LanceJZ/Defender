@@ -73,6 +73,7 @@ void LanderMutantControl::SpawnLander(int count)
 		{
 			Landers[Landers.size() - 1]->Initialize();
 			Landers[Landers.size() - 1]->LoadModel(LanderModel, LanderTexture);
+			Landers[Landers.size() - 1]->SetShotModel(ShotModel, ShotTexture);
 			Landers[Landers.size() - 1]->Spawn({x, y, 0});
 		}
 	}

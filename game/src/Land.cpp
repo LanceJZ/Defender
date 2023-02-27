@@ -28,7 +28,7 @@ bool Land::BeginRun()
 
 	for (auto land : LandParts)
 	{
-		land->ModelScale = 5.0f;
+		land->ModelScale = 50.0f;
 		land->Position.y = (-GetScreenHeight() / 2) + 160;
 		land->Position.x = ((-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i));
 		i++;
@@ -62,4 +62,11 @@ void Land::Draw()
 	{
 		land->Draw();
 	}
+
+	DrawLine3D({ (float)GetScreenWidth() * 3.5f, (float)GetScreenHeight(), 0},
+		{(float)GetScreenWidth() * 3.5f, (float) - GetScreenHeight(), 0}, WHITE);
+
+	DrawLine3D({ -(float)GetScreenWidth() * 3.5f, (float)GetScreenHeight(), 0},
+		{-(float)GetScreenWidth() * 3.5f, (float) - GetScreenHeight(), 0}, WHITE);
+
 }

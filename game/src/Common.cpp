@@ -62,7 +62,7 @@ float Common::GetAngleFromVectorsZ(Vector3 origin, Vector3 target)
 
 Vector3 Common::GetRandomVelocity(float speed)
 {
-	return GetRandomVelocity(speed, GetRandomRadian());
+	return GetVelocityFromAngleZ(GetRandomRadian(), speed);
 }
 
 Vector3 Common::GetRandomVelocity(float speed, float radianDirection)

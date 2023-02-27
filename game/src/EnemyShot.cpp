@@ -19,7 +19,9 @@ bool EnemyShot::Initialize()
 {
 	Model3D::Initialize();
 
-	ModelScale = 10;
+	ModelScale = 3;
+	Radius = 2;
+	Enabled = false;
 
 	return false;
 }
@@ -40,6 +42,10 @@ void EnemyShot::Update(float deltaTime)
 	Model3D::Update(deltaTime);
 	LifeTimer->Update(deltaTime);
 
+	if (LifeTimer->Elapsed())
+	{
+		Enabled = false;
+	}
 }
 
 void EnemyShot::Draw()
@@ -48,10 +54,10 @@ void EnemyShot::Draw()
 
 }
 
-void EnemyShot::Spawn(Vector3 position)
+void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)
 {
 	Enabled = true;
-	LifeTimer->Reset();
+	LifeTimer->Reset(life);
 	Position = position;
-
+	Velocity = velocity;
 }

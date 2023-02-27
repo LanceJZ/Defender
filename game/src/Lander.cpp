@@ -3,6 +3,11 @@
 Lander::Lander()
 {
 	ShotTimer = new Timer();
+
+	for (int i = 0; i < 4; i++)
+	{
+		Shots[i] = new EnemyShot();
+	}
 }
 
 Lander::~Lander()
@@ -11,16 +16,23 @@ Lander::~Lander()
 
 void Lander::SetShotModel(Model model, Texture2D texture)
 {
-	Shot.LoadModel(model, texture);
-	ShotMirrorR = Shot.TheModel;
+	for (auto shot : Shots)
+	{
+		shot->LoadModel(model, texture);
+		ShotMirrorR = shot->TheModel;
+	}
 }
 
 bool Lander::Initialize()
 {
 	Model3D::Initialize();
 
-	Shot.Initialize();
-	ShotTimer->Set(5);
+	for (auto shot : Shots)
+	{
+		shot->Initialize();
+	}
+
+	ShotTimer->Set(1);
 	ModelScale = 14;
 	Radius = 14;
 
@@ -29,7 +41,11 @@ bool Lander::Initialize()
 
 bool Lander::BeginRun()
 {
-	Shot.BeginRun();
+	for (auto shot : Shots)
+	{
+		shot->BeginRun();
+	}
+
 	MirrorR = TheModel;
 	MirrorL = TheModel;
 
@@ -44,8 +60,12 @@ void Lander::Input()
 void Lander::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
+	ShotTimer->Update(deltaTime);
 
-	Shot.Update(deltaTime);
+	for (auto shot : Shots)
+	{
+		shot->Update(deltaTime);
+	}
 
 	if (ShotTimer->Elapsed())
 	{
@@ -53,7 +73,7 @@ void Lander::Update(float deltaTime)
 		FireShot();
 	}
 
-	if (Y() < (-GetScreenHeight() * 0.3f) + GroundHoverY)
+	if (Y() < (-GetScreenHeight() * 0.25f) + GroundHoverY)
 	{
 		Velocity.y = 0;
 	}
@@ -71,20 +91,17 @@ void Lander::Draw()
 	DrawModel(MirrorR, { X() + GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
 	DrawModel(MirrorL, { X() - GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
 
-	DrawLine3D({ (float)GetScreenWidth() * 3.5f, (float)GetScreenHeight(), 0},
-		{(float)GetScreenWidth() * 3.5f, (float) - GetScreenHeight(), 0}, WHITE);
-
-	DrawLine3D({ -(float)GetScreenWidth() * 3.5f, (float)GetScreenHeight(), 0},
-		{-(float)GetScreenWidth() * 3.5f, (float) - GetScreenHeight(), 0}, WHITE);
-
-	Shot.Draw();
+	for (auto shot : Shots)
+	{
+		shot->Draw();
+	}
 }
 
 void Lander::Spawn(Vector3 position)
 {
 	Enabled = true;
 	Position = position;
-	ShotTimer->Reset();
+	ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
 
 	float velX = 0;
 
@@ -97,12 +114,22 @@ void Lander::Spawn(Vector3 position)
 		velX = GetRandomFloat(-60, -30);
 	}
 
-	float velY = GetRandomFloat(-20, -10);
+	float velY = GetRandomFloat(-30, -20);
 	Velocity = { velX, velY, 0 };
 	GroundHoverY = GetRandomFloat(-20, 80);
 }
 
 void Lander::FireShot()
+{
+	if (!Shots[0]->Enabled)
+	{
+		Vector3 vel = GetRandomVelocity(105);
+
+		Shots[0]->Spawn(Position, vel, 8);
+	}
+}
+
+void Lander::FireShots() //When Lander lowers to grab human, shoots four at a time, four times as rapid.
 {
 
 }

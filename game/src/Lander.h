@@ -12,7 +12,7 @@ public:
 	Lander();
 	virtual ~Lander();
 
-	EnemyShot Shot;
+	EnemyShot* Shots[4];
 
 	void SetShotModel(Model model, Texture2D texture);
 	bool Initialize();
@@ -25,6 +25,9 @@ public:
 	void Spawn(Vector3 position);
 
 private:
+	bool PickUpMode = false;
+	bool GoingDownForPickupMode = false;
+	bool SeekMode = true;
 	float GroundHoverY = 0;
 	Timer* ShotTimer;
 	Model MirrorR;
@@ -33,5 +36,6 @@ private:
 	Model ShotMirrorL;
 
 	void FireShot();
+	void FireShots();
 };
 
