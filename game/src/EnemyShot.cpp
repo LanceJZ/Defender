@@ -12,7 +12,7 @@ EnemyShot::~EnemyShot()
 
 void EnemyShot::SetModel(Model model, Texture2D texture)
 {
-	LoadModel(model, texture);
+	Model3D::LoadModel(model, texture);
 }
 
 bool EnemyShot::Initialize()
@@ -28,6 +28,8 @@ bool EnemyShot::Initialize()
 
 bool EnemyShot::BeginRun()
 {
+	MirrorR = TheModel;
+	MirrorL = TheModel;
 
 	return false;
 }
@@ -52,6 +54,10 @@ void EnemyShot::Draw()
 {
 	Model3D::Draw();
 
+	float mirror = 7.0f;
+
+	DrawModel(MirrorR, { X() + GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
+	DrawModel(MirrorL, { X() - GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
 }
 
 void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)

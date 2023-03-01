@@ -1,26 +1,28 @@
 #pragma once
 #include "raylib.h"
 #include "Model3D.h"
-#include "Timer.h"
+#include "Player.h"
 
-class EnemyShot : public Model3D
+class Person : public Model3D
 {
 public:
-	EnemyShot();
-	virtual ~EnemyShot();
+	Person();
+	virtual ~Person();
 
 	void SetModel(Model model, Texture2D texture);
+	void SetPlayer(Player* player);
 	bool Initialize();
 	bool BeginRun();
 
-	virtual void Input();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void Spawn(Vector3 position, Vector3 velocity, float life);
+	void Spawn(Vector3 position);
+
 private:
-	Timer* LifeTimer;
 	Model MirrorR;
 	Model MirrorL;
+
+	Player* ThePlayer;
 };
 

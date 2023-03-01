@@ -31,19 +31,9 @@ float PositionedObject::RotateTowardsTargetZ(Vector3 target, float magnitude)
 	return Common::RotateTowardsTargetZ(Position, target, Rotation, magnitude);
 }
 
-float PositionedObject::AngleFromVectorsZ(Vector3 target)
-{
-	return (atan2f(target.y - Position.y, target.x - Position.x));
-}
-
-float PositionedObject::AngleFromVectorsZ(Vector3 origin, Vector3 target)
-{
-	return (atan2(target.y - origin.y, target.x - origin.x));
-}
-
 float PositionedObject::AngleFromVectorZ(Vector3 target)
 {
-	return (float)atan2(target.y - Y(), target.x - X());
+	return (atan2f(target.y - Position.y, target.x - Position.x));
 }
 
 Vector3 PositionedObject::RandomVelocity(float magnitude)

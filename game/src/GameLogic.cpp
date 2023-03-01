@@ -15,8 +15,8 @@ GameLogic::~GameLogic()
 bool GameLogic::Initialize()
 {
 	ThePlayer->Initialize();
-
 	ControlLanderMutant->Initialize();
+	ControlLanderMutant->SetPlayer(ThePlayer);
 
 	return false;
 }
@@ -44,22 +44,24 @@ void GameLogic::Load()
 		UnloadImage(image);
 	}
 
+	//Load all the models and their images used by Player.
 	Image imageps = LoadImage("models/Player Ship.png"); // Load image into (RAM)
-	ThePlayer->LoadModel(LoadModel("models/Player Ship.obj"), LoadTextureFromImage(imageps)); //Load ship model into Player class.
+	ThePlayer->LoadModel(LoadModel("models/Player Ship.obj"), LoadTextureFromImage(imageps)); // Loads image from RAM to the GPU.
 	UnloadImage(imageps); // Unload image from (RAM)
 
 	Image imagefl = LoadImage("models/Player Flame.png"); // Load image into (RAM)
-	ThePlayer->SetFlameModel(LoadModel("models/Player Flame.obj"), LoadTextureFromImage(imagefl)); //Load flame model into Player class.
+	ThePlayer->SetFlameModel(LoadModel("models/Player Flame.obj"), LoadTextureFromImage(imagefl)); // Loads image from RAM to the GPU.
 	UnloadImage(imagefl); // Unload image from (RAM)
 
-	Image imagepsh = LoadImage("models/Player Shot.png");
-	ThePlayer->SetShotModel(LoadModel("models/Player Shot.obj"), LoadTextureFromImage(imagepsh)); //Load shot model into Player class.
-	UnloadImage(imagepsh); // Unload image from (RAM)
+	Image imagepsh = LoadImage("models/Player Shot.png"); // I'm sure you get the idea by now.
+	ThePlayer->SetShotModel(LoadModel("models/Player Shot.obj"), LoadTextureFromImage(imagepsh)); //I'm sure you get the idea.
+	UnloadImage(imagepsh); // I'm sure you get the idea by now.
 
 	Image imaget = LoadImage("models/Player Shot Tail.png");
-	ThePlayer->SetShotModel(LoadModel("models/Player Shot tail.obj"), LoadTextureFromImage(imaget)); //Load tail model into Player class.
+	ThePlayer->SetShotModel(LoadModel("models/Player Shot tail.obj"), LoadTextureFromImage(imaget));
 	UnloadImage(imaget);
 
+	//Load all the models and their images used by ControlLanderMutant.
 	Image imageln = LoadImage("models/Lander.png");
 	ControlLanderMutant->SetLanderModel(LoadModel("models/Lander.obj"), LoadTextureFromImage(imageln));
 	UnloadImage(imageln);
@@ -71,6 +73,10 @@ void GameLogic::Load()
 	Image imagesh = LoadImage("models/Shot.png");
 	ControlLanderMutant->SetShotModel(LoadModel("models/Shot.obj"), LoadTextureFromImage(imagesh));
 	UnloadImage(imagesh);
+
+	Image imageprsn = LoadImage("models/Person.png");
+	ControlLanderMutant->SetPersonModel(LoadModel("models/Person.obj"), LoadTextureFromImage(imageprsn));
+	UnloadImage(imageprsn);
 }
 
 bool GameLogic::BeginRun()
@@ -85,13 +91,19 @@ bool GameLogic::BeginRun()
 void GameLogic::Input()
 {
 	ThePlayer->Input();
+
+	if (IsKeyPressed(KEY_P))
+		Pause = !Pause;
 }
 
 void GameLogic::Update(float deltaTime)
 {
-	ThePlayer->Update(deltaTime);
-	TheLand->Update(deltaTime);
-	ControlLanderMutant->Update(deltaTime);
+	if (!Pause)
+	{
+		ThePlayer->Update(deltaTime);
+		TheLand->Update(deltaTime);
+		ControlLanderMutant->Update(deltaTime);
+	}
 }
 
 void GameLogic::Draw3D()

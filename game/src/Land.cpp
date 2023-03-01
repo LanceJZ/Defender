@@ -29,8 +29,9 @@ bool Land::BeginRun()
 	for (auto land : LandParts)
 	{
 		land->ModelScale = 50.0f;
-		land->Position.y = (-GetScreenHeight() / 2) + 160;
+		land->Position.y = (-GetScreenHeight() / 2.0f) + 160.0f;
 		land->Position.x = ((-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i));
+		land->Position.z = -40.0f;
 		i++;
 	}
 

@@ -2,6 +2,7 @@
 
 Lander::Lander()
 {
+	ThePlayer = nullptr;
 	ShotTimer = new Timer();
 
 	for (int i = 0; i < 4; i++)
@@ -14,13 +15,22 @@ Lander::~Lander()
 {
 }
 
+void Lander::SetModel(Model model, Texture2D texture)
+{
+	Model3D::LoadModel(model, texture);
+}
+
 void Lander::SetShotModel(Model model, Texture2D texture)
 {
 	for (auto shot : Shots)
 	{
-		shot->LoadModel(model, texture);
-		ShotMirrorR = shot->TheModel;
+		shot->SetModel(model, texture);
 	}
+}
+
+void Lander::SetPlayer(Player* player)
+{
+	ThePlayer = player;
 }
 
 bool Lander::Initialize()
@@ -73,9 +83,13 @@ void Lander::Update(float deltaTime)
 		FireShot();
 	}
 
-	if (Y() < (-GetScreenHeight() * 0.25f) + GroundHoverY)
+	if (!SeekMode)
 	{
-		Velocity.y = 0;
+		if (Y() < (-GetScreenHeight() * 0.2f) + GroundHoverY)
+		{
+			Velocity.y = 0;
+			SeekMode = true;
+		}
 	}
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
@@ -100,6 +114,7 @@ void Lander::Draw()
 void Lander::Spawn(Vector3 position)
 {
 	Enabled = true;
+	SeekMode = false;
 	Position = position;
 	ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
 
@@ -121,15 +136,35 @@ void Lander::Spawn(Vector3 position)
 
 void Lander::FireShot()
 {
+	float angle = 0;
+
+	if (GetRandomValue(0, 10) < 5)
+	{
+		angle = AimedShot();
+	}
+	else
+	{
+		angle = GetRandomRadian();
+	}
+
+
 	if (!Shots[0]->Enabled)
 	{
-		Vector3 vel = GetRandomVelocity(105);
-
-		Shots[0]->Spawn(Position, vel, 8);
+		Shots[0]->Spawn(Position, VelocityFromAngleZ(angle, 125.0f), 8.0f);
 	}
 }
 
 void Lander::FireShots() //When Lander lowers to grab human, shoots four at a time, four times as rapid.
 {
 
+}
+
+float Lander::AimedShot()
+{
+	float percentChance = GetRandomFloat(0.0f, 0.075f);
+
+	Vector3 aimv = ThePlayer->Position;
+	aimv.x += ThePlayer->Velocity.x;
+
+	return AngleFromVectorZ(aimv) + GetRandomFloat(-percentChance, percentChance);
 }

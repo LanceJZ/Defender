@@ -32,6 +32,7 @@ public:
 	virtual void Draw2D();
 
 private:
+	bool Pause;
 	Player* ThePlayer;
 	Land* TheLand;
 	LanderMutantControl* ControlLanderMutant;

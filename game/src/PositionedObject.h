@@ -35,8 +35,6 @@ public:
 	float ChildRotation = 0;
 	float Chase(PositionedObject Chasing);
 	float RotateTowardsTargetZ(Vector3 target, float magnitude);
-	float AngleFromVectorsZ(Vector3 target);
-	float AngleFromVectorsZ(Vector3 origin, Vector3 target);
 	float AngleFromVectorZ(Vector3 target);
 	Vector3 RandomVelocity(float magnitude);
 	Vector3 VelocityFromAngleZ(float magnitude);
