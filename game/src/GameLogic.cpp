@@ -1,5 +1,9 @@
 #include "GameLogic.h"
 #include <string>
+#include <raymath.h>
+
+#define MAX(a, b) ((a)>(b)? (a) : (b))
+#define MIN(a, b) ((a)<(b)? (a) : (b))
 
 GameLogic::GameLogic()
 {
@@ -25,6 +29,7 @@ void GameLogic::SetCamera(Camera* camera)
 {
 	TheCamera = camera;
 	ThePlayer->SetCamera(camera);
+	TheLand->SetCamera(camera);
 }
 
 void GameLogic::Load()
@@ -43,6 +48,14 @@ void GameLogic::Load()
 		TheLand->LandParts[i]->LoadModel(LoadModel(const_cast<char*>(nameOBJ.c_str())), LoadTextureFromImage(image));
 		UnloadImage(image);
 	}
+
+	Image imageui = LoadImage("models/UIBackface.png");
+	TheLand->SetUIBack(LoadModel("models/UIBackface.obj"), LoadTextureFromImage(imageui));
+	UnloadImage(imageui);
+
+	Image imageHorz = LoadImage("models/RadarH.png");
+	TheLand->SetRadarHorz(LoadModel("models/RadarH.obj"), LoadTextureFromImage(imageHorz));
+	UnloadImage(imageHorz);
 
 	//Load all the models and their images used by Player.
 	Image imageps = LoadImage("models/Player Ship.png"); // Load image into (RAM)
@@ -77,6 +90,11 @@ void GameLogic::Load()
 	Image imageprsn = LoadImage("models/Person.png");
 	ControlLanderMutant->SetPersonModel(LoadModel("models/Person.obj"), LoadTextureFromImage(imageprsn));
 	UnloadImage(imageprsn);
+
+	Image imageplr = LoadImage("models/Player Radar.png");
+	ThePlayer->SetRadarModel(LoadModel("models/Player Radar.obj"), LoadTextureFromImage(imageplr));
+	UnloadImage(imageplr);
+
 }
 
 bool GameLogic::BeginRun()
@@ -108,9 +126,9 @@ void GameLogic::Update(float deltaTime)
 
 void GameLogic::Draw3D()
 {
-	ThePlayer->Draw();
 	TheLand->Draw();
 	ControlLanderMutant->Draw();
+	ThePlayer->Draw();
 }
 
 void GameLogic::Draw2D()

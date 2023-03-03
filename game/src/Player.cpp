@@ -55,6 +55,11 @@ void Player::SetTailModel(Model model, Texture2D texture)
 	}
 }
 
+void Player::SetRadarModel(Model model, Texture2D texture)
+{
+	Radar.LoadModel(model, texture);
+}
+
 bool Player::BeginRun()
 {
 	Flame.ModelScale = 2.0f;
@@ -62,6 +67,8 @@ bool Player::BeginRun()
 	Flame.RotationVelocity = 50.0f;
 	Flame.RotationAxis.x = 1.0f;
 	AddChild(&Flame);
+
+	Radar.ModelScale = 20;
 
 	for (auto shot : Shots)
 	{
@@ -127,13 +134,14 @@ void Player::Update(float deltaTime)
 		shot->Update(deltaTime);
 	}
 
-	ScreenEdgeBoundY(GetScreenHeight() / 6.0f, 0);
+	ScreenEdgeBoundY(GetScreenHeight() / 6.15f, GetScreenHeight() * 0.015f);
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 
 	if (RotateFacing)
 		RotateShipFacing();
 
 	CameraMovement();
+	RadarMovement();
 }
 
 void Player::Draw()
@@ -141,6 +149,7 @@ void Player::Draw()
 	Model3D::Draw();
 
 	Flame.Draw();
+	Radar.Draw();
 
 	for (auto shot : Shots)
 	{
@@ -286,6 +295,12 @@ void Player::Reverse()
 	moveToOffset = 0.01f;
 	RotateFacing = true;
 	ChangedFacing = true;
+}
+
+void Player::RadarMovement()
+{
+	Radar.Position.x = TheCamera->position.x;
+	Radar.Position.y = (Y() * 0.136f) + (GetScreenHeight() * 0.4365f);
 }
 
 void Player::Horzfriction()

@@ -10,7 +10,9 @@ public:
 	Land();
 	virtual ~Land();
 
-	virtual void Load();
+	void SetUIBack(Model model, Texture2D texture);
+	void SetRadarHorz(Model model, Texture2D texture);
+	void SetCamera(Camera* camera);
 	bool BeginRun();
 
 	virtual void Input();
@@ -18,6 +20,13 @@ public:
 	virtual void Draw();
 
 private:
-
+	Camera* TheCamera;
+	Model3D* Radar[9];
+	Model3D* UIBackR;
+	Model3D* UIBackL;
+	Model3D* RadarHorzBottom;
+	Model3D* RadarHorzTop;
+	Model3D* RadarHorzL;
+	Model3D* RadarHorzR;
 };
 

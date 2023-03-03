@@ -32,7 +32,7 @@ public:
 	virtual void Draw2D();
 
 private:
-	bool Pause;
+	bool Pause = false;
 	Player* ThePlayer;
 	Land* TheLand;
 	LanderMutantControl* ControlLanderMutant;

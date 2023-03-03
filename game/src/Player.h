@@ -15,6 +15,7 @@ public:
 	void SetFlameModel(Model model, Texture2D texture);
 	void SetShotModel(Model model, Texture2D texture);
 	void SetTailModel(Model model, Texture2D texture);
+	void SetRadarModel(Model model, Texture2D texture);
 	bool BeginRun();
 
 	virtual void Input();
@@ -35,8 +36,10 @@ private:
 	float AirDrag = 0.004f;
 	Camera* TheCamera;
 	Model3D Flame;
+	Model3D Radar;
 
 	void CameraMovement();
+	void RadarMovement();
 	void RotateShipFacing();
 	void MoveUp();
 	void MoveDown();
