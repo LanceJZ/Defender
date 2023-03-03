@@ -48,6 +48,11 @@ void EnemyShot::Update(float deltaTime)
 	{
 		Enabled = false;
 	}
+
+	if (ScreenEdgeBoundY(GetScreenHeight() * 0.15f, 0))
+	{
+		Enabled = false;
+	}
 }
 
 void EnemyShot::Draw()

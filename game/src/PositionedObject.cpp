@@ -226,7 +226,6 @@ bool PositionedObject::ScreenEdgeBoundY(float topOffset, float bottomOffset)
 		return true;
 	}
 
-
 	return false;
 }
 

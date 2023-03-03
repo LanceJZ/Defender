@@ -83,6 +83,8 @@ bool Land::BeginRun()
 	UIBackR->ModelScale = UIBackL->ModelScale;
 	UIBackL->Y(GetScreenHeight() / 2.321f);
 	UIBackR->Position = UIBackL->Position;
+	UIBackR->Rotation = PI;
+	UIBackR->RotationAxis.z = 1;
 
 	RadarHorzBottom->ModelScale = 21.8f;
 	RadarHorzTop->ModelScale = RadarHorzBottom->ModelScale;
