@@ -28,9 +28,19 @@ void Lander::SetShotModel(Model model, Texture2D texture)
 	}
 }
 
+void Lander::SetRadarModel(Model model, Texture2D texture)
+{
+	Radar.LoadModel(model, texture);
+}
+
 void Lander::SetPlayer(Player* player)
 {
 	ThePlayer = player;
+}
+
+void Lander::SetCamera(Camera* camera)
+{
+	TheCamera = camera;
 }
 
 bool Lander::Initialize()
@@ -56,8 +66,11 @@ bool Lander::BeginRun()
 		shot->BeginRun();
 	}
 
-	MirrorR = TheModel;
-	MirrorL = TheModel;
+	MirrorL.TheModel = TheModel;
+	MirrorL.ModelScale = ModelScale;
+	MirrorR.TheModel = TheModel;
+	MirrorR.ModelScale = ModelScale;
+	Radar.ModelScale = 2;
 
 	return false;
 }
@@ -92,6 +105,30 @@ void Lander::Update(float deltaTime)
 		}
 	}
 
+	float mirror = 7.0f;
+	MirrorL.X(X() - GetScreenWidth() * mirror);
+	MirrorL.Y(Y());
+	MirrorL.Enabled = Enabled;
+	MirrorR.X(X() + GetScreenWidth() * mirror);
+	MirrorR.Y(Y());
+	MirrorR.Enabled = Enabled;
+	Radar.X(TheCamera->position.x + (-ThePlayer->X() * 0.062f) + (X() * 0.062f));
+
+	float comp = 0.062f;
+	float ww = 3.5f;
+
+	if (Radar.X() > TheCamera->position.x + (GetScreenWidth() * ww) * comp)
+	{
+		Radar.X(Radar.X() - ((GetScreenWidth() * ww) * 2) * comp);
+	}
+	else if (Radar.X() < TheCamera->position.x - (GetScreenWidth() * ww) * comp)
+	{
+		Radar.X(Radar.X() + ((GetScreenWidth() * ww) * 2) * comp);
+	}
+
+	Radar.Y((Y() * 0.148f) + (GetScreenHeight() * 0.4376f));
+	Radar.Enabled = Enabled;
+
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 }
 
@@ -99,11 +136,9 @@ void Lander::Draw()
 {
 	Model3D::Draw();
 
-	//(-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i) land size i = 0 to 6;
-	float mirror = 7.0f;
-
-	DrawModel(MirrorR, { X() + GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
-	DrawModel(MirrorL, { X() - GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
+	MirrorL.Draw();
+	MirrorR.Draw();
+	Radar.Draw();
 
 	for (auto shot : Shots)
 	{
@@ -167,4 +202,9 @@ float Lander::AimedShot()
 	aimv.x += ThePlayer->Velocity.x;
 
 	return AngleFromVectorZ(aimv) + GetRandomFloat(-percentChance, percentChance);
+}
+
+void Lander::RadarMovement()
+{
+
 }

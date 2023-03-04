@@ -17,7 +17,9 @@ public:
 
 	void SetModel(Model model, Texture2D texture);
 	void SetShotModel(Model model, Texture2D texture);
+	void SetRadarModel(Model model, Texture2D texture);
 	void SetPlayer(Player* player);
+	void SetCamera(Camera* camera);
 	bool Initialize();
 	bool BeginRun();
 
@@ -33,12 +35,15 @@ private:
 	bool SeekMode = false;
 	float GroundHoverY = 0;
 	Timer* ShotTimer;
-	Model MirrorR;
-	Model MirrorL;
+	Model3D MirrorR;
+	Model3D MirrorL;
+	Model3D Radar;
 	Player* ThePlayer;
+	Camera* TheCamera;
 
 	void FireShot();
 	void FireShots();
 	float AimedShot();
+	void RadarMovement();
 };
 

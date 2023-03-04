@@ -68,7 +68,7 @@ bool Player::BeginRun()
 	Flame.RotationAxis.x = 1.0f;
 	AddChild(&Flame);
 
-	Radar.ModelScale = 20;
+	Radar.ModelScale = 10;
 
 	for (auto shot : Shots)
 	{
@@ -299,8 +299,8 @@ void Player::Reverse()
 
 void Player::RadarMovement()
 {
-	Radar.Position.x = TheCamera->position.x;
-	Radar.Position.y = (Y() * 0.136f) + (GetScreenHeight() * 0.4365f);
+	Radar.X(TheCamera->position.x);
+	Radar.Y((Y() * 0.147f) + (GetScreenHeight() * 0.4374f));
 }
 
 void Player::Horzfriction()

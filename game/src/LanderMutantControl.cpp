@@ -10,6 +10,12 @@ void LanderMutantControl::SetLanderModel(Model model, Texture2D texture)
 	LanderTexture = texture;
 }
 
+void LanderMutantControl::SetRadarModel(Model model, Texture2D texture)
+{
+	LanderRadar = model;
+	LanderRadarTexture = texture;
+}
+
 void LanderMutantControl::SetMutantModel(Model model, Texture2D texture)
 {
 	MutantModel = model;
@@ -31,6 +37,11 @@ void LanderMutantControl::SetPersonModel(Model model, Texture2D texture)
 void LanderMutantControl::SetPlayer(Player* player)
 {
 	ThePlayer = player;
+}
+
+void LanderMutantControl::SetCamera(Camera* camera)
+{
+	TheCamera = camera;
 }
 
 bool LanderMutantControl::Initialize()
@@ -106,7 +117,9 @@ void LanderMutantControl::SpawnLanders(int count)
 			Landers[Landers.size() - 1]->Initialize();
 			Landers[Landers.size() - 1]->SetModel(LanderModel, LanderTexture);
 			Landers[Landers.size() - 1]->SetShotModel(ShotModel, ShotTexture);
+			Landers[Landers.size() - 1]->SetRadarModel(LanderModel, LanderRadarTexture);
 			Landers[Landers.size() - 1]->SetPlayer(ThePlayer);
+			Landers[Landers.size() - 1]->SetCamera(TheCamera);
 			Landers[Landers.size() - 1]->Spawn({x, y, 0});
 		}
 	}
