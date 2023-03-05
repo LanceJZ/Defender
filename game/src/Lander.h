@@ -4,6 +4,7 @@
 #include "EnemyShot.h"
 #include "Timer.h"
 #include "Player.h"
+#include "EnemyRadar.h"
 
 class Lander : public Model3D
 {
@@ -23,7 +24,6 @@ public:
 	bool Initialize();
 	bool BeginRun();
 
-	virtual void Input();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
@@ -38,14 +38,13 @@ private:
 	Timer* ShotTimer;
 	Model3D MirrorR;
 	Model3D MirrorL;
-	Model3D Radar;
+	EnemyRadar Radar;
 	Player* ThePlayer;
 	Camera* TheCamera;
 
 	void FireShot();
 	void FireShots();
 	float AimedShot();
-	void RadarUpdate();
 	void MirrorUpdate();
 };
 

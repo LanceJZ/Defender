@@ -3,6 +3,7 @@
 Lander::Lander()
 {
 	ThePlayer = nullptr;
+	TheCamera = nullptr;
 	ShotTimer = new Timer();
 
 	for (int i = 0; i < 4; i++)
@@ -30,22 +31,25 @@ void Lander::SetShotModel(Model model, Texture2D texture)
 
 void Lander::SetRadarModel(Model model, Texture2D texture)
 {
-	Radar.LoadModel(model, texture);
+	Radar.SetModel(model, texture);
 }
 
 void Lander::SetPlayer(Player* player)
 {
 	ThePlayer = player;
+	Radar.SetPlayer(player);
 }
 
 void Lander::SetCamera(Camera* camera)
 {
 	TheCamera = camera;
+	Radar.SetCamera(camera);
 }
 
 bool Lander::Initialize()
 {
 	Model3D::Initialize();
+	Radar.Initialize();
 
 	for (auto shot : Shots)
 	{
@@ -66,6 +70,8 @@ bool Lander::BeginRun()
 		shot->BeginRun();
 	}
 
+	Radar.BeginRun();
+
 	MirrorL.TheModel = TheModel;
 	MirrorL.ModelScale = ModelScale;
 	MirrorR.TheModel = TheModel;
@@ -73,11 +79,6 @@ bool Lander::BeginRun()
 	Radar.ModelScale = 2;
 
 	return false;
-}
-
-void Lander::Input()
-{
-
 }
 
 void Lander::Update(float deltaTime)
@@ -107,7 +108,9 @@ void Lander::Update(float deltaTime)
 	}
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
-	RadarUpdate();
+	Radar.Position = Position;
+	Radar.Enabled = Enabled;
+	Radar.Update(deltaTime);
 	MirrorUpdate();
 }
 
@@ -181,26 +184,6 @@ float Lander::AimedShot()
 	aimv.x += ThePlayer->Velocity.x;
 
 	return AngleFromVectorZ(aimv) + GetRandomFloat(-percentChance, percentChance);
-}
-
-void Lander::RadarUpdate()
-{
-	float comp = 0.062f;
-	float ww = 3.5f;
-
-	Radar.X(TheCamera->position.x + (-ThePlayer->X() * 0.062f) + (X() * 0.062f));
-
-	if (Radar.X() > TheCamera->position.x + (GetScreenWidth() * ww) * comp)
-	{
-		Radar.X(Radar.X() - ((GetScreenWidth() * ww) * 2) * comp);
-	}
-	else if (Radar.X() < TheCamera->position.x - (GetScreenWidth() * ww) * comp)
-	{
-		Radar.X(Radar.X() + ((GetScreenWidth() * ww) * 2) * comp);
-	}
-
-	Radar.Y((Y() * 0.148f) + (GetScreenHeight() * 0.4376f));
-	Radar.Enabled = Enabled;
 }
 
 void Lander::MirrorUpdate()

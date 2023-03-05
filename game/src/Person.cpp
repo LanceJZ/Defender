@@ -19,22 +19,25 @@ void Person::SetModel(Model model, Texture2D texture)
 
 void Person::SetRadar(Model model, Texture2D texture)
 {
-	Radar.LoadModel(model, texture);
+	Radar.SetModel(model, texture);
 }
 
 void Person::SetPlayer(Player* player)
 {
 	ThePlayer = player;
+	Radar.SetPlayer(player);
 }
 
 void Person::SetCamera(Camera* camera)
 {
 	TheCamera = camera;
+	Radar.SetCamera(camera);
 }
 
 bool Person::Initialize()
 {
 	Model3D::Initialize();
+	Radar.Initialize();
 
 	ModelScale = 5;
 
@@ -47,6 +50,7 @@ bool Person::BeginRun()
 	MirrorL.ModelScale = ModelScale;
 	MirrorR.TheModel = TheModel;
 	MirrorR.ModelScale = ModelScale;
+	Radar.BeginRun();
 	Radar.ModelScale = 4;
 
 	return false;
@@ -57,7 +61,9 @@ void Person::Update(float deltaTime)
 	Model3D::Update(deltaTime);
 
 	MirrorUpdate();
-	RadarUpdate();
+	Radar.Position = Position;
+	Radar.Enabled = Enabled;
+	Radar.Update(deltaTime);
 }
 
 void Person::Draw()
@@ -80,24 +86,4 @@ void Person::MirrorUpdate()
 	float mirror = 7.0f;
 	MirrorL.X(X() + GetScreenWidth() * mirror);
 	MirrorR.X(X() - GetScreenWidth() * mirror);
-}
-
-void Person::RadarUpdate()
-{
-	float comp = 0.062f;
-	float ww = 3.5f;
-
-	Radar.X(TheCamera->position.x + (-ThePlayer->X() * 0.062f) + (X() * 0.062f));
-
-	if (Radar.X() > TheCamera->position.x + (GetScreenWidth() * ww) * comp)
-	{
-		Radar.X(Radar.X() - ((GetScreenWidth() * ww) * 2) * comp);
-	}
-	else if (Radar.X() < TheCamera->position.x - (GetScreenWidth() * ww) * comp)
-	{
-		Radar.X(Radar.X() + ((GetScreenWidth() * ww) * 2) * comp);
-	}
-
-	Radar.Y((Y() * 0.148f) + (GetScreenHeight() * 0.4376f));
-	Radar.Enabled = Enabled;
 }
