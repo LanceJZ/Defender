@@ -18,6 +18,7 @@ public:
 	void SetMutantModel(Model model, Texture2D texture);
 	void SetShotModel(Model model, Texture2D texture);
 	void SetPersonModel(Model model, Texture2D texture);
+	void SetPersonRadar(Model model, Texture2D texture);
 	void SetPlayer(Player* player);
 	void SetCamera(Camera* camera);
 	bool Initialize();
@@ -32,11 +33,13 @@ private:
 	Model ShotModel;
 	Model PersonModel;
 	Model LanderRadar;
+	Model PersonRadar;
 	Texture2D LanderTexture;
 	Texture2D MutantTexture;
 	Texture2D ShotTexture;
 	Texture2D PersonTexture;
 	Texture2D LanderRadarTexture;
+	Texture2D PersonRadarTexture;
 
 	Player* ThePlayer;
 	Camera* TheCamera;

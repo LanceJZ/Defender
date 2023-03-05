@@ -18,7 +18,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Pre-Alpha 00.05");
+	SetWindowTitle("Defender Pre-Alpha 00.06");
 	ThePlayer->Initialize();
 	ControlLanderMutant->Initialize();
 	ControlLanderMutant->SetPlayer(ThePlayer);
@@ -100,6 +100,10 @@ void GameLogic::Load()
 	Image imagelr = LoadImage("models/Lander Radar.png");
 	ControlLanderMutant->SetRadarModel(LoadModel("models/Lander Radar.obj"), LoadTextureFromImage(imagelr));
 	UnloadImage(imagelr);
+
+	Image imagepr = LoadImage("models/Person Radar.png");
+	ControlLanderMutant->SetPersonRadar(LoadModel("models/Person Radar.obj"), LoadTextureFromImage(imagepr));
+	UnloadImage(imagepr);
 }
 
 bool GameLogic::BeginRun()

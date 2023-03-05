@@ -33,6 +33,7 @@ private:
 	bool PickUpMode = false;
 	bool GoingDownForPickupMode = false;
 	bool SeekMode = false;
+	bool GoToGroundMode = true;
 	float GroundHoverY = 0;
 	Timer* ShotTimer;
 	Model3D MirrorR;
@@ -44,6 +45,7 @@ private:
 	void FireShot();
 	void FireShots();
 	float AimedShot();
-	void RadarMovement();
+	void RadarUpdate();
+	void MirrorUpdate();
 };
 

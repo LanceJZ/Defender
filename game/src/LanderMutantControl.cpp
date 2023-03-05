@@ -34,6 +34,12 @@ void LanderMutantControl::SetPersonModel(Model model, Texture2D texture)
 	PersonTexture = texture;
 }
 
+void LanderMutantControl::SetPersonRadar(Model model, Texture2D texture)
+{
+	PersonRadar = model;
+	PersonRadarTexture = texture;
+}
+
 void LanderMutantControl::SetPlayer(Player* player)
 {
 	ThePlayer = player;
@@ -136,7 +142,9 @@ void LanderMutantControl::SpawnPoeple(int count)
 		{
 			People[People.size() - 1]->Initialize();
 			People[People.size() - 1]->SetModel(PersonModel, PersonTexture);
+			People[People.size() - 1]->SetRadar(PersonRadar, PersonRadarTexture);
 			People[People.size() - 1]->SetPlayer(ThePlayer);
+			People[People.size() - 1]->SetCamera(TheCamera);
 			People[People.size() - 1]->Spawn({ x, y, 0 });
 		}
 	}

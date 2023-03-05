@@ -96,40 +96,19 @@ void Lander::Update(float deltaTime)
 		FireShot();
 	}
 
-	if (!SeekMode)
+	if (GoToGroundMode)
 	{
 		if (Y() < (-GetScreenHeight() * 0.2f) + GroundHoverY)
 		{
 			Velocity.y = 0;
 			SeekMode = true;
+			GoToGroundMode = false;
 		}
 	}
 
-	float mirror = 7.0f;
-	MirrorL.X(X() - GetScreenWidth() * mirror);
-	MirrorL.Y(Y());
-	MirrorL.Enabled = Enabled;
-	MirrorR.X(X() + GetScreenWidth() * mirror);
-	MirrorR.Y(Y());
-	MirrorR.Enabled = Enabled;
-	Radar.X(TheCamera->position.x + (-ThePlayer->X() * 0.062f) + (X() * 0.062f));
-
-	float comp = 0.062f;
-	float ww = 3.5f;
-
-	if (Radar.X() > TheCamera->position.x + (GetScreenWidth() * ww) * comp)
-	{
-		Radar.X(Radar.X() - ((GetScreenWidth() * ww) * 2) * comp);
-	}
-	else if (Radar.X() < TheCamera->position.x - (GetScreenWidth() * ww) * comp)
-	{
-		Radar.X(Radar.X() + ((GetScreenWidth() * ww) * 2) * comp);
-	}
-
-	Radar.Y((Y() * 0.148f) + (GetScreenHeight() * 0.4376f));
-	Radar.Enabled = Enabled;
-
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
+	RadarUpdate();
+	MirrorUpdate();
 }
 
 void Lander::Draw()
@@ -204,7 +183,33 @@ float Lander::AimedShot()
 	return AngleFromVectorZ(aimv) + GetRandomFloat(-percentChance, percentChance);
 }
 
-void Lander::RadarMovement()
+void Lander::RadarUpdate()
 {
+	float comp = 0.062f;
+	float ww = 3.5f;
 
+	Radar.X(TheCamera->position.x + (-ThePlayer->X() * 0.062f) + (X() * 0.062f));
+
+	if (Radar.X() > TheCamera->position.x + (GetScreenWidth() * ww) * comp)
+	{
+		Radar.X(Radar.X() - ((GetScreenWidth() * ww) * 2) * comp);
+	}
+	else if (Radar.X() < TheCamera->position.x - (GetScreenWidth() * ww) * comp)
+	{
+		Radar.X(Radar.X() + ((GetScreenWidth() * ww) * 2) * comp);
+	}
+
+	Radar.Y((Y() * 0.148f) + (GetScreenHeight() * 0.4376f));
+	Radar.Enabled = Enabled;
+}
+
+void Lander::MirrorUpdate()
+{
+	float mirror = 7.0f;
+	MirrorL.X(X() - GetScreenWidth() * mirror);
+	MirrorL.Y(Y());
+	MirrorL.Enabled = Enabled;
+	MirrorR.X(X() + GetScreenWidth() * mirror);
+	MirrorR.Y(Y());
+	MirrorR.Enabled = Enabled;
 }

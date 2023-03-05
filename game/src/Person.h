@@ -10,7 +10,9 @@ public:
 	virtual ~Person();
 
 	void SetModel(Model model, Texture2D texture);
+	void SetRadar(Model model, Texture2D texture);
 	void SetPlayer(Player* player);
+	void SetCamera(Camera* camera);
 	bool Initialize();
 	bool BeginRun();
 
@@ -20,9 +22,14 @@ public:
 	void Spawn(Vector3 position);
 
 private:
-	Model MirrorR;
-	Model MirrorL;
+	Model3D MirrorR;
+	Model3D MirrorL;
+	Model3D Radar;
 
 	Player* ThePlayer;
+	Camera* TheCamera;
+
+	void MirrorUpdate();
+	void RadarUpdate();
 };
 
