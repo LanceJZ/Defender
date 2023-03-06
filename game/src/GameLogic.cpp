@@ -22,6 +22,7 @@ bool GameLogic::Initialize()
 	ThePlayer->Initialize();
 	ControlLanderMutant->Initialize();
 	ControlLanderMutant->SetPlayer(ThePlayer);
+	TheLand->SetPlayer(ThePlayer);
 
 	return false;
 }
@@ -37,18 +38,30 @@ void GameLogic::SetCamera(Camera* camera)
 void GameLogic::Load()
 {
 	string path = "models/Ground";
+	string pathR = "models/GroundRadar";
 
 	for (int i = 0; i < 7; i++)
 	{
 		string namePNG = path;
+		string nameRPNG = pathR;
 		namePNG.append(to_string(i + 1));
 		namePNG.append(".png");
+		nameRPNG.append(to_string(i + 1));
+		nameRPNG.append(".png");
+
 		string nameOBJ = path;
+		string nameROBJ = pathR;
 		nameOBJ.append(to_string(i + 1));
 		nameOBJ.append(".obj");
+		nameROBJ.append(to_string(i + 1));
+		nameROBJ.append(".obj");
+
 		Image image = LoadImage(const_cast<char*>(namePNG.c_str()));
+		Image imageR = LoadImage(const_cast<char*>(nameRPNG.c_str()));
 		TheLand->LandParts[i]->LoadModel(LoadModel(const_cast<char*>(nameOBJ.c_str())), LoadTextureFromImage(image));
+		TheLand->RadarLandParts[i]->LoadModel(LoadModel(const_cast<char*>(nameROBJ.c_str())), LoadTextureFromImage(imageR));
 		UnloadImage(image);
+		UnloadImage(imageR);
 	}
 
 	Image imageui = LoadImage("models/UIBackface.png");
