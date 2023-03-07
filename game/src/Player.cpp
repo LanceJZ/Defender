@@ -6,8 +6,6 @@ Player::Player()
 	{
 		Shots[i] = new PlayerShot();
 	}
-
-	TheCamera = nullptr;
 }
 
 Player::~Player()
@@ -134,7 +132,7 @@ void Player::Update(float deltaTime)
 		shot->Update(deltaTime);
 	}
 
-	ScreenEdgeBoundY(GetScreenHeight() / 6.15f, GetScreenHeight() * 0.015f);
+	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 
 	if (RotateFacing)

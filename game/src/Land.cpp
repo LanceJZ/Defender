@@ -2,9 +2,6 @@
 
 Land::Land()
 {
-	ThePlayer = nullptr;
-	TheCamera = nullptr;
-
 	for (int i = 0; i < 9; i++)
 	{
 		LandParts[i] = new Model3D();
@@ -14,23 +11,6 @@ Land::Land()
 	{
 		RadarLandParts[i] = new Model3D();
 	}
-
-	for (auto land : LandParts)
-	{
-		land->Initialize();
-	}
-
-	for (auto radar : RadarLandParts)
-	{
-		radar->Initialize();
-	}
-
-	UIBackL = new Model3D();
-	UIBackR = new Model3D();
-	RadarHorzBottom = new Model3D;
-	RadarHorzTop = new Model3D;
-	RadarHorzL = new Model3D;
-	RadarHorzR = new Model3D;
 }
 
 Land::~Land()
@@ -59,6 +39,21 @@ void Land::SetCamera(Camera* camera)
 void Land::SetPlayer(Player* player)
 {
 	ThePlayer = player;
+}
+
+bool Land::Initialize()
+{
+	for (auto land : LandParts)
+	{
+		land->Initialize();
+	}
+
+	for (auto radar : RadarLandParts)
+	{
+		radar->Initialize();
+	}
+
+	return false;
 }
 
 bool Land::BeginRun()

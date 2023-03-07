@@ -33,9 +33,9 @@ public:
 
 private:
 	bool Pause = false;
-	Player* ThePlayer;
-	Land* TheLand;
-	LanderMutantControl* ControlLanderMutant;
-	Camera* TheCamera = { 0 };
+	Player* ThePlayer = new Player();
+	Land* TheLand = new Land();
+	LanderMutantControl* ControlLanderMutant = new LanderMutantControl();
+	Camera* TheCamera = nullptr;
 };
 

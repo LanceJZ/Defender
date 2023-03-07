@@ -2,10 +2,6 @@
 
 Lander::Lander()
 {
-	ThePlayer = nullptr;
-	TheCamera = nullptr;
-	ShotTimer = new Timer();
-
 	for (int i = 0; i < 4; i++)
 	{
 		Shots[i] = new EnemyShot();
@@ -42,7 +38,6 @@ void Lander::SetPlayer(Player* player)
 
 void Lander::SetCamera(Camera* camera)
 {
-	TheCamera = camera;
 	Radar.SetCamera(camera);
 }
 
@@ -91,20 +86,34 @@ void Lander::Update(float deltaTime)
 		shot->Update(deltaTime);
 	}
 
+	if (!Enabled)
+		return;
+
 	if (ShotTimer->Elapsed())
 	{
 		ShotTimer->Reset();
 		FireShot();
 	}
 
-	if (GoToGroundMode)
+	if (CurrentMode == GoingToGround)
 	{
-		if (Y() < (-GetScreenHeight() * 0.2f) + GroundHoverY)
-		{
-			Velocity.y = 0;
-			SeekMode = true;
-			GoToGroundMode = false;
-		}
+		GoToGround();
+	}
+	else if (CurrentMode == Seek)
+	{
+		SeekPersonMan();
+	}
+	else if (CurrentMode == FoundPersonMan)
+	{
+		FoundPersonManGoingDown();
+	}
+	else if (CurrentMode == PickUpPersonMan)
+	{
+		GrabPersonMan();
+	}
+	else if (CurrentMode == Mutate)
+	{
+		SpawnMutatant();
 	}
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
@@ -131,7 +140,7 @@ void Lander::Draw()
 void Lander::Spawn(Vector3 position)
 {
 	Enabled = true;
-	SeekMode = false;
+	CurrentMode = GoingToGround;
 	Position = position;
 	ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
 
@@ -184,6 +193,79 @@ float Lander::AimedShot()
 	aimv.x += ThePlayer->Velocity.x;
 
 	return AngleFromVectorZ(aimv) + GetRandomFloat(-percentChance, percentChance);
+}
+
+void Lander::GoToGround()
+{
+	if (Y() < (-GetScreenHeight() * 0.2f) + GroundHoverY)
+	{
+		CurrentMode = Seek;
+		Velocity.y = 0;
+	}
+}
+
+void Lander::SeekPersonMan()
+{
+	for (auto person : People)
+	{
+		if (person->X() < X() + 25.0f && person->X() > X() - 25.0f)
+		{
+			if (person->BeingCaptured)
+				return;
+
+			CurrentMode = FoundPersonMan;
+			Velocity.x = 0;
+			Velocity.y = GetRandomFloat(-60, -40);
+			PersonCaptured = person;
+			person->BeingCaptured = true;
+			return;
+		}
+	}
+}
+
+void Lander::FoundPersonManGoingDown() //Add super fast fire rate.
+{
+	if (X() != PersonCaptured->X())
+	{
+		if (X() > PersonCaptured->X())
+		{
+			Velocity.x = -10;
+		}
+		else if (X() < PersonCaptured->X())
+		{
+			Velocity.x = 10;
+		}
+		else if (X() == PersonCaptured->X())
+		{
+			Velocity.x = 0;
+		}
+	}
+
+	if (Y() + 25 > PersonCaptured->Y() && Y() - 25 < PersonCaptured->Y())
+	{
+		CurrentMode = PickUpPersonMan;
+		Velocity.y = GetRandomFloat(40, 60);
+		Velocity.x = 0;
+	}
+}
+
+void Lander::GrabPersonMan()
+{
+	if (Y() > GetScreenHeight() * 0.333f)
+	{
+		CurrentMode = Mutate;
+		return;
+	}
+
+	PersonCaptured->Y(Y() -30);
+}
+
+void Lander::SpawnMutatant()
+{
+	MutateLander = true;
+	Velocity.y = 0;
+	PersonCaptured->Enabled = false;
+	Enabled = false;
 }
 
 void Lander::MirrorUpdate()

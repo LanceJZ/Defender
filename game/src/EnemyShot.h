@@ -6,7 +6,6 @@
 class EnemyShot : public Model3D
 {
 public:
-	EnemyShot();
 	virtual ~EnemyShot();
 
 	void SetModel(Model model, Texture2D texture);
@@ -18,9 +17,9 @@ public:
 	virtual void Draw();
 
 	void Spawn(Vector3 position, Vector3 velocity, float life);
-private:
-	Timer* LifeTimer;
-	Model MirrorR;
-	Model MirrorL;
-};
 
+private:
+	Model MirrorR = { 0 };
+	Model MirrorL = { 0 };
+	Timer* LifeTimer = new Timer();
+};

@@ -2,14 +2,8 @@
 #include <string>
 #include <raymath.h>
 
-#define MAX(a, b) ((a)>(b)? (a) : (b))
-#define MIN(a, b) ((a)<(b)? (a) : (b))
-
 GameLogic::GameLogic()
 {
-	ThePlayer = new Player();
-	TheLand = new Land();
-	ControlLanderMutant = new LanderMutantControl();
 }
 
 GameLogic::~GameLogic()
@@ -18,11 +12,10 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Pre-Alpha 00.06");
+	SetWindowTitle("Defender Pre-Alpha 00.07");
 	ThePlayer->Initialize();
 	ControlLanderMutant->Initialize();
-	ControlLanderMutant->SetPlayer(ThePlayer);
-	TheLand->SetPlayer(ThePlayer);
+	TheLand->Initialize();
 
 	return false;
 }
@@ -122,7 +115,9 @@ void GameLogic::Load()
 bool GameLogic::BeginRun()
 {
 	ThePlayer->BeginRun();
+	TheLand->SetPlayer(ThePlayer);
 	TheLand->BeginRun();
+	ControlLanderMutant->SetPlayer(ThePlayer);
 	ControlLanderMutant->BeginRun();
 
 	return false;

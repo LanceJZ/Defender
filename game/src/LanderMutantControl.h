@@ -1,6 +1,7 @@
 #pragma once
 #include "raylib.h"
 #include "Lander.h"
+#include "Mutant.h"
 #include "Person.h"
 #include "Common.h"
 #include "Player.h"
@@ -11,12 +12,13 @@ public:
 	virtual ~LanderMutantControl();
 
 	vector<Lander*> Landers;
+	vector<Mutant*> Mutants;
 	vector<Person*> People; //The Person Man.
 
 	void SetLanderModel(Model model, Texture2D texture);
-	void SetRadarModel(Model model, Texture2D texture);
 	void SetMutantModel(Model model, Texture2D texture);
 	void SetShotModel(Model model, Texture2D texture);
+	void SetRadarModel(Model model, Texture2D texture);
 	void SetPersonModel(Model model, Texture2D texture);
 	void SetPersonRadar(Model model, Texture2D texture);
 	void SetPlayer(Player* player);
@@ -41,9 +43,10 @@ private:
 	Texture2D LanderRadarTexture;
 	Texture2D PersonRadarTexture;
 
-	Player* ThePlayer;
-	Camera* TheCamera;
+	Player* ThePlayer = nullptr;
+	Camera* TheCamera = nullptr;
 
 	void SpawnLanders(int count);
+	void SpawnMutant(Lander* lander);
 	void SpawnPoeple(int count);
 };

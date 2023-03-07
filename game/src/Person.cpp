@@ -1,12 +1,5 @@
 #include "Person.h"
 
-Person::Person()
-{
-	ThePlayer = nullptr;
-	TheCamera = nullptr;
-	Enabled = false;
-}
-
 Person::~Person()
 {
 }
@@ -40,6 +33,7 @@ bool Person::Initialize()
 	Radar.Initialize();
 
 	ModelScale = 5;
+	Enabled = false;
 
 	return false;
 }

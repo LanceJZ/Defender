@@ -10,12 +10,6 @@ void LanderMutantControl::SetLanderModel(Model model, Texture2D texture)
 	LanderTexture = texture;
 }
 
-void LanderMutantControl::SetRadarModel(Model model, Texture2D texture)
-{
-	LanderRadar = model;
-	LanderRadarTexture = texture;
-}
-
 void LanderMutantControl::SetMutantModel(Model model, Texture2D texture)
 {
 	MutantModel = model;
@@ -26,6 +20,12 @@ void LanderMutantControl::SetShotModel(Model model, Texture2D texture)
 {
 	ShotModel = model;
 	ShotTexture = texture;
+}
+
+void LanderMutantControl::SetRadarModel(Model model, Texture2D texture)
+{
+	LanderRadar = model;
+	LanderRadarTexture = texture;
 }
 
 void LanderMutantControl::SetPersonModel(Model model, Texture2D texture)
@@ -52,15 +52,6 @@ void LanderMutantControl::SetCamera(Camera* camera)
 
 bool LanderMutantControl::Initialize()
 {
-	for (auto lander : Landers)
-	{
-		lander->Initialize();
-	}
-
-	for (auto person : People)
-	{
-		person->Initialize();
-	}
 
 	return false;
 }
@@ -80,6 +71,8 @@ bool LanderMutantControl::BeginRun()
 		person->BeginRun();
 	}
 
+	//SpawnMutant(Landers[GetRandomValue(0, Landers.size() - 1)]);
+
 	return false;
 }
 
@@ -88,6 +81,16 @@ void LanderMutantControl::Update(float deltaTime)
 	for (auto lander : Landers)
 	{
 		lander->Update(deltaTime);
+
+		if (lander->MutateLander)
+		{
+			SpawnMutant(lander);
+		}
+	}
+
+	for (auto mutant : Mutants)
+	{
+		mutant->Update(deltaTime);
 	}
 
 	for (auto person : People)
@@ -103,6 +106,11 @@ void LanderMutantControl::Draw()
 		lander->Draw();
 	}
 
+	for (auto mutant : Mutants)
+	{
+		mutant->Draw();
+	}
+
 	for (auto person : People)
 	{
 		person->Draw();
@@ -111,12 +119,12 @@ void LanderMutantControl::Draw()
 
 void LanderMutantControl::SpawnLanders(int count)
 {
-	//(-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i) land size i = 0 to 6;
+	//(-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i); The land size i = 0 to 6, so 7 times Screen Width.
 
 	for (int i = 0; i < count; i++)
 	{
-		float x = GetRandomFloat((-GetScreenWidth() * 3.0f), (GetScreenWidth() * 3.0f));
-		float y = GetScreenHeight() / 3.0f;
+		float x = GetRandomFloat((-GetScreenWidth() * 3.5f), (GetScreenWidth() * 3.5f));
+		float y = GetScreenHeight() * 0.333f;
 
 		Landers.push_back(new Lander());
 		{
@@ -131,11 +139,24 @@ void LanderMutantControl::SpawnLanders(int count)
 	}
 }
 
+void LanderMutantControl::SpawnMutant(Lander* lander)
+{
+	Mutants.push_back(new Mutant());
+	{
+		Mutants[Mutants.size() - 1]->Initialize();
+		Mutants[Mutants.size() - 1]->SetModel(MutantModel, MutantTexture);
+		Mutants[Mutants.size() - 1]->SetShotModel(ShotModel, ShotTexture);
+		Mutants[Mutants.size() - 1]->SetCamera(TheCamera);
+		Mutants[Mutants.size() - 1]->SetPlayer(ThePlayer);
+		Mutants[Mutants.size() - 1]->Spawn(lander->Position);
+	}
+}
+
 void LanderMutantControl::SpawnPoeple(int count)
 {
 	for (int i = 0; i < count; i++)
 	{
-		float x = GetRandomFloat((-GetScreenWidth() * 3), (GetScreenWidth() * 3));
+		float x = GetRandomFloat((-GetScreenWidth() * 3.5f), (GetScreenWidth() * 3.5f));
 		float y = -(GetScreenHeight() / 2.10f);
 
 		People.push_back(new Person());
@@ -147,5 +168,10 @@ void LanderMutantControl::SpawnPoeple(int count)
 			People[People.size() - 1]->SetCamera(TheCamera);
 			People[People.size() - 1]->Spawn({ x, y, 0 });
 		}
+	}
+
+	for (auto lander : Landers)
+	{
+		lander->People = People;
 	}
 }

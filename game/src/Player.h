@@ -34,7 +34,7 @@ private:
 	float MaxFowardV = 1000.0f;
 	float ForwardDrag = 20.0f;
 	float AirDrag = 0.004f;
-	Camera* TheCamera;
+	Camera* TheCamera = nullptr;
 	Model3D Flame;
 	Model3D Radar;
 

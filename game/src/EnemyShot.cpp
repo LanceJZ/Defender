@@ -1,11 +1,5 @@
 #include "EnemyShot.h"
 
-EnemyShot::EnemyShot()
-{
-	LifeTimer = new Timer();
-
-}
-
 EnemyShot::~EnemyShot()
 {
 }

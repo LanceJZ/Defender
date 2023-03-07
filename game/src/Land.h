@@ -16,20 +16,21 @@ public:
 	void SetRadarHorz(Model model, Texture2D texture);
 	void SetCamera(Camera* camera);
 	void SetPlayer(Player* player);
+	bool Initialize();
 	bool BeginRun();
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
 private:
-	Camera* TheCamera;
-	Player* ThePlayer;
-	Model3D* UIBackR;
-	Model3D* UIBackL;
-	Model3D* RadarHorzBottom;
-	Model3D* RadarHorzTop;
-	Model3D* RadarHorzL;
-	Model3D* RadarHorzR;
+	Camera* TheCamera = nullptr;
+	Player* ThePlayer = nullptr;
+	Model3D* UIBackR = new Model3D();
+	Model3D* UIBackL = new Model3D();
+	Model3D* RadarHorzBottom = new Model3D();
+	Model3D* RadarHorzTop = new Model3D();
+	Model3D* RadarHorzL = new Model3D();
+	Model3D* RadarHorzR = new Model3D();
 
 	Vector2 UpdateRadar(float X, float Y);
 };
