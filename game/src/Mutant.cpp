@@ -66,12 +66,15 @@ void Mutant::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	ShotTimer->Update(deltaTime);
-
 	for (auto shot : Shots)
 	{
 		shot->Update(deltaTime);
 	}
+
+	if (!Enabled)
+		return;
+
+	ShotTimer->Update(deltaTime);
 
 	if (ShotTimer->Elapsed())
 	{
@@ -89,6 +92,9 @@ void Mutant::Update(float deltaTime)
 void Mutant::Draw()
 {
 	Model3D::Draw();
+
+	if (!Enabled)
+		return;
 
 	MirrorL.Draw();
 	MirrorR.Draw();

@@ -7,7 +7,6 @@ Person::~Person()
 void Person::SetModel(Model model, Texture2D texture)
 {
 	Model3D::LoadModel(model, texture);
-
 }
 
 void Person::SetRadar(Model model, Texture2D texture)
@@ -54,6 +53,9 @@ void Person::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
+	if (!Enabled)
+		return;
+
 	MirrorUpdate();
 	Radar.Position = Position;
 	Radar.Enabled = Enabled;
@@ -63,6 +65,9 @@ void Person::Update(float deltaTime)
 void Person::Draw()
 {
 	Model3D::Draw();
+
+	if (!Enabled)
+		return;
 
 	MirrorL.Draw();
 	MirrorR.Draw();
@@ -78,6 +83,8 @@ void Person::Spawn(Vector3 position)
 void Person::MirrorUpdate()
 {
 	float mirror = 7.0f;
+	MirrorL.Y(Y());
+	MirrorR.Y(Y());
 	MirrorL.X(X() + GetScreenWidth() * mirror);
 	MirrorR.X(X() - GetScreenWidth() * mirror);
 }

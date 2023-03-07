@@ -104,12 +104,16 @@ void GameLogic::Load()
 	UnloadImage(imageplr);
 
 	Image imagelr = LoadImage("models/Lander Radar.png");
-	ControlLanderMutant->SetRadarModel(LoadModel("models/Lander Radar.obj"), LoadTextureFromImage(imagelr));
+	ControlLanderMutant->SetLanderRadarModel(LoadModel("models/Lander Radar.obj"), LoadTextureFromImage(imagelr));
 	UnloadImage(imagelr);
 
 	Image imagepr = LoadImage("models/Person Radar.png");
 	ControlLanderMutant->SetPersonRadar(LoadModel("models/Person Radar.obj"), LoadTextureFromImage(imagepr));
 	UnloadImage(imagepr);
+
+	Image imagemr = LoadImage("models/Mutant Radar.png");
+	ControlLanderMutant->SetMutantRadarModel(LoadModel("models/Mutant Radar.obj"), LoadTextureFromImage(imagemr));
+	UnloadImage(imagemr);
 }
 
 bool GameLogic::BeginRun()

@@ -22,7 +22,7 @@ void LanderMutantControl::SetShotModel(Model model, Texture2D texture)
 	ShotTexture = texture;
 }
 
-void LanderMutantControl::SetRadarModel(Model model, Texture2D texture)
+void LanderMutantControl::SetLanderRadarModel(Model model, Texture2D texture)
 {
 	LanderRadar = model;
 	LanderRadarTexture = texture;
@@ -38,6 +38,12 @@ void LanderMutantControl::SetPersonRadar(Model model, Texture2D texture)
 {
 	PersonRadar = model;
 	PersonRadarTexture = texture;
+}
+
+void LanderMutantControl::SetMutantRadarModel(Model model, Texture2D texture)
+{
+	MutantRadar = model;
+	MutantRadarTexture = texture;
 }
 
 void LanderMutantControl::SetPlayer(Player* player)
@@ -71,8 +77,6 @@ bool LanderMutantControl::BeginRun()
 		person->BeginRun();
 	}
 
-	//SpawnMutant(Landers[GetRandomValue(0, Landers.size() - 1)]);
-
 	return false;
 }
 
@@ -84,6 +88,7 @@ void LanderMutantControl::Update(float deltaTime)
 
 		if (lander->MutateLander)
 		{
+			lander->MutateLander = false;
 			SpawnMutant(lander);
 		}
 	}
@@ -130,8 +135,8 @@ void LanderMutantControl::SpawnLanders(int count)
 		{
 			Landers[Landers.size() - 1]->Initialize();
 			Landers[Landers.size() - 1]->SetModel(LanderModel, LanderTexture);
-			Landers[Landers.size() - 1]->SetShotModel(ShotModel, ShotTexture);
 			Landers[Landers.size() - 1]->SetRadarModel(LanderModel, LanderRadarTexture);
+			Landers[Landers.size() - 1]->SetShotModel(ShotModel, ShotTexture);
 			Landers[Landers.size() - 1]->SetPlayer(ThePlayer);
 			Landers[Landers.size() - 1]->SetCamera(TheCamera);
 			Landers[Landers.size() - 1]->Spawn({x, y, 0});
@@ -145,9 +150,11 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 	{
 		Mutants[Mutants.size() - 1]->Initialize();
 		Mutants[Mutants.size() - 1]->SetModel(MutantModel, MutantTexture);
+		Mutants[Mutants.size() - 1]->SetRadarModel(MutantRadar, MutantRadarTexture);
 		Mutants[Mutants.size() - 1]->SetShotModel(ShotModel, ShotTexture);
 		Mutants[Mutants.size() - 1]->SetCamera(TheCamera);
 		Mutants[Mutants.size() - 1]->SetPlayer(ThePlayer);
+		Mutants[Mutants.size() - 1]->BeginRun();
 		Mutants[Mutants.size() - 1]->Spawn(lander->Position);
 	}
 }

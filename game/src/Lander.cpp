@@ -127,14 +127,17 @@ void Lander::Draw()
 {
 	Model3D::Draw();
 
-	MirrorL.Draw();
-	MirrorR.Draw();
-	Radar.Draw();
-
 	for (auto shot : Shots)
 	{
 		shot->Draw();
 	}
+
+	if (!Enabled)
+		return;
+
+	MirrorL.Draw();
+	MirrorR.Draw();
+	Radar.Draw();
 }
 
 void Lander::Spawn(Vector3 position)
@@ -257,7 +260,7 @@ void Lander::GrabPersonMan()
 		return;
 	}
 
-	PersonCaptured->Y(Y() -30);
+	PersonCaptured->Y(Y() -25);
 }
 
 void Lander::SpawnMutatant()

@@ -36,6 +36,10 @@ void EnemyShot::Input()
 void EnemyShot::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
+
+	if (!Enabled)
+		return;
+
 	LifeTimer->Update(deltaTime);
 
 	if (LifeTimer->Elapsed())
@@ -53,10 +57,8 @@ void EnemyShot::Draw()
 {
 	Model3D::Draw();
 
-	float mirror = 7.0f;
-
-	DrawModel(MirrorR, { X() + GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
-	DrawModel(MirrorL, { X() - GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
+	if (Enabled)
+		DrawMirror();
 }
 
 void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)
@@ -65,4 +67,11 @@ void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)
 	LifeTimer->Reset(life);
 	Position = position;
 	Velocity = velocity;
+}
+
+void EnemyShot::DrawMirror()
+{
+	float mirror = 7.0f;
+	DrawModel(MirrorR, { X() + GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
+	DrawModel(MirrorL, { X() - GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
 }

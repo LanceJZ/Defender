@@ -22,4 +22,6 @@ private:
 	Model MirrorR = { 0 };
 	Model MirrorL = { 0 };
 	Timer* LifeTimer = new Timer();
+
+	void DrawMirror();
 };
