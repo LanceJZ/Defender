@@ -37,4 +37,5 @@ private:
 	void FireShot();
 	float AimedShot();
 	void MirrorUpdate();
+	void ChasePlayer();
 };

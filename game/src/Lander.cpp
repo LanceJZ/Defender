@@ -146,6 +146,7 @@ void Lander::Spawn(Vector3 position)
 	CurrentMode = GoingToGround;
 	Position = position;
 	ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
+	PersonCaptured = nullptr;
 
 	float velX = 0;
 

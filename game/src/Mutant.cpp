@@ -83,10 +83,12 @@ void Mutant::Update(float deltaTime)
 	}
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
+	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
 	Radar.Position = Position;
 	Radar.Enabled = Enabled;
 	Radar.Update(deltaTime);
 	MirrorUpdate();
+	ChasePlayer();
 }
 
 void Mutant::Draw()
@@ -147,4 +149,27 @@ void Mutant::MirrorUpdate()
 	MirrorR.X(X() + GetScreenWidth() * mirror);
 	MirrorR.Y(Y());
 	MirrorR.Enabled = Enabled;
+}
+
+void Mutant::ChasePlayer()
+{
+	float speed = GetRandomFloat(90.0f, 150.0f);
+
+	if (ThePlayer->X() < X())
+	{
+		Velocity.x = -speed;
+	}
+	else
+	{
+		Velocity.x = speed;
+	}
+
+	if (ThePlayer->Y() + 100.0f < Y())
+	{
+		Velocity.y = -speed * 0.75f;
+	}
+	else if (ThePlayer->Y() - 100 > Y())
+	{
+		Velocity.y = speed * 0.75f;
+	}
 }
