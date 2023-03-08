@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Pre-Alpha 00.07");
+	SetWindowTitle("Defender Pre-Alpha 00.08");
 	ThePlayer->Initialize();
 	ControlLanderMutant->Initialize();
 	TheLand->Initialize();

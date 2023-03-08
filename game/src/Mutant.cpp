@@ -45,6 +45,11 @@ bool Mutant::Initialize()
 {
 	Model3D::Initialize();
 
+	for (auto shot : Shots)
+	{
+		shot->Initialize();
+	}
+
 	ModelScale = 14;
 	Radius = 14;
 
@@ -53,6 +58,11 @@ bool Mutant::Initialize()
 
 bool Mutant::BeginRun()
 {
+	for (auto shot : Shots)
+	{
+		shot->BeginRun();
+	}
+
 	MirrorL.TheModel = TheModel;
 	MirrorL.ModelScale = ModelScale;
 	MirrorR.TheModel = TheModel;
@@ -75,6 +85,7 @@ void Mutant::Update(float deltaTime)
 		return;
 
 	ShotTimer->Update(deltaTime);
+	ChangeSpeedTimer->Update(deltaTime);
 
 	if (ShotTimer->Elapsed())
 	{
@@ -95,6 +106,11 @@ void Mutant::Draw()
 {
 	Model3D::Draw();
 
+	for (auto shot : Shots)
+	{
+		shot->Draw();
+	}
+
 	if (!Enabled)
 		return;
 
@@ -108,13 +124,14 @@ void Mutant::Spawn(Vector3 position)
 	Enabled = true;
 	Position = position;
 	ShotTimer->Reset(GetRandomFloat(0.3f, 1.5f));
+	ChangeSpeedTimer->Reset(GetRandomFloat(0.1f, 0.3f));
 }
 
 void Mutant::FireShot()
 {
 	float angle = 0;
 
-	if (GetRandomValue(0, 10) < 5)
+	if (GetRandomValue(0, 10) > 1)
 	{
 		angle = AimedShot();
 	}
@@ -126,7 +143,7 @@ void Mutant::FireShot()
 
 	if (!Shots[0]->Enabled)
 	{
-		Shots[0]->Spawn(Position, VelocityFromAngleZ(angle, 150.0f), 7.5f);
+		Shots[0]->Spawn(Position, VelocityFromAngleZ(angle, 350.0f), 4.5f);
 	}
 }
 
@@ -153,23 +170,48 @@ void Mutant::MirrorUpdate()
 
 void Mutant::ChasePlayer()
 {
-	float speed = GetRandomFloat(90.0f, 150.0f);
-
-	if (ThePlayer->X() < X())
+	if (ChangeSpeedTimer->Elapsed())
 	{
-		Velocity.x = -speed;
+		Speed = GetRandomFloat(150.0f, 350.0f);
+		ChangeSpeedTimer->Reset(GetRandomFloat(0.05f, 0.1f));
+	}
+
+	float worldW = GetScreenWidth() * 3.5f;
+	float playerX = ThePlayer->X();
+	float shipX = X();
+
+	float shiplessplayer = shipX - playerX;
+	float playerlessship = playerX - shipX;
+
+	if (shipX - playerX > worldW || playerX - shipX > worldW)
+	{
+		if (ThePlayer->X() < X())
+		{
+			Velocity.x = Speed;
+		}
+		else
+		{
+			Velocity.x = -Speed;
+		}
 	}
 	else
 	{
-		Velocity.x = speed;
+		if (ThePlayer->X() < X())
+		{
+			Velocity.x = -Speed;
+		}
+		else
+		{
+			Velocity.x = Speed;
+		}
 	}
 
 	if (ThePlayer->Y() + 100.0f < Y())
 	{
-		Velocity.y = -speed * 0.75f;
+		Velocity.y = -Speed * 0.25f;
 	}
 	else if (ThePlayer->Y() - 100 > Y())
 	{
-		Velocity.y = speed * 0.75f;
+		Velocity.y = Speed * 0.25f;
 	}
 }

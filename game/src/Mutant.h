@@ -28,11 +28,14 @@ public:
 	void Spawn(Vector3 position);
 
 private:
+	float Speed = 100;
+
 	EnemyRadar Radar;
 	Model3D MirrorR;
 	Model3D MirrorL;
 	Player* ThePlayer = nullptr;
 	Timer* ShotTimer = new Timer();
+	Timer* ChangeSpeedTimer = new Timer();
 
 	void FireShot();
 	float AimedShot();

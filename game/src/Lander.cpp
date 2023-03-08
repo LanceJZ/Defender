@@ -91,7 +91,6 @@ void Lander::Update(float deltaTime)
 
 	if (ShotTimer->Elapsed())
 	{
-		ShotTimer->Reset();
 		FireShot();
 	}
 
@@ -177,10 +176,27 @@ void Lander::FireShot()
 		angle = GetRandomRadian();
 	}
 
-
-	if (!Shots[0]->Enabled)
+	if (CurrentMode != FoundPersonMan)
 	{
-		Shots[0]->Spawn(Position, VelocityFromAngleZ(angle, 125.0f), 8.0f);
+		ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
+
+		if (!Shots[0]->Enabled)
+		{
+			Shots[0]->Spawn(Position, VelocityFromAngleZ(angle, 125.0f), 8.0f);
+		}
+	}
+	else
+	{
+		ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
+
+		for (auto shot : Shots)
+		{
+			if (!shot->Enabled)
+			{
+				shot->Spawn(Position, VelocityFromAngleZ(angle, 125.0f), 8.0f);
+				return;
+			}
+		}
 	}
 }
 
@@ -218,6 +234,7 @@ void Lander::SeekPersonMan()
 				return;
 
 			CurrentMode = FoundPersonMan;
+			ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
 			Velocity.x = 0;
 			Velocity.y = GetRandomFloat(-60, -40);
 			PersonCaptured = person;
