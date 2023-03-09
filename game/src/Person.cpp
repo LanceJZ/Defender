@@ -69,8 +69,16 @@ void Person::Draw()
 	if (!Enabled)
 		return;
 
-	MirrorL.Draw();
-	MirrorR.Draw();
+	if (X() > GetScreenWidth() * 2.75f)
+	{
+		MirrorL.Draw();
+	}
+	else if (X() < -GetScreenWidth() * 2.75f)
+	{
+		MirrorR.Draw();
+	}
+
+
 	Radar.Draw();
 }
 
@@ -78,13 +86,14 @@ void Person::Spawn(Vector3 position)
 {
 	Enabled = true;
 	Position = position;
+
+	float mirror = 7.0f;
+	MirrorL.X(X() - GetScreenWidth() * mirror);
+	MirrorR.X(X() + GetScreenWidth() * mirror);
 }
 
 void Person::MirrorUpdate()
 {
-	float mirror = 7.0f;
 	MirrorL.Y(Y());
 	MirrorR.Y(Y());
-	MirrorL.X(X() + GetScreenWidth() * mirror);
-	MirrorR.X(X() - GetScreenWidth() * mirror);
 }

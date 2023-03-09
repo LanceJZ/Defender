@@ -31,6 +31,12 @@ void Land::SetRadarHorz(Model model, Texture2D texture)
 	RadarHorzR->LoadModel(model, texture);
 }
 
+void Land::SetStar(Model model, Texture2D texture)
+{
+	Star = model;
+	StarTexture = texture;
+}
+
 void Land::SetCamera(Camera* camera)
 {
 	TheCamera = camera;
@@ -52,6 +58,13 @@ bool Land::Initialize()
 	{
 		radar->Initialize();
 	}
+
+	for (int i = 0; i <= 66; i++)
+	{
+		AllTheStars.push_back(new Model3D());
+	}
+
+	StarTimer->Set(1.0f);
 
 	return false;
 }
@@ -106,6 +119,8 @@ bool Land::BeginRun()
 	RadarHorzL->Y(RadarHorzBottom->Y());
 	RadarHorzR->Y(RadarHorzBottom->Y());
 
+	CreateAllTheStars();
+
 	return false;
 }
 
@@ -139,6 +154,8 @@ void Land::Update(float deltaTime)
 	{
 		radar->Enabled = LandParts[0]->Enabled;
 	}
+
+	UpdateAllTheStars(deltaTime);
 }
 
 void Land::Draw()
@@ -151,6 +168,11 @@ void Land::Draw()
 	for (auto radar : RadarLandParts)
 	{
 		radar->Draw();
+	}
+
+	for (auto star : AllTheStars)
+	{
+		star->Draw();
 	}
 
 	UIBackL->Draw();
@@ -190,4 +212,87 @@ Vector2 Land::UpdateRadar(float X, float Y)
 	Y = ((Y * 0.148f) + (GetScreenHeight() * 0.4376f));
 
 	return { X, Y };
+}
+
+void Land::CreateAllTheStars()
+{
+	for (auto star : AllTheStars)
+	{
+		star->X(GetRandomValue(-GetScreenWidth() * 3.5f, GetScreenWidth() * 3.5f));
+		star->Y(GetRandomValue(-GetScreenHeight() * 0.3f, GetScreenHeight() * 0.333f));
+		star->ModelColor = {(unsigned char)GetRandomValue(10, 200),
+			(unsigned char)GetRandomValue(10, 200), (unsigned char)GetRandomValue(10, 200), 255 };
+	}
+
+	vector <Vector2> starLEdge;
+	vector <Vector2> starREdge;
+	vector <Color> starLColor;
+	vector <Color> starRColor;
+
+	for (auto star : AllTheStars)
+	{
+
+		if (star->X() > GetScreenWidth() * 2.5f)
+		{
+			starREdge.push_back({ star->X(), star->Y() });
+			starRColor.push_back(star->ModelColor);
+		}
+
+		if (star->X() < -GetScreenWidth() * 2.5f)
+		{
+			starLEdge.push_back({ star->X(), star->Y() });
+			starLColor.push_back(star->ModelColor);
+		}
+	}
+
+	int iR = 0;
+
+	for (auto star : starREdge)
+	{
+		AllTheStars.push_back(new Model3D());
+		AllTheStars[AllTheStars.size() - 1]->X(star.x - (GetScreenWidth() * 7.0f));
+		AllTheStars[AllTheStars.size() - 1]->Y(star.y);
+		AllTheStars[AllTheStars.size() - 1]->ModelColor = starRColor[iR];
+		iR++;
+	}
+
+	int iL = 0;
+
+	for (auto star : starLEdge)
+	{
+		AllTheStars.push_back(new Model3D());
+		AllTheStars[AllTheStars.size() - 1]->X(star.x + (GetScreenWidth() * 7.0f));
+		AllTheStars[AllTheStars.size() - 1]->Y(star.y);
+		AllTheStars[AllTheStars.size() - 1]->ModelColor = starLColor[iL];
+		iL++;
+	}
+
+	for (auto star : AllTheStars)
+	{
+		star->LoadModel(Star, StarTexture);
+		star->ModelScale = 6;
+	}
+}
+
+void Land::UpdateAllTheStars(float deltaTime)
+{
+	StarTimer->Update(deltaTime);
+
+	if (StarTimer->Elapsed())
+	{
+		StarTimer->Reset(GetRandomFloat(0.1f, 0.75f));
+
+		for (auto star : AllTheStars)
+		{
+			star->Enabled = true;
+		}
+
+		AllTheStars[GetRandomValue(0, AllTheStars.size() - 1)]->Enabled = false;
+	}
+
+	for (auto star : AllTheStars)
+	{
+		star->Update(deltaTime);
+	}
+
 }

@@ -114,8 +114,15 @@ void Mutant::Draw()
 	if (!Enabled)
 		return;
 
-	MirrorL.Draw();
-	MirrorR.Draw();
+	if (X() > GetScreenWidth() * 2.75f)
+	{
+		MirrorL.Draw();
+	}
+	else if (X() < -GetScreenWidth() * 2.75f)
+	{
+		MirrorR.Draw();
+	}
+
 	Radar.Draw();
 }
 

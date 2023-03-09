@@ -134,8 +134,15 @@ void Lander::Draw()
 	if (!Enabled)
 		return;
 
-	MirrorL.Draw();
-	MirrorR.Draw();
+	if (X() > GetScreenWidth() * 2.75f)
+	{
+		MirrorL.Draw();
+	}
+	else if (X() < -GetScreenWidth() * 2.75f)
+	{
+		MirrorR.Draw();
+	}
+
 	Radar.Draw();
 }
 
@@ -244,7 +251,7 @@ void Lander::SeekPersonMan()
 	}
 }
 
-void Lander::FoundPersonManGoingDown() //Add super fast fire rate.
+void Lander::FoundPersonManGoingDown()
 {
 	if (X() != PersonCaptured->X())
 	{
