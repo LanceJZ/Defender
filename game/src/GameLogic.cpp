@@ -16,6 +16,7 @@ bool GameLogic::Initialize()
 	ThePlayer->Initialize();
 	ControlLanderMutant->Initialize();
 	TheLand->Initialize();
+	Bombers->Initialize();
 
 	return false;
 }
@@ -26,6 +27,7 @@ void GameLogic::SetCamera(Camera* camera)
 	ThePlayer->SetCamera(camera);
 	TheLand->SetCamera(camera);
 	ControlLanderMutant->SetCamera(camera);
+	Bombers->SetCamera(camera);
 }
 
 void GameLogic::Load()
@@ -118,6 +120,18 @@ void GameLogic::Load()
 	Image imagest = LoadImage("models/Star.png");
 	TheLand->SetStar(LoadModel("models/Star.obj"), LoadTextureFromImage(imagest));
 	UnloadImage(imagest);
+
+	Image imagebr = LoadImage("models/Bomber.png");
+	Bombers->SetBomber(LoadModel("models/Bomber.obj"), LoadTextureFromImage(imagebr));
+	UnloadImage(imagebr);
+
+	Image imageb = LoadImage("models/Bomb.png");
+	Bombers->SetBomb(LoadModel("models/Bomb.obj"), LoadTextureFromImage(imageb));
+	UnloadImage(imageb);
+
+	Image imagebrR = LoadImage("models/Bomber Radar.png");
+	Bombers->SetBomberRadar(LoadModel("models/Bomber Radar.obj"), LoadTextureFromImage(imagebrR));
+	UnloadImage(imagebrR);
 }
 
 bool GameLogic::BeginRun()
@@ -127,6 +141,8 @@ bool GameLogic::BeginRun()
 	TheLand->BeginRun();
 	ControlLanderMutant->SetPlayer(ThePlayer);
 	ControlLanderMutant->BeginRun();
+	Bombers->SetPlayer(ThePlayer);
+	Bombers->BeginRun();
 
 	return false;
 }
@@ -146,14 +162,16 @@ void GameLogic::Update(float deltaTime)
 		ThePlayer->Update(deltaTime);
 		TheLand->Update(deltaTime);
 		ControlLanderMutant->Update(deltaTime);
+		Bombers->Update(deltaTime);
 	}
 }
 
 void GameLogic::Draw3D()
 {
+	ThePlayer->Draw();
 	TheLand->Draw();
 	ControlLanderMutant->Draw();
-	ThePlayer->Draw();
+	Bombers->Draw();
 }
 
 void GameLogic::Draw2D()

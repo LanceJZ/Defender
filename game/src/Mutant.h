@@ -28,6 +28,7 @@ public:
 	void Spawn(Vector3 position);
 
 private:
+	bool GotNearPlayer = false;
 	float Speed = 100;
 
 	EnemyRadar Radar;

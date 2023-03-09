@@ -34,6 +34,11 @@ void Lander::SetPlayer(Player* player)
 {
 	ThePlayer = player;
 	Radar.SetPlayer(player);
+
+	for (auto shot : Shots)
+	{
+		shot->SetPlayer(ThePlayer);
+	}
 }
 
 void Lander::SetCamera(Camera* camera)
@@ -63,6 +68,7 @@ bool Lander::BeginRun()
 	for (auto shot : Shots)
 	{
 		shot->BeginRun();
+		shot->SetPlayer(ThePlayer);
 	}
 
 	Radar.BeginRun();

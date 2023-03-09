@@ -220,6 +220,7 @@ void Land::CreateAllTheStars()
 	{
 		star->X(GetRandomValue(-GetScreenWidth() * 3.5f, GetScreenWidth() * 3.5f));
 		star->Y(GetRandomValue(-GetScreenHeight() * 0.3f, GetScreenHeight() * 0.333f));
+		star->Z(-10);
 		star->ModelColor = {(unsigned char)GetRandomValue(10, 200),
 			(unsigned char)GetRandomValue(10, 200), (unsigned char)GetRandomValue(10, 200), 255 };
 	}

@@ -192,7 +192,7 @@ void Mutant::ChasePlayer()
 
 	if (shipX - playerX > worldW || playerX - shipX > worldW)
 	{
-		if (ThePlayer->X() < X())
+		if (playerX < X())
 		{
 			Velocity.x = Speed;
 		}
@@ -203,7 +203,7 @@ void Mutant::ChasePlayer()
 	}
 	else
 	{
-		if (ThePlayer->X() < X())
+		if (playerX < X())
 		{
 			Velocity.x = -Speed;
 		}
@@ -213,12 +213,20 @@ void Mutant::ChasePlayer()
 		}
 	}
 
-	if (ThePlayer->Y() + 100.0f < Y())
+	if (GotNearPlayer)
 	{
-		Velocity.y = -Speed * 0.25f;
+		if (ThePlayer->Y() + 100.0f < Y())
+		{
+			Velocity.y = -Speed * 0.25f;
+		}
+		else if (ThePlayer->Y() - 100 > Y())
+		{
+			Velocity.y = Speed * 0.25f;
+		}
 	}
-	else if (ThePlayer->Y() - 100 > Y())
+
+	if (playerX < X() + 75.0f && playerX > X() - 75.0)
 	{
-		Velocity.y = Speed * 0.25f;
+		GotNearPlayer = true;
 	}
 }

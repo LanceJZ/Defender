@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Land.h"
 #include "LanderMutantControl.h"
+#include "BomberControl.h"
 
 enum GameState
 {
@@ -33,9 +34,10 @@ public:
 
 private:
 	bool Pause = false;
+	Camera* TheCamera = nullptr;
 	Player* ThePlayer = new Player();
 	Land* TheLand = new Land();
 	LanderMutantControl* ControlLanderMutant = new LanderMutantControl();
-	Camera* TheCamera = nullptr;
+	BomberControl* Bombers = new BomberControl();
 };
 

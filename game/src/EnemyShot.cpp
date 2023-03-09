@@ -9,6 +9,11 @@ void EnemyShot::SetModel(Model model, Texture2D texture)
 	Model3D::LoadModel(model, texture);
 }
 
+void EnemyShot::SetPlayer(Player* player)
+{
+	ThePlayer = player;
+}
+
 bool EnemyShot::Initialize()
 {
 	Model3D::Initialize();
