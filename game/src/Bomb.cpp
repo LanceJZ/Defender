@@ -49,6 +49,15 @@ void Bomb::Draw()
 {
 	Model3D::Draw();
 
+	if (X() > GetScreenWidth() * 2.75f)
+	{
+		MirrorL.Draw();
+	}
+	else if (X() < -GetScreenWidth() * 2.75f)
+	{
+		MirrorR.Draw();
+	}
+
 }
 
 void Bomb::Spawn(Vector3 position)
