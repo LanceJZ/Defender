@@ -98,8 +98,9 @@ void Mutant::Update(float deltaTime)
 	Radar.Position = Position;
 	Radar.Enabled = Enabled;
 	Radar.Update(deltaTime);
-	MirrorUpdate();
 	ChasePlayer();
+
+	MirrorUpdate(); //Add a common Mirror Update Method.
 }
 
 void Mutant::Draw()

@@ -218,8 +218,8 @@ void Land::CreateAllTheStars()
 {
 	for (auto star : AllTheStars)
 	{
-		star->X(GetRandomValue(-GetScreenWidth() * 3.5f, GetScreenWidth() * 3.5f));
-		star->Y(GetRandomValue(-GetScreenHeight() * 0.3f, GetScreenHeight() * 0.333f));
+		star->X(GetRandomFloat((float)(-GetScreenWidth() * 3.5f), (float)(GetScreenWidth() * 3.5f)));
+		star->Y(GetRandomFloat((float)(-GetScreenHeight() * 0.3f), (float)(GetScreenHeight() * 0.333f)));
 		star->Z(-10);
 		star->ModelColor = {(unsigned char)GetRandomValue(10, 200),
 			(unsigned char)GetRandomValue(10, 200), (unsigned char)GetRandomValue(10, 200), 255 };
@@ -288,7 +288,7 @@ void Land::UpdateAllTheStars(float deltaTime)
 			star->Enabled = true;
 		}
 
-		AllTheStars[GetRandomValue(0, AllTheStars.size() - 1)]->Enabled = false;
+		AllTheStars[(size_t)GetRandomValue(0, (int)AllTheStars.size() - 1)]->Enabled = false;
 	}
 
 	for (auto star : AllTheStars)

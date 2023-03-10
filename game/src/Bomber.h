@@ -4,6 +4,7 @@
 #include "EnemyRadar.h"
 #include "Player.h"
 #include "Bomb.h"
+#include "Timer.h"
 
 class Bomber : public Model3D
 {
@@ -24,10 +25,19 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
+	void Spawn(Vector2 position, float x);
+
 private:
-	Model Bomb;
-	Texture2D BombTexture;
+	Model BombModel = { 0 };
+	Texture2D BombTexture = { 0 };
+	Model3D MirrorR;
+	Model3D MirrorL;
+
 	EnemyRadar Radar;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
+	Timer* DropBombTimer = new Timer();
+
+	void DropABomb();
+	void MirrorUpdate();
 };

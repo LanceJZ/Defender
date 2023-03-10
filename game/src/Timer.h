@@ -10,7 +10,7 @@ public:
 	bool Elapsed();
 
 private:
-	float TheSeconds;
-	float TheAmount;
+	float TheSeconds = 0.0f;
+	float TheAmount = 0.0f;
 };
 

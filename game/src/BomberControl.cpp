@@ -72,12 +72,11 @@ void BomberControl::SpawnBombers(int amount)
 		Bombers.push_back(new Bomber());
 	}
 
-	float xLine = GetRandomFloat(-GetScreenWidth() * 3.5f, GetScreenWidth() * 3.5f);
+	float xLine = GetRandomFloat(GetScreenWidth() * 2.5f, GetScreenWidth() * 3.5f);
+	float xVol = GetRandomFloat(-75, -25);
 
 	for (auto bomber : Bombers)
 	{
-		bomber->X(xLine + GetRandomFloat(-100, 100));
-		bomber->Y(GetRandomFloat(-GetScreenHeight() * 0.3f, GetScreenHeight() * 0.3f));
 		bomber->Initialize();
 		bomber->SetModel(BomberModel, BomberTexture);
 		bomber->SetBomb(BombModel, BombTexture);
@@ -85,6 +84,7 @@ void BomberControl::SpawnBombers(int amount)
 		bomber->SetPlayer(ThePlayer);
 		bomber->SetCamera(TheCamera);
 		bomber->BeginRun();
-		bomber->ModelScale = 10;
+		bomber->Spawn({xLine + GetRandomFloat(-100, 100),
+			GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f)}, xVol);
 	}
 }

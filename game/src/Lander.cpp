@@ -125,7 +125,8 @@ void Lander::Update(float deltaTime)
 	Radar.Position = Position;
 	Radar.Enabled = Enabled;
 	Radar.Update(deltaTime);
-	MirrorUpdate();
+
+	MirrorUpdate(); //Add a common Mirror Update Method.
 }
 
 void Lander::Draw()

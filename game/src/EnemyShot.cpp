@@ -63,7 +63,7 @@ void EnemyShot::Draw()
 	Model3D::Draw();
 
 	if (Enabled)
-		DrawMirror();
+		DrawMirror(); //Add a common Mirror Update Method.
 }
 
 void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)
