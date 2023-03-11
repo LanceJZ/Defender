@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Model3D.h"
 #include "Timer.h"
+#include "EnemyMirror.h"
 
 class Bomb : public Model3D
 {
@@ -20,9 +21,5 @@ public:
 
 private:
 	Timer* LifeTimer = new Timer();
-	Model3D MirrorR;
-	Model3D MirrorL;
-
-	void MirrorUpdate();
-
+	EnemyMirror Mirror;
 };

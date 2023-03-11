@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Model3D.h"
 #include "EnemyRadar.h"
+#include "EnemyMirror.h"
 #include "Player.h"
 #include "Bomb.h"
 #include "Timer.h"
@@ -30,14 +31,11 @@ public:
 private:
 	Model BombModel = { 0 };
 	Texture2D BombTexture = { 0 };
-	Model3D MirrorR;
-	Model3D MirrorL;
-
+	EnemyMirror Mirror;
 	EnemyRadar Radar;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
 	Timer* DropBombTimer = new Timer();
 
 	void DropABomb();
-	void MirrorUpdate();
 };

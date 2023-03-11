@@ -24,10 +24,7 @@ bool Bomb::Initialize()
 
 bool Bomb::BeginRun()
 {
-	MirrorL.TheModel = TheModel;
-	MirrorL.ModelScale = ModelScale;
-	MirrorR.TheModel = TheModel;
-	MirrorR.ModelScale = ModelScale;
+	Mirror.SetModel(TheModel, ModelScale);
 
 	return false;
 }
@@ -41,23 +38,14 @@ void Bomb::Update(float deltaTime)
 	if (LifeTimer->Elapsed())
 		Enabled = false;
 
-	MirrorUpdate(); //Add a common Mirror Update Method.
-
+	Mirror.PositionUpdate(Enabled, X(), Y());
 }
 
 void Bomb::Draw()
 {
 	Model3D::Draw();
 
-	if (X() > GetScreenWidth() * 2.75f)
-	{
-		MirrorL.Draw();
-	}
-	else if (X() < -GetScreenWidth() * 2.75f)
-	{
-		MirrorR.Draw();
-	}
-
+	Mirror.Draw();
 }
 
 void Bomb::Spawn(Vector3 position)
@@ -65,16 +53,4 @@ void Bomb::Spawn(Vector3 position)
 	Enabled = true;
 	Position = position;
 	LifeTimer->Reset(GetRandomFloat(6.66f, 16.66f));
-}
-
-void Bomb::MirrorUpdate()
-{
-	if (X() > GetScreenWidth() * 2.75f)
-	{
-		MirrorL.Draw();
-	}
-	else if (X() < -GetScreenWidth() * 2.75f)
-	{
-		MirrorR.Draw();
-	}
 }

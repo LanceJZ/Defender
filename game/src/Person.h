@@ -3,6 +3,7 @@
 #include "Model3D.h"
 #include "Player.h"
 #include "EnemyRadar.h"
+#include "EnemyMirror.h"
 
 class Person : public Model3D
 {
@@ -24,12 +25,9 @@ public:
 	void Spawn(Vector3 position);
 
 private:
-	Model3D MirrorR;
-	Model3D MirrorL;
+	EnemyMirror Mirror;
 	EnemyRadar Radar;
 
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
-
-	void MirrorUpdate();
 };

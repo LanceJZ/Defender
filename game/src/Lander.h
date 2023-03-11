@@ -5,6 +5,7 @@
 #include "Timer.h"
 #include "Player.h"
 #include "EnemyRadar.h"
+#include "EnemyMirror.h"
 #include "Person.h"
 
 enum Mode
@@ -43,8 +44,7 @@ public:
 private:
 	float GroundHoverY = 0;
 	Mode CurrentMode = GoingToGround;
-	Model3D MirrorR;
-	Model3D MirrorL;
+	EnemyMirror Mirror;
 	EnemyRadar Radar;
 	Timer* ShotTimer = new Timer();
 	Player* ThePlayer = nullptr;
@@ -58,6 +58,5 @@ private:
 	void FireShot();
 	void FireShots();
 	float AimedShot();
-	void MirrorUpdate();
 };
 

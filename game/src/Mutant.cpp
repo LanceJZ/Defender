@@ -63,11 +63,9 @@ bool Mutant::BeginRun()
 		shot->BeginRun();
 	}
 
-	MirrorL.TheModel = TheModel;
-	MirrorL.ModelScale = ModelScale;
-	MirrorR.TheModel = TheModel;
-	MirrorR.ModelScale = ModelScale;
+	Mirror.SetModel(TheModel, ModelScale);
 	Radar.ModelScale = 2;
+	Radar.BeginRun();
 
 	return false;
 }
@@ -99,8 +97,7 @@ void Mutant::Update(float deltaTime)
 	Radar.Enabled = Enabled;
 	Radar.Update(deltaTime);
 	ChasePlayer();
-
-	MirrorUpdate(); //Add a common Mirror Update Method.
+	Mirror.PositionUpdate(Enabled, X(), Y());
 }
 
 void Mutant::Draw()
@@ -115,15 +112,7 @@ void Mutant::Draw()
 	if (!Enabled)
 		return;
 
-	if (X() > GetScreenWidth() * 2.75f)
-	{
-		MirrorL.Draw();
-	}
-	else if (X() < -GetScreenWidth() * 2.75f)
-	{
-		MirrorR.Draw();
-	}
-
+	Mirror.Draw();
 	Radar.Draw();
 }
 
@@ -163,17 +152,6 @@ float Mutant::AimedShot()
 	aimv.x += ThePlayer->Velocity.x;
 
 	return AngleFromVectorZ(aimv) + GetRandomFloat(-percentChance, percentChance);
-}
-
-void Mutant::MirrorUpdate()
-{
-	float mirror = 7.0f;
-	MirrorL.X(X() - GetScreenWidth() * mirror);
-	MirrorL.Y(Y());
-	MirrorL.Enabled = Enabled;
-	MirrorR.X(X() + GetScreenWidth() * mirror);
-	MirrorR.Y(Y());
-	MirrorR.Enabled = Enabled;
 }
 
 void Mutant::ChasePlayer()

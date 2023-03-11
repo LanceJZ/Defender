@@ -77,12 +77,13 @@ void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)
 void EnemyShot::DrawMirror()
 {
 	float mirror = 7.0f;
+	float xmult = 2.75f;
 
-	if (X() > GetScreenWidth() * 2.75f)
+	if (X() > GetScreenWidth() * xmult)
 	{
 		DrawModel(MirrorL, { X() - GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
 	}
-	else if (X() < -GetScreenWidth() * 2.75f)
+	else if (X() < -GetScreenWidth() * xmult)
 	{
 		DrawModel(MirrorR, { X() + GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
 	}

@@ -3,6 +3,7 @@
 #include "Model3D.h"
 #include "EnemyShot.h"
 #include "EnemyRadar.h"
+#include "EnemyMirror.h"
 #include "Player.h"
 #include "Timer.h"
 
@@ -32,14 +33,12 @@ private:
 	float Speed = 100;
 
 	EnemyRadar Radar;
-	Model3D MirrorR;
-	Model3D MirrorL;
+	EnemyMirror Mirror;
 	Player* ThePlayer = nullptr;
 	Timer* ShotTimer = new Timer();
 	Timer* ChangeSpeedTimer = new Timer();
 
 	void FireShot();
 	float AimedShot();
-	void MirrorUpdate();
 	void ChasePlayer();
 };

@@ -32,6 +32,7 @@ bool Person::Initialize()
 	Radar.Initialize();
 
 	ModelScale = 5;
+	Radar.ModelScale = 4;
 	Enabled = false;
 
 	return false;
@@ -39,12 +40,8 @@ bool Person::Initialize()
 
 bool Person::BeginRun()
 {
-	MirrorL.TheModel = TheModel;
-	MirrorL.ModelScale = ModelScale;
-	MirrorR.TheModel = TheModel;
-	MirrorR.ModelScale = ModelScale;
+	Mirror.SetModel(TheModel, ModelScale);
 	Radar.BeginRun();
-	Radar.ModelScale = 4;
 
 	return false;
 }
@@ -56,7 +53,7 @@ void Person::Update(float deltaTime)
 	if (!Enabled)
 		return;
 
-	MirrorUpdate();
+	Mirror.PositionUpdate(Enabled, X(), Y());
 	Radar.Position = Position;
 	Radar.Enabled = Enabled;
 	Radar.Update(deltaTime);
@@ -69,16 +66,7 @@ void Person::Draw()
 	if (!Enabled)
 		return;
 
-	if (X() > GetScreenWidth() * 2.75f)
-	{
-		MirrorL.Draw();
-	}
-	else if (X() < -GetScreenWidth() * 2.75f)
-	{
-		MirrorR.Draw();
-	}
-
-
+	Mirror.Draw();
 	Radar.Draw();
 }
 
@@ -86,14 +74,4 @@ void Person::Spawn(Vector3 position)
 {
 	Enabled = true;
 	Position = position;
-
-	float mirror = 7.0f;
-	MirrorL.X(X() - GetScreenWidth() * mirror);
-	MirrorR.X(X() + GetScreenWidth() * mirror);
-}
-
-void Person::MirrorUpdate()
-{
-	MirrorL.Y(Y());
-	MirrorR.Y(Y());
 }
