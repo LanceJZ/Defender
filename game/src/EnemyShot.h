@@ -1,5 +1,4 @@
 #pragma once
-#include "raylib.h"
 #include "Model3D.h"
 #include "Timer.h"
 #include "Player.h"
@@ -19,6 +18,8 @@ public:
 	virtual void Draw();
 
 	void Spawn(Vector3 position, Vector3 velocity, float life);
+	float GetShotAngle(Vector3 position);
+	float AimedShot(Vector3 position);
 
 private:
 	Model MirrorR = { 0 };

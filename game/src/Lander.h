@@ -1,5 +1,4 @@
 #pragma once
-#include "raylib.h"
 #include "Model3D.h"
 #include "EnemyShot.h"
 #include "Timer.h"
@@ -57,6 +56,5 @@ private:
 	void SpawnMutatant();
 	void FireShot();
 	void FireShots();
-	float AimedShot();
 };
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "raylib.h"
 #include "Model3D.h"
 #include "Player.h"
 #include "EnemyRadar.h"
@@ -29,5 +28,4 @@ private:
 	EnemyRadar Radar;
 
 	Player* ThePlayer = nullptr;
-	Camera* TheCamera = nullptr;
 };

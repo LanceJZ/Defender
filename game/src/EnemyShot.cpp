@@ -88,3 +88,29 @@ void EnemyShot::DrawMirror()
 		DrawModel(MirrorR, { X() + GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
 	}
 }
+
+float EnemyShot::GetShotAngle(Vector3 position)
+{
+	float angle = 0;
+
+	if (GetRandomValue(0, 10) > 1)
+	{
+		angle = AimedShot(position);
+	}
+	else
+	{
+		angle = GetRandomRadian();
+	}
+
+	return angle;
+}
+
+float EnemyShot::AimedShot(Vector3 position)
+{
+	float percentChance = GetRandomFloat(0.0f, 0.05f);
+
+	Vector3 aimv = ThePlayer->Position;
+	aimv.x += ThePlayer->Velocity.x;
+
+	return AngleFromVectorZ(aimv) + GetRandomFloat(-percentChance, percentChance);
+}

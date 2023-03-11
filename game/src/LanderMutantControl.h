@@ -1,9 +1,8 @@
 #pragma once
-#include "raylib.h"
+#include "Common.h"
 #include "Lander.h"
 #include "Mutant.h"
 #include "Person.h"
-#include "Common.h"
 #include "Player.h"
 
 class LanderMutantControl : Common

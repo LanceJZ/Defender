@@ -45,6 +45,9 @@ void Bomb::Draw()
 {
 	Model3D::Draw();
 
+	if (!Enabled)
+		return;
+
 	Mirror.Draw();
 }
 
@@ -52,5 +55,6 @@ void Bomb::Spawn(Vector3 position)
 {
 	Enabled = true;
 	Position = position;
+	Mirror.PositionUpdate(Enabled, X(), Y());
 	LifeTimer->Reset(GetRandomFloat(6.66f, 16.66f));
 }

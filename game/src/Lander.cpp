@@ -95,7 +95,15 @@ void Lander::Update(float deltaTime)
 
 	if (ShotTimer->Elapsed())
 	{
-		FireShot();
+		if (CurrentMode != FoundPersonMan)
+		{
+			FireShot();
+		}
+		else
+		{
+			FireShots();
+		}
+
 	}
 
 	if (CurrentMode == GoingToGround)
@@ -168,54 +176,26 @@ void Lander::Spawn(Vector3 position)
 
 void Lander::FireShot()
 {
-	float angle = 0;
+	ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
 
-	if (GetRandomValue(0, 10) < 5)
+	if (!Shots[0]->Enabled)
 	{
-		angle = AimedShot();
-	}
-	else
-	{
-		angle = GetRandomRadian();
-	}
-
-	if (CurrentMode != FoundPersonMan)
-	{
-		ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
-
-		if (!Shots[0]->Enabled)
-		{
-			Shots[0]->Spawn(Position, VelocityFromAngleZ(angle, 125.0f), 8.0f);
-		}
-	}
-	else
-	{
-		ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
-
-		for (auto shot : Shots)
-		{
-			if (!shot->Enabled)
-			{
-				shot->Spawn(Position, VelocityFromAngleZ(angle, 125.0f), 8.0f);
-				return;
-			}
-		}
+		Shots[0]->Spawn(Position, VelocityFromAngleZ(Shots[0]->GetShotAngle(Position), 125.0f), 8.0f);
 	}
 }
 
-void Lander::FireShots() //When Lander lowers to grab human, shoots four at a time, four times as rapid.
+void Lander::FireShots()
 {
+	ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
 
-}
-
-float Lander::AimedShot()
-{
-	float percentChance = GetRandomFloat(0.0f, 0.075f);
-
-	Vector3 aimv = ThePlayer->Position;
-	aimv.x += ThePlayer->Velocity.x;
-
-	return AngleFromVectorZ(aimv) + GetRandomFloat(-percentChance, percentChance);
+	for (auto shot : Shots)
+	{
+		if (!shot->Enabled)
+		{
+			shot->Spawn(Position, VelocityFromAngleZ(Shots[0]->GetShotAngle(Position), 125.0f), 8.0f);
+			return;
+		}
+	}
 }
 
 void Lander::GoToGround()

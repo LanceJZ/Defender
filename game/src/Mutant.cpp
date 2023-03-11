@@ -34,6 +34,11 @@ void Mutant::SetPlayer(Player* player)
 {
 	ThePlayer = player;
 	Radar.SetPlayer(player);
+
+	for (auto shot : Shots)
+	{
+		shot->SetPlayer(ThePlayer);
+	}
 }
 
 void Mutant::SetCamera(Camera* camera)
@@ -126,32 +131,10 @@ void Mutant::Spawn(Vector3 position)
 
 void Mutant::FireShot()
 {
-	float angle = 0;
-
-	if (GetRandomValue(0, 10) > 1)
-	{
-		angle = AimedShot();
-	}
-	else
-	{
-		angle = GetRandomRadian();
-	}
-
-
 	if (!Shots[0]->Enabled)
 	{
-		Shots[0]->Spawn(Position, VelocityFromAngleZ(angle, 350.0f), 4.5f);
+		Shots[0]->Spawn(Position, VelocityFromAngleZ(Shots[0]->GetShotAngle(Position), 350.0f), 4.5f);
 	}
-}
-
-float Mutant::AimedShot()
-{
-	float percentChance = GetRandomFloat(0.0f, 0.05f);
-
-	Vector3 aimv = ThePlayer->Position;
-	aimv.x += ThePlayer->Velocity.x;
-
-	return AngleFromVectorZ(aimv) + GetRandomFloat(-percentChance, percentChance);
 }
 
 void Mutant::ChasePlayer()

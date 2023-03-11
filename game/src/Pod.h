@@ -1,15 +1,20 @@
 #pragma once
+#include "raylib.h"
 #include "Model3D.h"
-#include "Timer.h"
+#include "Swarmer.h"
 #include "EnemyMirror.h"
+#include "EnemyRadar.h"
 
-class Bomb : public Model3D
+class Pod : public Model3D
 {
 public:
-	Bomb();
-	virtual ~Bomb();
+	Pod();
+	virtual ~Pod();
 
 	void SetModel(Model model, Texture2D texture);
+	void SetRadar(Model model, Texture2D texture);
+	void SetPlayer(Player* player);
+	void SetCamera(Camera* camera);
 	bool Initialize();
 	bool BeginRun();
 
@@ -19,6 +24,6 @@ public:
 	void Spawn(Vector3 position);
 
 private:
-	Timer* LifeTimer = new Timer();
 	EnemyMirror Mirror;
+	EnemyRadar Radar;
 };

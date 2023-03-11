@@ -1,5 +1,4 @@
 #pragma once
-#include "raylib.h"
 #include "Common.h"
 #include "Player.h"
 #include "Bomber.h"

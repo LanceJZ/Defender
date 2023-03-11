@@ -1,31 +1,35 @@
-#include "Person.h"
+#include "Pod.h"
 
-Person::~Person()
+Pod::Pod()
+{
+
+}
+
+Pod::~Pod()
 {
 }
 
-void Person::SetModel(Model model, Texture2D texture)
+void Pod::SetModel(Model model, Texture2D texture)
 {
 	Model3D::LoadModel(model, texture);
 }
 
-void Person::SetRadar(Model model, Texture2D texture)
+void Pod::SetRadar(Model model, Texture2D texture)
 {
 	Radar.SetModel(model, texture);
 }
 
-void Person::SetPlayer(Player* player)
+void Pod::SetPlayer(Player* player)
 {
-	ThePlayer = player;
 	Radar.SetPlayer(player);
 }
 
-void Person::SetCamera(Camera* camera)
+void Pod::SetCamera(Camera* camera)
 {
 	Radar.SetCamera(camera);
 }
 
-bool Person::Initialize()
+bool Pod::Initialize()
 {
 	Model3D::Initialize();
 
@@ -38,7 +42,7 @@ bool Person::Initialize()
 	return false;
 }
 
-bool Person::BeginRun()
+bool Pod::BeginRun()
 {
 	Mirror.SetModel(TheModel, ModelScale);
 	Radar.BeginRun();
@@ -46,20 +50,18 @@ bool Person::BeginRun()
 	return false;
 }
 
-void Person::Update(float deltaTime)
+void Pod::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
-
-	if (!Enabled)
-		return;
 
 	Mirror.PositionUpdate(Enabled, X(), Y());
 	Radar.Position = Position;
 	Radar.Enabled = Enabled;
 	Radar.Update(deltaTime);
+
 }
 
-void Person::Draw()
+void Pod::Draw()
 {
 	Model3D::Draw();
 
@@ -70,7 +72,7 @@ void Person::Draw()
 	Radar.Draw();
 }
 
-void Person::Spawn(Vector3 position)
+void Pod::Spawn(Vector3 position)
 {
 	Enabled = true;
 	Position = position;

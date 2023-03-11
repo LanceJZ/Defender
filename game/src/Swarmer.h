@@ -1,22 +1,22 @@
 #pragma once
+#include "raylib.h"
 #include "Model3D.h"
 #include "EnemyShot.h"
-#include "EnemyRadar.h"
 #include "EnemyMirror.h"
-#include "Player.h"
+#include "EnemyRadar.h"
 #include "Timer.h"
 
-class Mutant : public Model3D
+class Swarmer : public Model3D
 {
 public:
-	Mutant();
-	virtual ~Mutant();
+	Swarmer();
+	virtual ~Swarmer();
 
 	EnemyShot* Shots[4];
 
 	void SetModel(Model model, Texture2D texture);
 	void SetShotModel(Model model, Texture2D texture);
-	void SetRadarModel(Model model, Texture2D texture);
+	void SetRadar(Model model, Texture2D texture);
 	void SetPlayer(Player* player);
 	void SetCamera(Camera* camera);
 	bool Initialize();
@@ -28,15 +28,12 @@ public:
 	void Spawn(Vector3 position);
 
 private:
-	bool GotNearPlayer = false;
-	float Speed = 100;
-
-	EnemyRadar Radar;
 	EnemyMirror Mirror;
+	EnemyRadar Radar;
+
 	Player* ThePlayer = nullptr;
+	Camera* TheCamera = nullptr;
 	Timer* ShotTimer = new Timer();
-	Timer* ChangeSpeedTimer = new Timer();
 
 	void FireShot();
-	void ChasePlayer();
 };
