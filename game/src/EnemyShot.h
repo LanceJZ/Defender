@@ -1,5 +1,6 @@
 #pragma once
 #include "Model3D.h"
+#include "EnemyMirror.h"
 #include "Timer.h"
 #include "Player.h"
 
@@ -22,10 +23,7 @@ public:
 	float AimedShot(Vector3 position);
 
 private:
-	Model MirrorR = { 0 };
-	Model MirrorL = { 0 };
 	Timer* LifeTimer = new Timer();
 	Player* ThePlayer = nullptr;
-
-	void DrawMirror();
+	EnemyMirror Mirror;
 };

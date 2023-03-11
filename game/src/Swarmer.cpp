@@ -110,9 +110,6 @@ void Swarmer::Draw()
 		shot->Draw();
 	}
 
-	if (!Enabled)
-		return;
-
 	Mirror.Draw();
 	Radar.Draw();
 }

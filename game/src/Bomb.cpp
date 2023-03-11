@@ -45,9 +45,6 @@ void Bomb::Draw()
 {
 	Model3D::Draw();
 
-	if (!Enabled)
-		return;
-
 	Mirror.Draw();
 }
 

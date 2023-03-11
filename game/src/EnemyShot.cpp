@@ -27,8 +27,7 @@ bool EnemyShot::Initialize()
 
 bool EnemyShot::BeginRun()
 {
-	MirrorR = TheModel;
-	MirrorL = TheModel;
+	Mirror.SetModel(TheModel, ModelScale);
 
 	return false;
 }
@@ -56,14 +55,15 @@ void EnemyShot::Update(float deltaTime)
 	{
 		Enabled = false;
 	}
+
+	Mirror.PositionUpdate(Enabled, X(), Y());
 }
 
 void EnemyShot::Draw()
 {
 	Model3D::Draw();
 
-	if (Enabled)
-		DrawMirror(); //Add a common Mirror Update Method.
+	Mirror.Draw();
 }
 
 void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)
@@ -72,21 +72,7 @@ void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)
 	LifeTimer->Reset(life);
 	Position = position;
 	Velocity = velocity;
-}
-
-void EnemyShot::DrawMirror()
-{
-	float mirror = 7.0f;
-	float xmult = 2.75f;
-
-	if (X() > GetScreenWidth() * xmult)
-	{
-		DrawModel(MirrorL, { X() - GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
-	}
-	else if (X() < -GetScreenWidth() * xmult)
-	{
-		DrawModel(MirrorR, { X() + GetScreenWidth() * mirror, Y(), 0}, ModelScale, ModelColor);
-	}
+	Mirror.PositionUpdate(Enabled, X(), Y());
 }
 
 float EnemyShot::GetShotAngle(Vector3 position)
