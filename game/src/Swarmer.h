@@ -14,9 +14,8 @@ public:
 
 	EnemyShot* Shots[4];
 
-	void SetModel(Model model, Texture2D texture);
-	void SetShotModel(Model model, Texture2D texture);
-	void SetRadar(Model model, Texture2D texture);
+	void SetShotModel(Model model);
+	void SetRadar(Model model);
 	void SetPlayer(Player* player);
 	void SetCamera(Camera* camera);
 	bool Initialize();

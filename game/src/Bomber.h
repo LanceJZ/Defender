@@ -14,9 +14,8 @@ public:
 	Bomber();
 	virtual ~Bomber();
 
-	void SetModel(Model model, Texture2D texture);
-	void SetBomb(Model model, Texture2D texture);
-	void SetRadar(Model model, Texture2D texture);
+	void SetBomb(Model model);
+	void SetRadar(Model model);
 	void SetPlayer(Player* player);
 	void SetCamera(Camera* camera);
 	bool Initialize();
@@ -29,7 +28,6 @@ public:
 
 private:
 	Model BombModel = { 0 };
-	Texture2D BombTexture = { 0 };
 	EnemyMirror Mirror;
 	EnemyRadar Radar;
 	Player* ThePlayer = nullptr;

@@ -9,7 +9,6 @@ class EnemyShot : public Model3D
 public:
 	virtual ~EnemyShot();
 
-	void SetModel(Model model, Texture2D texture);
 	void SetPlayer(Player* player);
 	bool Initialize();
 	bool BeginRun();

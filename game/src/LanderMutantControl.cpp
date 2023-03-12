@@ -6,44 +6,37 @@ LanderMutantControl::~LanderMutantControl()
 
 void LanderMutantControl::SetLanderModel(Model model, Texture2D texture)
 {
-	LanderModel = model;
-	LanderTexture = texture;
+	LanderModel = LoadTextureToModel(model, texture);
 }
 
 void LanderMutantControl::SetMutantModel(Model model, Texture2D texture)
 {
-	MutantModel = model;
-	MutantTexture = texture;
+	MutantModel = LoadTextureToModel(model, texture);
 }
 
 void LanderMutantControl::SetShotModel(Model model, Texture2D texture)
 {
-	ShotModel = model;
-	ShotTexture = texture;
+	ShotModel = LoadTextureToModel(model, texture);
 }
 
 void LanderMutantControl::SetLanderRadarModel(Model model, Texture2D texture)
 {
-	LanderRadar = model;
-	LanderRadarTexture = texture;
+	LanderRadar = LoadTextureToModel(model, texture);
 }
 
 void LanderMutantControl::SetPersonModel(Model model, Texture2D texture)
 {
-	PersonModel = model;
-	PersonTexture = texture;
+	PersonModel = LoadTextureToModel(model, texture);
 }
 
 void LanderMutantControl::SetPersonRadar(Model model, Texture2D texture)
 {
-	PersonRadar = model;
-	PersonRadarTexture = texture;
+	PersonRadar = LoadTextureToModel(model, texture);
 }
 
 void LanderMutantControl::SetMutantRadarModel(Model model, Texture2D texture)
 {
-	MutantRadar = model;
-	MutantRadarTexture = texture;
+	MutantRadar = LoadTextureToModel(model, texture);
 }
 
 void LanderMutantControl::SetPlayer(Player* player)
@@ -134,9 +127,9 @@ void LanderMutantControl::SpawnLanders(int count)
 		Landers.push_back(new Lander());
 		{
 			Landers[Landers.size() - 1]->Initialize();
-			Landers[Landers.size() - 1]->SetModel(LanderModel, LanderTexture);
-			Landers[Landers.size() - 1]->SetRadarModel(LanderModel, LanderRadarTexture);
-			Landers[Landers.size() - 1]->SetShotModel(ShotModel, ShotTexture);
+			Landers[Landers.size() - 1]->TheModel= LanderModel;
+			Landers[Landers.size() - 1]->SetRadarModel(LanderRadar);
+			Landers[Landers.size() - 1]->SetShotModel(ShotModel);
 			Landers[Landers.size() - 1]->SetPlayer(ThePlayer);
 			Landers[Landers.size() - 1]->SetCamera(TheCamera);
 			Landers[Landers.size() - 1]->Spawn({x, y, 0});
@@ -149,9 +142,9 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 	Mutants.push_back(new Mutant());
 	{
 		Mutants[Mutants.size() - 1]->Initialize();
-		Mutants[Mutants.size() - 1]->SetModel(MutantModel, MutantTexture);
-		Mutants[Mutants.size() - 1]->SetRadarModel(MutantRadar, MutantRadarTexture);
-		Mutants[Mutants.size() - 1]->SetShotModel(ShotModel, ShotTexture);
+		Mutants[Mutants.size() - 1]->TheModel = MutantModel;
+		Mutants[Mutants.size() - 1]->SetRadarModel(MutantRadar);
+		Mutants[Mutants.size() - 1]->SetShotModel(ShotModel);
 		Mutants[Mutants.size() - 1]->SetCamera(TheCamera);
 		Mutants[Mutants.size() - 1]->SetPlayer(ThePlayer);
 		Mutants[Mutants.size() - 1]->BeginRun();
@@ -169,8 +162,8 @@ void LanderMutantControl::SpawnPoeple(int count)
 		People.push_back(new Person());
 		{
 			People[People.size() - 1]->Initialize();
-			People[People.size() - 1]->SetModel(PersonModel, PersonTexture);
-			People[People.size() - 1]->SetRadar(PersonRadar, PersonRadarTexture);
+			People[People.size() - 1]->TheModel = PersonModel;
+			People[People.size() - 1]->SetRadar(PersonRadar);
 			People[People.size() - 1]->SetPlayer(ThePlayer);
 			People[People.size() - 1]->SetCamera(TheCamera);
 			People[People.size() - 1]->Spawn({ x, y, 0 });

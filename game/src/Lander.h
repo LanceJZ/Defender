@@ -27,9 +27,8 @@ public:
 	EnemyShot* Shots[4];
 	vector<Person*> People; //The Person Man.
 
-	void SetModel(Model model, Texture2D texture);
-	void SetShotModel(Model model, Texture2D texture);
-	void SetRadarModel(Model model, Texture2D texture);
+	void SetShotModel(Model model);
+	void SetRadarModel(Model model);
 	void SetPlayer(Player* player);
 	void SetCamera(Camera* camera);
 	bool Initialize();

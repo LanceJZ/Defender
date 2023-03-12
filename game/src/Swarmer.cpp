@@ -12,22 +12,17 @@ Swarmer::~Swarmer()
 {
 }
 
-void Swarmer::SetModel(Model model, Texture2D texture)
-{
-	Model3D::LoadModel(model, texture);
-}
-
-void Swarmer::SetShotModel(Model model, Texture2D texture)
+void Swarmer::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
 	{
-		shot->SetModel(model, texture);
+		shot->TheModel = model;
 	}
 }
 
-void Swarmer::SetRadar(Model model, Texture2D texture)
+void Swarmer::SetRadar(Model model)
 {
-	Radar.SetModel(model, texture);
+	Radar.TheModel = model;
 }
 
 void Swarmer::SetPlayer(Player* player)

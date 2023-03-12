@@ -8,20 +8,14 @@ Bomber::~Bomber()
 {
 }
 
-void Bomber::SetModel(Model model, Texture2D texture)
-{
-	Model3D::LoadModel(model, texture);
-}
-
-void Bomber::SetBomb(Model model, Texture2D texture)
+void Bomber::SetBomb(Model model)
 {
 	BombModel = model;
-	BombTexture = texture;
 }
 
-void Bomber::SetRadar(Model model, Texture2D texture)
+void Bomber::SetRadar(Model model)
 {
-	Radar.LoadModel(model, texture);
+	Radar.TheModel = model;
 }
 
 void Bomber::SetPlayer(Player* player)
@@ -141,10 +135,9 @@ void Bomber::DropABomb()
 	{
 		Bombs.push_back(new Bomb());
 		Bombs[Bombs.size() - 1]->Initialize();
-		Bombs[Bombs.size() - 1]->LoadModel(BombModel, BombTexture);
+		Bombs[Bombs.size() - 1]->TheModel = BombModel;
 		Bombs[Bombs.size() - 1]->BeginRun();
 	}
-
 
 	Bombs[bombspawn]->Spawn(Position);
 }

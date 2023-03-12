@@ -6,6 +6,15 @@ bool Common::Initialize()
 	return false;
 }
 
+Model Common::LoadTextureToModel(Model model, Texture2D texture)
+{
+	Model buildModel;
+	buildModel = model;
+	buildModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+
+	return buildModel;
+}
+
 float Common::GetRandomScreenY()
 {
 	return GetRandomFloat(-GameScreenHeight, GameScreenHeight);

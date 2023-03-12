@@ -24,11 +24,8 @@ public:
 
 private:
 	Model BomberModel = { 0 };
-	Texture2D BomberTexture = { 0 };
 	Model BombModel = { 0 };
-	Texture2D BombTexture = { 0 };
 	Model BomberRadarModel = { 0 };
-	Texture2D BomberRadarTexture = { 0 };
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
 

@@ -9,7 +9,7 @@ public:
 	virtual ~PlayerShot();
 
 	bool Initialize();
-	void SetTailModel(Model model, Texture2D texture);
+	void SetTailModel(Model model);
 	virtual void Load();
 	bool BeginRun();
 

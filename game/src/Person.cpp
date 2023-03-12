@@ -4,14 +4,9 @@ Person::~Person()
 {
 }
 
-void Person::SetModel(Model model, Texture2D texture)
+void Person::SetRadar(Model model)
 {
-	Model3D::LoadModel(model, texture);
-}
-
-void Person::SetRadar(Model model, Texture2D texture)
-{
-	Radar.SetModel(model, texture);
+	Radar.TheModel = model;
 }
 
 void Person::SetPlayer(Player* player)

@@ -4,11 +4,6 @@ EnemyShot::~EnemyShot()
 {
 }
 
-void EnemyShot::SetModel(Model model, Texture2D texture)
-{
-	Model3D::LoadModel(model, texture);
-}
-
 void EnemyShot::SetPlayer(Player* player)
 {
 	ThePlayer = player;
@@ -79,7 +74,7 @@ float EnemyShot::GetShotAngle(Vector3 position)
 {
 	float angle = 0;
 
-	if (GetRandomValue(0, 10) > 1)
+	if (GetRandomValue(0, 10) > 3)
 	{
 		angle = AimedShot(position);
 	}
@@ -91,7 +86,7 @@ float EnemyShot::GetShotAngle(Vector3 position)
 	return angle;
 }
 
-float EnemyShot::AimedShot(Vector3 position)
+float EnemyShot::AimedShot(Vector3 position) //TODO: add aiming for other side when player near edge.
 {
 	float percentChance = GetRandomFloat(0.0f, 0.05f);
 

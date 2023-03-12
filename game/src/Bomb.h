@@ -9,7 +9,6 @@ public:
 	Bomb();
 	virtual ~Bomb();
 
-	void SetModel(Model model, Texture2D texture);
 	bool Initialize();
 	bool BeginRun();
 

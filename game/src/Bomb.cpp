@@ -8,11 +8,6 @@ Bomb::~Bomb()
 {
 }
 
-void Bomb::SetModel(Model model, Texture2D texture)
-{
-	Model3D::LoadModel(model, texture);
-}
-
 bool Bomb::Initialize()
 {
 	Model3D::Initialize();

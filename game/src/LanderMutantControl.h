@@ -37,13 +37,6 @@ private:
 	Model LanderRadar;
 	Model PersonRadar;
 	Model MutantRadar;
-	Texture2D LanderTexture;
-	Texture2D MutantTexture;
-	Texture2D ShotTexture;
-	Texture2D PersonTexture;
-	Texture2D LanderRadarTexture;
-	Texture2D PersonRadarTexture;
-	Texture2D MutantRadarTexture;
 
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;

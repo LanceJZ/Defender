@@ -31,9 +31,9 @@ bool PlayerShot::Initialize()
 	return false;
 }
 
-void PlayerShot::SetTailModel(Model model, Texture2D texture)
+void PlayerShot::SetTailModel(Model model)
 {
-	Tail->LoadModel(model, texture);
+	Tail->TheModel = model;
 }
 
 void PlayerShot::Load()

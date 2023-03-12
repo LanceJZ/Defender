@@ -34,14 +34,14 @@ void Player::SetCamera(Camera* camera)
 
 void Player::SetFlameModel(Model model, Texture2D texture)
 {
-	Flame.LoadModel(model, texture);
+	Flame.TheModel = LoadTextureToModel(model, texture);
 }
 
 void Player::SetShotModel(Model model, Texture2D texture)
 {
 	for (auto shot : Shots)
 	{
-		shot->LoadModel(model, texture);
+		shot->TheModel = LoadTextureToModel(model, texture);
 	}
 }
 
@@ -49,13 +49,13 @@ void Player::SetTailModel(Model model, Texture2D texture)
 {
 	for (auto shot : Shots)
 	{
-		shot->SetTailModel(model, texture);
+		shot->SetTailModel(LoadTextureToModel(model, texture));
 	}
 }
 
 void Player::SetRadarModel(Model model, Texture2D texture)
 {
-	Radar.LoadModel(model, texture);
+	Radar.TheModel = LoadTextureToModel(model, texture);
 }
 
 bool Player::BeginRun()

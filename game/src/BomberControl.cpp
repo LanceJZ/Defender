@@ -11,20 +11,17 @@ BomberControl::~BomberControl()
 
 void BomberControl::SetBomber(Model model, Texture2D texture)
 {
-	BomberModel = model;
-	BomberTexture = texture;
+	BomberModel = LoadTextureToModel(model, texture);
 }
 
 void BomberControl::SetBomb(Model model, Texture2D texture)
 {
-	BombModel = model;
-	BombTexture = texture;
+	BombModel = LoadTextureToModel(model, texture);
 }
 
 void BomberControl::SetBomberRadar(Model model, Texture2D texture)
 {
-	BomberRadarModel = model;
-	BomberRadarTexture = texture;
+	BomberRadarModel = LoadTextureToModel(model, texture);
 }
 
 void BomberControl::SetPlayer(Player* player)
@@ -78,9 +75,9 @@ void BomberControl::SpawnBombers(int amount)
 	for (auto bomber : Bombers)
 	{
 		bomber->Initialize();
-		bomber->SetModel(BomberModel, BomberTexture);
-		bomber->SetBomb(BombModel, BombTexture);
-		bomber->SetRadar(BomberRadarModel, BomberRadarTexture);
+		bomber->TheModel = BomberModel;
+		bomber->SetBomb(BombModel);
+		bomber->SetRadar(BomberRadarModel);
 		bomber->SetPlayer(ThePlayer);
 		bomber->SetCamera(TheCamera);
 		bomber->BeginRun();

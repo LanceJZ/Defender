@@ -12,22 +12,17 @@ Mutant::~Mutant()
 {
 }
 
-void Mutant::SetModel(Model model, Texture2D texture)
-{
-	Model3D::LoadModel(model, texture);
-}
-
-void Mutant::SetShotModel(Model model, Texture2D texture)
+void Mutant::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
 	{
-		shot->SetModel(model, texture);
+		shot->TheModel = model;
 	}
 }
 
-void Mutant::SetRadarModel(Model model, Texture2D texture)
+void Mutant::SetRadarModel(Model model)
 {
-	Radar.SetModel(model, texture);
+	Radar.TheModel = model;
 }
 
 void Mutant::SetPlayer(Player* player)

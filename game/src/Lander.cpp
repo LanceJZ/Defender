@@ -12,22 +12,17 @@ Lander::~Lander()
 {
 }
 
-void Lander::SetModel(Model model, Texture2D texture)
-{
-	Model3D::LoadModel(model, texture);
-}
-
-void Lander::SetShotModel(Model model, Texture2D texture)
+void Lander::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
 	{
-		shot->SetModel(model, texture);
+		shot->TheModel = model;
 	}
 }
 
-void Lander::SetRadarModel(Model model, Texture2D texture)
+void Lander::SetRadarModel(Model model)
 {
-	Radar.SetModel(model, texture);
+	Radar.TheModel = model;
 }
 
 void Lander::SetPlayer(Player* player)
