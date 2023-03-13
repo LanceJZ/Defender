@@ -36,13 +36,19 @@ void Model3D::Draw()
 	{
 		if (Cull)
 		{
+			if (TheCamera == nullptr)
+			{
+				return;
+			}
+
 			if (TheCamera->position.x > Position.x + ViewableArea.x
 				|| TheCamera->position.x < Position.x + -ViewableArea.x)
 			{
 				return;
 			}
 
-			if (TheCamera->position.y > Y() + ViewableArea.y || TheCamera->position.y < Y() + -ViewableArea.y)
+			if (TheCamera->position.y > Position.y + ViewableArea.y ||
+				TheCamera->position.y < Position.y + -ViewableArea.y)
 			{
 				return;
 			}

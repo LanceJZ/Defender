@@ -24,11 +24,6 @@ void Pod::SetPlayer(Player* player)
 	Radar.SetPlayer(player);
 }
 
-void Pod::SetCamera(Camera* camera)
-{
-	Radar.SetCamera(camera);
-}
-
 bool Pod::Initialize()
 {
 	Model3D::Initialize();

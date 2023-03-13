@@ -2,8 +2,6 @@
 
 EnemyRadar::EnemyRadar()
 {
-	TheCamera = nullptr;
-	ThePlayer = nullptr;
 }
 
 EnemyRadar::~EnemyRadar()
@@ -20,11 +18,6 @@ void EnemyRadar::SetPlayer(Player* player)
 	ThePlayer = player;
 }
 
-void EnemyRadar::SetCamera(Camera* camera)
-{
-	TheCamera = camera;
-}
-
 bool EnemyRadar::Initialize()
 {
 	Model3D::Initialize();
@@ -35,6 +28,8 @@ bool EnemyRadar::Initialize()
 bool EnemyRadar::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
+
+	TheCamera = camera;
 
 	return false;
 }

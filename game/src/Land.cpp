@@ -17,29 +17,23 @@ Land::~Land()
 {
 }
 
-void Land::SetUIBack(Model model, Texture2D texture)
+void Land::SetUIBack(Model model)
 {
-	UIBackL->LoadModel(model, texture);
-	UIBackR->LoadModel(model, texture);
+	UIBackL->TheModel = model;
+	UIBackR->TheModel = model;
 }
 
-void Land::SetRadarHorz(Model model, Texture2D texture)
+void Land::SetRadarHorz(Model model)
 {
-	RadarHorzBottom->LoadModel(model, texture);
-	RadarHorzTop->LoadModel(model, texture);
-	RadarHorzL->LoadModel(model, texture);
-	RadarHorzR->LoadModel(model, texture);
+	RadarHorzBottom->TheModel = model;
+	RadarHorzTop->TheModel = model;
+	RadarHorzL->TheModel = model;
+	RadarHorzR->TheModel = model;
 }
 
-void Land::SetStar(Model model, Texture2D texture)
+void Land::SetStar(Model model)
 {
 	Star = model;
-	StarTexture = texture;
-}
-
-void Land::SetCamera(Camera* camera)
-{
-	TheCamera = camera;
 }
 
 void Land::SetPlayer(Player* player)
@@ -78,6 +72,7 @@ bool Land::Initialize()
 
 bool Land::BeginRun(Camera* camera)
 {
+	TheCamera = camera;
 	int i = 0;
 
 	for (auto land : LandParts)
@@ -288,7 +283,7 @@ void Land::CreateAllTheStars()
 
 	for (auto star : AllTheStars)
 	{
-		star->LoadModel(Star, StarTexture);
+		star->TheModel = Star;
 		star->ModelScale = 6;
 		star->BeginRun(TheCamera);
 	}

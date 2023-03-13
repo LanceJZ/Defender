@@ -30,54 +30,55 @@ bool Player::Initialize()
 	return false;
 }
 
-void Player::SetCamera(Camera* camera)
+void Player::SetModel(Model model)
 {
+	Model3D::TheModel = model;
+}
+
+void Player::SetFlameModel(Model model)
+{
+	Flame.TheModel = model;
+}
+
+void Player::SetShotModel(Model model)
+{
+	for (auto shot : Shots)
+	{
+		shot->TheModel = model;
+	}
+}
+
+void Player::SetTailModel(Model model)
+{
+	for (auto shot : Shots)
+	{
+		shot->SetTailModel(model);
+	}
+}
+
+void Player::SetRadarModel(Model model)
+{
+	Radar.TheModel = model;
+}
+
+bool Player::BeginRun(Camera* camera)
+{
+	Model3D::BeginRun(camera);
+
 	TheCamera = camera;
-}
-
-void Player::SetFlameModel(Model model, Texture2D texture)
-{
-	Flame.TheModel = LoadTextureToModel(model, texture);
-}
-
-void Player::SetShotModel(Model model, Texture2D texture)
-{
-	for (auto shot : Shots)
-	{
-		shot->TheModel = LoadTextureToModel(model, texture);
-	}
-}
-
-void Player::SetTailModel(Model model, Texture2D texture)
-{
-	for (auto shot : Shots)
-	{
-		shot->SetTailModel(LoadTextureToModel(model, texture));
-	}
-}
-
-void Player::SetRadarModel(Model model, Texture2D texture)
-{
-	Radar.TheModel = LoadTextureToModel(model, texture);
-}
-
-bool Player::BeginRun()
-{
-	Model3D::BeginRun(TheCamera);
-
 	Flame.ModelScale = 2.0f;
 	Flame.Position.x = -80.0f;
 	Flame.RotationVelocity = 50.0f;
 	Flame.RotationAxis.x = 1.0f;
-	Flame.BeginRun(TheCamera);
+	Flame.BeginRun(camera);
 	AddChild(&Flame);
 
 	Radar.ModelScale = 10;
-	Radar.BeginRun(TheCamera);
+	Radar.BeginRun(camera);
 
 	for (auto shot : Shots)
 	{
-		shot->BeginRun(TheCamera);
+		shot->BeginRun(camera);
 	}
 
 	return false;

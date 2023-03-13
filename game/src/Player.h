@@ -11,12 +11,12 @@ public:
 	virtual ~Player();
 
 	bool Initialize();
-	void SetCamera(Camera* camera);
-	void SetFlameModel(Model model, Texture2D texture);
-	void SetShotModel(Model model, Texture2D texture);
-	void SetTailModel(Model model, Texture2D texture);
-	void SetRadarModel(Model model, Texture2D texture);
-	bool BeginRun();
+	void SetModel(Model model);
+	void SetFlameModel(Model model);
+	void SetShotModel(Model model);
+	void SetTailModel(Model model);
+	void SetRadarModel(Model model);
+	bool BeginRun(Camera* camera);
 
 	virtual void Input();
 	virtual void Update(float deltaTime);

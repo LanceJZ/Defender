@@ -15,11 +15,6 @@ void Person::SetPlayer(Player* player)
 	Radar.SetPlayer(player);
 }
 
-void Person::SetCamera(Camera* camera)
-{
-	Radar.SetCamera(camera);
-}
-
 bool Person::Initialize()
 {
 	Model3D::Initialize();

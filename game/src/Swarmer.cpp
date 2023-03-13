@@ -36,12 +36,6 @@ void Swarmer::SetPlayer(Player* player)
 	}
 }
 
-void Swarmer::SetCamera(Camera* camera)
-{
-	TheCamera = camera;
-	Radar.SetCamera(camera);
-}
-
 bool Swarmer::Initialize()
 {
 	Model3D::Initialize();
@@ -69,6 +63,7 @@ bool Swarmer::BeginRun(Camera* camera)
 		shot->BeginRun(camera);
 	}
 
+	TheCamera = camera;
 	Mirror.SetModel(TheModel, ModelScale);
 	Mirror.BeginRun(camera);
 	Radar.BeginRun(camera);

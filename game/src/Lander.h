@@ -30,7 +30,6 @@ public:
 	void SetShotModel(Model model);
 	void SetRadarModel(Model model);
 	void SetPlayer(Player* player);
-	void SetCamera(Camera* camera);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
 

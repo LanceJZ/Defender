@@ -23,6 +23,11 @@ void SwarmerControl::SetShotModel(Model model)
 	ShotModel = model;
 }
 
+void SwarmerControl::SetPlayer(Player* player)
+{
+	ThePlayer = player;
+}
+
 bool SwarmerControl::Initialize()
 {
 
@@ -31,6 +36,7 @@ bool SwarmerControl::Initialize()
 
 bool SwarmerControl::BeginRun(Camera* camera)
 {
+	TheCamera = camera;
 
 	return false;
 }

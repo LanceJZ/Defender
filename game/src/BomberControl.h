@@ -11,11 +11,10 @@ public:
 	BomberControl();
 	virtual ~BomberControl();
 
-	void SetBomber(Model model, Texture2D texture);
-	void SetBomb(Model model, Texture2D texture);
-	void SetBomberRadar(Model model, Texture2D texture);
+	void SetBomber(Model model);
+	void SetBomb(Model model);
+	void SetBomberRadar(Model model);
 	void SetPlayer(Player* player);
-	void SetCamera(Camera* camera);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
 

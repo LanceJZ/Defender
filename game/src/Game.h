@@ -15,8 +15,7 @@ public:
 	bool Load();
 	bool BeginRun();
 
-	Camera camera = { 0 };
-
+	Camera TheCamera = { 0 };
 
 private:
 	GameLogic* gameLogic;

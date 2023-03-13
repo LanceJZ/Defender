@@ -19,7 +19,6 @@ public:
 	float GameScreenHeight = { 0 };
 
 	bool Initialize();
-	Model LoadTextureToModel(Model model, Texture2D texture);
 	float GetRandomScreenY();
 	float GetRandomFloat(float min, float max);
 	float GetRandomRadian();

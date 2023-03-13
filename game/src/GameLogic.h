@@ -4,6 +4,7 @@
 #include "Land.h"
 #include "LanderMutantControl.h"
 #include "BomberControl.h"
+#include "SwarmerControl.h"
 
 enum GameState
 {
@@ -23,9 +24,11 @@ public:
 	virtual ~GameLogic();
 
 	bool Initialize();
-	void SetCamera(Camera* camera);
+	Model LoadModelwithTexture(string modelFileName);
+	Model UploadTextureToModel(Model model, Texture2D texture);
 	void Load();
-	bool BeginRun();
+	bool BeginRun(Camera* camera);
+
 
 	virtual void Input();
 	virtual void Update(float deltaTime);
@@ -39,5 +42,6 @@ private:
 	Land* TheLand = new Land();
 	LanderMutantControl* ControlLanderMutant = new LanderMutantControl();
 	BomberControl* Bombers = new BomberControl();
+	SwarmerControl* Swarmers = new SwarmerControl();
 };
 

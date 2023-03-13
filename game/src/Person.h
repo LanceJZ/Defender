@@ -13,7 +13,6 @@ public:
 
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);
-	void SetCamera(Camera* camera);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
 

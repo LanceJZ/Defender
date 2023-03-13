@@ -2,36 +2,30 @@
 
 BomberControl::BomberControl()
 {
-
 }
 
 BomberControl::~BomberControl()
 {
 }
 
-void BomberControl::SetBomber(Model model, Texture2D texture)
+void BomberControl::SetBomber(Model model)
 {
-	BomberModel = LoadTextureToModel(model, texture);
+	BomberModel = model;
 }
 
-void BomberControl::SetBomb(Model model, Texture2D texture)
+void BomberControl::SetBomb(Model model)
 {
-	BombModel = LoadTextureToModel(model, texture);
+	BombModel = model;
 }
 
-void BomberControl::SetBomberRadar(Model model, Texture2D texture)
+void BomberControl::SetBomberRadar(Model model)
 {
-	BomberRadarModel = LoadTextureToModel(model, texture);
+	BomberRadarModel = model;
 }
 
 void BomberControl::SetPlayer(Player* player)
 {
 	ThePlayer = player;
-}
-
-void BomberControl::SetCamera(Camera* camera)
-{
-	TheCamera = camera;
 }
 
 bool BomberControl::Initialize()
@@ -42,6 +36,7 @@ bool BomberControl::Initialize()
 
 bool BomberControl::BeginRun(Camera* camera)
 {
+	TheCamera = camera;
 	SpawnBombers(3);
 	return false;
 }
@@ -79,7 +74,6 @@ void BomberControl::SpawnBombers(int amount)
 		bomber->SetBomb(BombModel);
 		bomber->SetRadar(BomberRadarModel);
 		bomber->SetPlayer(ThePlayer);
-		bomber->SetCamera(TheCamera);
 		bomber->BeginRun(TheCamera);
 		bomber->Spawn({xLine + GetRandomFloat(-100, 100),
 			GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f)}, xVol);

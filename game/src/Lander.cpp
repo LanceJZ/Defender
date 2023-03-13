@@ -36,11 +36,6 @@ void Lander::SetPlayer(Player* player)
 	}
 }
 
-void Lander::SetCamera(Camera* camera)
-{
-	Radar.SetCamera(camera);
-}
-
 bool Lander::Initialize()
 {
 	Model3D::Initialize();

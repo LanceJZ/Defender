@@ -36,11 +36,6 @@ void Mutant::SetPlayer(Player* player)
 	}
 }
 
-void Mutant::SetCamera(Camera* camera)
-{
-	Radar.SetCamera(camera);
-}
-
 bool Mutant::Initialize()
 {
 	Model3D::Initialize();

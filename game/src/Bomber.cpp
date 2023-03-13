@@ -24,12 +24,6 @@ void Bomber::SetPlayer(Player* player)
 	Radar.SetPlayer(player);
 }
 
-void Bomber::SetCamera(Camera* camera)
-{
-	TheCamera = camera;
-	Radar.SetCamera(camera);
-}
-
 bool Bomber::Initialize()
 {
 	Model3D::Initialize();
@@ -45,6 +39,7 @@ bool Bomber::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
+	TheCamera = camera;
 	Mirror.SetModel(TheModel, ModelScale);
 	Mirror.BeginRun(camera);
 	Radar.SetPlayer(ThePlayer);

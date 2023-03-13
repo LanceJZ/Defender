@@ -14,7 +14,6 @@ public:
 	void SetModel(Model model, Texture2D texture);
 	void SetRadar(Model model, Texture2D texture);
 	void SetPlayer(Player* player);
-	void SetCamera(Camera* camera);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
 

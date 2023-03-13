@@ -14,10 +14,9 @@ public:
 	Land();
 	virtual ~Land();
 
-	void SetUIBack(Model model, Texture2D texture);
-	void SetRadarHorz(Model model, Texture2D texture);
-	void SetStar(Model model, Texture2D texture);
-	void SetCamera(Camera* camera);
+	void SetUIBack(Model model);
+	void SetRadarHorz(Model model);
+	void SetStar(Model model);
 	void SetPlayer(Player* player);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
@@ -27,7 +26,6 @@ public:
 
 private:
 	Model Star = { 0 };
-	Texture2D StarTexture = { 0 };
 	Camera* TheCamera = nullptr;
 	Player* ThePlayer = nullptr;
 	Timer* StarTimer = new Timer();

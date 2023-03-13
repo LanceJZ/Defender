@@ -34,14 +34,12 @@ bool Game::Initialize()
 	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
 	SetWindowIcon(icon);
 	// Define the camera to look into our 3D world
-	camera.position = { 0.0f, 0.0f, 500.0f };  // Camera position
-	camera.target = { 0.0f, 0.0f, 0.0f };     // Camera looking at point
-	camera.up = { 0.0f, 1.0f, 0.0f };         // Camera up vector (rotation towards target)
-	camera.fovy = (float)GetScreenHeight();          // Camera field-of-view Y. In Orthographic is scale.
-	camera.projection = CAMERA_ORTHOGRAPHIC;
-	//SetCameraMode(camera, CAMERA_ORBITAL); // Camera mode type
+	TheCamera.position = { 0.0f, 0.0f, 500.0f }; // Camera position
+	TheCamera.target = { 0.0f, 0.0f, 0.0f };     // Camera looking at point
+	TheCamera.up = { 0.0f, 1.0f, 0.0f };         // Camera up vector (rotation towards target)
+	TheCamera.fovy = (float)GetScreenHeight();   // Camera field-of-view Y. In Orthographic is scale.
+	TheCamera.projection = CAMERA_ORTHOGRAPHIC;  // Camera mode type
 	gameLogic->Initialize();
-	gameLogic->SetCamera(&camera);
 
 	return false;
 }
@@ -54,7 +52,7 @@ bool Game::Load()
 
 bool Game::BeginRun()
 {
-	gameLogic->BeginRun();
+	gameLogic->BeginRun(&TheCamera);
 	return false;
 }
 
@@ -73,7 +71,7 @@ void Game::Draw()
 {
 	BeginDrawing();
 	ClearBackground({ 8, 2, 16, 100 });
-	BeginMode3D(camera);
+	BeginMode3D(TheCamera);
 
 	//3D Drawing here.
 	gameLogic->Draw3D();

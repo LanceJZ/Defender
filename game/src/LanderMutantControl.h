@@ -14,15 +14,14 @@ public:
 	vector<Mutant*> Mutants;
 	vector<Person*> People; //The Person Man.
 
-	void SetLanderModel(Model model, Texture2D texture);
-	void SetMutantModel(Model model, Texture2D texture);
-	void SetShotModel(Model model, Texture2D texture);
-	void SetLanderRadarModel(Model model, Texture2D texture);
-	void SetPersonModel(Model model, Texture2D texture);
-	void SetPersonRadar(Model model, Texture2D texture);
-	void SetMutantRadarModel(Model model, Texture2D texture);
+	void SetLanderModel(Model model);
+	void SetMutantModel(Model model);
+	void SetShotModel(Model model);
+	void SetLanderRadarModel(Model model);
+	void SetPersonModel(Model model);
+	void SetPersonRadar(Model model);
+	void SetMutantRadarModel(Model model);
 	void SetPlayer(Player* player);
-	void SetCamera(Camera* camera);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
 

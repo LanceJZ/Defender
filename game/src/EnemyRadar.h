@@ -11,7 +11,6 @@ public:
 
 	void SetModel(Model model, Texture2D texture);
 	void SetPlayer(Player* player);
-	void SetCamera(Camera* camera);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
 
@@ -19,8 +18,8 @@ public:
 	virtual void Draw();
 
 private:
-	Camera* TheCamera;
-	Player* ThePlayer;
+	Camera* TheCamera = nullptr;
+	Player* ThePlayer = nullptr;
 
 	void UpdateRadar();
 };
