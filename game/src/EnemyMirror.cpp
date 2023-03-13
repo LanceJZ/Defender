@@ -11,6 +11,8 @@ EnemyMirror::~EnemyMirror()
 
 bool EnemyMirror::Initialize()
 {
+	MirrorL.Initialize();
+	MirrorR.Initialize();
 
 	return false;
 }
@@ -23,8 +25,10 @@ void EnemyMirror::SetModel(Model model, float scale)
 	MirrorR.ModelScale = scale;
 }
 
-bool EnemyMirror::BeginRun()
+bool EnemyMirror::BeginRun(Camera* camera)
 {
+	MirrorL.BeginRun(camera);
+	MirrorR.BeginRun(camera);
 
 	return false;
 }

@@ -34,7 +34,7 @@ bool Pod::Initialize()
 	Model3D::Initialize();
 
 	Radar.Initialize();
-
+	Mirror.Initialize();
 	ModelScale = 5;
 	Radar.ModelScale = 4;
 	Enabled = false;
@@ -42,10 +42,13 @@ bool Pod::Initialize()
 	return false;
 }
 
-bool Pod::BeginRun()
+bool Pod::BeginRun(Camera* camera)
 {
+	Model3D::BeginRun(camera);
+
 	Mirror.SetModel(TheModel, ModelScale);
-	Radar.BeginRun();
+	Mirror.BeginRun(camera);
+	Radar.BeginRun(camera);
 
 	return false;
 }

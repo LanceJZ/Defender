@@ -32,8 +32,9 @@ bool EnemyRadar::Initialize()
 	return false;
 }
 
-bool EnemyRadar::BeginRun()
+bool EnemyRadar::BeginRun(Camera* camera)
 {
+	Model3D::BeginRun(camera);
 
 	return false;
 }

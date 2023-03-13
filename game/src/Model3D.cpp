@@ -4,6 +4,9 @@
 bool Model3D::Initialize()
 {
 	Entity::Initialize();
+
+	ViewableArea = { (float)(GetScreenWidth() * 0.5f), (float)(GetScreenHeight() * 0.5f) };
+
 	return false;
 }
 
@@ -11,6 +14,13 @@ void Model3D::LoadModel(Model model, Texture2D texture)
 {
 	TheModel = model;
 	TheModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+}
+
+bool Model3D::BeginRun(Camera* camera)
+{
+	TheCamera = camera;
+
+	return false;
 }
 
 void Model3D::Update(float deltaTime)
@@ -24,6 +34,20 @@ void Model3D::Draw()
 
 	if (Enabled)
 	{
+		if (Cull)
+		{
+			if (TheCamera->position.x > Position.x + ViewableArea.x
+				|| TheCamera->position.x < Position.x + -ViewableArea.x)
+			{
+				return;
+			}
+
+			if (TheCamera->position.y > Y() + ViewableArea.y || TheCamera->position.y < Y() + -ViewableArea.y)
+			{
+				return;
+			}
+		}
+
 		rlPushMatrix();
 
 		if (IsConnectedChild)

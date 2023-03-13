@@ -14,7 +14,7 @@ public:
 	void SetSwarmerModel(Model model);
 	void SetShotModel(Model model);
 	bool Initialize();
-	bool BeginRun();
+	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();

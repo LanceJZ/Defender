@@ -10,7 +10,7 @@ public:
 	virtual ~Bomb();
 
 	bool Initialize();
-	bool BeginRun();
+	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();

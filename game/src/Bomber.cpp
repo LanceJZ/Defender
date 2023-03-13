@@ -35,17 +35,21 @@ bool Bomber::Initialize()
 	Model3D::Initialize();
 
 	Radar.Initialize();
+	Mirror.Initialize();
 	ModelScale = 10;
 
 	return false;
 }
 
-bool Bomber::BeginRun()
+bool Bomber::BeginRun(Camera* camera)
 {
+	Model3D::BeginRun(camera);
+
 	Mirror.SetModel(TheModel, ModelScale);
+	Mirror.BeginRun(camera);
 	Radar.SetPlayer(ThePlayer);
 	Radar.ModelScale = 3;
-	Radar.BeginRun();
+	Radar.BeginRun(camera);
 	DropBombTimer->Set(GetRandomFloat(0.5f, 1.0f));
 
 	return false;
@@ -136,7 +140,7 @@ void Bomber::DropABomb()
 		Bombs.push_back(new Bomb());
 		Bombs[Bombs.size() - 1]->Initialize();
 		Bombs[Bombs.size() - 1]->TheModel = BombModel;
-		Bombs[Bombs.size() - 1]->BeginRun();
+		Bombs[Bombs.size() - 1]->BeginRun(TheCamera);
 	}
 
 	Bombs[bombspawn]->Spawn(Position);

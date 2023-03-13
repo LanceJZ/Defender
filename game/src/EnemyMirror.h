@@ -10,7 +10,7 @@ public:
 
 	bool Initialize();
 	void SetModel(Model model, float scale);
-	bool BeginRun();
+	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
@@ -18,7 +18,7 @@ public:
 	void PositionUpdate(bool enabled, float x, float y);
 
 private:
-	float X;
+	float X = 0;
 	Model3D MirrorR;
 	Model3D MirrorL;
 };

@@ -41,8 +41,9 @@ void PlayerShot::Load()
 
 }
 
-bool PlayerShot::BeginRun()
+bool PlayerShot::BeginRun(Camera* camera)
 {
+	Model3D::BeginRun(camera);
 
 	return false;
 }

@@ -12,14 +12,18 @@ bool Bomb::Initialize()
 {
 	Model3D::Initialize();
 
+	Mirror.Initialize();
 	ModelScale = 15;
 
 	return false;
 }
 
-bool Bomb::BeginRun()
+bool Bomb::BeginRun(Camera* camera)
 {
+	Model3D::BeginRun(camera);
+
 	Mirror.SetModel(TheModel, ModelScale);
+	Mirror.BeginRun(camera);
 
 	return false;
 }

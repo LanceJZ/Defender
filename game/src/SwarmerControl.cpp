@@ -29,7 +29,7 @@ bool SwarmerControl::Initialize()
 	return false;
 }
 
-bool SwarmerControl::BeginRun()
+bool SwarmerControl::BeginRun(Camera* camera)
 {
 
 	return false;

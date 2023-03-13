@@ -20,7 +20,7 @@ public:
 	void SetCamera(Camera* camera);
 	void SetPlayer(Player* player);
 	bool Initialize();
-	bool BeginRun();
+	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();

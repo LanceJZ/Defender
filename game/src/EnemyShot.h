@@ -11,7 +11,7 @@ public:
 
 	void SetPlayer(Player* player);
 	bool Initialize();
-	bool BeginRun();
+	bool BeginRun(Camera* camera);
 
 	virtual void Input();
 	virtual void Update(float deltaTime);

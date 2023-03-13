@@ -19,7 +19,7 @@ public:
 	void SetPlayer(Player* player);
 	void SetCamera(Camera* camera);
 	bool Initialize();
-	bool BeginRun();
+	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
@@ -28,6 +28,7 @@ public:
 
 private:
 	bool GotNearPlayer = false;
+	bool BackToToporBottom = false;
 	float Speed = 100;
 
 	EnemyRadar Radar;
@@ -38,4 +39,5 @@ private:
 
 	void FireShot();
 	void ChasePlayer();
+	void ResetChase();
 };

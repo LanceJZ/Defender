@@ -55,19 +55,19 @@ bool LanderMutantControl::Initialize()
 	return false;
 }
 
-bool LanderMutantControl::BeginRun()
+bool LanderMutantControl::BeginRun(Camera* camera)
 {
 	SpawnLanders(15);
 	SpawnPoeple(10);
 
 	for (auto lander : Landers)
 	{
-		lander->BeginRun();
+		lander->BeginRun(camera);
 	}
 
 	for (auto person : People)
 	{
-		person->BeginRun();
+		person->BeginRun(camera);
 	}
 
 	return false;
@@ -147,7 +147,7 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 		Mutants[Mutants.size() - 1]->SetShotModel(ShotModel);
 		Mutants[Mutants.size() - 1]->SetCamera(TheCamera);
 		Mutants[Mutants.size() - 1]->SetPlayer(ThePlayer);
-		Mutants[Mutants.size() - 1]->BeginRun();
+		Mutants[Mutants.size() - 1]->BeginRun(TheCamera);
 		Mutants[Mutants.size() - 1]->Spawn(lander->Position);
 	}
 }

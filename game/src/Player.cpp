@@ -16,6 +16,9 @@ bool Player::Initialize()
 {
 	Model3D::Initialize();
 
+	Cull = false;
+	Flame.Cull = false;
+	Radar.Cull = false;
 	ModelScale = 2.0f;
 	RotationY = (PI * 2) - 0.045f;
 
@@ -60,17 +63,21 @@ void Player::SetRadarModel(Model model, Texture2D texture)
 
 bool Player::BeginRun()
 {
+	Model3D::BeginRun(TheCamera);
+
 	Flame.ModelScale = 2.0f;
 	Flame.Position.x = -80.0f;
 	Flame.RotationVelocity = 50.0f;
 	Flame.RotationAxis.x = 1.0f;
+	Flame.BeginRun(TheCamera);
 	AddChild(&Flame);
 
 	Radar.ModelScale = 10;
+	Radar.BeginRun(TheCamera);
 
 	for (auto shot : Shots)
 	{
-		shot->BeginRun();
+		shot->BeginRun(TheCamera);
 	}
 
 	return false;

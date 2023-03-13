@@ -40,7 +40,7 @@ bool BomberControl::Initialize()
 	return false;
 }
 
-bool BomberControl::BeginRun()
+bool BomberControl::BeginRun(Camera* camera)
 {
 	SpawnBombers(3);
 	return false;
@@ -80,7 +80,7 @@ void BomberControl::SpawnBombers(int amount)
 		bomber->SetRadar(BomberRadarModel);
 		bomber->SetPlayer(ThePlayer);
 		bomber->SetCamera(TheCamera);
-		bomber->BeginRun();
+		bomber->BeginRun(TheCamera);
 		bomber->Spawn({xLine + GetRandomFloat(-100, 100),
 			GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f)}, xVol);
 	}

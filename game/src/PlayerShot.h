@@ -11,7 +11,7 @@ public:
 	bool Initialize();
 	void SetTailModel(Model model);
 	virtual void Load();
-	bool BeginRun();
+	bool BeginRun(Camera* camera);
 
 	void spawn(Vector3 position, Vector3 velocity, bool reverse);
 

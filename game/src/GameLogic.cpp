@@ -138,11 +138,11 @@ bool GameLogic::BeginRun()
 {
 	ThePlayer->BeginRun();
 	TheLand->SetPlayer(ThePlayer);
-	TheLand->BeginRun();
+	TheLand->BeginRun(TheCamera);
 	ControlLanderMutant->SetPlayer(ThePlayer);
-	ControlLanderMutant->BeginRun();
+	ControlLanderMutant->BeginRun(TheCamera);
 	Bombers->SetPlayer(ThePlayer);
-	Bombers->BeginRun();
+	Bombers->BeginRun(TheCamera);
 
 	return false;
 }

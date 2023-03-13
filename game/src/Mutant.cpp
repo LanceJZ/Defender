@@ -45,6 +45,9 @@ bool Mutant::Initialize()
 {
 	Model3D::Initialize();
 
+	Mirror.Initialize();
+	Radar.Initialize();
+
 	for (auto shot : Shots)
 	{
 		shot->Initialize();
@@ -52,20 +55,23 @@ bool Mutant::Initialize()
 
 	ModelScale = 14;
 	Radius = 14;
+	Radar.ModelScale = 3;
 
 	return false;
 }
 
-bool Mutant::BeginRun()
+bool Mutant::BeginRun(Camera* camera)
 {
+	Model3D::BeginRun(camera);
+
 	for (auto shot : Shots)
 	{
-		shot->BeginRun();
+		shot->BeginRun(camera);
 	}
 
 	Mirror.SetModel(TheModel, ModelScale);
-	Radar.ModelScale = 2;
-	Radar.BeginRun();
+	Mirror.BeginRun(camera);
+	Radar.BeginRun(camera);
 
 	return false;
 }
@@ -119,6 +125,8 @@ void Mutant::Draw()
 void Mutant::Spawn(Vector3 position)
 {
 	Enabled = true;
+	GotNearPlayer = false;
+	BackToToporBottom = false;
 	Position = position;
 	ShotTimer->Reset(GetRandomFloat(0.3f, 1.5f));
 	ChangeSpeedTimer->Reset(GetRandomFloat(0.1f, 0.3f));
@@ -170,7 +178,7 @@ void Mutant::ChasePlayer()
 		}
 	}
 
-	if (GotNearPlayer)
+	if (GotNearPlayer && !BackToToporBottom)
 	{
 		if (ThePlayer->Y() + 100.0f < Y())
 		{
@@ -179,6 +187,29 @@ void Mutant::ChasePlayer()
 		else if (ThePlayer->Y() - 100 > Y())
 		{
 			Velocity.y = Speed * 0.25f;
+		}
+
+		if (ThePlayer->X() + (GetScreenWidth() * 0.5f) < X() || ThePlayer->X() + (-GetScreenWidth() * 0.5f) > X())
+		{
+			BackToToporBottom = true;
+		}
+	}
+
+	if (BackToToporBottom)
+	{
+		if (Y() > 0)
+		{
+			Velocity.y = Speed * 0.25f;
+		}
+		else
+		{
+			Velocity.y = -Speed * 0.25f;
+		}
+
+		if (Y() > GetScreenHeight() * 0.333f || Y() < -GetScreenHeight() * 0.45f)
+		{
+			BackToToporBottom = false;
+			Velocity.y = 0;
 		}
 	}
 

@@ -13,6 +13,8 @@ bool EnemyShot::Initialize()
 {
 	Model3D::Initialize();
 
+	Mirror.Initialize();
+
 	ModelScale = 3;
 	Radius = 2;
 	Enabled = false;
@@ -20,9 +22,12 @@ bool EnemyShot::Initialize()
 	return false;
 }
 
-bool EnemyShot::BeginRun()
+bool EnemyShot::BeginRun(Camera* camera)
 {
+	Model3D::BeginRun(camera);
+
 	Mirror.SetModel(TheModel, ModelScale);
+	Mirror.BeginRun(camera);
 
 	return false;
 }

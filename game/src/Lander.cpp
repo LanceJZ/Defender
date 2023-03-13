@@ -44,6 +44,7 @@ void Lander::SetCamera(Camera* camera)
 bool Lander::Initialize()
 {
 	Model3D::Initialize();
+
 	Radar.Initialize();
 	Mirror.Initialize();
 
@@ -59,18 +60,20 @@ bool Lander::Initialize()
 	return false;
 }
 
-bool Lander::BeginRun()
+bool Lander::BeginRun(Camera* camera)
 {
+	Model3D::BeginRun(camera);
+
 	for (auto shot : Shots)
 	{
-		shot->BeginRun();
+		shot->BeginRun(camera);
 		shot->SetPlayer(ThePlayer);
 	}
 
 	Mirror.SetModel(TheModel, ModelScale);
-	Radar.ModelScale = 2;
-	Radar.BeginRun();
-	Mirror.BeginRun();
+	Radar.ModelScale = 3;
+	Radar.BeginRun(camera);
+	Mirror.BeginRun(camera);
 
 	return false;
 }

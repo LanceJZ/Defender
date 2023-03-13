@@ -64,12 +64,19 @@ bool Land::Initialize()
 		AllTheStars.push_back(new Model3D());
 	}
 
+	UIBackL->Cull = false;
+	UIBackR->Cull = false;
+	RadarHorzBottom->Cull = false;
+	RadarHorzL->Cull = false;
+	RadarHorzR->Cull = false;
+	RadarHorzTop->Cull = false;
+
 	StarTimer->Set(1.0f);
 
 	return false;
 }
 
-bool Land::BeginRun()
+bool Land::BeginRun(Camera* camera)
 {
 	int i = 0;
 
@@ -80,6 +87,9 @@ bool Land::BeginRun()
 		land->X((-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i));
 		land->Z(-40.0f);
 		i++;
+
+		land->BeginRun(camera);
+		land->ViewableArea.x = GetScreenWidth() * 1.5f;
 	}
 
 	LandParts[7]->TheModel = LandParts[0]->TheModel;
@@ -101,6 +111,8 @@ bool Land::BeginRun()
 		radar->Y(UpdateRadar(0, LandParts[0]->Y()).y);
 		radar->Z(-10.0f);
 		i++;
+
+		radar->BeginRun(camera);
 	}
 
 	UIBackL->ModelScale = 30;
@@ -109,6 +121,8 @@ bool Land::BeginRun()
 	UIBackR->Position = UIBackL->Position;
 	UIBackR->Rotation = PI;
 	UIBackR->RotationAxis.z = 1;
+	UIBackL->BeginRun(camera);
+	UIBackR->BeginRun(camera);
 
 	RadarHorzBottom->ModelScale = 21.8f;
 	RadarHorzTop->ModelScale = RadarHorzBottom->ModelScale;
@@ -116,8 +130,12 @@ bool Land::BeginRun()
 	RadarHorzR->ModelScale = RadarHorzBottom->ModelScale;
 	RadarHorzTop->Y(GetScreenHeight() / 2.02f);
 	RadarHorzBottom->Y(GetScreenHeight() / 2.79f);
+	RadarHorzTop->BeginRun(camera);
+	RadarHorzBottom->BeginRun(camera);
 	RadarHorzL->Y(RadarHorzBottom->Y());
 	RadarHorzR->Y(RadarHorzBottom->Y());
+	RadarHorzL->BeginRun(camera);
+	RadarHorzR->BeginRun(camera);
 
 	CreateAllTheStars();
 
@@ -272,6 +290,7 @@ void Land::CreateAllTheStars()
 	{
 		star->LoadModel(Star, StarTexture);
 		star->ModelScale = 6;
+		star->BeginRun(TheCamera);
 	}
 }
 
