@@ -8,9 +8,9 @@ EnemyRadar::~EnemyRadar()
 {
 }
 
-void EnemyRadar::SetModel(Model model, Texture2D texture)
+void EnemyRadar::SetModel(Model model)
 {
-	Model3D::LoadModel(model, texture);
+	Model3D::TheModel = model;
 }
 
 void EnemyRadar::SetPlayer(Player* player)

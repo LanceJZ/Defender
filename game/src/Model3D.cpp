@@ -5,7 +5,7 @@ bool Model3D::Initialize()
 {
 	Entity::Initialize();
 
-	ViewableArea = { (float)(GetScreenWidth() * 0.5f), (float)(GetScreenHeight() * 0.5f) };
+	ViewableArea = { WindowWidth, WindowHeight };
 
 	return false;
 }
@@ -34,29 +34,53 @@ void Model3D::Draw()
 
 	if (Enabled)
 	{
+		if (TheCamera == nullptr)
+		{
+			return;
+		}
+
 		if (Cull)
 		{
-			if (TheCamera == nullptr)
+			if (IsChild)
 			{
-				return;
-			}
+				Vector3 parentTest = Position;
 
-			if (TheCamera->position.x > Position.x + ViewableArea.x
-				|| TheCamera->position.x < Position.x + -ViewableArea.x)
-			{
-				return;
-			}
+				for (auto parent : Parents)
+				{
+					parentTest = Vector3Add(parent->Position, parentTest);
+				}
 
-			if (TheCamera->position.y > Position.y + ViewableArea.y ||
-				TheCamera->position.y < Position.y + -ViewableArea.y)
+				if (TheCamera->position.x > parentTest.x + ViewableArea.x
+					|| TheCamera->position.x < parentTest.x + -ViewableArea.x)
+				{
+					return;
+				}
+
+				if (TheCamera->position.y > parentTest.y + ViewableArea.y ||
+					TheCamera->position.y < parentTest.y + -ViewableArea.y)
+				{
+					return;
+				}
+			}
+			else
 			{
-				return;
+				if (TheCamera->position.x > Position.x + ViewableArea.x
+					|| TheCamera->position.x < Position.x + -ViewableArea.x)
+				{
+					return;
+				}
+
+				if (TheCamera->position.y > Position.y + ViewableArea.y ||
+					TheCamera->position.y < Position.y + -ViewableArea.y)
+				{
+					return;
+				}
 			}
 		}
 
 		rlPushMatrix();
 
-		if (IsConnectedChild)
+		if (IsChild)
 		{
 			for (auto parent : Parents)
 			{

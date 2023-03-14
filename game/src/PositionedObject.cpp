@@ -4,8 +4,8 @@ bool PositionedObject::Initialize()
 {
 	Common::Initialize();
 
-	WindowWidth = (float)GetScreenWidth() / 2.0f;
-	WindowHeight = (float)GetScreenHeight() / 2.0f;
+	WindowWidth = (float)(GetScreenWidth() * 0.5f);
+	WindowHeight = (float)(GetScreenHeight() * 0.5f);
 
 	return false;
 }

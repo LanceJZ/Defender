@@ -53,37 +53,21 @@ Model GameLogic::UploadTextureToModel(Model model, Texture2D texture)
 void GameLogic::Load()
 {
 	//Load all the models and textures used by the Land class, including the UI.
-	string path = "models/Ground";
-	string pathR = "models/GroundRadar";
 
 	for (int i = 0; i < 7; i++)
 	{
-		string namePNG = path;
-		string nameRPNG = pathR;
-		namePNG.append(to_string(i + 1));
-		namePNG.append(".png");
-		nameRPNG.append(to_string(i + 1));
-		nameRPNG.append(".png");
+		string name = "Ground";
+		string nameR = "GroundRadar";
+		name.append(to_string(i + 1));
+		nameR.append(to_string(i + 1));
 
-		string nameOBJ = path;
-		string nameROBJ = pathR;
-		nameOBJ.append(to_string(i + 1));
-		nameOBJ.append(".obj");
-		nameROBJ.append(to_string(i + 1));
-		nameROBJ.append(".obj");
-
-		Image image = LoadImage(const_cast<char*>(namePNG.c_str()));
-		Image imageR = LoadImage(const_cast<char*>(nameRPNG.c_str()));
-		TheLand->LandParts[i]->LoadModel(LoadModel(const_cast<char*>(nameOBJ.c_str())), LoadTextureFromImage(image));
-		TheLand->RadarLandParts[i]->LoadModel(LoadModel(const_cast<char*>(nameROBJ.c_str())), LoadTextureFromImage(imageR));
-		UnloadImage(image);
-		UnloadImage(imageR);
+		TheLand->LandParts[i]->TheModel = LoadModelwithTexture(name);
+		TheLand->RadarLandParts[i]->TheModel = LoadModelwithTexture(nameR);
 	}
 
 	TheLand->SetUIBack(LoadModelwithTexture("UIBackface"));
 	TheLand->SetRadarHorz(LoadModelwithTexture("RadarH"));
 	TheLand->SetStar(LoadModelwithTexture("Star"));
-
 	//Load all the models and their textures used by Player.
 	ThePlayer->SetModel(LoadModelwithTexture("Player Ship"));
 	ThePlayer->SetRadarModel(LoadModelwithTexture("Player Radar"));
@@ -91,9 +75,10 @@ void GameLogic::Load()
 	ThePlayer->SetShotModel(LoadModelwithTexture("Player Shot"));
 	ThePlayer->SetTailModel(LoadModelwithTexture("Player Shot Tail"));
 	//Load all the models and their textures used by Lander and Mutant.
+	Model shot = LoadModelwithTexture("Shot");
 	ControlLanderMutant->SetLanderModel(LoadModelwithTexture("Lander"));
 	ControlLanderMutant->SetMutantModel(LoadModelwithTexture("Mutant"));
-	ControlLanderMutant->SetShotModel(LoadModelwithTexture("Shot"));
+	ControlLanderMutant->SetShotModel(shot);
 	ControlLanderMutant->SetPersonModel(LoadModelwithTexture("Person"));
 	ControlLanderMutant->SetLanderRadarModel(LoadModelwithTexture("Lander Radar"));
 	ControlLanderMutant->SetPersonRadar(LoadModelwithTexture("Person Radar"));
@@ -102,6 +87,12 @@ void GameLogic::Load()
 	Bombers->SetBomber(LoadModelwithTexture("Bomber"));
 	Bombers->SetBomb(LoadModelwithTexture("Bomb"));
 	Bombers->SetBomberRadar(LoadModelwithTexture("Bomber Radar"));
+	//Load all the models and their textures used by Pod and Swarmer.
+	Swarmers->SetPodModel(LoadModelwithTexture("Pod"));
+	Swarmers->SetSwarmerModel(LoadModelwithTexture("Swarmer"));
+	Swarmers->SetShotModel(shot);
+	Swarmers->SetPodRadarModel(LoadModelwithTexture("Pod Radar"));
+	Swarmers->SetSwarmerRadarModel(LoadModelwithTexture("Swarmer Radar"));
 }
 
 bool GameLogic::BeginRun(Camera* camera)
@@ -136,6 +127,7 @@ void GameLogic::Update(float deltaTime)
 		TheLand->Update(deltaTime);
 		ControlLanderMutant->Update(deltaTime);
 		Bombers->Update(deltaTime);
+		Swarmers->Update(deltaTime);
 	}
 }
 
@@ -145,6 +137,7 @@ void GameLogic::Draw3D()
 	TheLand->Draw();
 	ControlLanderMutant->Draw();
 	Bombers->Draw();
+	Swarmers->Draw();
 }
 
 void GameLogic::Draw2D()

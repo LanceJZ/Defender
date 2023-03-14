@@ -11,8 +11,8 @@ public:
 	Pod();
 	virtual ~Pod();
 
-	void SetModel(Model model, Texture2D texture);
-	void SetRadar(Model model, Texture2D texture);
+	void SetModel(Model model);
+	void SetRadar(Model model);
 	void SetPlayer(Player* player);
 	bool Initialize();
 	bool BeginRun(Camera* camera);

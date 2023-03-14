@@ -14,6 +14,8 @@ public:
 	void SetPodModel(Model model);
 	void SetSwarmerModel(Model model);
 	void SetShotModel(Model model);
+	void SetPodRadarModel(Model model);
+	void SetSwarmerRadarModel(Model model);
 	void SetPlayer(Player* player);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
@@ -25,8 +27,12 @@ private:
 	Model PodModel = { 0 };
 	Model SwarmerModel = { 0 };
 	Model ShotModel = { 0 };
+	Model PodRadarModel = { 0 };
+	Model SwarmerRadarModel = { 0 };
 
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
+
+	void SpawnPods(float count);
 };
 

@@ -4,7 +4,7 @@
 o 
 
 # material
-mtllib PersonRadar.mtl
+mtllib Person Radar.mtl
 usemtl palette
 
 # normals

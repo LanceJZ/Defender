@@ -9,7 +9,7 @@ public:
 	EnemyRadar();
 	virtual ~EnemyRadar();
 
-	void SetModel(Model model, Texture2D texture);
+	void SetModel(Model model);
 	void SetPlayer(Player* player);
 	bool Initialize();
 	bool BeginRun(Camera* camera);

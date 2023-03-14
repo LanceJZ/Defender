@@ -23,6 +23,16 @@ void SwarmerControl::SetShotModel(Model model)
 	ShotModel = model;
 }
 
+void SwarmerControl::SetPodRadarModel(Model model)
+{
+	PodRadarModel = model;
+}
+
+void SwarmerControl::SetSwarmerRadarModel(Model model)
+{
+	SwarmerRadarModel = model;
+}
+
 void SwarmerControl::SetPlayer(Player* player)
 {
 	ThePlayer = player;
@@ -37,6 +47,8 @@ bool SwarmerControl::Initialize()
 bool SwarmerControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
+
+	SpawnPods(1);
 
 	return false;
 }
@@ -54,5 +66,23 @@ void SwarmerControl::Draw()
 	for (auto pod : Pods)
 	{
 		pod->Draw();
+	}
+}
+
+void SwarmerControl::SpawnPods(float count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		Pods.push_back(new Pod());
+	}
+
+	for (auto pod : Pods)
+	{
+		pod->Initialize();
+		pod->SetModel(PodModel);
+		pod->SetRadar(PodRadarModel);
+		pod->BeginRun(TheCamera);
+		pod->SetPlayer(ThePlayer);
+		pod->Spawn({ 200.0f, 200.0f, 0 });
 	}
 }

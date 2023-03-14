@@ -9,14 +9,14 @@ Pod::~Pod()
 {
 }
 
-void Pod::SetModel(Model model, Texture2D texture)
+void Pod::SetModel(Model model)
 {
-	Model3D::LoadModel(model, texture);
+	Model3D::TheModel = model;
 }
 
-void Pod::SetRadar(Model model, Texture2D texture)
+void Pod::SetRadar(Model model)
 {
-	Radar.SetModel(model, texture);
+	Radar.SetModel(model);
 }
 
 void Pod::SetPlayer(Player* player)
@@ -30,7 +30,7 @@ bool Pod::Initialize()
 
 	Radar.Initialize();
 	Mirror.Initialize();
-	ModelScale = 5;
+	ModelScale = 1;
 	Radar.ModelScale = 4;
 	Enabled = false;
 

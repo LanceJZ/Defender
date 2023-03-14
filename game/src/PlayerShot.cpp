@@ -2,8 +2,6 @@
 
 PlayerShot::PlayerShot()
 {
-	LifeTimer = new Timer();
-	Tail = new Model3D();
 }
 
 PlayerShot::~PlayerShot()
@@ -14,19 +12,19 @@ bool PlayerShot::Initialize()
 {
 	Model3D::Initialize();
 
-	ModelScale = 5.0f;
-	Radius = 5.5f;
-	Enabled = false;
+	Tail->Initialize();
+
+	Radius = 3.5f;
 	LifeTimer->Set(1);
-	RotationAxis.y = 1;
+	RotationAxis.y = 1.0f;
+	ModelScale = 3.0f;
+	Enabled = false;
 
 	Tail->RotationVelocity = 40.666f;
-	Tail->RotationAxis.x = 1;
-	Tail->Position.x = -7;
+	Tail->RotationAxis.x = 1.0f;
+	Tail->Position.x = -5.5f;
 	Tail->ModelScale = 5.0f;
 	Tail->Enabled = false;
-
-	AddChild(Tail);
 
 	return false;
 }
@@ -36,14 +34,12 @@ void PlayerShot::SetTailModel(Model model)
 	Tail->TheModel = model;
 }
 
-void PlayerShot::Load()
-{
-
-}
-
 bool PlayerShot::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
+
+	Tail->BeginRun(camera);
+	AddChild(Tail);
 
 	return false;
 }
@@ -54,35 +50,21 @@ void PlayerShot::spawn(Vector3 position, Vector3 velocity, bool reverse)
 	Tail->Enabled = true;
 	LifeTimer->Reset();
 	Position = position;
-	Velocity.x = velocity.x * 0.1f;
+	Velocity.x = velocity.x;
 	Velocity.y = velocity.y * 0.1f;
 
 	if (reverse)
 	{
-		Velocity.x -= 200;
-		Position.x -= 40;
-	}
-	else
-	{
-		Velocity.x += 200;
-		Position.x += 40;
-	}
-
-	Velocity.x *= 10;
-
-	if (reverse)// Make tail child of shot. Have it rotate separate from shot.
-	{
+		Velocity.x -= 2000.0f;
+		Position.x -= 40.0f;
 		Rotation = PI;
 	}
 	else
 	{
+		Velocity.x += 2000.0f;
+		Position.x += 40.0f;
 		Rotation = 0;
 	}
-}
-
-void PlayerShot::Input()
-{
-
 }
 
 void PlayerShot::Update(float deltaTime)
