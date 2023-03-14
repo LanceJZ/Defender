@@ -53,14 +53,14 @@ void EnemyMirror::Draw()
 
 }
 
-void EnemyMirror::PositionUpdate(bool enabled, float x, float y)
+void EnemyMirror::PositionUpdate(bool enabled, Vector3 position)
 {
-	X = x;
+	X = position.x;
 	float mirror = 7.0f;
-	MirrorL.X(x - GetScreenWidth() * mirror);
-	MirrorL.Y(y);
+	MirrorL.X(position.x - GetScreenWidth() * mirror);
+	MirrorL.Position.y = position.y;
 	MirrorL.Enabled = enabled;
-	MirrorR.X(x + GetScreenWidth() * mirror);
-	MirrorR.Y(y);
+	MirrorR.X(position.x + GetScreenWidth() * mirror);
+	MirrorR.Position.y = position.y;
 	MirrorR.Enabled = enabled;
 }

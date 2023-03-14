@@ -121,10 +121,8 @@ void Lander::Update(float deltaTime)
 	}
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
-	Radar.Position = Position;
-	Radar.Enabled = Enabled;
-	Radar.Update(deltaTime);
-	Mirror.PositionUpdate(Enabled, X(), Y());
+	Radar.PositionUpdate(Enabled, Position);
+	Mirror.PositionUpdate(Enabled, Position);
 }
 
 void Lander::Draw()
@@ -135,9 +133,6 @@ void Lander::Draw()
 	{
 		shot->Draw();
 	}
-
-	if (!Enabled)
-		return;
 
 	Mirror.Draw();
 	Radar.Draw();

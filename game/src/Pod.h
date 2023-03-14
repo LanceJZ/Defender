@@ -11,7 +11,12 @@ public:
 	Pod();
 	virtual ~Pod();
 
+	vector<Swarmer*> Swarmers;
+
 	void SetModel(Model model);
+	void SetShotModel(Model model);
+	void SetSwarmerModel(Model model);
+	void SetSwarmerRadarModel(Model model);
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);
 	bool Initialize();
@@ -25,4 +30,11 @@ public:
 private:
 	EnemyMirror Mirror;
 	EnemyRadar Radar;
+	Model SwarmerModel = { 0 };
+	Model SwarmerRadarModel = { 0 };
+	Model ShotModel = { 0 };
+	Player* ThePlayer = nullptr;
+	Camera* TheCamera = nullptr;
+
+	void SpawnSwarmers(int count);
 };

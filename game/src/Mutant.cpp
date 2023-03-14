@@ -94,11 +94,9 @@ void Mutant::Update(float deltaTime)
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
-	Radar.Position = Position;
-	Radar.Enabled = Enabled;
-	Radar.Update(deltaTime);
+	Radar.PositionUpdate(Enabled, Position);
+	Mirror.PositionUpdate(Enabled, Position);
 	ChasePlayer();
-	Mirror.PositionUpdate(Enabled, X(), Y());
 }
 
 void Mutant::Draw()
@@ -109,9 +107,6 @@ void Mutant::Draw()
 	{
 		shot->Draw();
 	}
-
-	if (!Enabled)
-		return;
 
 	Mirror.Draw();
 	Radar.Draw();

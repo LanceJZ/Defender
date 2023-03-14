@@ -43,21 +43,13 @@ void Person::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	if (!Enabled)
-		return;
-
-	Mirror.PositionUpdate(Enabled, X(), Y());
-	Radar.Position = Position;
-	Radar.Enabled = Enabled;
-	Radar.Update(deltaTime);
+	Mirror.PositionUpdate(Enabled, Position);
+	Radar.PositionUpdate(Enabled, Position);
 }
 
 void Person::Draw()
 {
 	Model3D::Draw();
-
-	if (!Enabled)
-		return;
 
 	Mirror.Draw();
 	Radar.Draw();

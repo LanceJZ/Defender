@@ -21,6 +21,7 @@ void EnemyRadar::SetPlayer(Player* player)
 bool EnemyRadar::Initialize()
 {
 	Model3D::Initialize();
+	Enabled = false;
 
 	return false;
 }
@@ -32,6 +33,14 @@ bool EnemyRadar::BeginRun(Camera* camera)
 	TheCamera = camera;
 
 	return false;
+}
+
+void EnemyRadar::PositionUpdate(bool enabled, Vector3 position)
+{
+	Position = position;
+	Enabled = enabled;
+
+	UpdateRadar();
 }
 
 void EnemyRadar::Update(float deltaTime)

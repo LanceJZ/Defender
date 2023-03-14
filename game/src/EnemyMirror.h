@@ -15,7 +15,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void PositionUpdate(bool enabled, float x, float y);
+	void PositionUpdate(bool enabled, Vector3 position);
 
 private:
 	float X = 0;

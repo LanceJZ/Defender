@@ -23,12 +23,16 @@ void Land::SetUIBack(Model model)
 	UIBackR->TheModel = model;
 }
 
-void Land::SetRadarHorz(Model model)
+void Land::SetUIHorz(Model model)
+{
+	RadarHorzL->TheModel = model;
+	RadarHorzR->TheModel = model;
+}
+
+void Land::SetRadarTopBottom(Model model)
 {
 	RadarHorzBottom->TheModel = model;
 	RadarHorzTop->TheModel = model;
-	RadarHorzL->TheModel = model;
-	RadarHorzR->TheModel = model;
 }
 
 void Land::SetStar(Model model)
@@ -121,6 +125,8 @@ bool Land::BeginRun(Camera* camera)
 
 	RadarHorzBottom->ModelScale = 21.8f;
 	RadarHorzTop->ModelScale = RadarHorzBottom->ModelScale;
+	RadarHorzTop->RotationAxis = { 1.0f, 0, 0 };
+	RadarHorzTop->Rotation = PI;
 	RadarHorzL->ModelScale = RadarHorzBottom->ModelScale;
 	RadarHorzR->ModelScale = RadarHorzBottom->ModelScale;
 	RadarHorzTop->Y(GetScreenHeight() / 2.02f);

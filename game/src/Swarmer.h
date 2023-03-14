@@ -14,6 +14,7 @@ public:
 
 	EnemyShot* Shots[4];
 
+	void SetModel(Model model);
 	void SetShotModel(Model model);
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);

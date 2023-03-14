@@ -13,7 +13,7 @@ public:
 	void SetPlayer(Player* player);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
-
+	void PositionUpdate(bool enabled, Vector3 position);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 

@@ -66,7 +66,8 @@ void GameLogic::Load()
 	}
 
 	TheLand->SetUIBack(LoadModelwithTexture("UIBackface"));
-	TheLand->SetRadarHorz(LoadModelwithTexture("RadarH"));
+	TheLand->SetUIHorz(LoadModelwithTexture("RadarH"));
+	TheLand->SetRadarTopBottom(LoadModelwithTexture("RadarHOutline"));
 	TheLand->SetStar(LoadModelwithTexture("Star"));
 	//Load all the models and their textures used by Player.
 	ThePlayer->SetModel(LoadModelwithTexture("Player Ship"));

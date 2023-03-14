@@ -81,8 +81,11 @@ void SwarmerControl::SpawnPods(float count)
 		pod->Initialize();
 		pod->SetModel(PodModel);
 		pod->SetRadar(PodRadarModel);
-		pod->BeginRun(TheCamera);
+		pod->SetShotModel(ShotModel);
+		pod->SetSwarmerModel(SwarmerModel);
+		pod->SetSwarmerRadarModel(SwarmerRadarModel);
 		pod->SetPlayer(ThePlayer);
-		pod->Spawn({ 200.0f, 200.0f, 0 });
+		pod->BeginRun(TheCamera);
+		pod->Spawn({ 500.0f, 200.0f, 0 });
 	}
 }

@@ -12,6 +12,11 @@ Swarmer::~Swarmer()
 {
 }
 
+void Swarmer::SetModel(Model model)
+{
+	Swarmer::TheModel = model;
+}
+
 void Swarmer::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
@@ -47,8 +52,8 @@ bool Swarmer::Initialize()
 
 	Radar.Initialize();
 	Mirror.Initialize();
-	ModelScale = 5;
-	Radar.ModelScale = 4;
+	ModelScale = 10;
+	Radar.ModelScale = 5;
 	Enabled = false;
 
 	return false;
@@ -57,6 +62,9 @@ bool Swarmer::Initialize()
 bool Swarmer::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
+
+	RotationAxis = { 0, 1, 0 };
+	RotationVelocity = GetRandomFloat(25.1f, 52.6f);
 
 	for (auto shot : Shots)
 	{
@@ -74,8 +82,7 @@ bool Swarmer::BeginRun(Camera* camera)
 // Can not shoot opposite direction of movement.
 // Take a second to change X direction of movement after passing player Y position.
 // They shot 1/4 screen width distance in front of themselves at your Y position.
-// Up to four Pods at wave start, starting with wave three with two.
-// Four Swarmers per Pod. When Pod is shot, Swarmers head towards the player.
+// When Pod is shot, Swarmers head towards the player.
 void Swarmer::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
@@ -93,10 +100,8 @@ void Swarmer::Update(float deltaTime)
 		FireShot();
 	}
 
-	Mirror.PositionUpdate(Enabled, X(), Y());
-	Radar.Position = Position;
-	Radar.Enabled = Enabled;
-	Radar.Update(deltaTime);
+	Mirror.PositionUpdate(Enabled, Position);
+	Radar.PositionUpdate(Enabled, Position);
 }
 
 void Swarmer::Draw()

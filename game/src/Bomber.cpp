@@ -54,10 +54,6 @@ void Bomber::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	Radar.Position = Position;
-	Radar.Enabled = Enabled;
-	Radar.Update(deltaTime);
-
 	for (auto bomb : Bombs)
 	{
 		bomb->Update(deltaTime);
@@ -73,20 +69,20 @@ void Bomber::Update(float deltaTime)
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 	CheckPlayfieldHeightWarp(-0.15f, 1.0f);
-	Mirror.PositionUpdate(Enabled, X(), Y());
+	Radar.PositionUpdate(Enabled, Position);
+	Mirror.PositionUpdate(Enabled, Position);
 }
 
 void Bomber::Draw()
 {
 	Model3D::Draw();
 
-	Radar.Draw();
-
 	for (auto bomb : Bombs)
 	{
 		bomb->Draw();
 	}
 
+	Radar.Draw();
 	Mirror.Draw();
 }
 
@@ -94,7 +90,6 @@ void Bomber::Spawn(Vector2 position, float x)
 {
 	Enabled = true;
 	Position = { position.x, position.y, 0 };
-
 	Velocity.x = x;
 
 	float min = 30;

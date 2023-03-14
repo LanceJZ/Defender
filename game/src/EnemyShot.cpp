@@ -56,7 +56,7 @@ void EnemyShot::Update(float deltaTime)
 		Enabled = false;
 	}
 
-	Mirror.PositionUpdate(Enabled, X(), Y());
+	Mirror.PositionUpdate(Enabled, Position);
 }
 
 void EnemyShot::Draw()
@@ -72,7 +72,7 @@ void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)
 	LifeTimer->Reset(life);
 	Position = position;
 	Velocity = velocity;
-	Mirror.PositionUpdate(Enabled, X(), Y());
+	Mirror.PositionUpdate(Enabled, Position);
 }
 
 float EnemyShot::GetShotAngle(Vector3 position)

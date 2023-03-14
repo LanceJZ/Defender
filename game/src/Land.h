@@ -15,7 +15,8 @@ public:
 	virtual ~Land();
 
 	void SetUIBack(Model model);
-	void SetRadarHorz(Model model);
+	void SetUIHorz(Model model);
+	void SetRadarTopBottom(Model model);
 	void SetStar(Model model);
 	void SetPlayer(Player* player);
 	bool Initialize();
