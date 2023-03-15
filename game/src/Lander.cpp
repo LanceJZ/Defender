@@ -22,13 +22,13 @@ void Lander::SetShotModel(Model model)
 
 void Lander::SetRadarModel(Model model)
 {
-	Radar.TheModel = model;
+	RadarMirror.SetRadarModel(model, 3.0f);
 }
 
 void Lander::SetPlayer(Player* player)
 {
 	ThePlayer = player;
-	Radar.SetPlayer(player);
+	RadarMirror.SetPlayer(player);
 
 	for (auto shot : Shots)
 	{
@@ -40,8 +40,7 @@ bool Lander::Initialize()
 {
 	Model3D::Initialize();
 
-	Radar.Initialize();
-	Mirror.Initialize();
+	RadarMirror.Initialize();
 
 	for (auto shot : Shots)
 	{
@@ -65,10 +64,8 @@ bool Lander::BeginRun(Camera* camera)
 		shot->SetPlayer(ThePlayer);
 	}
 
-	Mirror.SetModel(TheModel, ModelScale);
-	Radar.ModelScale = 3;
-	Radar.BeginRun(camera);
-	Mirror.BeginRun(camera);
+	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.BeginRun(camera);
 
 	return false;
 }
@@ -121,8 +118,7 @@ void Lander::Update(float deltaTime)
 	}
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
-	Radar.PositionUpdate(Enabled, Position);
-	Mirror.PositionUpdate(Enabled, Position);
+	RadarMirror.PositionUpdate(Enabled, Position);
 }
 
 void Lander::Draw()
@@ -134,8 +130,7 @@ void Lander::Draw()
 		shot->Draw();
 	}
 
-	Mirror.Draw();
-	Radar.Draw();
+	RadarMirror.Draw();
 }
 
 void Lander::Spawn(Vector3 position)

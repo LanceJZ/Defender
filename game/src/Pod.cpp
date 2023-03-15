@@ -31,12 +31,12 @@ void Pod::SetSwarmerRadarModel(Model model)
 
 void Pod::SetRadar(Model model)
 {
-	Radar.SetModel(model);
+	RadarMirror.SetRadarModel(model, 4.0f);
 }
 
 void Pod::SetPlayer(Player* player)
 {
-	Radar.SetPlayer(player);
+	RadarMirror.SetPlayer(player);
 	ThePlayer = player;
 }
 
@@ -44,10 +44,8 @@ bool Pod::Initialize()
 {
 	Model3D::Initialize();
 
-	Radar.Initialize();
-	Mirror.Initialize();
-	ModelScale = 1;
-	Radar.ModelScale = 4;
+	RadarMirror.Initialize();
+	ModelScale = 1.0f;
 	Enabled = false;
 
 	return false;
@@ -58,9 +56,8 @@ bool Pod::BeginRun(Camera* camera)
 	Model3D::BeginRun(camera);
 
 	TheCamera = camera;
-	Mirror.SetModel(TheModel, ModelScale);
-	Mirror.BeginRun(camera);
-	Radar.BeginRun(camera);
+	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.BeginRun(camera);
 
 	SpawnSwarmers(1);
 
@@ -71,8 +68,7 @@ void Pod::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	Mirror.PositionUpdate(Enabled, Position);
-	Radar.PositionUpdate(Enabled, Position);
+	RadarMirror.PositionUpdate(Enabled, Position);
 
 	for (auto swarmer : Swarmers)
 	{
@@ -84,8 +80,7 @@ void Pod::Draw()
 {
 	Model3D::Draw();
 
-	Mirror.Draw();
-	Radar.Draw();
+	RadarMirror.Draw();
 
 	for (auto swarmer : Swarmers)
 	{

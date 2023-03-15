@@ -1,8 +1,7 @@
 #pragma once
 #include "Model3D.h"
 #include "EnemyShot.h"
-#include "EnemyRadar.h"
-#include "EnemyMirror.h"
+#include "EnemyRadarMirror.h"
 #include "Player.h"
 #include "Timer.h"
 
@@ -30,13 +29,11 @@ private:
 	bool BackToToporBottom = false;
 	float Speed = 100;
 
-	EnemyRadar Radar;
-	EnemyMirror Mirror;
+	EnemyRadarMirror RadarMirror;
 	Player* ThePlayer = nullptr;
 	Timer* ShotTimer = new Timer();
 	Timer* ChangeSpeedTimer = new Timer();
 
 	void FireShot();
 	void ChasePlayer();
-	void ResetChase();
 };

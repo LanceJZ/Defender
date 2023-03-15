@@ -2,14 +2,16 @@
 #include "raylib.h"
 #include "Model3D.h"
 #include "Player.h"
+#include "EnemyMirror.h"
 
-class EnemyRadar : public Model3D
+class EnemyRadarMirror : public Model3D
 {
 public:
-	EnemyRadar();
-	virtual ~EnemyRadar();
+	EnemyRadarMirror();
+	virtual ~EnemyRadarMirror();
 
-	void SetModel(Model model);
+	void SetRadarModel(Model model, float scale);
+	void SetMirrorModel(Model model, float scale);
 	void SetPlayer(Player* player);
 	bool Initialize();
 	bool BeginRun(Camera* camera);
@@ -18,8 +20,10 @@ public:
 	virtual void Draw();
 
 private:
+	Vector3 OrgPosition = { 0 };
 	Camera* TheCamera = nullptr;
 	Player* ThePlayer = nullptr;
+	EnemyMirror Mirrors;
 
 	void UpdateRadar();
 };

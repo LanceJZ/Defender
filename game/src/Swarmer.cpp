@@ -27,13 +27,13 @@ void Swarmer::SetShotModel(Model model)
 
 void Swarmer::SetRadar(Model model)
 {
-	Radar.TheModel = model;
+	RadarMirror.SetRadarModel(model, 5.0f);
 }
 
 void Swarmer::SetPlayer(Player* player)
 {
 	ThePlayer = player;
-	Radar.SetPlayer(player);
+	RadarMirror.SetPlayer(player);
 
 	for (auto shot : Shots)
 	{
@@ -50,10 +50,8 @@ bool Swarmer::Initialize()
 		shot->Initialize();
 	}
 
-	Radar.Initialize();
-	Mirror.Initialize();
-	ModelScale = 10;
-	Radar.ModelScale = 5;
+	RadarMirror.Initialize();
+	ModelScale = 10.0f;
 	Enabled = false;
 
 	return false;
@@ -63,7 +61,7 @@ bool Swarmer::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
-	RotationAxis = { 0, 1, 0 };
+	RotationAxis = { 0, 1.0f, 0 };
 	RotationVelocity = GetRandomFloat(25.1f, 52.6f);
 
 	for (auto shot : Shots)
@@ -72,9 +70,8 @@ bool Swarmer::BeginRun(Camera* camera)
 	}
 
 	TheCamera = camera;
-	Mirror.SetModel(TheModel, ModelScale);
-	Mirror.BeginRun(camera);
-	Radar.BeginRun(camera);
+	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.BeginRun(camera);
 
 	return false;
 }
@@ -100,8 +97,7 @@ void Swarmer::Update(float deltaTime)
 		FireShot();
 	}
 
-	Mirror.PositionUpdate(Enabled, Position);
-	Radar.PositionUpdate(Enabled, Position);
+	RadarMirror.PositionUpdate(Enabled, Position);
 }
 
 void Swarmer::Draw()
@@ -113,8 +109,7 @@ void Swarmer::Draw()
 		shot->Draw();
 	}
 
-	Mirror.Draw();
-	Radar.Draw();
+	RadarMirror.Draw();
 }
 
 void Swarmer::Spawn(Vector3 position)

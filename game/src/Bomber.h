@@ -1,7 +1,6 @@
 #pragma once
 #include "Model3D.h"
-#include "EnemyRadar.h"
-#include "EnemyMirror.h"
+#include "EnemyRadarMirror.h"
 #include "Player.h"
 #include "Bomb.h"
 #include "Timer.h"
@@ -27,8 +26,7 @@ public:
 
 private:
 	Model BombModel = { 0 };
-	EnemyMirror Mirror;
-	EnemyRadar Radar;
+	EnemyRadarMirror RadarMirror;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
 	Timer* DropBombTimer = new Timer();

@@ -2,8 +2,7 @@
 #include "raylib.h"
 #include "Model3D.h"
 #include "EnemyShot.h"
-#include "EnemyMirror.h"
-#include "EnemyRadar.h"
+#include "EnemyRadarMirror.h"
 #include "Timer.h"
 
 class Swarmer : public Model3D
@@ -27,8 +26,7 @@ public:
 	void Spawn(Vector3 position);
 
 private:
-	EnemyMirror Mirror;
-	EnemyRadar Radar;
+	EnemyRadarMirror RadarMirror;
 
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;

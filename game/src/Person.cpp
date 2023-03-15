@@ -6,23 +6,21 @@ Person::~Person()
 
 void Person::SetRadar(Model model)
 {
-	Radar.TheModel = model;
+	RadarMirror.SetRadarModel(model, 4.0f);
 }
 
 void Person::SetPlayer(Player* player)
 {
 	ThePlayer = player;
-	Radar.SetPlayer(player);
+	RadarMirror.SetPlayer(player);
 }
 
 bool Person::Initialize()
 {
 	Model3D::Initialize();
 
-	Mirror.Initialize();
-	Radar.Initialize();
-	ModelScale = 5;
-	Radar.ModelScale = 4;
+	RadarMirror.Initialize();
+	ModelScale = 5.0f;
 	Enabled = false;
 
 	return false;
@@ -32,9 +30,8 @@ bool Person::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
-	Mirror.SetModel(TheModel, ModelScale);
-	Mirror.BeginRun(camera);
-	Radar.BeginRun(camera);
+	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.BeginRun(camera);
 
 	return false;
 }
@@ -43,16 +40,14 @@ void Person::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	Mirror.PositionUpdate(Enabled, Position);
-	Radar.PositionUpdate(Enabled, Position);
+	RadarMirror.PositionUpdate(Enabled, Position);
 }
 
 void Person::Draw()
 {
 	Model3D::Draw();
 
-	Mirror.Draw();
-	Radar.Draw();
+	RadarMirror.Draw();
 }
 
 void Person::Spawn(Vector3 position)

@@ -15,22 +15,21 @@ void Bomber::SetBomb(Model model)
 
 void Bomber::SetRadar(Model model)
 {
-	Radar.TheModel = model;
+	RadarMirror.SetRadarModel(model, 3.0f);
 }
 
 void Bomber::SetPlayer(Player* player)
 {
 	ThePlayer = player;
-	Radar.SetPlayer(player);
+	RadarMirror.SetPlayer(player);
 }
 
 bool Bomber::Initialize()
 {
 	Model3D::Initialize();
 
-	Radar.Initialize();
-	Mirror.Initialize();
-	ModelScale = 10;
+	RadarMirror.Initialize();
+	ModelScale = 10.0f;
 
 	return false;
 }
@@ -40,11 +39,9 @@ bool Bomber::BeginRun(Camera* camera)
 	Model3D::BeginRun(camera);
 
 	TheCamera = camera;
-	Mirror.SetModel(TheModel, ModelScale);
-	Mirror.BeginRun(camera);
-	Radar.SetPlayer(ThePlayer);
-	Radar.ModelScale = 3;
-	Radar.BeginRun(camera);
+	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.SetPlayer(ThePlayer);
+	RadarMirror.BeginRun(camera);
 	DropBombTimer->Set(GetRandomFloat(0.5f, 1.0f));
 
 	return false;
@@ -63,14 +60,13 @@ void Bomber::Update(float deltaTime)
 
 	if (DropBombTimer->Elapsed())
 	{
-		DropBombTimer->Reset(GetRandomFloat(2.5, 5.0f));
+		DropBombTimer->Reset(GetRandomFloat(2.5f, 5.0f));
 		DropABomb();
 	}
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 	CheckPlayfieldHeightWarp(-0.15f, 1.0f);
-	Radar.PositionUpdate(Enabled, Position);
-	Mirror.PositionUpdate(Enabled, Position);
+	RadarMirror.PositionUpdate(Enabled, Position);
 }
 
 void Bomber::Draw()
@@ -82,8 +78,7 @@ void Bomber::Draw()
 		bomb->Draw();
 	}
 
-	Radar.Draw();
-	Mirror.Draw();
+	RadarMirror.Draw();
 }
 
 void Bomber::Spawn(Vector2 position, float x)

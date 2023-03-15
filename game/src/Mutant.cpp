@@ -22,13 +22,13 @@ void Mutant::SetShotModel(Model model)
 
 void Mutant::SetRadarModel(Model model)
 {
-	Radar.TheModel = model;
+	RadarMirror.SetRadarModel(model, 3.0f);
 }
 
 void Mutant::SetPlayer(Player* player)
 {
 	ThePlayer = player;
-	Radar.SetPlayer(player);
+	RadarMirror.SetPlayer(player);
 
 	for (auto shot : Shots)
 	{
@@ -40,8 +40,7 @@ bool Mutant::Initialize()
 {
 	Model3D::Initialize();
 
-	Mirror.Initialize();
-	Radar.Initialize();
+	RadarMirror.Initialize();
 
 	for (auto shot : Shots)
 	{
@@ -50,7 +49,6 @@ bool Mutant::Initialize()
 
 	ModelScale = 14;
 	Radius = 14;
-	Radar.ModelScale = 3;
 
 	return false;
 }
@@ -64,9 +62,8 @@ bool Mutant::BeginRun(Camera* camera)
 		shot->BeginRun(camera);
 	}
 
-	Mirror.SetModel(TheModel, ModelScale);
-	Mirror.BeginRun(camera);
-	Radar.BeginRun(camera);
+	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.BeginRun(camera);
 
 	return false;
 }
@@ -94,8 +91,7 @@ void Mutant::Update(float deltaTime)
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
-	Radar.PositionUpdate(Enabled, Position);
-	Mirror.PositionUpdate(Enabled, Position);
+	RadarMirror.PositionUpdate(Enabled, Position);
 	ChasePlayer();
 }
 
@@ -108,8 +104,7 @@ void Mutant::Draw()
 		shot->Draw();
 	}
 
-	Mirror.Draw();
-	Radar.Draw();
+	RadarMirror.Draw();
 }
 
 void Mutant::Spawn(Vector3 position)

@@ -2,8 +2,7 @@
 #include "raylib.h"
 #include "Model3D.h"
 #include "Swarmer.h"
-#include "EnemyMirror.h"
-#include "EnemyRadar.h"
+#include "EnemyRadarMirror.h"
 
 class Pod : public Model3D
 {
@@ -28,8 +27,7 @@ public:
 	void Spawn(Vector3 position);
 
 private:
-	EnemyMirror Mirror;
-	EnemyRadar Radar;
+	EnemyRadarMirror RadarMirror;
 	Model SwarmerModel = { 0 };
 	Model SwarmerRadarModel = { 0 };
 	Model ShotModel = { 0 };

@@ -1,8 +1,7 @@
 #pragma once
 #include "Model3D.h"
 #include "Player.h"
-#include "EnemyRadar.h"
-#include "EnemyMirror.h"
+#include "EnemyRadarMirror.h"
 
 class Person : public Model3D
 {
@@ -22,8 +21,7 @@ public:
 	void Spawn(Vector3 position);
 
 private:
-	EnemyMirror Mirror;
-	EnemyRadar Radar;
+	EnemyRadarMirror RadarMirror;
 
 	Player* ThePlayer = nullptr;
 };
