@@ -45,7 +45,7 @@ bool Pod::Initialize()
 	Model3D::Initialize();
 
 	RadarMirror.Initialize();
-	ModelScale = 1.0f;
+	ModelScale = 10.0f;
 	Enabled = false;
 
 	return false;
@@ -59,7 +59,7 @@ bool Pod::BeginRun(Camera* camera)
 	RadarMirror.SetMirrorModel(TheModel, ModelScale);
 	RadarMirror.BeginRun(camera);
 
-	SpawnSwarmers(1);
+	SpawnSwarmers(3);
 
 	return false;
 }
@@ -68,12 +68,14 @@ void Pod::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	RadarMirror.PositionUpdate(Enabled, Position);
-
 	for (auto swarmer : Swarmers)
 	{
 		swarmer->Update(deltaTime);
 	}
+
+	CheckPlayfieldSidesWarp(4.0f, 3.0f);
+	CheckPlayfieldHeightWarp(-0.15f, 1.0f);
+	RadarMirror.PositionUpdate(Enabled, Position);
 }
 
 void Pod::Draw()
@@ -88,10 +90,32 @@ void Pod::Draw()
 	}
 }
 
-void Pod::Spawn(Vector3 position)
+void Pod::Spawn(Vector3 position, float xVol)
 {
 	Enabled = true;
 	Position = position;
+
+	float minY = 30;
+	float maxY = 40;
+	float yVol = GetRandomFloat(minY, maxY);
+
+	if (GetRandomValue(0, 10) < 5)
+	{
+		Velocity.y = -yVol;
+	}
+	else
+	{
+		Velocity.y = yVol;
+	}
+
+	if (GetRandomValue(0, 10) < 5)
+	{
+		Velocity.x = -xVol;
+	}
+	else
+	{
+		Velocity.x = xVol;
+	}
 }
 
 void Pod::SpawnSwarmers(int count)
@@ -101,6 +125,9 @@ void Pod::SpawnSwarmers(int count)
 		Swarmers.push_back(new Swarmer());
 	}
 
+	float xLine = GetRandomFloat(-400.0f, 400.0f);
+	float xVol = GetRandomFloat(45, 65);
+
 	for (auto swarmer : Swarmers)
 	{
 		swarmer->Initialize();
@@ -109,6 +136,6 @@ void Pod::SpawnSwarmers(int count)
 		swarmer->SetShotModel(ShotModel);
 		swarmer->SetPlayer(ThePlayer);
 		swarmer->BeginRun(TheCamera);
-		swarmer->Spawn({ 50.0f, 150.0f, 0 });
+		swarmer->Spawn({ xLine, 150.0f, 0 }, { xVol, xVol, 0 });
 	}
 }

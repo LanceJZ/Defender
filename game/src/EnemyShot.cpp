@@ -79,7 +79,7 @@ float EnemyShot::GetShotAngle(Vector3 position)
 {
 	float angle = 0;
 
-	if (GetRandomValue(0, 10) > 3)
+	if (GetRandomValue(0, 100) > 50)
 	{
 		angle = AimedShot(position);
 	}

@@ -91,7 +91,7 @@ void Bomber::Spawn(Vector2 position, float x)
 	float max = 75;
 	float yV = GetRandomFloat(min, max);
 
-	if (GetRandomValue(0, 10) < 5)
+	if (GetRandomValue(0, 100) < 50)
 	{
 		Velocity.y = -yV;
 	}
@@ -99,7 +99,6 @@ void Bomber::Spawn(Vector2 position, float x)
 	{
 		Velocity.y = yV;
 	}
-
 }
 
 void Bomber::DropABomb()

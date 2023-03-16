@@ -75,9 +75,9 @@ bool Swarmer::BeginRun(Camera* camera)
 
 	return false;
 }
-// Swarmer don't change Y direction until they are half screen distance away.
+// Swarmer don't change X direction until they are half screen distance away.
 // Can not shoot opposite direction of movement.
-// Take a second to change X direction of movement after passing player Y position.
+// Take a second to change Y direction of movement after passing player Y position.
 // They shot 1/4 screen width distance in front of themselves at your Y position.
 // When Pod is shot, Swarmers head towards the player.
 void Swarmer::Update(float deltaTime)
@@ -93,10 +93,18 @@ void Swarmer::Update(float deltaTime)
 
 	if (ShotTimer->Elapsed())
 	{
-		ShotTimer->Reset();
 		FireShot();
 	}
 
+	AfterSpawn->Update(deltaTime);
+
+	if (AfterSpawn->Elapsed())
+	{
+		AfterSpawnMovement();
+	}
+
+	CheckPlayfieldSidesWarp(4.0f, 3.0f);
+	CheckPlayfieldHeightWarp(-0.15f, 1.0f);
 	RadarMirror.PositionUpdate(Enabled, Position);
 }
 
@@ -112,16 +120,63 @@ void Swarmer::Draw()
 	RadarMirror.Draw();
 }
 
-void Swarmer::Spawn(Vector3 position)
+void Swarmer::Spawn(Vector3 position, Vector3 velocity)
 {
 	Enabled = true;
 	Position = position;
+	Velocity = velocity;
+
+	if (GetRandomValue(1, 100) < 50)
+	{
+		Velocity.x *= -1;
+	}
+
+	if (GetRandomValue(1, 100) < 50)
+	{
+		Velocity.y *= -1;
+	}
+
+	ShotTimer->Reset(GetRandomFloat(0.25f, 0.35f));
+	AfterSpawn->Reset(GetRandomFloat(0.25f, 0.5f));
 }
 
 void Swarmer::FireShot()
 {
-	if (!Shots[0]->Enabled)
+	ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
+
+	if (Velocity.x > 0)
 	{
-		Shots[0]->Spawn(Position, VelocityFromAngleZ(Shots[0]->GetShotAngle(Position), 350.0f), 4.5f);
+		if (ThePlayer->X() < X())
+		{
+			return;
+		}
+	}
+	else
+	{
+		if (ThePlayer->X() > X())
+		{
+			return;
+		}
+	}
+
+	for (auto shot : Shots)
+	{
+		if (!shot->Enabled)
+		{
+			shot->Spawn(Position, VelocityFromAngleZ(Shots[0]->GetShotAngle(Position), 155.0f), 7.0f);
+			return;
+		}
+	}
+}
+
+void Swarmer::AfterSpawnMovement()
+{
+	if (ThePlayer->X() + (WindowWidth * 0.75f) < X())
+	{
+		Velocity.x = -40;
+	}
+	else if (ThePlayer->X() - (WindowWidth * 0.75f) > X())
+	{
+		Velocity.x = 40;
 	}
 }

@@ -76,6 +76,20 @@ void SwarmerControl::SpawnPods(float count)
 		Pods.push_back(new Pod());
 	}
 
+	float xLine = 0;
+
+	if (GetRandomValue(1, 10) < 5)
+	{
+		xLine = GetRandomFloat(GetScreenWidth() * 1.5f, GetScreenWidth() * 3.5f);
+	}
+	else
+	{
+		xLine = GetRandomFloat(-GetScreenWidth() * 3.5f, -GetScreenWidth() * 1.5f);
+	}
+
+	float xVol = GetRandomFloat(35.0f, 55.5f);
+	float y = GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
+
 	for (auto pod : Pods)
 	{
 		pod->Initialize();
@@ -86,6 +100,6 @@ void SwarmerControl::SpawnPods(float count)
 		pod->SetSwarmerRadarModel(SwarmerRadarModel);
 		pod->SetPlayer(ThePlayer);
 		pod->BeginRun(TheCamera);
-		pod->Spawn({ 500.0f, 200.0f, 0 });
+		pod->Spawn({ xLine + GetRandomFloat(-200.0f, 200.0f), y, 0 }, xVol);
 	}
 }

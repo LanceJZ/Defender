@@ -143,7 +143,7 @@ void Lander::Spawn(Vector3 position)
 
 	float velX = 0;
 
-	if (GetRandomValue(0, 10) < 5)
+	if (GetRandomValue(0, 100) < 50)
 	{
 		velX = GetRandomFloat(30, 60);
 	}

@@ -24,7 +24,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void Spawn(Vector3 position);
+	void Spawn(Vector3 position, float xVol);
 
 private:
 	EnemyRadarMirror RadarMirror;

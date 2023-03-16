@@ -23,7 +23,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void Spawn(Vector3 position);
+	void Spawn(Vector3 position, Vector3 velocity);
 
 private:
 	EnemyRadarMirror RadarMirror;
@@ -31,6 +31,8 @@ private:
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
 	Timer* ShotTimer = new Timer();
+	Timer* AfterSpawn = new Timer();
 
 	void FireShot();
+	void AfterSpawnMovement();
 };
