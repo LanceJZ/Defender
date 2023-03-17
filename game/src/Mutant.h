@@ -36,4 +36,6 @@ private:
 
 	void FireShot();
 	void ChasePlayer();
+	void CheckCollision();
+	void Destroy();
 };

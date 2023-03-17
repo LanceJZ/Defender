@@ -119,6 +119,7 @@ void Lander::Update(float deltaTime)
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
 	RadarMirror.PositionUpdate(Enabled, Position);
+	CheckCollision();
 }
 
 void Lander::Draw()
@@ -145,16 +146,16 @@ void Lander::Spawn(Vector3 position)
 
 	if (GetRandomValue(0, 100) < 50)
 	{
-		velX = GetRandomFloat(30, 60);
+		velX = GetRandomFloat(30.0f, 60.0f);
 	}
 	else
 	{
-		velX = GetRandomFloat(-60, -30);
+		velX = GetRandomFloat(-60.0f, -30.0f);
 	}
 
-	float velY = GetRandomFloat(-30, -20);
+	float velY = GetRandomFloat(-30.0f, -20.0f);
 	Velocity = { velX, velY, 0 };
-	GroundHoverY = GetRandomFloat(-20, 80);
+	GroundHoverY = GetRandomFloat(-20.0f, 80.0f);
 }
 
 void Lander::FireShot()
@@ -181,6 +182,35 @@ void Lander::FireShots()
 	}
 }
 
+void Lander::CheckCollision()
+{
+	if (CirclesIntersect(ThePlayer))
+	{
+		Distroy();
+		return;
+	}
+
+	for (auto shot : ThePlayer->Shots)
+	{
+		if (CirclesIntersect(shot))
+		{
+			Distroy();
+			return;
+		}
+	}
+}
+
+void Lander::Distroy()
+{
+	Enabled = false;
+	RadarMirror.Enabled = false;
+
+	if (PersonCaptured)
+	{
+		PersonCaptured->Dropped();
+	}
+}
+
 void Lander::GoToGround()
 {
 	if (Y() < (-GetScreenHeight() * 0.2f) + GroundHoverY)
@@ -194,18 +224,21 @@ void Lander::SeekPersonMan()
 {
 	for (auto person : People)
 	{
-		if (person->X() < X() + 25.0f && person->X() > X() - 25.0f)
+		if (person->Enabled)
 		{
-			if (person->BeingCaptured)
-				return;
+			if (person->X() < X() + 25.0f && person->X() > X() - 25.0f)
+			{
+				if (person->BeingCaptured)
+					return;
 
-			CurrentMode = FoundPersonMan;
-			ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
-			Velocity.x = 0;
-			Velocity.y = GetRandomFloat(-60, -40);
-			PersonCaptured = person;
-			person->BeingCaptured = true;
-			return;
+				CurrentMode = FoundPersonMan;
+				ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
+				Velocity.x = 0;
+				Velocity.y = GetRandomFloat(-40.0f, -30.0f);
+				PersonCaptured = person;
+				person->BeingCaptured = true;
+				return;
+			}
 		}
 	}
 }
@@ -216,11 +249,11 @@ void Lander::FoundPersonManGoingDown()
 	{
 		if (X() > PersonCaptured->X())
 		{
-			Velocity.x = -10;
+			Velocity.x = -10.0f;
 		}
 		else if (X() < PersonCaptured->X())
 		{
-			Velocity.x = 10;
+			Velocity.x = 10.0f;
 		}
 		else if (X() == PersonCaptured->X())
 		{
@@ -244,13 +277,14 @@ void Lander::GrabPersonMan()
 		return;
 	}
 
-	PersonCaptured->Y(Y() -25);
+	PersonCaptured->Y(Y() -25.0f);
 }
 
 void Lander::SpawnMutatant()
 {
-	MutateLander = true;
 	Velocity.y = 0;
+	RadarMirror.Enabled = false;
 	PersonCaptured->Enabled = false;
+	MutateLander = true;
 	Enabled = false;
 }

@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Pre-Alpha 00.10");
+	SetWindowTitle("Defender Pre-Alpha 01.00");
 	ThePlayer->Initialize();
 	ControlLanderMutant->Initialize();
 	TheLand->Initialize();
@@ -143,5 +143,5 @@ void GameLogic::Draw3D()
 
 void GameLogic::Draw2D()
 {
-
+	Score->Draw();
 }

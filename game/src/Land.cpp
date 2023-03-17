@@ -289,6 +289,7 @@ void Land::CreateAllTheStars()
 
 	for (auto star : AllTheStars)
 	{
+		star->Initialize();
 		star->TheModel = Star;
 		star->ModelScale = 6;
 		star->BeginRun(TheCamera);
@@ -313,7 +314,6 @@ void Land::UpdateAllTheStars(float deltaTime)
 
 	for (auto star : AllTheStars)
 	{
-		star->Update(deltaTime);
+		//star->Update(deltaTime);
 	}
-
 }

@@ -53,7 +53,7 @@ bool LanderMutantControl::Initialize()
 bool LanderMutantControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
-	SpawnLanders(15);
+	SpawnLanders(5);
 	SpawnPoeple(10);
 
 	for (auto lander : Landers)

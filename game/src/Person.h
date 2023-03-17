@@ -12,16 +12,25 @@ public:
 
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
-	bool BeginRun(Camera* camera);
+	virtual bool Initialize();
+	virtual bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
 	void Spawn(Vector3 position);
+	void Dropped();
 
 private:
+	bool GoingDown = true;
+	bool CaughtByPlayer = false;
+	float DroppedY = 0;
+
 	EnemyRadarMirror RadarMirror;
 
 	Player* ThePlayer = nullptr;
+
+	void Falling();
+	void GoingForARide();
+	void CheckCollision();
 };

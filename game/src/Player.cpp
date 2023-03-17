@@ -16,6 +16,7 @@ bool Player::Initialize()
 {
 	Model3D::Initialize();
 
+	Radius = 13.0f;
 	Cull = false;
 	Flame.Cull = false;
 	Radar.Cull = false;

@@ -59,8 +59,6 @@ bool Pod::BeginRun(Camera* camera)
 	RadarMirror.SetMirrorModel(TheModel, ModelScale);
 	RadarMirror.BeginRun(camera);
 
-	SpawnSwarmers(3);
-
 	return false;
 }
 
@@ -94,6 +92,8 @@ void Pod::Spawn(Vector3 position, float xVol)
 {
 	Enabled = true;
 	Position = position;
+	RotationAxis = { 0.5f, 0.95f, 0.25f }; //Make random
+	RotationVelocity = 2.5f;
 
 	float minY = 30;
 	float maxY = 40;
@@ -126,7 +126,8 @@ void Pod::SpawnSwarmers(int count)
 	}
 
 	float xLine = GetRandomFloat(-400.0f, 400.0f);
-	float xVol = GetRandomFloat(45, 65);
+	float xVol = GetRandomFloat(65.0f, 75.0f);
+	float yVol = GetRandomFloat(55.0f, 65.0f);
 
 	for (auto swarmer : Swarmers)
 	{
@@ -136,6 +137,6 @@ void Pod::SpawnSwarmers(int count)
 		swarmer->SetShotModel(ShotModel);
 		swarmer->SetPlayer(ThePlayer);
 		swarmer->BeginRun(TheCamera);
-		swarmer->Spawn({ xLine, 150.0f, 0 }, { xVol, xVol, 0 });
+		swarmer->Spawn({ xLine, 150.0f, 0 }, { xVol, yVol, 0 });
 	}
 }

@@ -125,6 +125,15 @@ void Swarmer::Spawn(Vector3 position, Vector3 velocity)
 	Enabled = true;
 	Position = position;
 	Velocity = velocity;
+	XVolocity = velocity.x;
+	YVolocity = velocity.y;
+	RotationAxis = { 0, 1, 0 };
+	RotationVelocity = 20.5f;
+
+	if (XVolocity < 0)
+	{
+		XVolocity *= -1;
+	}
 
 	if (GetRandomValue(1, 100) < 50)
 	{
@@ -173,10 +182,26 @@ void Swarmer::AfterSpawnMovement()
 {
 	if (ThePlayer->X() + (WindowWidth * 0.75f) < X())
 	{
-		Velocity.x = -40;
+		Velocity.x = -XVolocity;
 	}
 	else if (ThePlayer->X() - (WindowWidth * 0.75f) > X())
 	{
-		Velocity.x = 40;
+		Velocity.x = XVolocity;
+	}
+
+	float distanceX = GetRandomFloat(200.0f, 250.0f);
+	float distanceY = GetRandomFloat(25.0f, 50.0f);
+
+	if (ThePlayer->X() < X() + distanceX && ThePlayer->X() > X() - distanceX)
+	{
+		if (ThePlayer->Y() + distanceY < Y())
+		{
+			Velocity.y = -YVolocity;
+		}
+		else if (ThePlayer->Y() - distanceY > Y())
+
+		{
+			Velocity.y = YVolocity;
+		}
 	}
 }

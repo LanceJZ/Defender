@@ -48,8 +48,6 @@ bool SwarmerControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
 
-	SpawnPods(1);
-
 	return false;
 }
 

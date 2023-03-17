@@ -52,5 +52,7 @@ private:
 	void SpawnMutatant();
 	void FireShot();
 	void FireShots();
+	void CheckCollision();
+	void Distroy();
 };
 

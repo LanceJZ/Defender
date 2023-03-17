@@ -26,6 +26,9 @@ public:
 	void Spawn(Vector3 position, Vector3 velocity);
 
 private:
+	float XVolocity = 0;
+	float YVolocity = 0;
+
 	EnemyRadarMirror RadarMirror;
 
 	Player* ThePlayer = nullptr;

@@ -77,22 +77,23 @@ void Mutant::Update(float deltaTime)
 		shot->Update(deltaTime);
 	}
 
-	if (!Enabled)
-		return;
-
-	ShotTimer->Update(deltaTime);
-	ChangeSpeedTimer->Update(deltaTime);
-
-	if (ShotTimer->Elapsed())
+	if (Enabled)
 	{
-		ShotTimer->Reset();
-		FireShot();
-	}
+		ShotTimer->Update(deltaTime);
+		ChangeSpeedTimer->Update(deltaTime);
 
-	CheckPlayfieldSidesWarp(4.0f, 3.0f);
-	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
-	RadarMirror.PositionUpdate(Enabled, Position);
-	ChasePlayer();
+		if (ShotTimer->Elapsed())
+		{
+			ShotTimer->Reset();
+			FireShot();
+		}
+
+		CheckPlayfieldSidesWarp(4.0f, 3.0f);
+		ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
+		RadarMirror.PositionUpdate(Enabled, Position);
+		ChasePlayer();
+		CheckCollision();
+	}
 }
 
 void Mutant::Draw()
@@ -137,9 +138,6 @@ void Mutant::ChasePlayer()
 	float playerX = ThePlayer->X();
 	float shipX = X();
 
-	float shiplessplayer = shipX - playerX;
-	float playerlessship = playerX - shipX;
-
 	if (shipX - playerX > worldW || playerX - shipX > worldW)
 	{
 		if (playerX < X())
@@ -163,13 +161,15 @@ void Mutant::ChasePlayer()
 		}
 	}
 
+	float distanceY = GetRandomFloat(100.0f, 150.0f);
+
 	if (GotNearPlayer && !BackToToporBottom)
 	{
-		if (ThePlayer->Y() + 100.0f < Y())
+		if (ThePlayer->Y() + distanceY < Y())
 		{
 			Velocity.y = -Speed * 0.25f;
 		}
-		else if (ThePlayer->Y() - 100 > Y())
+		else if (ThePlayer->Y() - distanceY > Y())
 		{
 			Velocity.y = Speed * 0.25f;
 		}
@@ -198,8 +198,34 @@ void Mutant::ChasePlayer()
 		}
 	}
 
-	if (playerX < X() + 75.0f && playerX > X() - 75.0)
+	float distanceX = GetRandomFloat(75.0f, 100.0f);
+
+	if (playerX < X() + distanceX && playerX > X() - distanceX)
 	{
 		GotNearPlayer = true;
 	}
+}
+
+void Mutant::CheckCollision()
+{
+	if (CirclesIntersect(ThePlayer))
+	{
+		Destroy();
+		return;
+	}
+
+	for (auto shot : ThePlayer->Shots)
+	{
+		if (CirclesIntersect(shot))
+		{
+			Destroy();
+			return;
+		}
+	}
+}
+
+void Mutant::Destroy()
+{
+	Enabled = false;
+	RadarMirror.Enabled = false;
 }

@@ -5,6 +5,8 @@
 #include "LanderMutantControl.h"
 #include "BomberControl.h"
 #include "SwarmerControl.h"
+#include "ScoreKeeper.h"
+#include "SharedData.h"
 
 enum GameState
 {
@@ -40,6 +42,7 @@ private:
 	Camera* TheCamera = nullptr;
 	Player* ThePlayer = new Player();
 	Land* TheLand = new Land();
+	ScoreKeeper* Score = new ScoreKeeper();
 	LanderMutantControl* ControlLanderMutant = new LanderMutantControl();
 	BomberControl* Bombers = new BomberControl();
 	SwarmerControl* Swarmers = new SwarmerControl();

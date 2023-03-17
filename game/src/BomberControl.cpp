@@ -37,7 +37,6 @@ bool BomberControl::Initialize()
 bool BomberControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
-	SpawnBombers(3);
 	return false;
 }
 
