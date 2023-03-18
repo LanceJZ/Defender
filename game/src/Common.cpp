@@ -2,13 +2,15 @@
 
 bool Common::Initialize()
 {
+	GameScreenHalfHeight = GetScreenHeight() * 0.5f;
+	GameScreenHalfWidth = GetScreenWidth() * 0.5f;
 
 	return false;
 }
 
 float Common::GetRandomScreenY()
 {
-	return GetRandomFloat(-GameScreenHeight, GameScreenHeight);
+	return GetRandomFloat(-GameScreenHalfHeight, GameScreenHalfHeight);
 }
 
 float Common::GetRandomFloat(float min, float max)

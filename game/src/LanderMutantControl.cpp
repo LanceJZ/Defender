@@ -4,6 +4,13 @@ LanderMutantControl::~LanderMutantControl()
 {
 }
 
+bool LanderMutantControl::Initialize()
+{
+	Common::Initialize();
+
+	return false;
+}
+
 void LanderMutantControl::SetLanderModel(Model model)
 {
 	LanderModel = model;
@@ -44,10 +51,9 @@ void LanderMutantControl::SetPlayer(Player* player)
 	ThePlayer = player;
 }
 
-bool LanderMutantControl::Initialize()
+void LanderMutantControl::SetData(SharedData* data)
 {
-
-	return false;
+	Data = data;
 }
 
 bool LanderMutantControl::BeginRun(Camera* camera)
@@ -55,22 +61,15 @@ bool LanderMutantControl::BeginRun(Camera* camera)
 	TheCamera = camera;
 	SpawnLanders(5);
 	SpawnPoeple(10);
-
-	for (auto lander : Landers)
-	{
-		lander->BeginRun(camera);
-	}
-
-	for (auto person : People)
-	{
-		person->BeginRun(camera);
-	}
+	SpawnTimer.Set(SpawnTimerAmount);
 
 	return false;
 }
 
 void LanderMutantControl::Update(float deltaTime)
 {
+	SpawnTimer.Update(deltaTime);
+
 	for (auto lander : Landers)
 	{
 		lander->Update(deltaTime);
@@ -80,16 +79,45 @@ void LanderMutantControl::Update(float deltaTime)
 			lander->MutateLander = false;
 			SpawnMutant(lander);
 		}
+
+		if (lander->CountChange)
+		{
+			lander->CountChange = false;
+			CountChange();
+		}
 	}
 
 	for (auto mutant : Mutants)
 	{
 		mutant->Update(deltaTime);
+
+		if (mutant->CountChange)
+		{
+			mutant->CountChange = false;
+			CountChange();
+		}
 	}
 
 	for (auto person : People)
 	{
 		person->Update(deltaTime);
+
+		if (person->CountChanged)
+		{
+			person->CountChanged = false;
+			CountPeopleChange();
+		}
+	}
+
+	if (SpawnTimer.Elapsed())
+	{
+		SpawnTimer.Reset();
+
+		if (NumberSpawned < TotalSpawn)
+		{
+			SpawnLanders(5);
+			NumberSpawned += 5;
+		}
 	}
 }
 
@@ -113,37 +141,77 @@ void LanderMutantControl::Draw()
 
 void LanderMutantControl::SpawnLanders(int count)
 {
-	//(-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i); The land size i = 0 to 6, so 7 times Screen Width.
-
+	//The land size i = 0 to 6, so 7 times Screen Width and shifted over half a screen width.
 	for (int i = 0; i < count; i++)
 	{
+		bool spawnNew = true;
+		int landerNumber = 0;
+
+		for (auto lander : Landers)
+		{
+			if (!lander->Enabled)
+			{
+				spawnNew = false;
+				break;
+			}
+
+			landerNumber++;
+		}
+
+
+		if (spawnNew)
+		{
+			landerNumber = Landers.size();
+			Landers.push_back(new Lander());
+			{
+				Landers[landerNumber]->Initialize();
+				Landers[landerNumber]->SetModel(LanderModel);
+				Landers[landerNumber]->SetRadarModel(LanderRadar);
+				Landers[landerNumber]->SetShotModel(ShotModel);
+				Landers[landerNumber]->SetPlayer(ThePlayer);
+				Landers[landerNumber]->BeginRun(TheCamera);
+			}
+		}
+
 		float x = GetRandomFloat((-GetScreenWidth() * 3.5f), (GetScreenWidth() * 3.5f));
 		float y = GetScreenHeight() * 0.333f;
-
-		Landers.push_back(new Lander());
-		{
-			Landers[Landers.size() - 1]->Initialize();
-			Landers[Landers.size() - 1]->TheModel= LanderModel;
-			Landers[Landers.size() - 1]->SetRadarModel(LanderRadar);
-			Landers[Landers.size() - 1]->SetShotModel(ShotModel);
-			Landers[Landers.size() - 1]->SetPlayer(ThePlayer);
-			Landers[Landers.size() - 1]->Spawn({x, y, 0});
-		}
+		Landers[landerNumber]->Spawn({x, y, 0});
 	}
+
+	Data->LandersMutantsBeGone = false;
 }
 
 void LanderMutantControl::SpawnMutant(Lander* lander)
 {
-	Mutants.push_back(new Mutant());
+	bool spawnNew = true;
+	int mutantNumber = 0;
+
+	for (auto mutant : Mutants)
 	{
-		Mutants[Mutants.size() - 1]->Initialize();
-		Mutants[Mutants.size() - 1]->TheModel = MutantModel;
-		Mutants[Mutants.size() - 1]->SetRadarModel(MutantRadar);
-		Mutants[Mutants.size() - 1]->SetShotModel(ShotModel);
-		Mutants[Mutants.size() - 1]->SetPlayer(ThePlayer);
-		Mutants[Mutants.size() - 1]->BeginRun(TheCamera);
-		Mutants[Mutants.size() - 1]->Spawn(lander->Position);
+		if (!mutant->Enabled)
+		{
+			spawnNew = false;
+			break;
+		}
+
+		mutantNumber++;
 	}
+
+	if (spawnNew)
+	{
+		mutantNumber = Mutants.size();
+		Mutants.push_back(new Mutant());
+		{
+			Mutants[mutantNumber]->Initialize();
+			Mutants[mutantNumber]->TheModel = MutantModel;
+			Mutants[mutantNumber]->SetRadarModel(MutantRadar);
+			Mutants[mutantNumber]->SetShotModel(ShotModel);
+			Mutants[mutantNumber]->SetPlayer(ThePlayer);
+			Mutants[mutantNumber]->BeginRun(TheCamera);
+		}
+	}
+
+	Mutants[mutantNumber]->Spawn(lander->Position);
 }
 
 void LanderMutantControl::SpawnPoeple(int count)
@@ -159,6 +227,7 @@ void LanderMutantControl::SpawnPoeple(int count)
 			People[People.size() - 1]->TheModel = PersonModel;
 			People[People.size() - 1]->SetRadar(PersonRadar);
 			People[People.size() - 1]->SetPlayer(ThePlayer);
+			People[People.size() - 1]->BeginRun(TheCamera);
 			People[People.size() - 1]->Spawn({ x, y, 0 });
 		}
 	}
@@ -167,4 +236,38 @@ void LanderMutantControl::SpawnPoeple(int count)
 	{
 		lander->People = People;
 	}
+}
+
+void LanderMutantControl::CountChange()
+{
+	for (auto lander : Landers)
+	{
+		if (lander->Enabled)
+		{
+			return;
+		}
+	}
+
+	for (auto mutant : Mutants)
+	{
+		if (mutant->Enabled)
+		{
+			return;
+		}
+	}
+
+	Data->LandersMutantsBeGone = true;
+}
+
+void LanderMutantControl::CountPeopleChange()
+{
+	for (auto person : People)
+	{
+		if (person->Enabled)
+		{
+			return;
+		}
+	}
+
+	Data->PeopleBeGone = true;
 }

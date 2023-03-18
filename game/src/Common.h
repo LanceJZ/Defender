@@ -15,10 +15,10 @@ using namespace std;
 class Common
 {
 public:
-	float GameScreenWidth = { 0 };
-	float GameScreenHeight = { 0 };
+	float GameScreenHalfWidth = { 0 };
+	float GameScreenHalfHeight = { 0 };
 
-	bool Initialize();
+	virtual bool Initialize();
 	float GetRandomScreenY();
 	float GetRandomFloat(float min, float max);
 	float GetRandomRadian();

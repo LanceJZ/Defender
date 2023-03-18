@@ -1,7 +1,6 @@
 #pragma once
-#include "Common.h"
-#include "Player.h"
 #include "Pod.h"
+#include "SharedData.h"
 
 class SwarmerControl : Common
 {
@@ -32,6 +31,7 @@ private:
 
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
+	SharedData* Data = nullptr;
 
 	void SpawnPods(float count);
 };

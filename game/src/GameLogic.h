@@ -43,6 +43,7 @@ private:
 	Player* ThePlayer = new Player();
 	Land* TheLand = new Land();
 	ScoreKeeper* Score = new ScoreKeeper();
+	SharedData* Data = new SharedData();
 	LanderMutantControl* ControlLanderMutant = new LanderMutantControl();
 	BomberControl* Bombers = new BomberControl();
 	SwarmerControl* Swarmers = new SwarmerControl();

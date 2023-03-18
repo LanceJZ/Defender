@@ -8,11 +8,14 @@
 class Mutant : public Model3D
 {
 public:
+	bool CountChange = false;
+
 	Mutant();
 	virtual ~Mutant();
 
 	EnemyShot* Shots[4];
 
+	void SetModel(Model model);
 	void SetShotModel(Model model);
 	void SetRadarModel(Model model);
 	void SetPlayer(Player* player);

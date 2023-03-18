@@ -1,9 +1,8 @@
 #pragma once
-#include "Common.h"
 #include "Lander.h"
 #include "Mutant.h"
 #include "Person.h"
-#include "Player.h"
+#include "SharedData.h"
 
 class LanderMutantControl : Common
 {
@@ -14,6 +13,7 @@ public:
 	vector<Mutant*> Mutants;
 	vector<Person*> People; //The Person Man.
 
+	bool Initialize();
 	void SetLanderModel(Model model);
 	void SetMutantModel(Model model);
 	void SetShotModel(Model model);
@@ -22,13 +22,17 @@ public:
 	void SetPersonRadar(Model model);
 	void SetMutantRadarModel(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
+	void SetData(SharedData* data);
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
 private:
+	int TotalSpawn = 10;
+	int NumberSpawned = 5;
+	float SpawnTimerAmount = 30.0f;
+
 	Model LanderModel;
 	Model MutantModel;
 	Model ShotModel;
@@ -37,10 +41,14 @@ private:
 	Model PersonRadar;
 	Model MutantRadar;
 
+	Timer SpawnTimer;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
+	SharedData* Data = nullptr;
 
 	void SpawnLanders(int count);
 	void SpawnMutant(Lander* lander);
 	void SpawnPoeple(int count);
+	void CountChange();
+	void CountPeopleChange();
 };

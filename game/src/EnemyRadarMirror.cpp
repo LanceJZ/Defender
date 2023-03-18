@@ -68,7 +68,6 @@ void EnemyRadarMirror::Draw()
 
 void EnemyRadarMirror::UpdateRadar()
 {
-	//Radar Update
 	float comp = 0.062f;
 	float ww = 3.5f;
 	float swww = (GetScreenWidth() * ww);

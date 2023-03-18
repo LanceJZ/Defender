@@ -12,6 +12,11 @@ Mutant::~Mutant()
 {
 }
 
+void Mutant::SetModel(Model model)
+{
+	TheModel = model;
+}
+
 void Mutant::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
@@ -228,4 +233,5 @@ void Mutant::Destroy()
 {
 	Enabled = false;
 	RadarMirror.Enabled = false;
+	CountChange = true;
 }

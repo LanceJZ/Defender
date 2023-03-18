@@ -4,17 +4,13 @@
 class SharedData : Common
 {
 public:
-	SharedData();
-	virtual ~SharedData();
+	bool LandersMutantsBeGone = false;
+	bool PeopleBeGone = false;
+	int Wave = 0;
+
 
 	bool Initialize();
 	bool BeginRun();
-
-	virtual void Input();
-	virtual void Update(float deltaTime);
-	virtual void Draw();
-
-private:
 
 };
 

@@ -7,6 +7,7 @@ class Person : public Model3D
 {
 public:
 	bool BeingCaptured = false;
+	bool CountChanged = false;
 
 	virtual ~Person();
 
@@ -20,6 +21,7 @@ public:
 
 	void Spawn(Vector3 position);
 	void Dropped();
+	void Distroy();
 
 private:
 	bool GoingDown = true;

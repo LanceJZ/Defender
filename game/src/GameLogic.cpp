@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Pre-Alpha 01.00");
+	SetWindowTitle("Defender Alpha 01.00");
 	ThePlayer->Initialize();
 	ControlLanderMutant->Initialize();
 	TheLand->Initialize();
@@ -102,6 +102,7 @@ bool GameLogic::BeginRun(Camera* camera)
 	ThePlayer->BeginRun(camera);
 	TheLand->SetPlayer(ThePlayer);
 	ControlLanderMutant->SetPlayer(ThePlayer);
+	ControlLanderMutant->SetData(Data);
 	Bombers->SetPlayer(ThePlayer);
 	Swarmers->SetPlayer(ThePlayer);
 	TheLand->BeginRun(camera);

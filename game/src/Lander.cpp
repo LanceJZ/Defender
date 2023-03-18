@@ -12,6 +12,11 @@ Lander::~Lander()
 {
 }
 
+void Lander::SetModel(Model model)
+{
+	TheModel = model;
+}
+
 void Lander::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
@@ -204,6 +209,7 @@ void Lander::Distroy()
 {
 	Enabled = false;
 	RadarMirror.Enabled = false;
+	CountChange = true;
 
 	if (PersonCaptured)
 	{
@@ -284,7 +290,7 @@ void Lander::SpawnMutatant()
 {
 	Velocity.y = 0;
 	RadarMirror.Enabled = false;
-	PersonCaptured->Enabled = false;
+	PersonCaptured->Distroy();
 	MutateLander = true;
 	Enabled = false;
 }

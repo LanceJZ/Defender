@@ -19,6 +19,7 @@ class Lander : public Model3D
 {
 public:
 	bool MutateLander = false;
+	bool CountChange = false;
 
 	Lander();
 	virtual ~Lander();
@@ -26,6 +27,7 @@ public:
 	EnemyShot* Shots[4];
 	vector<Person*> People; //The Person Man.
 
+	void SetModel(Model model);
 	void SetShotModel(Model model);
 	void SetRadarModel(Model model);
 	void SetPlayer(Player* player);

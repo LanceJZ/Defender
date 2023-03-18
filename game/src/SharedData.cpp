@@ -1,14 +1,5 @@
 #include "SharedData.h"
 
-SharedData::SharedData()
-{
-
-}
-
-SharedData::~SharedData()
-{
-}
-
 bool SharedData::Initialize()
 {
 
@@ -19,19 +10,4 @@ bool SharedData::BeginRun()
 {
 
 	return false;
-}
-
-void SharedData::Input()
-{
-
-}
-
-void SharedData::Update(float deltaTime)
-{
-
-}
-
-void SharedData::Draw()
-{
-
 }

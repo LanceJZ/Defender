@@ -22,7 +22,6 @@ bool Person::Initialize()
 	RadarMirror.Initialize();
 	ModelScale = 5.0f;
 	Radius = 7.0f;
-	Enabled = false;
 
 	return false;
 }
@@ -104,7 +103,7 @@ void Person::Falling()
 
 		if (DroppedY > 0)
 		{
-			Enabled = false;
+			Distroy();
 		}
 	}
 }
@@ -129,4 +128,10 @@ void Person::CheckCollision()
 		Velocity.y = 0;
 		Acceleration.y = 0;
 	}
+}
+
+void Person::Distroy()
+{
+	Enabled = false;
+	CountChanged = true;
 }
