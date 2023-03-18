@@ -9,8 +9,10 @@ public:
 	bool BeingCaptured = false;
 	bool CountChanged = false;
 
+	Person();
 	virtual ~Person();
 
+	void SetModel(Model model);
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);
 	virtual bool Initialize();

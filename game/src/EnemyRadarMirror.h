@@ -16,6 +16,7 @@ public:
 	bool Initialize();
 	bool BeginRun(Camera* camera);
 	void PositionUpdate(bool enabled, Vector3 position);
+	void EnabledUpdate(bool enabled);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 

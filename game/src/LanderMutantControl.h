@@ -28,6 +28,8 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
+	void NewWave();
+
 private:
 	int TotalSpawn = 10;
 	int NumberSpawned = 5;

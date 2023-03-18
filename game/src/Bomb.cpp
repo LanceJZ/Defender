@@ -35,7 +35,9 @@ void Bomb::Update(float deltaTime)
 	LifeTimer->Update(deltaTime);
 
 	if (LifeTimer->Elapsed())
+	{
 		Enabled = false;
+	}
 
 	Mirror.PositionUpdate(Enabled, Position);
 }

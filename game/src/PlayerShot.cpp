@@ -26,6 +26,8 @@ bool PlayerShot::Initialize()
 	Tail->ModelScale = 5.0f;
 	Tail->Enabled = false;
 
+	Mirror.Initialize();
+
 	return false;
 }
 
@@ -41,10 +43,13 @@ bool PlayerShot::BeginRun(Camera* camera)
 	Tail->BeginRun(camera);
 	AddChild(Tail);
 
+	Mirror.SetModel(Tail->TheModel, Tail->ModelScale);
+	Mirror.BeginRun(camera);
+
 	return false;
 }
 
-void PlayerShot::spawn(Vector3 position, Vector3 velocity, bool reverse)
+void PlayerShot::Spawn(Vector3 position, Vector3 velocity, bool reverse)
 {
 	Enabled = true;
 	Tail->Enabled = true;
@@ -65,6 +70,14 @@ void PlayerShot::spawn(Vector3 position, Vector3 velocity, bool reverse)
 		Position.x += 40.0f;
 		Rotation = 0;
 	}
+
+	Mirror.PositionUpdate(Enabled, Position);
+}
+
+void PlayerShot::Reset()
+{
+	Enabled = false;
+	Tail->Enabled = false;
 }
 
 void PlayerShot::Update(float deltaTime)
@@ -78,10 +91,15 @@ void PlayerShot::Update(float deltaTime)
 		Enabled = false;
 		Tail->Enabled = false;
 	}
+
+	CheckPlayfieldSidesWarp(4.0f, 3.0f);
+	Mirror.PositionUpdate(Enabled, Position);
 }
 
 void PlayerShot::Draw()
 {
 	Model3D::Draw();
+
 	Tail->Draw();
+	Mirror.Draw();
 }

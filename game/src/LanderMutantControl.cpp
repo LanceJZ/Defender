@@ -59,10 +59,7 @@ void LanderMutantControl::SetData(SharedData* data)
 bool LanderMutantControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
-	SpawnLanders(5);
-	SpawnPoeple(10);
-	SpawnTimer.Set(SpawnTimerAmount);
-
+	NewWave();
 	return false;
 }
 
@@ -100,7 +97,10 @@ void LanderMutantControl::Update(float deltaTime)
 
 	for (auto person : People)
 	{
-		person->Update(deltaTime);
+		if (person->Enabled)
+		{
+			person->Update(deltaTime);
+		}
 
 		if (person->CountChanged)
 		{
@@ -161,7 +161,7 @@ void LanderMutantControl::SpawnLanders(int count)
 
 		if (spawnNew)
 		{
-			landerNumber = Landers.size();
+			landerNumber = (int)Landers.size();
 			Landers.push_back(new Lander());
 			{
 				Landers[landerNumber]->Initialize();
@@ -199,7 +199,7 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 
 	if (spawnNew)
 	{
-		mutantNumber = Mutants.size();
+		mutantNumber = (int)Mutants.size();
 		Mutants.push_back(new Mutant());
 		{
 			Mutants[mutantNumber]->Initialize();
@@ -218,18 +218,37 @@ void LanderMutantControl::SpawnPoeple(int count)
 {
 	for (int i = 0; i < count; i++)
 	{
+		bool spawnNew = true;
+		int personNumber = 0;
+
+		for (auto person : People)
+		{
+			if (!person->Enabled)
+			{
+				spawnNew = false;
+				break;
+			}
+
+			personNumber++;
+		}
+
+		if (spawnNew)
+		{
+			personNumber = (int)People.size();
+			People.push_back(new Person());
+			{
+				People[personNumber]->Initialize();
+				People[personNumber]->SetModel(PersonModel);
+				People[personNumber]->SetRadar(PersonRadar);
+				People[personNumber]->SetPlayer(ThePlayer);
+				People[personNumber]->BeginRun(TheCamera);
+			}
+		}
+
 		float x = GetRandomFloat((-GetScreenWidth() * 3.5f), (GetScreenWidth() * 3.5f));
 		float y = -(GetScreenHeight() / 2.10f);
+		People[personNumber]->Spawn({ x, y, 0 });
 
-		People.push_back(new Person());
-		{
-			People[People.size() - 1]->Initialize();
-			People[People.size() - 1]->TheModel = PersonModel;
-			People[People.size() - 1]->SetRadar(PersonRadar);
-			People[People.size() - 1]->SetPlayer(ThePlayer);
-			People[People.size() - 1]->BeginRun(TheCamera);
-			People[People.size() - 1]->Spawn({ x, y, 0 });
-		}
 	}
 
 	for (auto lander : Landers)
@@ -270,4 +289,16 @@ void LanderMutantControl::CountPeopleChange()
 	}
 
 	Data->PeopleBeGone = true;
+}
+
+void LanderMutantControl::NewWave()
+{
+	for (auto person : People)
+	{
+		person->Enabled = false;
+	}
+
+	SpawnLanders(5);
+	SpawnPoeple(10);
+	SpawnTimer.Set(SpawnTimerAmount);
 }

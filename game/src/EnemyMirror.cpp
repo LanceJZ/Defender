@@ -64,3 +64,9 @@ void EnemyMirror::PositionUpdate(bool enabled, Vector3 position)
 	MirrorR.Position.y = position.y;
 	MirrorR.Enabled = enabled;
 }
+
+void EnemyMirror::EnabledUpdate(bool enabled)
+{
+	MirrorL.Enabled = enabled;
+	MirrorR.Enabled = enabled;
+}

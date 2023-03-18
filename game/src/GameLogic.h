@@ -39,13 +39,17 @@ public:
 
 private:
 	bool Pause = false;
+	bool NewWave = false;
 	Camera* TheCamera = nullptr;
 	Player* ThePlayer = new Player();
 	Land* TheLand = new Land();
+	Timer* NewWaveTimer = new Timer();
 	ScoreKeeper* Score = new ScoreKeeper();
 	SharedData* Data = new SharedData();
 	LanderMutantControl* ControlLanderMutant = new LanderMutantControl();
 	BomberControl* Bombers = new BomberControl();
 	SwarmerControl* Swarmers = new SwarmerControl();
+
+	void CheckEndOfWave();
 };
 

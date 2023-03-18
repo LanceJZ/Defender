@@ -54,6 +54,12 @@ void EnemyRadarMirror::PositionUpdate(bool enabled, Vector3 position)
 	Mirrors.PositionUpdate(enabled, position);
 }
 
+void EnemyRadarMirror::EnabledUpdate(bool enabled)
+{
+	Enabled = enabled;
+	Mirrors.EnabledUpdate(enabled);
+}
+
 void EnemyRadarMirror::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);

@@ -164,6 +164,18 @@ void Player::Draw()
 	}
 }
 
+void Player::NewWaveReset()
+{
+	Position = { 0, 0, 0 };
+	Velocity = { 0, 0, 0 };
+	Acceleration = { 0, 0, 0 };
+
+	for (auto shot : Shots)
+	{
+		shot->Reset();
+	}
+}
+
 void Player::CameraMovement()
 {
 	float facingOffset = GetScreenWidth() * 0.2f;
@@ -354,7 +366,7 @@ void Player::Fire()
 	{
 		if (!shot->Enabled)
 		{
-			shot->spawn(Position, Velocity, !FacingRight);
+			shot->Spawn(Position, Velocity, !FacingRight);
 			return;
 		}
 	}

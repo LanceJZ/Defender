@@ -16,6 +16,7 @@ public:
 	virtual void Draw();
 
 	void PositionUpdate(bool enabled, Vector3 position);
+	void EnabledUpdate(bool enabled);
 
 private:
 	float X = 0;

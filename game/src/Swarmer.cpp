@@ -103,9 +103,16 @@ void Swarmer::Update(float deltaTime)
 		AfterSpawnMovement();
 	}
 
-	CheckPlayfieldSidesWarp(4.0f, 3.0f);
-	CheckPlayfieldHeightWarp(-0.15f, 1.0f);
-	RadarMirror.PositionUpdate(Enabled, Position);
+	if (Enabled)
+	{
+		CheckPlayfieldSidesWarp(4.0f, 3.0f);
+		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
+		RadarMirror.PositionUpdate(Enabled, Position);
+	}
+	else
+	{
+		RadarMirror.EnabledUpdate(Enabled);
+	}
 }
 
 void Swarmer::Draw()

@@ -1,7 +1,16 @@
 #include "Person.h"
 
+Person::Person()
+{
+}
+
 Person::~Person()
 {
+}
+
+void Person::SetModel(Model model)
+{
+	TheModel = model;
 }
 
 void Person::SetRadar(Model model)
@@ -40,8 +49,6 @@ void Person::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	RadarMirror.Enabled = Enabled;
-
 	if (Enabled)
 	{
 		if (GoingDown)
@@ -56,6 +63,10 @@ void Person::Update(float deltaTime)
 
 		RadarMirror.PositionUpdate(Enabled, Position);
 	}
+	else
+	{
+		RadarMirror.EnabledUpdate(Enabled);
+	}
 }
 
 void Person::Draw()
@@ -68,6 +79,7 @@ void Person::Draw()
 void Person::Spawn(Vector3 position)
 {
 	Position = position;
+	Velocity.x = 0;
 	Enabled = true;
 	BeingCaptured = false;
 	GoingDown = false;

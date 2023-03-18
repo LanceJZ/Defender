@@ -78,6 +78,7 @@ bool Lander::BeginRun(Camera* camera)
 void Lander::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
+
 	ShotTimer->Update(deltaTime);
 
 	for (auto shot : Shots)
@@ -85,46 +86,50 @@ void Lander::Update(float deltaTime)
 		shot->Update(deltaTime);
 	}
 
-	if (!Enabled)
-		return;
-
-	if (ShotTimer->Elapsed())
+	if (Enabled)
 	{
-		if (CurrentMode != FoundPersonMan)
+		if (ShotTimer->Elapsed())
 		{
-			FireShot();
+			if (CurrentMode != FoundPersonMan)
+			{
+				FireShot();
+			}
+			else
+			{
+				FireShots();
+			}
+
 		}
-		else
+
+		if (CurrentMode == GoingToGround)
 		{
-			FireShots();
+			GoToGround();
+		}
+		else if (CurrentMode == Seek)
+		{
+			SeekPersonMan();
+		}
+		else if (CurrentMode == FoundPersonMan)
+		{
+			FoundPersonManGoingDown();
+		}
+		else if (CurrentMode == PickUpPersonMan)
+		{
+			GrabPersonMan();
+		}
+		else if (CurrentMode == Mutate)
+		{
+			SpawnMutatant();
 		}
 
+		CheckPlayfieldSidesWarp(4.0f, 3.0f);
+		RadarMirror.PositionUpdate(Enabled, Position);
+		CheckCollision();
 	}
-
-	if (CurrentMode == GoingToGround)
+	else
 	{
-		GoToGround();
+		RadarMirror.EnabledUpdate(Enabled);
 	}
-	else if (CurrentMode == Seek)
-	{
-		SeekPersonMan();
-	}
-	else if (CurrentMode == FoundPersonMan)
-	{
-		FoundPersonManGoingDown();
-	}
-	else if (CurrentMode == PickUpPersonMan)
-	{
-		GrabPersonMan();
-	}
-	else if (CurrentMode == Mutate)
-	{
-		SpawnMutatant();
-	}
-
-	CheckPlayfieldSidesWarp(4.0f, 3.0f);
-	RadarMirror.PositionUpdate(Enabled, Position);
-	CheckCollision();
 }
 
 void Lander::Draw()
@@ -144,6 +149,7 @@ void Lander::Spawn(Vector3 position)
 	Enabled = true;
 	CurrentMode = GoingToGround;
 	Position = position;
+	Velocity = { 0,0,0 };
 	ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
 	PersonCaptured = nullptr;
 
@@ -208,7 +214,6 @@ void Lander::CheckCollision()
 void Lander::Distroy()
 {
 	Enabled = false;
-	RadarMirror.Enabled = false;
 	CountChange = true;
 
 	if (PersonCaptured)

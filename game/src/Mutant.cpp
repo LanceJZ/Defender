@@ -99,6 +99,10 @@ void Mutant::Update(float deltaTime)
 		ChasePlayer();
 		CheckCollision();
 	}
+	else
+	{
+		RadarMirror.EnabledUpdate(Enabled);
+	}
 }
 
 void Mutant::Draw()
@@ -119,6 +123,7 @@ void Mutant::Spawn(Vector3 position)
 	GotNearPlayer = false;
 	BackToToporBottom = false;
 	Position = position;
+	Velocity = { 0,0,0 };
 	ShotTimer->Reset(GetRandomFloat(0.3f, 1.5f));
 	ChangeSpeedTimer->Reset(GetRandomFloat(0.1f, 0.3f));
 }
@@ -232,6 +237,5 @@ void Mutant::CheckCollision()
 void Mutant::Destroy()
 {
 	Enabled = false;
-	RadarMirror.Enabled = false;
 	CountChange = true;
 }

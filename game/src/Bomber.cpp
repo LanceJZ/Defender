@@ -56,17 +56,24 @@ void Bomber::Update(float deltaTime)
 		bomb->Update(deltaTime);
 	}
 
-	DropBombTimer->Update(deltaTime);
-
-	if (DropBombTimer->Elapsed())
+	if (Enabled)
 	{
-		DropBombTimer->Reset(GetRandomFloat(2.5f, 5.0f));
-		DropABomb();
-	}
+		DropBombTimer->Update(deltaTime);
 
-	CheckPlayfieldSidesWarp(4.0f, 3.0f);
-	CheckPlayfieldHeightWarp(-0.15f, 1.0f);
-	RadarMirror.PositionUpdate(Enabled, Position);
+		if (DropBombTimer->Elapsed())
+		{
+			DropBombTimer->Reset(GetRandomFloat(2.5f, 5.0f));
+			DropABomb();
+		}
+
+		CheckPlayfieldSidesWarp(4.0f, 3.0f);
+		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
+		RadarMirror.PositionUpdate(Enabled, Position);
+	}
+	else
+	{
+		RadarMirror.EnabledUpdate(Enabled);
+	}
 }
 
 void Bomber::Draw()

@@ -18,6 +18,7 @@ bool GameLogic::Initialize()
 	TheLand->Initialize();
 	Bombers->Initialize();
 	Swarmers->Initialize();
+	NewWaveTimer->Set(1.5f);
 
 	return false;
 }
@@ -125,24 +126,56 @@ void GameLogic::Update(float deltaTime)
 {
 	if (!Pause)
 	{
+		NewWaveTimer->Update(deltaTime);
 		ThePlayer->Update(deltaTime);
 		TheLand->Update(deltaTime);
 		ControlLanderMutant->Update(deltaTime);
 		Bombers->Update(deltaTime);
 		Swarmers->Update(deltaTime);
+		CheckEndOfWave();
 	}
 }
 
 void GameLogic::Draw3D()
 {
-	ThePlayer->Draw();
-	TheLand->Draw();
-	ControlLanderMutant->Draw();
-	Bombers->Draw();
-	Swarmers->Draw();
+	if (!NewWave)
+	{
+		ThePlayer->Draw();
+		TheLand->Draw();
+		ControlLanderMutant->Draw();
+		Bombers->Draw();
+		Swarmers->Draw();
+	}
 }
 
 void GameLogic::Draw2D()
 {
-	Score->Draw();
+	if (NewWave)
+	{
+		DrawText("Wave Completed", (int)((GetScreenWidth() * 0.5f) - ((30 * 15) * 0.25f)), (int)(GetScreenHeight() * 0.5f), 30, GRAY);
+	}
+	else
+	{
+		Score->Draw();
+	}
+}
+
+void GameLogic::CheckEndOfWave()
+{
+	if (Data->LandersMutantsBeGone)
+	{
+		Data->Wave++;
+		ControlLanderMutant->NewWave();
+		ThePlayer->NewWaveReset();
+		NewWave = true;
+		NewWaveTimer->Reset();
+	}
+
+	if (NewWave)
+	{
+		if (NewWaveTimer->Elapsed())
+		{
+			NewWave = false;
+		}
+	}
 }
