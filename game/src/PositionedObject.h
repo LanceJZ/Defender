@@ -24,25 +24,16 @@ public:
 	float RotationAccelerationX = 0;
 	float RotationAccelerationY = 0;
 	float RotationAccelerationZ = 0;
-	Vector2 Acceleration2 = { 0 };
-	Vector2 Velocity2 = { 0 };
-	Vector2 Position2 = { 0 };
-	Vector3 Acceleration = { 0 };
-	Vector3 Velocity = { 0 };
-	Vector3 Position = { 0 };
+	Vector3 Acceleration = { 0, 0, 0 };
+	Vector3 Velocity = { 0, 0, 0 };
+	Vector3 Position = { 0, 0, 0 };
 	Vector3 RotationAxis = { 0, 0, 0 };
-	Vector3 ChildPosition = { 0 };
+	Vector3 ChildPosition = { 0, 0, 0 };
 	float ChildRotation = 0;
-	float Chase(PositionedObject Chasing);
-	float RotateTowardsTargetZ(Vector3 target, float magnitude);
-	float AngleFromVectorZ(Vector3 target);
-	Vector3 RandomVelocity(float magnitude);
-	Vector3 VelocityFromAngleZ(float magnitude);
-	Vector3 VelocityFromAngleZ(float angle, float magnitude);
 	vector <PositionedObject*> Children;
 	vector <PositionedObject*> Parents;
 
-	bool Initialize();
+	virtual bool Initialize();
 	virtual void Update(float deltaTime);
 
 	virtual float X();
@@ -51,13 +42,18 @@ public:
 	virtual void X(float x);
 	virtual void Y(float y);
 	virtual void Z(float z);
+	float Chase(PositionedObject Chasing);
+	float RotateTowardsTargetZ(Vector3 target, float magnitude);
+	float AngleFromVectorZ(Vector3 target);
+	Vector3 RandomVelocity(float magnitude);
+	Vector3 VelocityFromAngleZ(float magnitude);
+	Vector3 VelocityFromAngleZ(float angle, float magnitude);
 	void AddChild(PositionedObject* child);
 	void AddChildren(PositionedObject* child);
 	void RemoveChild(PositionedObject* child);
 	void RemoveFromParents(PositionedObject* child);
 	void DisconnectChild(PositionedObject* child);
 	void ConnectChild(PositionedObject* child);
-
 	void CheckScreenEdge();
 	void CheckScreenEdgeX();
 	void CheckScreenEdgeY();

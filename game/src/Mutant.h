@@ -15,11 +15,10 @@ public:
 
 	EnemyShot* Shots[4];
 
-	void SetModel(Model model);
+	bool Initialize();
 	void SetShotModel(Model model);
 	void SetRadarModel(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -34,8 +33,8 @@ private:
 
 	EnemyRadarMirror RadarMirror;
 	Player* ThePlayer = nullptr;
-	Timer* ShotTimer = new Timer();
-	Timer* ChangeSpeedTimer = new Timer();
+	Timer ShotTimer;
+	Timer ChangeSpeedTimer;
 
 	void FireShot();
 	void ChasePlayer();

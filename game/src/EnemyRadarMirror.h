@@ -10,10 +10,10 @@ public:
 	EnemyRadarMirror();
 	virtual ~EnemyRadarMirror();
 
+	bool Initialize();
 	void SetRadarModel(Model model, float scale);
 	void SetMirrorModel(Model model, float scale);
 	void SetPlayer(Player* player);
-	bool Initialize();
 	bool BeginRun(Camera* camera);
 	void PositionUpdate(bool enabled, Vector3 position);
 	void EnabledUpdate(bool enabled);

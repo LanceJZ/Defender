@@ -17,34 +17,6 @@ Land::~Land()
 {
 }
 
-void Land::SetUIBack(Model model)
-{
-	UIBackL->TheModel = model;
-	UIBackR->TheModel = model;
-}
-
-void Land::SetUIHorz(Model model)
-{
-	RadarHorzL->TheModel = model;
-	RadarHorzR->TheModel = model;
-}
-
-void Land::SetRadarTopBottom(Model model)
-{
-	RadarHorzBottom->TheModel = model;
-	RadarHorzTop->TheModel = model;
-}
-
-void Land::SetStar(Model model)
-{
-	Star = model;
-}
-
-void Land::SetPlayer(Player* player)
-{
-	ThePlayer = player;
-}
-
 bool Land::Initialize()
 {
 	for (auto land : LandParts)
@@ -62,16 +34,44 @@ bool Land::Initialize()
 		AllTheStars.push_back(new Model3D());
 	}
 
-	UIBackL->Cull = false;
-	UIBackR->Cull = false;
-	RadarHorzBottom->Cull = false;
-	RadarHorzL->Cull = false;
-	RadarHorzR->Cull = false;
-	RadarHorzTop->Cull = false;
+	UIBackL.Cull = false;
+	UIBackR.Cull = false;
+	RadarHorzBottom.Cull = false;
+	RadarHorzL.Cull = false;
+	RadarHorzR.Cull = false;
+	RadarHorzTop.Cull = false;
 
-	StarTimer->Set(1.0f);
+	StarTimer.Set(1.0f);
 
 	return false;
+}
+
+void Land::SetUIBack(Model model)
+{
+	UIBackL.SetModel(model);
+	UIBackR.SetModel(model);
+}
+
+void Land::SetUIHorz(Model model)
+{
+	RadarHorzL.SetModel(model);
+	RadarHorzR.SetModel(model);
+}
+
+void Land::SetRadarTopBottom(Model model)
+{
+	RadarHorzBottom.SetModel(model);
+	RadarHorzTop.SetModel(model);
+}
+
+void Land::SetStar(Model model)
+{
+	Star = model;
+}
+
+void Land::SetPlayer(Player* player)
+{
+	ThePlayer = player;
 }
 
 bool Land::BeginRun(Camera* camera)
@@ -91,12 +91,12 @@ bool Land::BeginRun(Camera* camera)
 		land->ViewableArea.x = GetScreenWidth() * 1.5f;
 	}
 
-	LandParts[7]->TheModel = LandParts[0]->TheModel;
-	LandParts[8]->TheModel = LandParts[6]->TheModel;
+	LandParts[7]->SetModel(LandParts[0]->GetModel());
+	LandParts[8]->SetModel(LandParts[6]->GetModel());
 
 	for (int i = 7; i < 14; i++)
 	{
-		RadarLandParts[i]->TheModel = RadarLandParts[i - 7]->TheModel;
+		RadarLandParts[i]->SetModel(RadarLandParts[i - 7]->GetModel());
 	}
 
 	LandParts[7]->Position.x = GetScreenWidth() * 4.0f;
@@ -114,29 +114,29 @@ bool Land::BeginRun(Camera* camera)
 		radar->BeginRun(camera);
 	}
 
-	UIBackL->ModelScale = 30;
-	UIBackR->ModelScale = UIBackL->ModelScale;
-	UIBackL->Y(GetScreenHeight() / 2.321f);
-	UIBackR->Position = UIBackL->Position;
-	UIBackR->Rotation = PI;
-	UIBackR->RotationAxis.z = 1;
-	UIBackL->BeginRun(camera);
-	UIBackR->BeginRun(camera);
+	UIBackL.ModelScale = 30;
+	UIBackR.ModelScale = UIBackL.ModelScale;
+	UIBackL.Y(GetScreenHeight() / 2.321f);
+	UIBackR.Position = UIBackL.Position;
+	UIBackR.Rotation = PI;
+	UIBackR.RotationAxis.z = 1;
+	UIBackL.BeginRun(camera);
+	UIBackR.BeginRun(camera);
 
-	RadarHorzBottom->ModelScale = 21.8f;
-	RadarHorzTop->ModelScale = RadarHorzBottom->ModelScale;
-	RadarHorzTop->RotationAxis = { 1.0f, 0, 0 };
-	RadarHorzTop->Rotation = PI;
-	RadarHorzL->ModelScale = RadarHorzBottom->ModelScale;
-	RadarHorzR->ModelScale = RadarHorzBottom->ModelScale;
-	RadarHorzTop->Y(GetScreenHeight() / 2.02f);
-	RadarHorzBottom->Y(GetScreenHeight() / 2.79f);
-	RadarHorzTop->BeginRun(camera);
-	RadarHorzBottom->BeginRun(camera);
-	RadarHorzL->Y(RadarHorzBottom->Y());
-	RadarHorzR->Y(RadarHorzBottom->Y());
-	RadarHorzL->BeginRun(camera);
-	RadarHorzR->BeginRun(camera);
+	RadarHorzBottom.ModelScale = 21.8f;
+	RadarHorzTop.ModelScale = RadarHorzBottom.ModelScale;
+	RadarHorzTop.RotationAxis = { 1.0f, 0, 0 };
+	RadarHorzTop.Rotation = PI;
+	RadarHorzL.ModelScale = RadarHorzBottom.ModelScale;
+	RadarHorzR.ModelScale = RadarHorzBottom.ModelScale;
+	RadarHorzTop.Y(GetScreenHeight() / 2.02f);
+	RadarHorzBottom.Y(GetScreenHeight() / 2.79f);
+	RadarHorzTop.BeginRun(camera);
+	RadarHorzBottom.BeginRun(camera);
+	RadarHorzL.Y(RadarHorzBottom.Y());
+	RadarHorzR.Y(RadarHorzBottom.Y());
+	RadarHorzL.BeginRun(camera);
+	RadarHorzR.BeginRun(camera);
 
 	CreateAllTheStars();
 
@@ -147,12 +147,12 @@ void Land::Update(float deltaTime)
 {
 	int sWidth = GetScreenWidth();
 
-	UIBackL->X(TheCamera->position.x - (sWidth / 2.790f));
-	UIBackR->X(TheCamera->position.x + (sWidth / 2.790f));
-	RadarHorzBottom->X(TheCamera->position.x);
-	RadarHorzTop->X(RadarHorzBottom->X());
-	RadarHorzL->X(TheCamera->position.x - (sWidth / 2.3f));
-	RadarHorzR->X(TheCamera->position.x + (sWidth / 2.3f));
+	UIBackL.X(TheCamera->position.x - (sWidth / 2.790f));
+	UIBackR.X(TheCamera->position.x + (sWidth / 2.790f));
+	RadarHorzBottom.X(TheCamera->position.x);
+	RadarHorzTop.X(RadarHorzBottom.X());
+	RadarHorzL.X(TheCamera->position.x - (sWidth / 2.3f));
+	RadarHorzR.X(TheCamera->position.x + (sWidth / 2.3f));
 
 	for (int i = 0; i < 7; i++)
 	{
@@ -194,12 +194,12 @@ void Land::Draw()
 		star->Draw();
 	}
 
-	UIBackL->Draw();
-	UIBackR->Draw();
-	RadarHorzBottom->Draw();
-	RadarHorzTop->Draw();
-	RadarHorzL->Draw();
-	RadarHorzR->Draw();
+	UIBackL.Draw();
+	UIBackR.Draw();
+	RadarHorzBottom.Draw();
+	RadarHorzTop.Draw();
+	RadarHorzL.Draw();
+	RadarHorzR.Draw();
 
 	DrawLine3D({ (float)GetScreenWidth() * 3.5f, (float)GetScreenHeight() * 0.35f, 0},
 		{(float)GetScreenWidth() * 3.5f, -(float)GetScreenHeight(), 0}, WHITE);
@@ -290,7 +290,7 @@ void Land::CreateAllTheStars()
 	for (auto star : AllTheStars)
 	{
 		star->Initialize();
-		star->TheModel = Star;
+		star->SetModel(Star);
 		star->ModelScale = 6;
 		star->BeginRun(TheCamera);
 	}
@@ -298,11 +298,11 @@ void Land::CreateAllTheStars()
 
 void Land::UpdateAllTheStars(float deltaTime)
 {
-	StarTimer->Update(deltaTime);
+	StarTimer.Update(deltaTime);
 
-	if (StarTimer->Elapsed())
+	if (StarTimer.Elapsed())
 	{
-		StarTimer->Reset(GetRandomFloat(0.1f, 0.75f));
+		StarTimer.Reset(GetRandomFloat(0.1f, 0.75f));
 
 		for (auto star : AllTheStars)
 		{
@@ -310,10 +310,5 @@ void Land::UpdateAllTheStars(float deltaTime)
 		}
 
 		AllTheStars[(size_t)GetRandomValue(0, (int)AllTheStars.size() - 1)]->Enabled = false;
-	}
-
-	for (auto star : AllTheStars)
-	{
-		//star->Update(deltaTime);
 	}
 }

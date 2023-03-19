@@ -28,24 +28,26 @@ bool Player::Initialize()
 		shot->Initialize();
 	}
 
+	NewWaveReset();
+
 	return false;
 }
 
 void Player::SetModel(Model model)
 {
-	Model3D::TheModel = model;
+	Model3D::SetModel(model);
 }
 
 void Player::SetFlameModel(Model model)
 {
-	Flame.TheModel = model;
+	Flame.SetModel(model);
 }
 
 void Player::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
 	{
-		shot->TheModel = model;
+		shot->SetModel(model);
 	}
 }
 
@@ -59,7 +61,7 @@ void Player::SetTailModel(Model model)
 
 void Player::SetRadarModel(Model model)
 {
-	Radar.TheModel = model;
+	Radar.SetModel(model);
 }
 
 bool Player::BeginRun(Camera* camera)
@@ -166,9 +168,12 @@ void Player::Draw()
 
 void Player::NewWaveReset()
 {
+	ThrustOff();
 	Position = { 0, 0, 0 };
 	Velocity = { 0, 0, 0 };
 	Acceleration = { 0, 0, 0 };
+	FacingRight = true;
+	RotationY = (PI * 2) - 0.045f;
 
 	for (auto shot : Shots)
 	{

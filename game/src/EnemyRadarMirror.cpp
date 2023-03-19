@@ -8,10 +8,20 @@ EnemyRadarMirror::~EnemyRadarMirror()
 {
 }
 
+bool EnemyRadarMirror::Initialize()
+{
+	Model3D::Initialize();
+
+	Mirrors.Initialize();
+	Enabled = false;
+
+	return false;
+}
+
 void EnemyRadarMirror::SetRadarModel(Model model, float scale)
 {
-	Model3D::TheModel = model;
-	Model3D::ModelScale = scale;
+	SetModel(model);
+	ModelScale = scale;
 }
 
 void EnemyRadarMirror::SetMirrorModel(Model model, float scale)
@@ -22,16 +32,6 @@ void EnemyRadarMirror::SetMirrorModel(Model model, float scale)
 void EnemyRadarMirror::SetPlayer(Player* player)
 {
 	ThePlayer = player;
-}
-
-bool EnemyRadarMirror::Initialize()
-{
-	Model3D::Initialize();
-
-	Mirrors.Initialize();
-	Enabled = false;
-
-	return false;
 }
 
 bool EnemyRadarMirror::BeginRun(Camera* camera)

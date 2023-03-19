@@ -12,16 +12,27 @@ Swarmer::~Swarmer()
 {
 }
 
-void Swarmer::SetModel(Model model)
+bool Swarmer::Initialize()
 {
-	Swarmer::TheModel = model;
+	Model3D::Initialize();
+
+	for (auto shot : Shots)
+	{
+		shot->Initialize();
+	}
+
+	RadarMirror.Initialize();
+	ModelScale = 10.0f;
+	Enabled = false;
+
+	return false;
 }
 
 void Swarmer::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
 	{
-		shot->TheModel = model;
+		shot->SetModel(model);
 	}
 }
 
@@ -41,22 +52,6 @@ void Swarmer::SetPlayer(Player* player)
 	}
 }
 
-bool Swarmer::Initialize()
-{
-	Model3D::Initialize();
-
-	for (auto shot : Shots)
-	{
-		shot->Initialize();
-	}
-
-	RadarMirror.Initialize();
-	ModelScale = 10.0f;
-	Enabled = false;
-
-	return false;
-}
-
 bool Swarmer::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
@@ -70,7 +65,7 @@ bool Swarmer::BeginRun(Camera* camera)
 	}
 
 	TheCamera = camera;
-	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
 	RadarMirror.BeginRun(camera);
 
 	return false;
@@ -89,16 +84,16 @@ void Swarmer::Update(float deltaTime)
 		shot->Update(deltaTime);
 	}
 
-	ShotTimer->Update(deltaTime);
+	ShotTimer.Update(deltaTime);
 
-	if (ShotTimer->Elapsed())
+	if (ShotTimer.Elapsed())
 	{
 		FireShot();
 	}
 
-	AfterSpawn->Update(deltaTime);
+	AfterSpawn.Update(deltaTime);
 
-	if (AfterSpawn->Elapsed())
+	if (AfterSpawn.Elapsed())
 	{
 		AfterSpawnMovement();
 	}
@@ -152,13 +147,13 @@ void Swarmer::Spawn(Vector3 position, Vector3 velocity)
 		Velocity.y *= -1;
 	}
 
-	ShotTimer->Reset(GetRandomFloat(0.25f, 0.35f));
-	AfterSpawn->Reset(GetRandomFloat(0.25f, 0.5f));
+	ShotTimer.Reset(GetRandomFloat(0.25f, 0.35f));
+	AfterSpawn.Reset(GetRandomFloat(0.25f, 0.5f));
 }
 
 void Swarmer::FireShot()
 {
-	ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
+	ShotTimer.Reset(GetRandomFloat(0.275f, 0.4375f));
 
 	if (Velocity.x > 0)
 	{

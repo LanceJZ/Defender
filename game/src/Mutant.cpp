@@ -12,16 +12,28 @@ Mutant::~Mutant()
 {
 }
 
-void Mutant::SetModel(Model model)
+bool Mutant::Initialize()
 {
-	TheModel = model;
+	Model3D::Initialize();
+
+	RadarMirror.Initialize();
+
+	for (auto shot : Shots)
+	{
+		shot->Initialize();
+	}
+
+	ModelScale = 14;
+	Radius = 14;
+
+	return false;
 }
 
 void Mutant::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
 	{
-		shot->TheModel = model;
+		shot->SetModel(model);
 	}
 }
 
@@ -41,23 +53,6 @@ void Mutant::SetPlayer(Player* player)
 	}
 }
 
-bool Mutant::Initialize()
-{
-	Model3D::Initialize();
-
-	RadarMirror.Initialize();
-
-	for (auto shot : Shots)
-	{
-		shot->Initialize();
-	}
-
-	ModelScale = 14;
-	Radius = 14;
-
-	return false;
-}
-
 bool Mutant::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
@@ -67,7 +62,7 @@ bool Mutant::BeginRun(Camera* camera)
 		shot->BeginRun(camera);
 	}
 
-	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
 	RadarMirror.BeginRun(camera);
 
 	return false;
@@ -84,12 +79,12 @@ void Mutant::Update(float deltaTime)
 
 	if (Enabled)
 	{
-		ShotTimer->Update(deltaTime);
-		ChangeSpeedTimer->Update(deltaTime);
+		ShotTimer.Update(deltaTime);
+		ChangeSpeedTimer.Update(deltaTime);
 
-		if (ShotTimer->Elapsed())
+		if (ShotTimer.Elapsed())
 		{
-			ShotTimer->Reset();
+			ShotTimer.Reset();
 			FireShot();
 		}
 
@@ -124,8 +119,8 @@ void Mutant::Spawn(Vector3 position)
 	BackToToporBottom = false;
 	Position = position;
 	Velocity = { 0,0,0 };
-	ShotTimer->Reset(GetRandomFloat(0.3f, 1.5f));
-	ChangeSpeedTimer->Reset(GetRandomFloat(0.1f, 0.3f));
+	ShotTimer.Reset(GetRandomFloat(0.3f, 1.5f));
+	ChangeSpeedTimer.Reset(GetRandomFloat(0.1f, 0.3f));
 }
 
 void Mutant::FireShot()
@@ -138,10 +133,10 @@ void Mutant::FireShot()
 
 void Mutant::ChasePlayer()
 {
-	if (ChangeSpeedTimer->Elapsed())
+	if (ChangeSpeedTimer.Elapsed())
 	{
 		Speed = GetRandomFloat(150.0f, 350.0f);
-		ChangeSpeedTimer->Reset(GetRandomFloat(0.05f, 0.1f));
+		ChangeSpeedTimer.Reset(GetRandomFloat(0.05f, 0.1f));
 	}
 
 	float worldW = GetScreenWidth() * 3.5f;

@@ -12,16 +12,29 @@ Lander::~Lander()
 {
 }
 
-void Lander::SetModel(Model model)
+bool Lander::Initialize()
 {
-	TheModel = model;
+	Model3D::Initialize();
+
+	RadarMirror.Initialize();
+
+	for (auto shot : Shots)
+	{
+		shot->Initialize();
+	}
+
+	ShotTimer.Set(1);
+	ModelScale = 14;
+	Radius = 14;
+
+	return false;
 }
 
 void Lander::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
 	{
-		shot->TheModel = model;
+		shot->SetModel(model);
 	}
 }
 
@@ -41,24 +54,6 @@ void Lander::SetPlayer(Player* player)
 	}
 }
 
-bool Lander::Initialize()
-{
-	Model3D::Initialize();
-
-	RadarMirror.Initialize();
-
-	for (auto shot : Shots)
-	{
-		shot->Initialize();
-	}
-
-	ShotTimer->Set(1);
-	ModelScale = 14;
-	Radius = 14;
-
-	return false;
-}
-
 bool Lander::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
@@ -69,7 +64,7 @@ bool Lander::BeginRun(Camera* camera)
 		shot->SetPlayer(ThePlayer);
 	}
 
-	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
 	RadarMirror.BeginRun(camera);
 
 	return false;
@@ -79,7 +74,7 @@ void Lander::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	ShotTimer->Update(deltaTime);
+	ShotTimer.Update(deltaTime);
 
 	for (auto shot : Shots)
 	{
@@ -88,7 +83,7 @@ void Lander::Update(float deltaTime)
 
 	if (Enabled)
 	{
-		if (ShotTimer->Elapsed())
+		if (ShotTimer.Elapsed())
 		{
 			if (CurrentMode != FoundPersonMan)
 			{
@@ -150,7 +145,7 @@ void Lander::Spawn(Vector3 position)
 	CurrentMode = GoingToGround;
 	Position = position;
 	Velocity = { 0,0,0 };
-	ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
+	ShotTimer.Reset(GetRandomFloat(1.1f, 1.75f));
 	PersonCaptured = nullptr;
 
 	float velX = 0;
@@ -171,7 +166,7 @@ void Lander::Spawn(Vector3 position)
 
 void Lander::FireShot()
 {
-	ShotTimer->Reset(GetRandomFloat(1.1f, 1.75f));
+	ShotTimer.Reset(GetRandomFloat(1.1f, 1.75f));
 
 	if (!Shots[0]->Enabled)
 	{
@@ -181,7 +176,7 @@ void Lander::FireShot()
 
 void Lander::FireShots()
 {
-	ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
+	ShotTimer.Reset(GetRandomFloat(0.275f, 0.4375f));
 
 	for (auto shot : Shots)
 	{
@@ -197,7 +192,7 @@ void Lander::CheckCollision()
 {
 	if (CirclesIntersect(ThePlayer))
 	{
-		Distroy();
+		Destroy();
 		return;
 	}
 
@@ -205,13 +200,13 @@ void Lander::CheckCollision()
 	{
 		if (CirclesIntersect(shot))
 		{
-			Distroy();
+			Destroy();
 			return;
 		}
 	}
 }
 
-void Lander::Distroy()
+void Lander::Destroy()
 {
 	Enabled = false;
 	CountChange = true;
@@ -243,7 +238,7 @@ void Lander::SeekPersonMan()
 					return;
 
 				CurrentMode = FoundPersonMan;
-				ShotTimer->Reset(GetRandomFloat(0.275f, 0.4375f));
+				ShotTimer.Reset(GetRandomFloat(0.275f, 0.4375f));
 				Velocity.x = 0;
 				Velocity.y = GetRandomFloat(-40.0f, -30.0f);
 				PersonCaptured = person;
@@ -294,8 +289,7 @@ void Lander::GrabPersonMan()
 void Lander::SpawnMutatant()
 {
 	Velocity.y = 0;
-	RadarMirror.Enabled = false;
-	PersonCaptured->Distroy();
+	PersonCaptured->Destroy();
 	MutateLander = true;
 	Enabled = false;
 }

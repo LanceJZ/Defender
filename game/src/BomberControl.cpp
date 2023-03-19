@@ -8,6 +8,12 @@ BomberControl::~BomberControl()
 {
 }
 
+bool BomberControl::Initialize()
+{
+
+	return false;
+}
+
 void BomberControl::SetBomber(Model model)
 {
 	BomberModel = model;
@@ -26,12 +32,6 @@ void BomberControl::SetBomberRadar(Model model)
 void BomberControl::SetPlayer(Player* player)
 {
 	ThePlayer = player;
-}
-
-bool BomberControl::Initialize()
-{
-
-	return false;
 }
 
 bool BomberControl::BeginRun(Camera* camera)
@@ -69,7 +69,7 @@ void BomberControl::SpawnBombers(int amount)
 	for (auto bomber : Bombers)
 	{
 		bomber->Initialize();
-		bomber->TheModel = BomberModel;
+		bomber->SetModel(BomberModel);
 		bomber->SetBomb(BombModel);
 		bomber->SetRadar(BomberRadarModel);
 		bomber->SetPlayer(ThePlayer);

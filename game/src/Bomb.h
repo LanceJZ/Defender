@@ -18,6 +18,6 @@ public:
 	void Spawn(Vector3 position);
 
 private:
-	Timer* LifeTimer = new Timer();
+	Timer LifeTimer;
 	EnemyMirror Mirror;
 };

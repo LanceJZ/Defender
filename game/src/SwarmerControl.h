@@ -10,13 +10,13 @@ public:
 	SwarmerControl();
 	virtual ~SwarmerControl();
 
+	bool Initialize();
 	void SetPodModel(Model model);
 	void SetSwarmerModel(Model model);
 	void SetShotModel(Model model);
 	void SetPodRadarModel(Model model);
 	void SetSwarmerRadarModel(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -31,7 +31,7 @@ private:
 
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
-	SharedData* Data = nullptr;
+	SharedData* Data;
 
 	void SpawnPods(float count);
 };

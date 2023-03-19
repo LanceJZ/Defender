@@ -13,7 +13,6 @@ public:
 	void SetTailModel(Model model);
 	bool BeginRun(Camera* camera);
 
-
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
@@ -21,8 +20,8 @@ public:
 	void Reset();
 
 private:
-	Timer* LifeTimer = new Timer();
-	Model3D* Tail = new Model3D();
+	Timer LifeTimer;
+	Model3D Tail;
 	EnemyMirror Mirror;
 };
 

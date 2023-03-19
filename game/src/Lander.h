@@ -27,11 +27,10 @@ public:
 	EnemyShot* Shots[4];
 	vector<Person*> People; //The Person Man.
 
-	void SetModel(Model model);
+	bool Initialize();
 	void SetShotModel(Model model);
 	void SetRadarModel(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -43,7 +42,7 @@ private:
 	float GroundHoverY = 0;
 	Mode CurrentMode = GoingToGround;
 	EnemyRadarMirror RadarMirror;
-	Timer* ShotTimer = new Timer();
+	Timer ShotTimer;
 	Player* ThePlayer = nullptr;
 	Person* PersonCaptured = nullptr;
 
@@ -55,6 +54,6 @@ private:
 	void FireShot();
 	void FireShots();
 	void CheckCollision();
-	void Distroy();
+	void Destroy();
 };
 

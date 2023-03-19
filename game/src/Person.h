@@ -12,10 +12,9 @@ public:
 	Person();
 	virtual ~Person();
 
-	void SetModel(Model model);
+	virtual bool Initialize();
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);
-	virtual bool Initialize();
 	virtual bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -23,7 +22,7 @@ public:
 
 	void Spawn(Vector3 position);
 	void Dropped();
-	void Distroy();
+	void Destroy();
 
 private:
 	bool GoingDown = true;

@@ -8,6 +8,12 @@ SwarmerControl::~SwarmerControl()
 {
 }
 
+bool SwarmerControl::Initialize()
+{
+
+	return false;
+}
+
 void SwarmerControl::SetPodModel(Model model)
 {
 	PodModel = model;
@@ -36,12 +42,6 @@ void SwarmerControl::SetSwarmerRadarModel(Model model)
 void SwarmerControl::SetPlayer(Player* player)
 {
 	ThePlayer = player;
-}
-
-bool SwarmerControl::Initialize()
-{
-
-	return false;
 }
 
 bool SwarmerControl::BeginRun(Camera* camera)

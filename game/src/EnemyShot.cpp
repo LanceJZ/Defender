@@ -4,11 +4,6 @@ EnemyShot::~EnemyShot()
 {
 }
 
-void EnemyShot::SetPlayer(Player* player)
-{
-	ThePlayer = player;
-}
-
 bool EnemyShot::Initialize()
 {
 	Model3D::Initialize();
@@ -22,11 +17,16 @@ bool EnemyShot::Initialize()
 	return false;
 }
 
+void EnemyShot::SetPlayer(Player* player)
+{
+	ThePlayer = player;
+}
+
 bool EnemyShot::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
-	Mirror.SetModel(TheModel, ModelScale);
+	Mirror.SetModel(GetModel(), ModelScale);
 	Mirror.BeginRun(camera);
 
 	return false;
@@ -44,9 +44,9 @@ void EnemyShot::Update(float deltaTime)
 	if (!Enabled)
 		return;
 
-	LifeTimer->Update(deltaTime);
+	LifeTimer.Update(deltaTime);
 
-	if (LifeTimer->Elapsed())
+	if (LifeTimer.Elapsed())
 	{
 		Enabled = false;
 	}
@@ -69,7 +69,7 @@ void EnemyShot::Draw()
 void EnemyShot::Spawn(Vector3 position, Vector3 velocity, float life)
 {
 	Enabled = true;
-	LifeTimer->Reset(life);
+	LifeTimer.Reset(life);
 	Position = position;
 	Velocity = velocity;
 	Mirror.PositionUpdate(Enabled, Position);

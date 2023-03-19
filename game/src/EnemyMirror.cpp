@@ -2,7 +2,6 @@
 
 EnemyMirror::EnemyMirror()
 {
-
 }
 
 EnemyMirror::~EnemyMirror()
@@ -19,9 +18,9 @@ bool EnemyMirror::Initialize()
 
 void EnemyMirror::SetModel(Model model, float scale)
 {
-	MirrorL.TheModel = model;
+	MirrorL.SetModel(model);
 	MirrorL.ModelScale = scale;
-	MirrorR.TheModel = model;
+	MirrorR.SetModel(model);
 	MirrorR.ModelScale = scale;
 }
 

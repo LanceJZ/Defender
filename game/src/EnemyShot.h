@@ -9,8 +9,8 @@ class EnemyShot : public Model3D
 public:
 	virtual ~EnemyShot();
 
-	void SetPlayer(Player* player);
 	bool Initialize();
+	void SetPlayer(Player* player);
 	bool BeginRun(Camera* camera);
 
 	virtual void Input();
@@ -22,7 +22,7 @@ public:
 	float AimedShot(Vector3 position);
 
 private:
-	Timer* LifeTimer = new Timer();
 	Player* ThePlayer = nullptr;
+	Timer LifeTimer;
 	EnemyMirror Mirror;
 };

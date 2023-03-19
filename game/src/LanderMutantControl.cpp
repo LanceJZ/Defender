@@ -59,7 +59,7 @@ void LanderMutantControl::SetData(SharedData* data)
 bool LanderMutantControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
-	NewWave();
+	NewLanderWave();
 	return false;
 }
 
@@ -97,10 +97,7 @@ void LanderMutantControl::Update(float deltaTime)
 
 	for (auto person : People)
 	{
-		if (person->Enabled)
-		{
-			person->Update(deltaTime);
-		}
+		person->Update(deltaTime);
 
 		if (person->CountChanged)
 		{
@@ -178,6 +175,11 @@ void LanderMutantControl::SpawnLanders(int count)
 		Landers[landerNumber]->Spawn({x, y, 0});
 	}
 
+	for (auto lander : Landers)
+	{
+		lander->People = People;
+	}
+
 	Data->LandersMutantsBeGone = false;
 }
 
@@ -203,7 +205,7 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 		Mutants.push_back(new Mutant());
 		{
 			Mutants[mutantNumber]->Initialize();
-			Mutants[mutantNumber]->TheModel = MutantModel;
+			Mutants[mutantNumber]->SetModel(MutantModel);
 			Mutants[mutantNumber]->SetRadarModel(MutantRadar);
 			Mutants[mutantNumber]->SetShotModel(ShotModel);
 			Mutants[mutantNumber]->SetPlayer(ThePlayer);
@@ -250,11 +252,6 @@ void LanderMutantControl::SpawnPoeple(int count)
 		People[personNumber]->Spawn({ x, y, 0 });
 
 	}
-
-	for (auto lander : Landers)
-	{
-		lander->People = People;
-	}
 }
 
 void LanderMutantControl::CountChange()
@@ -291,14 +288,25 @@ void LanderMutantControl::CountPeopleChange()
 	Data->PeopleBeGone = true;
 }
 
-void LanderMutantControl::NewWave()
+void LanderMutantControl::NewLanderWave()
 {
 	for (auto person : People)
 	{
-		person->Enabled = false;
+		person->Destroy();
 	}
 
 	SpawnLanders(5);
 	SpawnPoeple(10);
-	SpawnTimer.Set(SpawnTimerAmount);
+
+	SpawnTimer.Reset(SpawnTimerAmount);
+}
+
+void LanderMutantControl::NewLevelWave()
+{
+	NumberSpawned = 5;
+
+	if (TotalSpawn < 30)
+		TotalSpawn += 5;
+
+	NewLanderWave();
 }

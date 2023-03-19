@@ -12,19 +12,19 @@ bool PlayerShot::Initialize()
 {
 	Model3D::Initialize();
 
-	Tail->Initialize();
+	Tail.Initialize();
 
 	Radius = 3.5f;
-	LifeTimer->Set(1);
+	LifeTimer.Set(1);
 	RotationAxis.y = 1.0f;
 	ModelScale = 3.0f;
 	Enabled = false;
 
-	Tail->RotationVelocity = 40.666f;
-	Tail->RotationAxis.x = 1.0f;
-	Tail->Position.x = -5.5f;
-	Tail->ModelScale = 5.0f;
-	Tail->Enabled = false;
+	Tail.RotationVelocity = 40.666f;
+	Tail.RotationAxis.x = 1.0f;
+	Tail.Position.x = -5.5f;
+	Tail.ModelScale = 5.0f;
+	Tail.Enabled = false;
 
 	Mirror.Initialize();
 
@@ -33,17 +33,17 @@ bool PlayerShot::Initialize()
 
 void PlayerShot::SetTailModel(Model model)
 {
-	Tail->TheModel = model;
+	Tail.SetModel(model);
 }
 
 bool PlayerShot::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
-	Tail->BeginRun(camera);
-	AddChild(Tail);
+	Tail.BeginRun(camera);
+	AddChild(&Tail);
 
-	Mirror.SetModel(Tail->TheModel, Tail->ModelScale);
+	Mirror.SetModel(Tail.GetModel(), Tail.ModelScale);
 	Mirror.BeginRun(camera);
 
 	return false;
@@ -52,8 +52,8 @@ bool PlayerShot::BeginRun(Camera* camera)
 void PlayerShot::Spawn(Vector3 position, Vector3 velocity, bool reverse)
 {
 	Enabled = true;
-	Tail->Enabled = true;
-	LifeTimer->Reset();
+	Tail.Enabled = true;
+	LifeTimer.Reset();
 	Position = position;
 	Velocity.x = velocity.x;
 	Velocity.y = velocity.y * 0.1f;
@@ -77,19 +77,19 @@ void PlayerShot::Spawn(Vector3 position, Vector3 velocity, bool reverse)
 void PlayerShot::Reset()
 {
 	Enabled = false;
-	Tail->Enabled = false;
+	Tail.Enabled = false;
 }
 
 void PlayerShot::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
-	Tail->Update(deltaTime);
-	LifeTimer->Update(deltaTime);
+	Tail.Update(deltaTime);
+	LifeTimer.Update(deltaTime);
 
-	if (LifeTimer->Elapsed())
+	if (LifeTimer.Elapsed())
 	{
 		Enabled = false;
-		Tail->Enabled = false;
+		Tail.Enabled = false;
 	}
 
 	CheckPlayfieldSidesWarp(4.0f, 3.0f);
@@ -100,6 +100,6 @@ void PlayerShot::Draw()
 {
 	Model3D::Draw();
 
-	Tail->Draw();
+	Tail.Draw();
 	Mirror.Draw();
 }

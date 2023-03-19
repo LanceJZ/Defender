@@ -9,9 +9,15 @@ Pod::~Pod()
 {
 }
 
-void Pod::SetModel(Model model)
+bool Pod::Initialize()
 {
-	Model3D::TheModel = model;
+	Model3D::Initialize();
+
+	RadarMirror.Initialize();
+	ModelScale = 10.0f;
+	Enabled = false;
+
+	return false;
 }
 
 void Pod::SetShotModel(Model model)
@@ -40,23 +46,12 @@ void Pod::SetPlayer(Player* player)
 	ThePlayer = player;
 }
 
-bool Pod::Initialize()
-{
-	Model3D::Initialize();
-
-	RadarMirror.Initialize();
-	ModelScale = 10.0f;
-	Enabled = false;
-
-	return false;
-}
-
 bool Pod::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
 	TheCamera = camera;
-	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
 	RadarMirror.BeginRun(camera);
 
 	return false;

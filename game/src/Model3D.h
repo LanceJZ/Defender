@@ -10,21 +10,23 @@ public:
 	Vector3 ModelPosition = { 0 };
 	Color ModelColor = WHITE;
 	Color TheColor = WHITE;
-	Model TheModel;
 
 	bool Initialize();
 	virtual void LoadModel(Model model, Texture2D texture);
 	virtual bool BeginRun(Camera* camera);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
+
 	virtual void AddChild(Model3D* child);
+	virtual void SetModel(Model model);
+	virtual Model GetModel();
 
 private:
+	Model TheModel;
 	Camera* TheCamera = nullptr;
 	vector <Model3D*> Children;
 	vector <Model3D*> Parents;
 
 	virtual void AddChildren(Model3D* child);
-
 };
 

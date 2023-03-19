@@ -125,6 +125,16 @@ void Model3D::AddChild(Model3D* child)
 
 }
 
+void Model3D::SetModel(Model model)
+{
+	TheModel = model;
+}
+
+Model Model3D::GetModel()
+{
+	return TheModel;
+}
+
 void Model3D::AddChildren(Model3D* child)
 {
 	child->Parents.push_back(this);

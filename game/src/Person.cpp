@@ -8,9 +8,15 @@ Person::~Person()
 {
 }
 
-void Person::SetModel(Model model)
+bool Person::Initialize()
 {
-	TheModel = model;
+	Model3D::Initialize();
+
+	RadarMirror.Initialize();
+	ModelScale = 5.0f;
+	Radius = 7.0f;
+
+	return false;
 }
 
 void Person::SetRadar(Model model)
@@ -24,22 +30,11 @@ void Person::SetPlayer(Player* player)
 	RadarMirror.SetPlayer(player);
 }
 
-bool Person::Initialize()
-{
-	Model3D::Initialize();
-
-	RadarMirror.Initialize();
-	ModelScale = 5.0f;
-	Radius = 7.0f;
-
-	return false;
-}
-
 bool Person::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
-	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
 	RadarMirror.BeginRun(camera);
 
 	return false;
@@ -79,7 +74,8 @@ void Person::Draw()
 void Person::Spawn(Vector3 position)
 {
 	Position = position;
-	Velocity.x = 0;
+	Velocity.y = 0;
+	Acceleration.y = 0;
 	Enabled = true;
 	BeingCaptured = false;
 	GoingDown = false;
@@ -111,11 +107,12 @@ void Person::Falling()
 	if (Y() < -(GetScreenHeight() / 2.10f))
 	{
 		Velocity.y = 0;
+		Acceleration.y = 0;
 		GoingDown = false;
 
 		if (DroppedY > 0)
 		{
-			Distroy();
+			Destroy();
 		}
 	}
 }
@@ -136,13 +133,14 @@ void Person::CheckCollision()
 	if (CirclesIntersect(ThePlayer))
 	{
 		CaughtByPlayer = true;
+		BeingCaptured = false;
 		GoingDown = false;
 		Velocity.y = 0;
 		Acceleration.y = 0;
 	}
 }
 
-void Person::Distroy()
+void Person::Destroy()
 {
 	Enabled = false;
 	CountChanged = true;

@@ -13,11 +13,10 @@ public:
 
 	EnemyShot* Shots[4];
 
-	void SetModel(Model model);
+	bool Initialize();
 	void SetShotModel(Model model);
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -33,8 +32,8 @@ private:
 
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
-	Timer* ShotTimer = new Timer();
-	Timer* AfterSpawn = new Timer();
+	Timer ShotTimer;
+	Timer AfterSpawn;
 
 	void FireShot();
 	void AfterSpawnMovement();

@@ -10,11 +10,11 @@ public:
 	BomberControl();
 	virtual ~BomberControl();
 
+	bool Initialize();
 	void SetBomber(Model model);
 	void SetBomb(Model model);
 	void SetBomberRadar(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -24,9 +24,9 @@ private:
 	Model BomberModel = { 0 };
 	Model BombModel = { 0 };
 	Model BomberRadarModel = { 0 };
+	SharedData* Data;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
-	SharedData* Data = nullptr;
 
 	void SpawnBombers(int amount);
 };

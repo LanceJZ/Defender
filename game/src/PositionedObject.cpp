@@ -71,13 +71,11 @@ float PositionedObject::Z()
 void PositionedObject::X(float x)
 {
 	Position.x = x;
-	Position2.x = x;
 }
 
 void PositionedObject::Y(float y)
 {
 	Position.y = y;
-	Position2.y = y;
 }
 
 void PositionedObject::Z(float z)

@@ -13,10 +13,10 @@ public:
 	Bomber();
 	virtual ~Bomber();
 
+	bool Initialize();
 	void SetBomb(Model model);
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -29,7 +29,7 @@ private:
 	EnemyRadarMirror RadarMirror;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
-	Timer* DropBombTimer = new Timer();
+	Timer DropBombTimer;
 
 	void DropABomb();
 };

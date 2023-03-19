@@ -41,14 +41,14 @@ private:
 	bool Pause = false;
 	bool NewWave = false;
 	Camera* TheCamera = nullptr;
-	Player* ThePlayer = new Player();
-	Land* TheLand = new Land();
-	Timer* NewWaveTimer = new Timer();
-	ScoreKeeper* Score = new ScoreKeeper();
-	SharedData* Data = new SharedData();
-	LanderMutantControl* ControlLanderMutant = new LanderMutantControl();
-	BomberControl* Bombers = new BomberControl();
-	SwarmerControl* Swarmers = new SwarmerControl();
+	Player ThePlayer;
+	Land TheLand;
+	Timer NewWaveTimer;
+	ScoreKeeper Score;
+	SharedData Data;
+	LanderMutantControl ControlLanderMutant;
+	BomberControl Bombers;
+	SwarmerControl Swarmers;
 
 	void CheckEndOfWave();
 };

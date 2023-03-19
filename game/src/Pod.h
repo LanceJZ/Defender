@@ -12,13 +12,12 @@ public:
 
 	vector<Swarmer*> Swarmers;
 
-	void SetModel(Model model);
+	bool Initialize();
 	void SetShotModel(Model model);
 	void SetSwarmerModel(Model model);
 	void SetSwarmerRadarModel(Model model);
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);

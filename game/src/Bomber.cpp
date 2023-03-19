@@ -8,6 +8,16 @@ Bomber::~Bomber()
 {
 }
 
+bool Bomber::Initialize()
+{
+	Model3D::Initialize();
+
+	RadarMirror.Initialize();
+	ModelScale = 10.0f;
+
+	return false;
+}
+
 void Bomber::SetBomb(Model model)
 {
 	BombModel = model;
@@ -24,25 +34,15 @@ void Bomber::SetPlayer(Player* player)
 	RadarMirror.SetPlayer(player);
 }
 
-bool Bomber::Initialize()
-{
-	Model3D::Initialize();
-
-	RadarMirror.Initialize();
-	ModelScale = 10.0f;
-
-	return false;
-}
-
 bool Bomber::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
 	TheCamera = camera;
-	RadarMirror.SetMirrorModel(TheModel, ModelScale);
+	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
 	RadarMirror.SetPlayer(ThePlayer);
 	RadarMirror.BeginRun(camera);
-	DropBombTimer->Set(GetRandomFloat(0.5f, 1.0f));
+	DropBombTimer.Set(GetRandomFloat(0.5f, 1.0f));
 
 	return false;
 }
@@ -58,11 +58,11 @@ void Bomber::Update(float deltaTime)
 
 	if (Enabled)
 	{
-		DropBombTimer->Update(deltaTime);
+		DropBombTimer.Update(deltaTime);
 
-		if (DropBombTimer->Elapsed())
+		if (DropBombTimer.Elapsed())
 		{
-			DropBombTimer->Reset(GetRandomFloat(2.5f, 5.0f));
+			DropBombTimer.Reset(GetRandomFloat(2.5f, 5.0f));
 			DropABomb();
 		}
 
@@ -130,7 +130,7 @@ void Bomber::DropABomb()
 	{
 		Bombs.push_back(new Bomb());
 		Bombs[Bombs.size() - 1]->Initialize();
-		Bombs[Bombs.size() - 1]->TheModel = BombModel;
+		Bombs[Bombs.size() - 1]->SetModel(BombModel);
 		Bombs[Bombs.size() - 1]->BeginRun(TheCamera);
 	}
 

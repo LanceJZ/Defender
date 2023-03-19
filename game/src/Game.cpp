@@ -4,24 +4,11 @@
 
 Game::Game()
 {
-	gameLogic = new GameLogic();
 }
 
 Game::~Game()
 {
 
-}
-
-void Game::GameLoop()
-{
-	while (!WindowShouldClose())
-	{
-		ProcessInput();
-		Update(GetFrameTime());
-		Draw();
-	}
-
-	Shutdown();
 }
 
 bool Game::Initialize()
@@ -39,32 +26,44 @@ bool Game::Initialize()
 	TheCamera.up = { 0.0f, 1.0f, 0.0f };         // Camera up vector (rotation towards target)
 	TheCamera.fovy = (float)GetScreenHeight();   // Camera field-of-view Y. In Orthographic is scale.
 	TheCamera.projection = CAMERA_ORTHOGRAPHIC;  // Camera mode type
-	gameLogic->Initialize();
+	gameLogic.Initialize();
 
 	return false;
 }
 
 bool Game::Load()
 {
-	gameLogic->Load();
+	gameLogic.Load();
 	return 0;
 }
 
 bool Game::BeginRun()
 {
-	gameLogic->BeginRun(&TheCamera);
+	gameLogic.BeginRun(&TheCamera);
 	return false;
+}
+
+void Game::GameLoop()
+{
+	while (!WindowShouldClose())
+	{
+		ProcessInput();
+		Update(GetFrameTime());
+		Draw();
+	}
+
+	Shutdown();
 }
 
 void Game::ProcessInput()
 {
-	gameLogic->Input();
+	gameLogic.Input();
 }
 
 
 void Game::Update(float deltaTime)
 {
-	gameLogic->Update(deltaTime);
+	gameLogic.Update(deltaTime);
 }
 
 void Game::Draw()
@@ -74,12 +73,12 @@ void Game::Draw()
 	BeginMode3D(TheCamera);
 
 	//3D Drawing here.
-	gameLogic->Draw3D();
+	gameLogic.Draw3D();
 
 	EndMode3D();
 
 	//2D drawing, fonts go here.
-	gameLogic->Draw2D();
+	gameLogic.Draw2D();
 
 	EndDrawing();
 }

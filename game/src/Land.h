@@ -14,12 +14,12 @@ public:
 	Land();
 	virtual ~Land();
 
+	bool Initialize();
 	void SetUIBack(Model model);
 	void SetUIHorz(Model model);
 	void SetRadarTopBottom(Model model);
 	void SetStar(Model model);
 	void SetPlayer(Player* player);
-	bool Initialize();
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -29,13 +29,13 @@ private:
 	Model Star = { 0 };
 	Camera* TheCamera = nullptr;
 	Player* ThePlayer = nullptr;
-	Timer* StarTimer = new Timer();
-	Model3D* UIBackR = new Model3D();
-	Model3D* UIBackL = new Model3D();
-	Model3D* RadarHorzBottom = new Model3D();
-	Model3D* RadarHorzTop = new Model3D();
-	Model3D* RadarHorzL = new Model3D();
-	Model3D* RadarHorzR = new Model3D();
+	Timer StarTimer;
+	Model3D UIBackR;
+	Model3D UIBackL;
+	Model3D RadarHorzBottom;
+	Model3D RadarHorzTop;
+	Model3D RadarHorzL;
+	Model3D RadarHorzR;
 	vector <Model3D*> AllTheStars;
 
 	Vector2 UpdateRadar(float X, float Y);
