@@ -34,19 +34,45 @@ Model GameLogic::LoadModelwithTexture(string modelFileName)
 	string nameOBJ = path;
 	nameOBJ.append(modelFileName);
 	nameOBJ.append(".obj");
+	Image image = { 0 };
+	Model loadModel = { 0 };
 
-	Image image = LoadImage(const_cast<char*>(namePNG.c_str()));
-	Model loadModel = UploadTextureToModel(LoadModel(const_cast<char*>(nameOBJ.c_str())), LoadTextureFromImage(image));
-	UnloadImage(image);
+	if (FileExists(const_cast<char*>(namePNG.c_str())))
+	{
+		image = LoadImage(const_cast<char*>(namePNG.c_str()));
+	}
+	else
+	{
+		fprintf(stderr, "**********************************************************************************************\n");
+		fprintf(stderr, "*****************  Image  :%s missing. *****************\n", const_cast<char*>(namePNG.c_str()));
+		fprintf(stderr, "**********************************************************************************************\n");
+	}
+
+	if (FileExists(const_cast<char*>(nameOBJ.c_str())))
+	{
+		loadModel = UploadTextureToModel(LoadModel(const_cast<char*>(nameOBJ.c_str())), LoadTextureFromImage(image));
+		UnloadImage(image);
+	}
+	else
+	{
+		fprintf(stderr, "**********************************************************************************************\n");
+		fprintf(stderr, "******************  Model  :%s missing. ****************\n", const_cast<char*>(nameOBJ.c_str()));
+		fprintf(stderr, "**********************************************************************************************\n");
+	}
+
 
 	return loadModel;
 }
 
 Model GameLogic::UploadTextureToModel(Model model, Texture2D texture)
 {
-	Model buildModel;
-	buildModel = model;
-	buildModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+	Model buildModel = { 0 };
+
+	if (IsTextureReady(texture))
+	{
+		buildModel = model;
+		buildModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+	}
 
 	return buildModel;
 }
@@ -153,7 +179,8 @@ void GameLogic::Draw2D()
 {
 	if (NewWave)
 	{
-		DrawText("Wave Completed", (int)((GetScreenWidth() * 0.5f) - ((30 * 15) * 0.25f)), (int)(GetScreenHeight() * 0.5f), 30, GRAY);
+		DrawText("Wave Completed", (int)((GetScreenWidth() * 0.5f) - ((30 * 15) * 0.25f)),
+			(int)(GetScreenHeight() * 0.5f), 30, GRAY);
 	}
 	else
 	{

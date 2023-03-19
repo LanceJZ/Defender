@@ -12,8 +12,11 @@ bool Model3D::Initialize()
 
 void Model3D::LoadModel(Model model, Texture2D texture)
 {
-	TheModel = model;
-	TheModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+	if (IsTextureReady(texture))
+	{
+		TheModel = model;
+		TheModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+	}
 }
 
 bool Model3D::BeginRun(Camera* camera)
