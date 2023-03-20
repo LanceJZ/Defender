@@ -38,12 +38,14 @@ public:
 	virtual void Draw2D();
 
 private:
-	bool Pause = false;
 	bool NewWave = false;
+
+	GameState State = InPlay;
 	Camera* TheCamera = nullptr;
 	Player ThePlayer;
 	Land TheLand;
 	Timer NewWaveTimer;
+	Timer PlayerResetTimer;
 	ScoreKeeper Score;
 	SharedData Data;
 	LanderMutantControl ControlLanderMutant;
@@ -51,5 +53,6 @@ private:
 	SwarmerControl Swarmers;
 
 	void CheckEndOfWave();
+	void PlayerWasHit();
 };
 

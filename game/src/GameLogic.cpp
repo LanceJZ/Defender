@@ -146,12 +146,21 @@ void GameLogic::Input()
 		ThePlayer.Input();
 
 	if (IsKeyPressed(KEY_P))
-		Pause = !Pause;
+	{
+		if (State == InPlay)
+		{
+			State = Pause;
+		}
+		else if (State == Pause)
+		{
+			State = InPlay;
+		}
+	}
 }
 
 void GameLogic::Update(float deltaTime)
 {
-	if (!Pause)
+	if (State == InPlay)
 	{
 		NewWaveTimer.Update(deltaTime);
 		ThePlayer.Update(deltaTime);
@@ -160,6 +169,22 @@ void GameLogic::Update(float deltaTime)
 		Bombers.Update(deltaTime);
 		Swarmers.Update(deltaTime);
 		CheckEndOfWave();
+
+		if (ThePlayer.BeenHit)
+		{
+			PlayerWasHit();
+		}
+	}
+	else if (State == PlayerHit)
+	{
+		PlayerResetTimer.Update(deltaTime);
+		ThePlayer.Update(deltaTime);
+		TheLand.Update(deltaTime);
+
+		if (PlayerResetTimer.Elapsed())
+		{
+			State = InPlay;
+		}
 	}
 }
 
@@ -169,9 +194,13 @@ void GameLogic::Draw3D()
 	{
 		ThePlayer.Draw();
 		TheLand.Draw();
-		ControlLanderMutant.Draw();
-		Bombers.Draw();
-		Swarmers.Draw();
+
+		if (State != PlayerHit)
+		{
+			ControlLanderMutant.Draw();
+			Bombers.Draw();
+			Swarmers.Draw();
+		}
 	}
 }
 
@@ -194,7 +223,7 @@ void GameLogic::CheckEndOfWave()
 	{
 		Data.Wave++;
 		ControlLanderMutant.NewLevelWave();
-		ThePlayer.NewWaveReset();
+		ThePlayer.Reset();
 		NewWave = true;
 		NewWaveTimer.Reset();
 	}
@@ -206,4 +235,12 @@ void GameLogic::CheckEndOfWave()
 			NewWave = false;
 		}
 	}
+}
+
+void GameLogic::PlayerWasHit()
+{
+	State = PlayerHit;
+	PlayerResetTimer.Reset(1.3f);
+	ThePlayer.Reset();
+	ControlLanderMutant.PlayerHitReset();
 }

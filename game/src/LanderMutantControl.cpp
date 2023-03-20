@@ -112,8 +112,7 @@ void LanderMutantControl::Update(float deltaTime)
 
 		if (NumberSpawned < TotalSpawn)
 		{
-			SpawnLanders(5);
-			NumberSpawned += 5;
+			SpawnMoreLanders();
 		}
 	}
 }
@@ -134,6 +133,20 @@ void LanderMutantControl::Draw()
 	{
 		person->Draw();
 	}
+}
+
+void LanderMutantControl::SpawnMoreLanders()
+{
+	int spawn = 5;
+
+	if (NumberSpawned + spawn > TotalSpawn)
+	{
+		spawn = TotalSpawn - NumberSpawned;
+	}
+
+	SpawnLanders(spawn);
+	NumberSpawned += spawn;
+	SpawnTimer.Reset(SpawnTimerAmount);
 }
 
 void LanderMutantControl::SpawnLanders(int count)
@@ -272,6 +285,12 @@ void LanderMutantControl::CountChange()
 		}
 	}
 
+	if (NumberSpawned < TotalSpawn)
+	{
+		SpawnMoreLanders();
+		return;
+	}
+
 	Data->LandersMutantsBeGone = true;
 }
 
@@ -305,8 +324,57 @@ void LanderMutantControl::NewLevelWave()
 {
 	NumberSpawned = 5;
 
+	for (auto lander : Landers)
+	{
+		for (auto shot : lander->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
+
+	for (auto mutant : Mutants)
+	{
+		for (auto shot : mutant->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
+
 	if (TotalSpawn < 30)
-		TotalSpawn += 5;
+		TotalSpawn += NumberSpawned;
 
 	NewLanderWave();
+}
+
+void LanderMutantControl::PlayerHitReset()
+{
+	int peopleAlive = 0;
+	int landersAlive = 0;
+	int mutantsAlive = 0;
+
+	for (auto lander : Landers)
+	{
+		if (lander->Enabled)
+		{
+			landersAlive++;
+			lander->Enabled = false;
+		}
+
+		for (auto shot : lander->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
+
+	for (auto mutant : Mutants)
+	{
+		for (auto shot : mutant->Shots)
+		{
+			shot->Enabled = false;
+		}
+	}
+
+	NumberSpawned = NumberSpawned - landersAlive;
+
+	SpawnMoreLanders();
 }

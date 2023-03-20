@@ -22,7 +22,8 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void NewWaveReset();
+	void Reset();
+	void Hit();
 
 private:
 	bool FacingRight = true;

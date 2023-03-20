@@ -193,15 +193,30 @@ void Lander::CheckCollision()
 	if (CirclesIntersect(ThePlayer))
 	{
 		Destroy();
+		ThePlayer->Hit();
 		return;
 	}
 
 	for (auto shot : ThePlayer->Shots)
 	{
-		if (CirclesIntersect(shot))
+		if (shot->Enabled)
 		{
-			Destroy();
-			return;
+			if (CirclesIntersect(shot))
+			{
+				Destroy();
+				return;
+			}
+		}
+	}
+
+	for (auto shot : Shots)
+	{
+		if (shot->Enabled)
+		{
+			if (ThePlayer->CirclesIntersect(shot))
+			{
+				ThePlayer->Hit();
+			}
 		}
 	}
 }

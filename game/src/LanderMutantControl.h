@@ -30,6 +30,7 @@ public:
 
 	void NewLanderWave();
 	void NewLevelWave();
+	void PlayerHitReset();
 
 private:
 	int TotalSpawn = 10;
@@ -49,6 +50,7 @@ private:
 	Camera* TheCamera = nullptr;
 	SharedData* Data = nullptr;
 
+	void SpawnMoreLanders();
 	void SpawnLanders(int count);
 	void SpawnMutant(Lander* lander);
 	void SpawnPoeple(int count);

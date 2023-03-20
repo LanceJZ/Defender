@@ -28,7 +28,7 @@ bool Player::Initialize()
 		shot->Initialize();
 	}
 
-	NewWaveReset();
+	Reset();
 
 	return false;
 }
@@ -166,8 +166,9 @@ void Player::Draw()
 	}
 }
 
-void Player::NewWaveReset()
+void Player::Reset()
 {
+	BeenHit = false;
 	ThrustOff();
 	Position = { 0, 0, 0 };
 	Velocity = { 0, 0, 0 };
@@ -179,6 +180,11 @@ void Player::NewWaveReset()
 	{
 		shot->Reset();
 	}
+}
+
+void Player::Hit()
+{
+	Entity::BeenHit = true;
 }
 
 void Player::CameraMovement()
