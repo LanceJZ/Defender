@@ -203,6 +203,7 @@ void Lander::CheckCollision()
 		{
 			if (CirclesIntersect(shot))
 			{
+				shot->Enabled = false;
 				Destroy();
 				return;
 			}

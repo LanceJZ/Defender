@@ -11,6 +11,8 @@
 enum GameState
 {
 	PlayerHit,
+	WaveStart,
+	NewWave,
 	Over,
 	InPlay,
 	Pause,
@@ -38,20 +40,20 @@ public:
 	virtual void Draw2D();
 
 private:
-	bool NewWave = false;
-
-	GameState State = InPlay;
+	GameState State = WaveStart;
 	Camera* TheCamera = nullptr;
 	Player ThePlayer;
 	Land TheLand;
 	Timer NewWaveTimer;
 	Timer PlayerResetTimer;
+	Timer WaveStartTimer;
 	ScoreKeeper Score;
 	SharedData Data;
 	LanderMutantControl ControlLanderMutant;
 	BomberControl Bombers;
 	SwarmerControl Swarmers;
 
+	void UpdatePlayerLand(float deltaTime);
 	void CheckEndOfWave();
 	void PlayerWasHit();
 };

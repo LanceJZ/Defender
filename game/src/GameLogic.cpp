@@ -136,13 +136,14 @@ bool GameLogic::BeginRun(Camera* camera)
 	ControlLanderMutant.BeginRun(camera);
 	Bombers.BeginRun(camera);
 	Swarmers.BeginRun(camera);
+	WaveStartTimer.Reset(1.666f);
 
 	return false;
 }
 
 void GameLogic::Input()
 {
-	if (!NewWave)
+	if (State != NewWave)
 		ThePlayer.Input();
 
 	if (IsKeyPressed(KEY_P))
@@ -162,9 +163,7 @@ void GameLogic::Update(float deltaTime)
 {
 	if (State == InPlay)
 	{
-		NewWaveTimer.Update(deltaTime);
-		ThePlayer.Update(deltaTime);
-		TheLand.Update(deltaTime);
+		UpdatePlayerLand(deltaTime);
 		ControlLanderMutant.Update(deltaTime);
 		Bombers.Update(deltaTime);
 		Swarmers.Update(deltaTime);
@@ -178,24 +177,43 @@ void GameLogic::Update(float deltaTime)
 	else if (State == PlayerHit)
 	{
 		PlayerResetTimer.Update(deltaTime);
-		ThePlayer.Update(deltaTime);
-		TheLand.Update(deltaTime);
+		UpdatePlayerLand(deltaTime);
 
 		if (PlayerResetTimer.Elapsed())
 		{
+			State = WaveStart;
+		}
+	}
+	else if (State == WaveStart)
+	{
+		WaveStartTimer.Update(deltaTime);
+		UpdatePlayerLand(deltaTime);
+
+		if (WaveStartTimer.Elapsed())
+		{
 			State = InPlay;
+		}
+	}
+	else if (State == NewWave)
+	{
+		NewWaveTimer.Update(deltaTime);
+
+		if (NewWaveTimer.Elapsed())
+		{
+			State = WaveStart;
+			WaveStartTimer.Reset();
 		}
 	}
 }
 
 void GameLogic::Draw3D()
 {
-	if (!NewWave)
+	if (State != NewWave)
 	{
 		ThePlayer.Draw();
 		TheLand.Draw();
 
-		if (State != PlayerHit)
+		if (State == InPlay)
 		{
 			ControlLanderMutant.Draw();
 			Bombers.Draw();
@@ -206,7 +224,7 @@ void GameLogic::Draw3D()
 
 void GameLogic::Draw2D()
 {
-	if (NewWave)
+	if (State == NewWave)
 	{
 		DrawText("Wave Completed", (int)((GetScreenWidth() * 0.5f) - ((30 * 15) * 0.25f)),
 			(int)(GetScreenHeight() * 0.5f), 30, GRAY);
@@ -217,6 +235,12 @@ void GameLogic::Draw2D()
 	}
 }
 
+void GameLogic::UpdatePlayerLand(float deltaTime)
+{
+	ThePlayer.Update(deltaTime);
+	TheLand.Update(deltaTime);
+}
+
 void GameLogic::CheckEndOfWave()
 {
 	if (Data.LandersMutantsBeGone)
@@ -224,23 +248,15 @@ void GameLogic::CheckEndOfWave()
 		Data.Wave++;
 		ControlLanderMutant.NewLevelWave();
 		ThePlayer.Reset();
-		NewWave = true;
+		State = NewWave;
 		NewWaveTimer.Reset();
-	}
-
-	if (NewWave)
-	{
-		if (NewWaveTimer.Elapsed())
-		{
-			NewWave = false;
-		}
 	}
 }
 
 void GameLogic::PlayerWasHit()
 {
 	State = PlayerHit;
-	PlayerResetTimer.Reset(1.3f);
+	PlayerResetTimer.Reset(2.666f);
 	ThePlayer.Reset();
 	ControlLanderMutant.PlayerHitReset();
 }
