@@ -4,7 +4,7 @@ Player::Player()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		Shots[i] = new PlayerShot();
+		//Shots[i] = new PlayerShot();
 	}
 }
 
@@ -23,9 +23,9 @@ bool Player::Initialize()
 	ModelScale = 2.0f;
 	RotationY = (PI * 2) - 0.045f;
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Initialize();
+		shot.Initialize();
 	}
 
 	Reset();
@@ -45,17 +45,17 @@ void Player::SetFlameModel(Model model)
 
 void Player::SetShotModel(Model model)
 {
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->SetModel(model);
+		shot.SetModel(model);
 	}
 }
 
 void Player::SetTailModel(Model model)
 {
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->SetTailModel(model);
+		shot.SetTailModel(model);
 	}
 }
 
@@ -79,9 +79,9 @@ bool Player::BeginRun(Camera* camera)
 	Radar.ModelScale = 10;
 	Radar.BeginRun(camera);
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->BeginRun(camera);
+		shot.BeginRun(camera);
 	}
 
 	return false;
@@ -138,9 +138,9 @@ void Player::Update(float deltaTime)
 
 	Flame.Update(deltaTime);
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Update(deltaTime);
+		shot.Update(deltaTime);
 	}
 
 	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
@@ -160,9 +160,9 @@ void Player::Draw()
 	Flame.Draw();
 	Radar.Draw();
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Draw();
+		shot.Draw();
 	}
 }
 
@@ -176,9 +176,9 @@ void Player::Reset()
 	FacingRight = true;
 	RotationY = (PI * 2) - 0.045f;
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Reset();
+		shot.Reset();
 	}
 }
 
@@ -373,11 +373,11 @@ void Player::ThrustOff()
 
 void Player::Fire()
 {
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		if (!shot->Enabled)
+		if (!shot.Enabled)
 		{
-			shot->Spawn(Position, Velocity, !FacingRight);
+			shot.Spawn(Position, Velocity, !FacingRight);
 			return;
 		}
 	}

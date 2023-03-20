@@ -4,7 +4,7 @@ Lander::Lander()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		Shots[i] = new EnemyShot();
+		//Shots[i] = new EnemyShot();
 	}
 }
 
@@ -18,9 +18,9 @@ bool Lander::Initialize()
 
 	RadarMirror.Initialize();
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Initialize();
+		shot.Initialize();
 	}
 
 	ShotTimer.Set(1);
@@ -32,9 +32,9 @@ bool Lander::Initialize()
 
 void Lander::SetShotModel(Model model)
 {
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->SetModel(model);
+		shot.SetModel(model);
 	}
 }
 
@@ -48,9 +48,9 @@ void Lander::SetPlayer(Player* player)
 	ThePlayer = player;
 	RadarMirror.SetPlayer(player);
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->SetPlayer(ThePlayer);
+		shot.SetPlayer(ThePlayer);
 	}
 }
 
@@ -58,10 +58,10 @@ bool Lander::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->BeginRun(camera);
-		shot->SetPlayer(ThePlayer);
+		shot.BeginRun(camera);
+		shot.SetPlayer(ThePlayer);
 	}
 
 	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
@@ -76,9 +76,9 @@ void Lander::Update(float deltaTime)
 
 	ShotTimer.Update(deltaTime);
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Update(deltaTime);
+		shot.Update(deltaTime);
 	}
 
 	if (Enabled)
@@ -93,7 +93,6 @@ void Lander::Update(float deltaTime)
 			{
 				FireShots();
 			}
-
 		}
 
 		if (CurrentMode == GoingToGround)
@@ -131,9 +130,9 @@ void Lander::Draw()
 {
 	Model3D::Draw();
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Draw();
+		shot.Draw();
 	}
 
 	RadarMirror.Draw();
@@ -168,9 +167,9 @@ void Lander::FireShot()
 {
 	ShotTimer.Reset(GetRandomFloat(1.1f, 1.75f));
 
-	if (!Shots[0]->Enabled)
+	if (!Shots[0].Enabled)
 	{
-		Shots[0]->Spawn(Position, VelocityFromAngleZ(Shots[0]->GetShotAngle(Position), 125.0f), 8.0f);
+		Shots[0].Spawn(Position, VelocityFromAngleZ(Shots[0].GetShotAngle(Position), 125.0f), 8.0f);
 	}
 }
 
@@ -178,11 +177,11 @@ void Lander::FireShots()
 {
 	ShotTimer.Reset(GetRandomFloat(0.275f, 0.4375f));
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		if (!shot->Enabled)
+		if (!shot.Enabled)
 		{
-			shot->Spawn(Position, VelocityFromAngleZ(Shots[0]->GetShotAngle(Position), 125.0f), 8.0f);
+			shot.Spawn(Position, VelocityFromAngleZ(Shots[0].GetShotAngle(Position), 125.0f), 8.0f);
 			return;
 		}
 	}
@@ -197,24 +196,24 @@ void Lander::CheckCollision()
 		return;
 	}
 
-	for (auto shot : ThePlayer->Shots)
+	for (auto &shot : ThePlayer->Shots)
 	{
-		if (shot->Enabled)
+		if (shot.Enabled)
 		{
-			if (CirclesIntersect(shot))
+			if (CirclesIntersect(&shot))
 			{
-				shot->Enabled = false;
+				shot.Enabled = false;
 				Destroy();
 				return;
 			}
 		}
 	}
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		if (shot->Enabled)
+		if (shot.Enabled)
 		{
-			if (ThePlayer->CirclesIntersect(shot))
+			if (ThePlayer->CirclesIntersect(&shot))
 			{
 				ThePlayer->Hit();
 			}

@@ -88,8 +88,8 @@ void GameLogic::Load()
 		name.append(to_string(i + 1));
 		nameR.append(to_string(i + 1));
 
-		TheLand.LandParts[i]->SetModel(LoadModelwithTexture(name));
-		TheLand.RadarLandParts[i]->SetModel(LoadModelwithTexture(nameR));
+		TheLand.LandParts[i].SetModel(LoadModelwithTexture(name));
+		TheLand.RadarLandParts[i].SetModel(LoadModelwithTexture(nameR));
 	}
 
 	TheLand.SetUIBack(LoadModelwithTexture("UIBackface"));

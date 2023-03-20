@@ -2,15 +2,6 @@
 
 Land::Land()
 {
-	for (int i = 0; i < 9; i++)
-	{
-		LandParts[i] = new Model3D();
-	}
-
-	for (int i = 0; i < 14; i++)
-	{
-		RadarLandParts[i] = new Model3D();
-	}
 }
 
 Land::~Land()
@@ -19,19 +10,19 @@ Land::~Land()
 
 bool Land::Initialize()
 {
-	for (auto land : LandParts)
+	for (auto &land : LandParts)
 	{
-		land->Initialize();
+		land.Initialize();
 	}
 
-	for (auto radar : RadarLandParts)
+	for (auto &radar : RadarLandParts)
 	{
-		radar->Initialize();
+		radar.Initialize();
 	}
 
-	for (int i = 0; i <= 66; i++)
+	for (auto& star : AllTheStars)
 	{
-		AllTheStars.push_back(new Model3D());
+		star.Initialize();
 	}
 
 	UIBackL.Cull = false;
@@ -79,39 +70,39 @@ bool Land::BeginRun(Camera* camera)
 	TheCamera = camera;
 	int i = 0;
 
-	for (auto land : LandParts)
+	for (auto &land : LandParts)
 	{
-		land->ModelScale = 50.0f;
-		land->Y((-GetScreenHeight() / 2.0f) + 160.0f);
-		land->X((-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i));
-		land->Z(-40.0f);
+		land.ModelScale = 50.0f;
+		land.Y((-GetScreenHeight() / 2.0f) + 160.0f);
+		land.X((-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i));
+		land.Z(-40.0f);
 		i++;
 
-		land->BeginRun(camera);
-		land->ViewableArea.x = GetScreenWidth() * 1.5f;
+		land.BeginRun(camera);
+		land.ViewableArea.x = GetScreenWidth() * 1.5f;
 	}
 
-	LandParts[7]->SetModel(LandParts[0]->GetModel());
-	LandParts[8]->SetModel(LandParts[6]->GetModel());
+	LandParts[7].SetModel(LandParts[0].GetModel());
+	LandParts[8].SetModel(LandParts[6].GetModel());
 
 	for (int i = 7; i < 14; i++)
 	{
-		RadarLandParts[i]->SetModel(RadarLandParts[i - 7]->GetModel());
+		RadarLandParts[i].SetModel(RadarLandParts[i - 7].GetModel());
 	}
 
-	LandParts[7]->Position.x = GetScreenWidth() * 4.0f;
-	LandParts[8]->Position.x = -GetScreenWidth() * 4.0f;
+	LandParts[7].Position.x = GetScreenWidth() * 4.0f;
+	LandParts[8].Position.x = -GetScreenWidth() * 4.0f;
 
 	i = 0;
 
-	for (auto radar : RadarLandParts)
+	for (auto &radar : RadarLandParts)
 	{
-		radar->ModelScale = 3.18f;
-		radar->Y(UpdateRadar(0, LandParts[0]->Y()).y);
-		radar->Z(-10.0f);
+		radar.ModelScale = 3.18f;
+		radar.Y(UpdateRadar(0, LandParts[0].Y()).y);
+		radar.Z(-10.0f);
 		i++;
 
-		radar->BeginRun(camera);
+		radar.BeginRun(camera);
 	}
 
 	UIBackL.ModelScale = 30;
@@ -156,22 +147,22 @@ void Land::Update(float deltaTime)
 
 	for (int i = 0; i < 7; i++)
 	{
-		RadarLandParts[i]->X(UpdateRadar(LandParts[i]->X(), 0).x);
+		RadarLandParts[i].X(UpdateRadar(LandParts[i].X(), 0).x);
 	}
 
 	for (int i = 7; i < 11; i++)
 	{
-		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() + (GetScreenWidth() * 7), 0).x);
+		RadarLandParts[i].X(UpdateRadar(LandParts[i - 7].X() + (GetScreenWidth() * 7), 0).x);
 	}
 
 	for (int i = 11; i < 14; i++)
 	{
-		RadarLandParts[i]->X(UpdateRadar(LandParts[i - 7]->X() - (GetScreenWidth() * 7), 0).x);
+		RadarLandParts[i].X(UpdateRadar(LandParts[i - 7].X() - (GetScreenWidth() * 7), 0).x);
 	}
 
-	for (auto radar : RadarLandParts)
+	for (auto &radar : RadarLandParts)
 	{
-		radar->Enabled = LandParts[0]->Enabled;
+		radar.Enabled = LandParts[0].Enabled;
 	}
 
 	UpdateAllTheStars(deltaTime);
@@ -179,19 +170,19 @@ void Land::Update(float deltaTime)
 
 void Land::Draw()
 {
-	for (auto land : LandParts)
+	for (auto &land : LandParts)
 	{
-		land->Draw();
+		land.Draw();
 	}
 
-	for (auto radar : RadarLandParts)
+	for (auto &radar : RadarLandParts)
 	{
-		radar->Draw();
+		radar.Draw();
 	}
 
-	for (auto star : AllTheStars)
+	for (auto &star : AllTheStars)
 	{
-		star->Draw();
+		star.Draw();
 	}
 
 	UIBackL.Draw();
@@ -235,12 +226,14 @@ Vector2 Land::UpdateRadar(float X, float Y)
 
 void Land::CreateAllTheStars()
 {
-	for (auto star : AllTheStars)
+	int mainStars = 66;
+
+	for (int i = 0; i < mainStars; i++)
 	{
-		star->X(GetRandomFloat((float)(-GetScreenWidth() * 3.5f), (float)(GetScreenWidth() * 3.5f)));
-		star->Y(GetRandomFloat((float)(-GetScreenHeight() * 0.3f), (float)(GetScreenHeight() * 0.333f)));
-		star->Z(-10);
-		star->ModelColor = {(unsigned char)GetRandomValue(10, 200),
+		AllTheStars[i].X(GetRandomFloat((float)(-GetScreenWidth() * 3.5f), (float)(GetScreenWidth() * 3.5f)));
+		AllTheStars[i].Y(GetRandomFloat((float)(-GetScreenHeight() * 0.3f), (float)(GetScreenHeight() * 0.333f)));
+		AllTheStars[i].Z(-10);
+		AllTheStars[i].ModelColor = {(unsigned char)GetRandomValue(10, 200),
 			(unsigned char)GetRandomValue(10, 200), (unsigned char)GetRandomValue(10, 200), 255 };
 	}
 
@@ -249,50 +242,52 @@ void Land::CreateAllTheStars()
 	vector <Color> starLColor;
 	vector <Color> starRColor;
 
-	for (auto star : AllTheStars)
+	for (int i = 0; i < mainStars; i++)
 	{
-
-		if (star->X() > GetScreenWidth() * 2.5f)
+		if (AllTheStars[i].X() > GetScreenWidth() * 2.5f)
 		{
-			starREdge.push_back({ star->X(), star->Y() });
-			starRColor.push_back(star->ModelColor);
+			starREdge.push_back({ AllTheStars[i].X(), AllTheStars[i].Y()});
+			starRColor.push_back(AllTheStars[i].ModelColor);
 		}
 
-		if (star->X() < -GetScreenWidth() * 2.5f)
+		if (AllTheStars[i].X() < -GetScreenWidth() * 2.5f)
 		{
-			starLEdge.push_back({ star->X(), star->Y() });
-			starLColor.push_back(star->ModelColor);
+			starLEdge.push_back({ AllTheStars[i].X(), AllTheStars[i].Y()});
+			starLColor.push_back(AllTheStars[i].ModelColor);
 		}
 	}
 
-	int iR = 0;
+	int iR = mainStars;
 
-	for (auto star : starREdge)
+	for (int i = 0; i < starREdge.size(); i++)
 	{
-		AllTheStars.push_back(new Model3D());
-		AllTheStars[AllTheStars.size() - 1]->X(star.x - (GetScreenWidth() * 7.0f));
-		AllTheStars[AllTheStars.size() - 1]->Y(star.y);
-		AllTheStars[AllTheStars.size() - 1]->ModelColor = starRColor[iR];
-		iR++;
+		AllTheStars[iR + i].X(starREdge[i].x - (GetScreenWidth() * 7.0f));
+		AllTheStars[iR + i].Y(starREdge[i].y);
+		AllTheStars[iR + i].ModelColor = starRColor[i];
 	}
 
-	int iL = 0;
+	int iL = starREdge.size() + iR;
 
-	for (auto star : starLEdge)
+	for (int i = 0; i < starLEdge.size(); i++)
 	{
-		AllTheStars.push_back(new Model3D());
-		AllTheStars[AllTheStars.size() - 1]->X(star.x + (GetScreenWidth() * 7.0f));
-		AllTheStars[AllTheStars.size() - 1]->Y(star.y);
-		AllTheStars[AllTheStars.size() - 1]->ModelColor = starLColor[iL];
-		iL++;
+		AllTheStars[iL + i].X(starLEdge[i].x + (GetScreenWidth() * 7.0f));
+		AllTheStars[iL + i].Y(starLEdge[i].y);
+		AllTheStars[iL + i].ModelColor = starLColor[i];
 	}
 
-	for (auto star : AllTheStars)
+	NumberOfStars = mainStars + starLEdge.size() + starREdge.size();
+
+	for (int i = NumberOfStars; i < mainStars; i++)
 	{
-		star->Initialize();
-		star->SetModel(Star);
-		star->ModelScale = 6;
-		star->BeginRun(TheCamera);
+		AllTheStars[i].Enabled = false;
+	}
+
+	for (auto &star : AllTheStars)
+	{
+		star.Initialize();
+		star.SetModel(Star);
+		star.ModelScale = 6;
+		star.BeginRun(TheCamera);
 	}
 }
 
@@ -302,13 +297,13 @@ void Land::UpdateAllTheStars(float deltaTime)
 
 	if (StarTimer.Elapsed())
 	{
-		StarTimer.Reset(GetRandomFloat(0.1f, 0.75f));
+		StarTimer.Reset(GetRandomFloat(0.25f, 0.75f));
 
-		for (auto star : AllTheStars)
+		for (int i = 0; i < 66; i++)
 		{
-			star->Enabled = true;
+			AllTheStars[i].Enabled = true;
 		}
 
-		AllTheStars[(size_t)GetRandomValue(0, (int)AllTheStars.size() - 1)]->Enabled = false;
+		AllTheStars[(size_t)GetRandomValue(0, 65)].Enabled = false;
 	}
 }

@@ -8,8 +8,8 @@
 class Land : Common
 {
 public:
-	Model3D* LandParts[9];
-	Model3D* RadarLandParts[14];
+	Model3D LandParts[9];
+	Model3D RadarLandParts[14];
 
 	Land();
 	virtual ~Land();
@@ -26,6 +26,7 @@ public:
 	virtual void Draw();
 
 private:
+	int NumberOfStars = 0;
 	Model Star = { 0 };
 	Camera* TheCamera = nullptr;
 	Player* ThePlayer = nullptr;
@@ -36,7 +37,7 @@ private:
 	Model3D RadarHorzTop;
 	Model3D RadarHorzL;
 	Model3D RadarHorzR;
-	vector <Model3D*> AllTheStars;
+	Model3D AllTheStars[100];
 
 	Vector2 UpdateRadar(float X, float Y);
 	void CreateAllTheStars();

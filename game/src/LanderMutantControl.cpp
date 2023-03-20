@@ -1,5 +1,9 @@
 #include "LanderMutantControl.h"
 
+LanderMutantControl::LanderMutantControl()
+{
+}
+
 LanderMutantControl::~LanderMutantControl()
 {
 }
@@ -59,7 +63,18 @@ void LanderMutantControl::SetData(SharedData* data)
 bool LanderMutantControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
-	NewLanderWave();
+
+	for (int personNumber = 0; personNumber < 10; personNumber++)
+	{
+		People[personNumber].Initialize();
+		People[personNumber].SetModel(PersonModel);
+		People[personNumber].SetRadar(PersonRadar);
+		People[personNumber].SetPlayer(ThePlayer);
+		People[personNumber].BeginRun(TheCamera);
+	}
+
+	SpawnPoeple(10);
+	StartLanderWave();
 	return false;
 }
 
@@ -95,13 +110,13 @@ void LanderMutantControl::Update(float deltaTime)
 		}
 	}
 
-	for (auto person : People)
+	for (auto &person : People)
 	{
-		person->Update(deltaTime);
+		person.Update(deltaTime);
 
-		if (person->CountChanged)
+		if (person.CountChanged)
 		{
-			person->CountChanged = false;
+			person.CountChanged = false;
 			CountPeopleChange();
 		}
 	}
@@ -129,9 +144,9 @@ void LanderMutantControl::Draw()
 		mutant->Draw();
 	}
 
-	for (auto person : People)
+	for (auto &person : People)
 	{
-		person->Draw();
+		person.Draw();
 	}
 }
 
@@ -190,7 +205,10 @@ void LanderMutantControl::SpawnLanders(int count)
 
 	for (auto lander : Landers)
 	{
-		lander->People = People;
+		for (int i = 0; i < 10; i++)
+		{
+			lander->People[i] = &People[i];
+		}
 	}
 
 	Data->LandersMutantsBeGone = false;
@@ -233,37 +251,9 @@ void LanderMutantControl::SpawnPoeple(int count)
 {
 	for (int i = 0; i < count; i++)
 	{
-		bool spawnNew = true;
-		int personNumber = 0;
-
-		for (auto person : People)
-		{
-			if (!person->Enabled)
-			{
-				spawnNew = false;
-				break;
-			}
-
-			personNumber++;
-		}
-
-		if (spawnNew)
-		{
-			personNumber = (int)People.size();
-			People.push_back(new Person());
-			{
-				People[personNumber]->Initialize();
-				People[personNumber]->SetModel(PersonModel);
-				People[personNumber]->SetRadar(PersonRadar);
-				People[personNumber]->SetPlayer(ThePlayer);
-				People[personNumber]->BeginRun(TheCamera);
-			}
-		}
-
 		float x = GetRandomFloat((-GetScreenWidth() * 3.5f), (GetScreenWidth() * 3.5f));
 		float y = -(GetScreenHeight() / 2.10f);
-		People[personNumber]->Spawn({ x, y, 0 });
-
+		People[i].Spawn({ x, y, 0 });
 	}
 }
 
@@ -296,9 +286,9 @@ void LanderMutantControl::CountChange()
 
 void LanderMutantControl::CountPeopleChange()
 {
-	for (auto person : People)
+	for (auto &person : People)
 	{
-		if (person->Enabled)
+		if (person.Enabled)
 		{
 			return;
 		}
@@ -307,15 +297,14 @@ void LanderMutantControl::CountPeopleChange()
 	Data->PeopleBeGone = true;
 }
 
-void LanderMutantControl::NewLanderWave()
+void LanderMutantControl::StartLanderWave()
 {
-	for (auto person : People)
+	for (auto &person : People)
 	{
-		person->Destroy();
+		person.Y(-(GetScreenHeight() / 2.10f));
 	}
 
 	SpawnLanders(5);
-	SpawnPoeple(10);
 
 	SpawnTimer.Reset(SpawnTimerAmount);
 }
@@ -326,24 +315,37 @@ void LanderMutantControl::NewLevelWave()
 
 	for (auto lander : Landers)
 	{
-		for (auto shot : lander->Shots)
+		for (auto &shot : lander->Shots)
 		{
-			shot->Enabled = false;
+			shot.Enabled = false;
 		}
 	}
 
 	for (auto mutant : Mutants)
 	{
-		for (auto shot : mutant->Shots)
+		for (auto &shot : mutant->Shots)
 		{
-			shot->Enabled = false;
+			shot.Enabled = false;
 		}
 	}
 
 	if (TotalSpawn < 30)
 		TotalSpawn += NumberSpawned;
 
-	NewLanderWave();
+	int numberOfPeopleAlive = 0;
+
+	for (auto &person : People)
+	{
+		if (person.Enabled)
+		{
+			numberOfPeopleAlive++;
+		}
+
+		person.Destroy();
+	}
+
+	SpawnPoeple(numberOfPeopleAlive);
+	StartLanderWave();
 }
 
 void LanderMutantControl::PlayerHitReset()
@@ -360,23 +362,23 @@ void LanderMutantControl::PlayerHitReset()
 			lander->Enabled = false;
 		}
 
-		for (auto shot : lander->Shots)
+		for (auto &shot : lander->Shots)
 		{
-			shot->Enabled = false;
+			shot.Enabled = false;
 		}
 	}
 
 	for (auto mutant : Mutants)
 	{
-		for (auto shot : mutant->Shots)
+		for (auto &shot : mutant->Shots)
 		{
-			shot->Enabled = false;
+			shot.Enabled = false;
 		}
 	}
 
-	for (auto person : People)
+	for (auto &person : People)
 	{
-		person->Y(-(GetScreenHeight() / 2.10f));
+		person.Y(-(GetScreenHeight() / 2.10f));
 	}
 
 	NumberSpawned = NumberSpawned - landersAlive;

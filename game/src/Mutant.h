@@ -13,7 +13,7 @@ public:
 	Mutant();
 	virtual ~Mutant();
 
-	EnemyShot* Shots[4];
+	EnemyShot Shots[4];
 
 	bool Initialize();
 	void SetShotModel(Model model);

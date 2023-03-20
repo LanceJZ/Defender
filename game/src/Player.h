@@ -5,7 +5,7 @@
 class Player : public Model3D
 {
 public:
-	PlayerShot* Shots[(int)4];
+	PlayerShot Shots[(int)4];
 
 	Player();
 	virtual ~Player();

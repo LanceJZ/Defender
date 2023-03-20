@@ -24,8 +24,8 @@ public:
 	Lander();
 	virtual ~Lander();
 
-	EnemyShot* Shots[4];
-	vector<Person*> People; //The Person Man.
+	EnemyShot Shots[4];
+	Person* People[10]; //The Person Man.
 
 	bool Initialize();
 	void SetShotModel(Model model);

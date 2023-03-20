@@ -7,11 +7,12 @@
 class LanderMutantControl : Common
 {
 public:
+	LanderMutantControl();
 	virtual ~LanderMutantControl();
 
 	vector<Lander*> Landers;
 	vector<Mutant*> Mutants;
-	vector<Person*> People; //The Person Man.
+	Person People[10]; //The Person Man.
 
 	bool Initialize();
 	void SetLanderModel(Model model);
@@ -28,7 +29,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
-	void NewLanderWave();
+	void StartLanderWave();
 	void NewLevelWave();
 	void PlayerHitReset();
 

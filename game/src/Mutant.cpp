@@ -4,7 +4,7 @@ Mutant::Mutant()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		Shots[i] = new EnemyShot();
+		//Shots[i] = new EnemyShot();
 	}
 }
 
@@ -18,9 +18,9 @@ bool Mutant::Initialize()
 
 	RadarMirror.Initialize();
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Initialize();
+		shot.Initialize();
 	}
 
 	ModelScale = 14;
@@ -31,9 +31,9 @@ bool Mutant::Initialize()
 
 void Mutant::SetShotModel(Model model)
 {
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->SetModel(model);
+		shot.SetModel(model);
 	}
 }
 
@@ -47,9 +47,9 @@ void Mutant::SetPlayer(Player* player)
 	ThePlayer = player;
 	RadarMirror.SetPlayer(player);
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->SetPlayer(ThePlayer);
+		shot.SetPlayer(ThePlayer);
 	}
 }
 
@@ -57,9 +57,9 @@ bool Mutant::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->BeginRun(camera);
+		shot.BeginRun(camera);
 	}
 
 	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
@@ -72,9 +72,9 @@ void Mutant::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Update(deltaTime);
+		shot.Update(deltaTime);
 	}
 
 	if (Enabled)
@@ -104,9 +104,9 @@ void Mutant::Draw()
 {
 	Model3D::Draw();
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		shot->Draw();
+		shot.Draw();
 	}
 
 	RadarMirror.Draw();
@@ -125,9 +125,9 @@ void Mutant::Spawn(Vector3 position)
 
 void Mutant::FireShot()
 {
-	if (!Shots[0]->Enabled)
+	if (!Shots[0].Enabled)
 	{
-		Shots[0]->Spawn(Position, VelocityFromAngleZ(Shots[0]->GetShotAngle(Position), 350.0f), 4.5f);
+		Shots[0].Spawn(Position, VelocityFromAngleZ(Shots[0].GetShotAngle(Position), 350.0f), 4.5f);
 	}
 }
 
@@ -220,11 +220,11 @@ void Mutant::CheckCollision()
 		return;
 	}
 
-	for (auto shot : ThePlayer->Shots)
+	for (auto &shot : ThePlayer->Shots)
 	{
-		if (shot->Enabled)
+		if (shot.Enabled)
 		{
-			if (CirclesIntersect(shot))
+			if (CirclesIntersect(&shot))
 			{
 				Destroy();
 				return;
@@ -232,11 +232,11 @@ void Mutant::CheckCollision()
 		}
 	}
 
-	for (auto shot : Shots)
+	for (auto &shot : Shots)
 	{
-		if (shot->Enabled)
+		if (shot.Enabled)
 		{
-			if (ThePlayer->CirclesIntersect(shot))
+			if (ThePlayer->CirclesIntersect(&shot))
 			{
 				ThePlayer->Hit();
 			}
