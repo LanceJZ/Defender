@@ -374,6 +374,11 @@ void LanderMutantControl::PlayerHitReset()
 		}
 	}
 
+	for (auto person : People)
+	{
+		person->Y(-(GetScreenHeight() / 2.10f));
+	}
+
 	NumberSpawned = NumberSpawned - landersAlive;
 
 	SpawnMoreLanders();
