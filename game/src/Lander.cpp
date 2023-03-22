@@ -14,9 +14,7 @@ Lander::~Lander()
 
 bool Lander::Initialize()
 {
-	Model3D::Initialize();
-
-	RadarMirror.Initialize();
+	Enemy::Initialize();
 
 	for (auto &shot : Shots)
 	{
@@ -24,7 +22,6 @@ bool Lander::Initialize()
 	}
 
 	ShotTimer.Set(1);
-	ModelScale = 14;
 	Radius = 14;
 
 	return false;
@@ -34,52 +31,20 @@ void Lander::SetShotModel(Model model)
 {
 	for (auto &shot : Shots)
 	{
-		shot.SetModel(model);
-	}
-}
-
-void Lander::SetRadarModel(Model model)
-{
-	RadarMirror.SetRadarModel(model, 3.0f);
-}
-
-void Lander::SetPlayer(Player* player)
-{
-	ThePlayer = player;
-	RadarMirror.SetPlayer(player);
-
-	for (auto &shot : Shots)
-	{
-		shot.SetPlayer(ThePlayer);
+		shot.SetModel(model, 3.0f);
 	}
 }
 
 bool Lander::BeginRun(Camera* camera)
 {
-	Model3D::BeginRun(camera);
-
-	for (auto &shot : Shots)
-	{
-		shot.BeginRun(camera);
-		shot.SetPlayer(ThePlayer);
-	}
-
-	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
-	RadarMirror.BeginRun(camera);
+	Enemy::BeginRun(camera);
 
 	return false;
 }
 
 void Lander::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
-
-	ShotTimer.Update(deltaTime);
-
-	for (auto &shot : Shots)
-	{
-		shot.Update(deltaTime);
-	}
+	Enemy::Update(deltaTime);
 
 	if (Enabled)
 	{
@@ -87,12 +52,14 @@ void Lander::Update(float deltaTime)
 		{
 			if (State != FoundPersonMan)
 			{
-				FireShot();
+				ShotTimer.Reset(GetRandomFloat(2.75f, 4.75f));
 			}
 			else
 			{
-				FireShots();
+				ShotTimer.Reset(GetRandomFloat(0.375f, 1.2175f));
 			}
+
+			FireShot();
 		}
 
 		if (State == GoingToGround)
@@ -116,34 +83,20 @@ void Lander::Update(float deltaTime)
 			SpawnMutatant();
 		}
 
-		CheckPlayfieldSidesWarp(4.0f, 3.0f);
-		RadarMirror.PositionUpdate(Enabled, Position);
 		CheckCollision();
-	}
-	else
-	{
-		RadarMirror.EnabledUpdate(Enabled);
 	}
 }
 
 void Lander::Draw()
 {
-	Model3D::Draw();
-
-	for (auto &shot : Shots)
-	{
-		shot.Draw();
-	}
-
-	RadarMirror.Draw();
+	Enemy::Draw();
 }
 
 void Lander::Spawn(Vector3 position)
 {
-	Enabled = true;
+	Enemy::Spawn(position);
+
 	State = GoingToGround;
-	Position = position;
-	Velocity = { 0,0,0 };
 	ShotTimer.Reset(GetRandomFloat(1.1f, 1.75f));
 	PersonCaptured = nullptr;
 
@@ -163,75 +116,33 @@ void Lander::Spawn(Vector3 position)
 	GroundHoverY = GetRandomFloat(-20.0f, 80.0f);
 }
 
-void Lander::Reset()
-{
-	Enabled = false;
-	State = GoingToGround;
-	PersonCaptured = nullptr;
-	RadarMirror.EnabledUpdate(Enabled);
-}
-
 void Lander::FireShot()
 {
-	ShotTimer.Reset(GetRandomFloat(1.1f, 1.75f));
+	Enemy::FireShot();
 
-	if (!Shots[0].Enabled)
-	{
-		Shots[0].Spawn(Position, VelocityFromAngleZ(Shots[0].GetShotAngle(Position), 125.0f), 8.0f);
-	}
 }
 
-void Lander::FireShots()
+bool Lander::CheckCollision()
 {
-	ShotTimer.Reset(GetRandomFloat(0.275f, 0.4375f));
-
-	for (auto &shot : Shots)
+	if (Enemy::CheckCollision())
 	{
-		if (!shot.Enabled)
-		{
-			shot.Spawn(Position, VelocityFromAngleZ(Shots[0].GetShotAngle(Position), 125.0f), 8.0f);
-			return;
-		}
+
 	}
+
+	return false;
 }
 
-void Lander::CheckCollision()
+void Lander::Reset()
 {
-	if (CirclesIntersect(ThePlayer))
-	{
-		Destroy();
-		ThePlayer->Hit();
-		return;
-	}
+	Enemy::Reset();
 
-	for (auto &shot : ThePlayer->Shots)
-	{
-		if (shot.Enabled)
-		{
-			if (CirclesIntersect(&shot))
-			{
-				shot.Enabled = false;
-				Destroy();
-				return;
-			}
-		}
-	}
-
-	for (auto &shot : Shots)
-	{
-		if (shot.Enabled)
-		{
-			if (ThePlayer->CirclesIntersect(&shot))
-			{
-				ThePlayer->Hit();
-			}
-		}
-	}
+	State = GoingToGround;
+	PersonCaptured = nullptr;
 }
 
 void Lander::Destroy()
 {
-	CountChange = true;
+	Enemy::Destroy();
 
 	if (PersonCaptured)
 	{
@@ -315,4 +226,5 @@ void Lander::SpawnMutatant()
 	Velocity.y = 0;
 	PersonCaptured->Destroy();
 	MutateLander = true;
+	Enemy::Reset();
 }

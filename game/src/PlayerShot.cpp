@@ -17,13 +17,13 @@ bool PlayerShot::Initialize()
 	Radius = 3.5f;
 	LifeTimer.Set(0.5666f);
 	RotationAxis.y = 1.0f;
-	ModelScale = 3.0f;
+	//ModelScale = 3.0f;
 	Enabled = false;
 
 	Tail.RotationVelocity = 40.666f;
 	Tail.RotationAxis.x = 1.0f;
 	Tail.Position.x = -5.5f;
-	Tail.ModelScale = 5.0f;
+	//Tail.ModelScale = 5.0f;
 	Tail.Enabled = false;
 
 	Mirror.Initialize();
@@ -33,7 +33,7 @@ bool PlayerShot::Initialize()
 
 void PlayerShot::SetTailModel(Model model)
 {
-	Tail.SetModel(model);
+	Tail.SetModel(model, 5.0f);
 }
 
 bool PlayerShot::BeginRun(Camera* camera)

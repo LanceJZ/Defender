@@ -13,7 +13,7 @@ bool Bomb::Initialize()
 	Model3D::Initialize();
 
 	Mirror.Initialize();
-	ModelScale = 15;
+	//ModelScale = 15;
 
 	return false;
 }

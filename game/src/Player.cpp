@@ -20,7 +20,7 @@ bool Player::Initialize()
 	Cull = false;
 	Flame.Cull = false;
 	Radar.Cull = false;
-	ModelScale = 2.0f;
+	//ModelScale = 2.0f;
 	RotationY = (PI * 2) - 0.045f;
 
 	for (auto &shot : Shots)
@@ -35,19 +35,19 @@ bool Player::Initialize()
 
 void Player::SetModel(Model model)
 {
-	Model3D::SetModel(model);
+	Model3D::SetModel(model, 2.0f);
 }
 
 void Player::SetFlameModel(Model model)
 {
-	Flame.SetModel(model);
+	Flame.SetModel(model, 2.0f);
 }
 
 void Player::SetShotModel(Model model)
 {
 	for (auto &shot : Shots)
 	{
-		shot.SetModel(model);
+		shot.SetModel(model, 3.0f);
 	}
 }
 
@@ -61,7 +61,7 @@ void Player::SetTailModel(Model model)
 
 void Player::SetRadarModel(Model model)
 {
-	Radar.SetModel(model);
+	Radar.SetModel(model, 10.0f);
 }
 
 bool Player::BeginRun(Camera* camera)
@@ -69,14 +69,14 @@ bool Player::BeginRun(Camera* camera)
 	Model3D::BeginRun(camera);
 
 	TheCamera = camera;
-	Flame.ModelScale = 2.0f;
+	//Flame.ModelScale = 2.0f;
 	Flame.Position.x = -80.0f;
 	Flame.RotationVelocity = 50.0f;
 	Flame.RotationAxis.x = 1.0f;
 	Flame.BeginRun(camera);
 	AddChild(&Flame);
 
-	Radar.ModelScale = 10;
+	//Radar.ModelScale = 10;
 	Radar.BeginRun(camera);
 
 	for (auto &shot : Shots)

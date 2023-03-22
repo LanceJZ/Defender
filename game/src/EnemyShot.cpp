@@ -10,7 +10,7 @@ bool EnemyShot::Initialize()
 
 	Mirror.Initialize();
 
-	ModelScale = 3;
+	//ModelScale = 3;
 	Radius = 2;
 	Enabled = false;
 

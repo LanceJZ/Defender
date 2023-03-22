@@ -13,7 +13,7 @@ bool Bomber::Initialize()
 	Model3D::Initialize();
 
 	RadarMirror.Initialize();
-	ModelScale = 10.0f;
+	//ModelScale = 10.0f;
 
 	return false;
 }
@@ -130,7 +130,7 @@ void Bomber::DropABomb()
 	{
 		Bombs.push_back(new Bomb());
 		Bombs[Bombs.size() - 1]->Initialize();
-		Bombs[Bombs.size() - 1]->SetModel(BombModel);
+		Bombs[Bombs.size() - 1]->SetModel(BombModel, 15.0f);
 		Bombs[Bombs.size() - 1]->BeginRun(TheCamera);
 	}
 

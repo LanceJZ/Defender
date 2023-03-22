@@ -6,6 +6,7 @@ LanderMutantControl::LanderMutantControl()
 
 LanderMutantControl::~LanderMutantControl()
 {
+	Data = nullptr;
 }
 
 bool LanderMutantControl::Initialize()
@@ -67,7 +68,7 @@ bool LanderMutantControl::BeginRun(Camera* camera)
 	for (int personNumber = 0; personNumber < 10; personNumber++)
 	{
 		People[personNumber].Initialize();
-		People[personNumber].SetModel(PersonModel);
+		People[personNumber].SetModel(PersonModel, 5.0f);
 		People[personNumber].SetRadar(PersonRadar);
 		People[personNumber].SetPlayer(ThePlayer);
 		People[personNumber].BeginRun(TheCamera);
@@ -204,8 +205,8 @@ void LanderMutantControl::SpawnLanders(int count)
 			Landers.push_back(new Lander());
 			{
 				Landers[landerNumber]->Initialize();
-				Landers[landerNumber]->SetModel(LanderModel);
-				Landers[landerNumber]->SetRadarModel(LanderRadar);
+				Landers[landerNumber]->SetModel(LanderModel, 14.0f);
+				Landers[landerNumber]->SetRadarModel(LanderRadar, 3.0f);
 				Landers[landerNumber]->SetShotModel(ShotModel);
 				Landers[landerNumber]->SetPlayer(ThePlayer);
 				Landers[landerNumber]->BeginRun(TheCamera);
@@ -248,8 +249,8 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 		Mutants.push_back(new Mutant());
 		{
 			Mutants[mutantNumber]->Initialize();
-			Mutants[mutantNumber]->SetModel(MutantModel);
-			Mutants[mutantNumber]->SetRadarModel(MutantRadar);
+			Mutants[mutantNumber]->SetModel(MutantModel, 14.0f);
+			Mutants[mutantNumber]->SetRadarModel(MutantRadar, 3.0f);
 			Mutants[mutantNumber]->SetShotModel(ShotModel);
 			Mutants[mutantNumber]->SetPlayer(ThePlayer);
 			Mutants[mutantNumber]->BeginRun(TheCamera);

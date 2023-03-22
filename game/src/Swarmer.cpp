@@ -22,7 +22,7 @@ bool Swarmer::Initialize()
 	}
 
 	RadarMirror.Initialize();
-	ModelScale = 10.0f;
+	//ModelScale = 10.0f;
 	Enabled = false;
 
 	return false;
@@ -32,7 +32,7 @@ void Swarmer::SetShotModel(Model model)
 {
 	for (auto shot : Shots)
 	{
-		shot->SetModel(model);
+		shot->SetModel(model, 3.0f);
 	}
 }
 

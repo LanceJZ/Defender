@@ -1,24 +1,16 @@
 #pragma once
-#include "Model3D.h"
+#include "Enemy.h"
 #include "EnemyShot.h"
 #include "EnemyRadarMirror.h"
-#include "Player.h"
 #include "Timer.h"
 
-class Mutant : public Model3D
+class Mutant : public Enemy
 {
 public:
-	bool CountChange = false;
-
 	Mutant();
 	virtual ~Mutant();
 
-	EnemyShot Shots[4];
-
 	bool Initialize();
-	void SetShotModel(Model model);
-	void SetRadarModel(Model model);
-	void SetPlayer(Player* player);
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -31,13 +23,11 @@ private:
 	bool BackToToporBottom = false;
 	float Speed = 100;
 
-	EnemyRadarMirror RadarMirror;
-	Player* ThePlayer = nullptr;
 	Timer ShotTimer;
 	Timer ChangeSpeedTimer;
 
 	void FireShot();
 	void ChasePlayer();
-	void CheckCollision();
+	bool CheckCollision();
 	void Destroy();
 };

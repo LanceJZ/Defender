@@ -18,7 +18,7 @@ public:
 	virtual void Draw();
 
 	virtual void AddChild(Model3D* child);
-	virtual void SetModel(Model model);
+	virtual void SetModel(Model model, float scale);
 	virtual Model GetModel();
 
 private:

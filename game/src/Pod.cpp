@@ -14,7 +14,7 @@ bool Pod::Initialize()
 	Model3D::Initialize();
 
 	RadarMirror.Initialize();
-	ModelScale = 10.0f;
+	//ModelScale = 10.0f;
 	Enabled = false;
 
 	return false;
@@ -134,7 +134,7 @@ void Pod::SpawnSwarmers(int count)
 	for (auto swarmer : Swarmers)
 	{
 		swarmer->Initialize();
-		swarmer->SetModel(SwarmerModel);
+		swarmer->SetModel(SwarmerModel, 10.0f);
 		swarmer->SetRadar(SwarmerRadarModel);
 		swarmer->SetShotModel(ShotModel);
 		swarmer->SetPlayer(ThePlayer);

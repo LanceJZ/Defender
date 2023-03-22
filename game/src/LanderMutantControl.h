@@ -40,13 +40,13 @@ private:
 	int NumberSpawned = 5;
 	float SpawnTimerAmount = 30.0f;
 
-	Model LanderModel;
-	Model MutantModel;
-	Model ShotModel;
-	Model PersonModel;
-	Model LanderRadar;
-	Model PersonRadar;
-	Model MutantRadar;
+	Model LanderModel = { 0 };
+	Model MutantModel = { 0 };
+	Model ShotModel = { 0 };
+	Model PersonModel = { 0 };
+	Model LanderRadar = { 0 };
+	Model PersonRadar = { 0 };
+	Model MutantRadar = { 0 };
 
 	Timer SpawnTimer;
 	Player* ThePlayer = nullptr;

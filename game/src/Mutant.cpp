@@ -2,10 +2,6 @@
 
 Mutant::Mutant()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		//Shots[i] = new EnemyShot();
-	}
 }
 
 Mutant::~Mutant()
@@ -14,63 +10,23 @@ Mutant::~Mutant()
 
 bool Mutant::Initialize()
 {
-	Model3D::Initialize();
+	Enemy::Initialize();
 
-	RadarMirror.Initialize();
-
-	for (auto &shot : Shots)
-	{
-		shot.Initialize();
-	}
-
-	ModelScale = 14;
 	Radius = 14;
 
 	return false;
 }
 
-void Mutant::SetShotModel(Model model)
-{
-	for (auto &shot : Shots)
-	{
-		shot.SetModel(model);
-	}
-}
-
-void Mutant::SetRadarModel(Model model)
-{
-	RadarMirror.SetRadarModel(model, 3.0f);
-}
-
-void Mutant::SetPlayer(Player* player)
-{
-	ThePlayer = player;
-	RadarMirror.SetPlayer(player);
-
-	for (auto &shot : Shots)
-	{
-		shot.SetPlayer(ThePlayer);
-	}
-}
-
 bool Mutant::BeginRun(Camera* camera)
 {
-	Model3D::BeginRun(camera);
-
-	for (auto &shot : Shots)
-	{
-		shot.BeginRun(camera);
-	}
-
-	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
-	RadarMirror.BeginRun(camera);
+	Enemy::BeginRun(camera);
 
 	return false;
 }
 
 void Mutant::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
+	Enemy::Update(deltaTime);
 
 	for (auto &shot : Shots)
 	{
@@ -88,47 +44,31 @@ void Mutant::Update(float deltaTime)
 			FireShot();
 		}
 
-		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 		ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
-		RadarMirror.PositionUpdate(Enabled, Position);
 		ChasePlayer();
 		CheckCollision();
-	}
-	else
-	{
-		RadarMirror.EnabledUpdate(Enabled);
 	}
 }
 
 void Mutant::Draw()
 {
-	Model3D::Draw();
+	Enemy::Draw();
 
-	for (auto &shot : Shots)
-	{
-		shot.Draw();
-	}
-
-	RadarMirror.Draw();
 }
 
 void Mutant::Spawn(Vector3 position)
 {
-	Enabled = true;
+	Enemy::Spawn(position);
+
 	GotNearPlayer = false;
 	BackToToporBottom = false;
-	Position = position;
-	Velocity = { 0,0,0 };
 	ShotTimer.Reset(GetRandomFloat(0.3f, 1.5f));
 	ChangeSpeedTimer.Reset(GetRandomFloat(0.1f, 0.3f));
 }
 
 void Mutant::FireShot()
 {
-	if (!Shots[0].Enabled)
-	{
-		Shots[0].Spawn(Position, VelocityFromAngleZ(Shots[0].GetShotAngle(Position), 350.0f), 4.5f);
-	}
+	Enemy::FireShot();
 }
 
 void Mutant::ChasePlayer()
@@ -211,41 +151,22 @@ void Mutant::ChasePlayer()
 	}
 }
 
-void Mutant::CheckCollision()
+bool Mutant::CheckCollision()
 {
-	if (CirclesIntersect(ThePlayer))
+	if (Enemy::CheckCollision())
 	{
-		Destroy();
-		ThePlayer->Hit();
-		return;
+
 	}
 
-	for (auto &shot : ThePlayer->Shots)
-	{
-		if (shot.Enabled)
-		{
-			if (CirclesIntersect(&shot))
-			{
-				Destroy();
-				return;
-			}
-		}
-	}
-
-	for (auto &shot : Shots)
-	{
-		if (shot.Enabled)
-		{
-			if (ThePlayer->CirclesIntersect(&shot))
-			{
-				ThePlayer->Hit();
-			}
-		}
-	}
+	return false;
 }
 
 void Mutant::Destroy()
 {
-	Enabled = false;
-	CountChange = true;
+	Enemy::Destroy();
+
+	Reset();
+
+	//Enabled = false;
+	//CountChange = true;
 }

@@ -91,7 +91,7 @@ void SwarmerControl::SpawnPods(float count)
 	for (auto pod : Pods)
 	{
 		pod->Initialize();
-		pod->SetModel(PodModel);
+		pod->SetModel(PodModel, 10.0f);
 		pod->SetRadar(PodRadarModel);
 		pod->SetShotModel(ShotModel);
 		pod->SetSwarmerModel(SwarmerModel);

@@ -20,8 +20,7 @@ bool EnemyRadarMirror::Initialize()
 
 void EnemyRadarMirror::SetRadarModel(Model model, float scale)
 {
-	SetModel(model);
-	ModelScale = scale;
+	SetModel(model, scale);
 }
 
 void EnemyRadarMirror::SetMirrorModel(Model model, float scale)

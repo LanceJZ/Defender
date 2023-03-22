@@ -2,8 +2,7 @@
 #include "Model3D.h"
 #include "EnemyShot.h"
 #include "Timer.h"
-#include "Player.h"
-#include "EnemyRadarMirror.h"
+#include "Enemy.h"
 #include "Person.h"
 
 enum StateList
@@ -15,22 +14,17 @@ enum StateList
 	Mutate
 };
 
-class Lander : public Model3D
+class Lander : public Enemy
 {
 public:
-	bool MutateLander = false;
-	bool CountChange = false;
-
 	Lander();
 	virtual ~Lander();
 
-	EnemyShot Shots[4];
+	bool MutateLander = false;
 	Person* People[10]; //The Person Man. Reference filled by class in charge.
 
 	bool Initialize();
 	void SetShotModel(Model model);
-	void SetRadarModel(Model model);
-	void SetPlayer(Player* player);
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -42,9 +36,6 @@ public:
 private:
 	float GroundHoverY = 0;
 	StateList State = GoingToGround;
-	EnemyRadarMirror RadarMirror;
-	Timer ShotTimer;
-	Player* ThePlayer = nullptr;
 	Person* PersonCaptured = nullptr;
 
 	void GoToGround();
@@ -53,8 +44,7 @@ private:
 	void GrabPersonMan();
 	void SpawnMutatant();
 	void FireShot();
-	void FireShots();
-	void CheckCollision();
+	bool CheckCollision();
 	void Destroy();
 };
 

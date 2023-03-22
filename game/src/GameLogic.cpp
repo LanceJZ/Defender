@@ -88,8 +88,8 @@ void GameLogic::Load()
 		name.append(to_string(i + 1));
 		nameR.append(to_string(i + 1));
 
-		TheLand.LandParts[i].SetModel(LoadModelwithTexture(name));
-		TheLand.RadarLandParts[i].SetModel(LoadModelwithTexture(nameR));
+		TheLand.LandParts[i].SetModel(LoadModelwithTexture(name), 50.0f);
+		TheLand.RadarLandParts[i].SetModel(LoadModelwithTexture(nameR), 3.18f);
 	}
 
 	TheLand.SetUIBack(LoadModelwithTexture("UIBackface"));
@@ -177,7 +177,7 @@ void GameLogic::Update(float deltaTime)
 		if (Data.PeopleBeGone && !ControlLanderMutant.LandersTurnedToMutants)
 		{
 			ControlLanderMutant.TheyAllDied();
-			TheLand.AllDead = true;
+			TheLand.AllThePersonManDead();
 		}
 	}
 	else if (State == PlayerHit)
@@ -256,6 +256,7 @@ void GameLogic::CheckEndOfWave()
 		ThePlayer.Reset();
 		State = NewWave;
 		NewWaveTimer.Reset();
+		TheLand.NewLevel();
 	}
 }
 

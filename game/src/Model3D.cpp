@@ -33,10 +33,10 @@ void Model3D::Update(float deltaTime)
 
 void Model3D::Draw()
 {
-	Entity::Draw();
-
 	if (Enabled)
 	{
+		Entity::Draw();
+
 		if (TheCamera == nullptr)
 		{
 			return;
@@ -128,9 +128,10 @@ void Model3D::AddChild(Model3D* child)
 
 }
 
-void Model3D::SetModel(Model model)
+void Model3D::SetModel(Model model, float scale)
 {
 	TheModel = model;
+	ModelScale = scale;
 }
 
 Model Model3D::GetModel()

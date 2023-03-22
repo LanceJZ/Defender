@@ -39,20 +39,20 @@ bool Land::Initialize()
 
 void Land::SetUIBack(Model model)
 {
-	UIBackL.SetModel(model);
-	UIBackR.SetModel(model);
+	UIBackL.SetModel(model, 30.0f);
+	UIBackR.SetModel(model, 30.0f);
 }
 
 void Land::SetUIHorz(Model model)
 {
-	RadarHorzL.SetModel(model);
-	RadarHorzR.SetModel(model);
+	RadarHorzL.SetModel(model, 21.8f);
+	RadarHorzR.SetModel(model, 21.8f);
 }
 
 void Land::SetRadarTopBottom(Model model)
 {
-	RadarHorzBottom.SetModel(model);
-	RadarHorzTop.SetModel(model);
+	RadarHorzBottom.SetModel(model, 21.8f);
+	RadarHorzTop.SetModel(model, 21.8f);
 }
 
 void Land::SetStar(Model model)
@@ -72,7 +72,6 @@ bool Land::BeginRun(Camera* camera)
 
 	for (auto &land : LandParts)
 	{
-		land.ModelScale = 50.0f;
 		land.Y((-GetScreenHeight() / 2.0f) + 160.0f);
 		land.X((-GetScreenWidth() * 3.0f) + (GetScreenWidth() * i));
 		land.Z(-40.0f);
@@ -82,12 +81,12 @@ bool Land::BeginRun(Camera* camera)
 		land.ViewableArea.x = GetScreenWidth() * 1.5f;
 	}
 
-	LandParts[7].SetModel(LandParts[0].GetModel());
-	LandParts[8].SetModel(LandParts[6].GetModel());
+	LandParts[7].SetModel(LandParts[0].GetModel(), 50.0f);
+	LandParts[8].SetModel(LandParts[6].GetModel(), 50.0f);
 
 	for (int i = 7; i < 14; i++)
 	{
-		RadarLandParts[i].SetModel(RadarLandParts[i - 7].GetModel());
+		RadarLandParts[i].SetModel(RadarLandParts[i - 7].GetModel(), 3.18f);
 	}
 
 	LandParts[7].Position.x = GetScreenWidth() * 4.0f;
@@ -97,7 +96,6 @@ bool Land::BeginRun(Camera* camera)
 
 	for (auto &radar : RadarLandParts)
 	{
-		radar.ModelScale = 3.18f;
 		radar.Y(UpdateRadar(0, LandParts[0].Y()).y);
 		radar.Z(-10.0f);
 		i++;
@@ -105,8 +103,6 @@ bool Land::BeginRun(Camera* camera)
 		radar.BeginRun(camera);
 	}
 
-	UIBackL.ModelScale = 30;
-	UIBackR.ModelScale = UIBackL.ModelScale;
 	UIBackL.Y(GetScreenHeight() / 2.321f);
 	UIBackR.Position = UIBackL.Position;
 	UIBackR.Rotation = PI;
@@ -114,12 +110,8 @@ bool Land::BeginRun(Camera* camera)
 	UIBackL.BeginRun(camera);
 	UIBackR.BeginRun(camera);
 
-	RadarHorzBottom.ModelScale = 21.8f;
-	RadarHorzTop.ModelScale = RadarHorzBottom.ModelScale;
 	RadarHorzTop.RotationAxis = { 1.0f, 0, 0 };
 	RadarHorzTop.Rotation = PI;
-	RadarHorzL.ModelScale = RadarHorzBottom.ModelScale;
-	RadarHorzR.ModelScale = RadarHorzBottom.ModelScale;
 	RadarHorzTop.Y(GetScreenHeight() / 2.02f);
 	RadarHorzBottom.Y(GetScreenHeight() / 2.79f);
 	RadarHorzTop.BeginRun(camera);
@@ -245,7 +237,16 @@ void Land::CreateAllTheStars()
 	for (int i = 0; i < mainStars; i++)
 	{
 		AllTheStars[i].X(GetRandomFloat((float)(-GetScreenWidth() * 3.5f), (float)(GetScreenWidth() * 3.5f)));
-		AllTheStars[i].Y(GetRandomFloat((float)(-GetScreenHeight() * 0.3f), (float)(GetScreenHeight() * 0.333f)));
+
+		if (AllDead)
+		{
+			AllTheStars[i].Y(GetRandomFloat((float)(-GetScreenHeight()), (float)(GetScreenHeight() * 0.333f)));
+		}
+		else
+		{
+			AllTheStars[i].Y(GetRandomFloat((float)(-GetScreenHeight() * 0.3f), (float)(GetScreenHeight() * 0.333f)));
+		}
+
 		AllTheStars[i].Z(-10);
 		AllTheStars[i].ModelColor = {(unsigned char)GetRandomValue(10, 200),
 			(unsigned char)GetRandomValue(10, 200), (unsigned char)GetRandomValue(10, 200), 255 };
@@ -299,8 +300,7 @@ void Land::CreateAllTheStars()
 	for (auto &star : AllTheStars)
 	{
 		star.Initialize();
-		star.SetModel(Star);
-		star.ModelScale = 6;
+		star.SetModel(Star, 6.0f);
 		star.BeginRun(TheCamera);
 	}
 }

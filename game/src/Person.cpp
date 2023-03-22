@@ -13,7 +13,7 @@ bool Person::Initialize()
 	Model3D::Initialize();
 
 	RadarMirror.Initialize();
-	ModelScale = 5.0f;
+	//ModelScale = 5.0f;
 	Radius = 7.0f;
 
 	return false;

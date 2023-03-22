@@ -69,7 +69,7 @@ void BomberControl::SpawnBombers(int amount)
 	for (auto bomber : Bombers)
 	{
 		bomber->Initialize();
-		bomber->SetModel(BomberModel);
+		bomber->SetModel(BomberModel, 10.0f);
 		bomber->SetBomb(BombModel);
 		bomber->SetRadar(BomberRadarModel);
 		bomber->SetPlayer(ThePlayer);
