@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.01");
+	SetWindowTitle("Defender Alpha 01.02");
 	ThePlayer.Initialize();
 	ControlLanderMutant.Initialize();
 	TheLand.Initialize();
@@ -172,6 +172,12 @@ void GameLogic::Update(float deltaTime)
 		if (ThePlayer.BeenHit)
 		{
 			PlayerWasHit();
+		}
+
+		if (Data.PeopleBeGone && !ControlLanderMutant.LandersTurnedToMutants)
+		{
+			ControlLanderMutant.TheyAllDied();
+			TheLand.AllDead = true;
 		}
 	}
 	else if (State == PlayerHit)

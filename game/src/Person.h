@@ -6,7 +6,15 @@
 class Person : public Model3D
 {
 public:
-	bool BeingCaptured = false;
+	enum PersonState
+	{
+		OnGround,
+		GoingDown,
+		CaughtByPlayer,
+		TargetedByLander
+	};
+
+	PersonState State = OnGround;
 	bool CountChanged = false;
 
 	Person();
@@ -23,10 +31,9 @@ public:
 	void Spawn(Vector3 position);
 	void Dropped();
 	void Destroy();
+	void Reset();
 
 private:
-	bool GoingDown = true;
-	bool CaughtByPlayer = false;
 	float DroppedY = 0;
 
 	EnemyRadarMirror RadarMirror;

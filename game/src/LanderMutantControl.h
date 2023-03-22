@@ -10,6 +10,7 @@ public:
 	LanderMutantControl();
 	virtual ~LanderMutantControl();
 
+	bool LandersTurnedToMutants = false;
 	vector<Lander*> Landers;
 	vector<Mutant*> Mutants;
 	Person People[10]; //The Person Man.
@@ -32,6 +33,7 @@ public:
 	void StartLanderWave();
 	void NewLevelWave();
 	void PlayerHitReset();
+	void TheyAllDied();
 
 private:
 	int TotalSpawn = 10;

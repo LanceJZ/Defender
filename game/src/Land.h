@@ -8,6 +8,7 @@
 class Land : Common
 {
 public:
+	bool AllDead = false;
 	Model3D LandParts[9];
 	Model3D RadarLandParts[14];
 
@@ -24,6 +25,9 @@ public:
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
+
+	void AllThePersonManDead();
+	void NewLevel();
 
 private:
 	int NumberOfStars = 0;

@@ -8,7 +8,7 @@ public:
 	ScoreKeeper();
 	virtual ~ScoreKeeper();
 
-	unsigned int Score = 153725;
+	unsigned int Score = 21270;
 	unsigned int HighScore = 0;
 
 	bool Initialize();

@@ -2,9 +2,9 @@
 
 Lander::Lander()
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 10; i++)
 	{
-		//Shots[i] = new EnemyShot();
+		People[i] = nullptr;
 	}
 }
 
@@ -85,7 +85,7 @@ void Lander::Update(float deltaTime)
 	{
 		if (ShotTimer.Elapsed())
 		{
-			if (CurrentMode != FoundPersonMan)
+			if (State != FoundPersonMan)
 			{
 				FireShot();
 			}
@@ -95,23 +95,23 @@ void Lander::Update(float deltaTime)
 			}
 		}
 
-		if (CurrentMode == GoingToGround)
+		if (State == GoingToGround)
 		{
 			GoToGround();
 		}
-		else if (CurrentMode == Seek)
+		else if (State == Seek)
 		{
 			SeekPersonMan();
 		}
-		else if (CurrentMode == FoundPersonMan)
+		else if (State == FoundPersonMan)
 		{
 			FoundPersonManGoingDown();
 		}
-		else if (CurrentMode == PickUpPersonMan)
+		else if (State == PickUpPersonMan)
 		{
 			GrabPersonMan();
 		}
-		else if (CurrentMode == Mutate)
+		else if (State == Mutate)
 		{
 			SpawnMutatant();
 		}
@@ -141,7 +141,7 @@ void Lander::Draw()
 void Lander::Spawn(Vector3 position)
 {
 	Enabled = true;
-	CurrentMode = GoingToGround;
+	State = GoingToGround;
 	Position = position;
 	Velocity = { 0,0,0 };
 	ShotTimer.Reset(GetRandomFloat(1.1f, 1.75f));
@@ -161,6 +161,14 @@ void Lander::Spawn(Vector3 position)
 	float velY = GetRandomFloat(-30.0f, -20.0f);
 	Velocity = { velX, velY, 0 };
 	GroundHoverY = GetRandomFloat(-20.0f, 80.0f);
+}
+
+void Lander::Reset()
+{
+	Enabled = false;
+	State = GoingToGround;
+	PersonCaptured = nullptr;
+	RadarMirror.EnabledUpdate(Enabled);
 }
 
 void Lander::FireShot()
@@ -223,20 +231,21 @@ void Lander::CheckCollision()
 
 void Lander::Destroy()
 {
-	Enabled = false;
 	CountChange = true;
 
 	if (PersonCaptured)
 	{
 		PersonCaptured->Dropped();
 	}
+
+	Reset();
 }
 
 void Lander::GoToGround()
 {
 	if (Y() < (-GetScreenHeight() * 0.2f) + GroundHoverY)
 	{
-		CurrentMode = Seek;
+		State = Seek;
 		Velocity.y = 0;
 	}
 }
@@ -249,15 +258,15 @@ void Lander::SeekPersonMan()
 		{
 			if (person->X() < X() + 25.0f && person->X() > X() - 25.0f)
 			{
-				if (person->BeingCaptured)
+				if (person->State == Person::TargetedByLander || person->State != Person::OnGround)
 					return;
 
-				CurrentMode = FoundPersonMan;
+				State = FoundPersonMan;
 				ShotTimer.Reset(GetRandomFloat(0.275f, 0.4375f));
 				Velocity.x = 0;
 				Velocity.y = GetRandomFloat(-40.0f, -30.0f);
 				PersonCaptured = person;
-				person->BeingCaptured = true;
+				person->State = Person::TargetedByLander;
 				return;
 			}
 		}
@@ -284,7 +293,7 @@ void Lander::FoundPersonManGoingDown()
 
 	if (Y() + 25 > PersonCaptured->Y() && Y() - 25 < PersonCaptured->Y())
 	{
-		CurrentMode = PickUpPersonMan;
+		State = PickUpPersonMan;
 		Velocity.y = GetRandomFloat(40, 60);
 		Velocity.x = 0;
 	}
@@ -294,7 +303,7 @@ void Lander::GrabPersonMan()
 {
 	if (Y() > GetScreenHeight() * 0.333f)
 	{
-		CurrentMode = Mutate;
+		State = Mutate;
 		return;
 	}
 
@@ -306,5 +315,4 @@ void Lander::SpawnMutatant()
 	Velocity.y = 0;
 	PersonCaptured->Destroy();
 	MutateLander = true;
-	Enabled = false;
 }

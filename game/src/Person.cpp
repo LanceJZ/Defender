@@ -46,12 +46,12 @@ void Person::Update(float deltaTime)
 
 	if (Enabled)
 	{
-		if (GoingDown)
+		if (State == GoingDown)
 		{
 			Falling();
 		}
 
-		if (CaughtByPlayer)
+		if (State == CaughtByPlayer)
 		{
 			GoingForARide();
 		}
@@ -77,16 +77,13 @@ void Person::Spawn(Vector3 position)
 	Velocity.y = 0;
 	Acceleration.y = 0;
 	Enabled = true;
-	BeingCaptured = false;
-	GoingDown = false;
-	CaughtByPlayer = false;
+	State = OnGround;
 }
 
 void Person::Dropped()
 {
 	DroppedY = Y();
-	BeingCaptured = false;
-	GoingDown = true;
+	State = GoingDown;
 	Acceleration.y = -0.150f;
 }
 
@@ -94,7 +91,7 @@ void Person::Falling()
 {
 	CheckCollision();
 
-	if (CaughtByPlayer)
+	if (State == CaughtByPlayer)
 	{
 		return;
 	}
@@ -108,7 +105,7 @@ void Person::Falling()
 	{
 		Velocity.y = 0;
 		Acceleration.y = 0;
-		GoingDown = false;
+		State = OnGround;
 
 		if (DroppedY > 0)
 		{
@@ -124,7 +121,7 @@ void Person::GoingForARide()
 
 	if (Y() < -(GetScreenHeight() / 2.10f))
 	{
-		CaughtByPlayer = false;
+		State = OnGround;
 	}
 }
 
@@ -132,9 +129,7 @@ void Person::CheckCollision()
 {
 	if (CirclesIntersect(ThePlayer))
 	{
-		CaughtByPlayer = true;
-		BeingCaptured = false;
-		GoingDown = false;
+		State = CaughtByPlayer;
 		Velocity.y = 0;
 		Acceleration.y = 0;
 	}
@@ -144,4 +139,12 @@ void Person::Destroy()
 {
 	Enabled = false;
 	CountChanged = true;
+}
+
+void Person::Reset()
+{
+	Velocity.y = 0;
+	Acceleration.y = 0;
+	Y(-(GetScreenHeight() / 2.10f));
+	State = OnGround;
 }

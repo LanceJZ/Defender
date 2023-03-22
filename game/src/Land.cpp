@@ -170,14 +170,17 @@ void Land::Update(float deltaTime)
 
 void Land::Draw()
 {
-	for (auto &land : LandParts)
+	if (!AllDead)
 	{
-		land.Draw();
-	}
+		for (auto &land : LandParts)
+		{
+			land.Draw();
+		}
 
-	for (auto &radar : RadarLandParts)
-	{
-		radar.Draw();
+		for (auto &radar : RadarLandParts)
+		{
+			radar.Draw();
+		}
 	}
 
 	for (auto &star : AllTheStars)
@@ -198,6 +201,17 @@ void Land::Draw()
 	DrawLine3D({ -(float)GetScreenWidth() * 3.5f, (float)GetScreenHeight() * 0.35f, 0},
 		{-(float)GetScreenWidth() * 3.5f, -(float)GetScreenHeight(), 0}, WHITE);
 
+}
+
+void Land::AllThePersonManDead()
+{
+	AllDead = true;
+	CreateAllTheStars();
+}
+
+void Land::NewLevel()
+{
+	CreateAllTheStars();
 }
 
 Vector2 Land::UpdateRadar(float X, float Y)
@@ -266,7 +280,7 @@ void Land::CreateAllTheStars()
 		AllTheStars[iR + i].ModelColor = starRColor[i];
 	}
 
-	int iL = starREdge.size() + iR;
+	int iL = (int)starREdge.size() + iR;
 
 	for (int i = 0; i < starLEdge.size(); i++)
 	{
@@ -275,7 +289,7 @@ void Land::CreateAllTheStars()
 		AllTheStars[iL + i].ModelColor = starLColor[i];
 	}
 
-	NumberOfStars = mainStars + starLEdge.size() + starREdge.size();
+	NumberOfStars = mainStars + (int)starLEdge.size() + (int)starREdge.size();
 
 	for (int i = NumberOfStars; i < mainStars; i++)
 	{

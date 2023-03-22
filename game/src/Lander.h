@@ -6,7 +6,7 @@
 #include "EnemyRadarMirror.h"
 #include "Person.h"
 
-enum Mode
+enum StateList
 {
 	GoingToGround,
 	Seek,
@@ -25,7 +25,7 @@ public:
 	virtual ~Lander();
 
 	EnemyShot Shots[4];
-	Person* People[10]; //The Person Man.
+	Person* People[10]; //The Person Man. Reference filled by class in charge.
 
 	bool Initialize();
 	void SetShotModel(Model model);
@@ -37,10 +37,11 @@ public:
 	virtual void Draw();
 
 	void Spawn(Vector3 position);
+	void Reset();
 
 private:
 	float GroundHoverY = 0;
-	Mode CurrentMode = GoingToGround;
+	StateList State = GoingToGround;
 	EnemyRadarMirror RadarMirror;
 	Timer ShotTimer;
 	Player* ThePlayer = nullptr;

@@ -15,7 +15,7 @@ bool PlayerShot::Initialize()
 	Tail.Initialize();
 
 	Radius = 3.5f;
-	LifeTimer.Set(0.666f);
+	LifeTimer.Set(0.5666f);
 	RotationAxis.y = 1.0f;
 	ModelScale = 3.0f;
 	Enabled = false;
