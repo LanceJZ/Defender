@@ -27,8 +27,8 @@ public:
 	void SetShotModel(Model model);
 	bool BeginRun(Camera* camera);
 
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Update(float deltaTime);
+	void Draw();
 
 	void Spawn(Vector3 position);
 	void Reset();

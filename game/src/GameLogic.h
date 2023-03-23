@@ -34,10 +34,10 @@ public:
 	bool BeginRun(Camera* camera);
 
 
-	virtual void Input();
-	virtual void Update(float deltaTime);
-	virtual void Draw3D();
-	virtual void Draw2D();
+	void Input();
+	void Update(float deltaTime);
+	void Draw3D();
+	void Draw2D();
 
 private:
 	GameState State = WaveStart;

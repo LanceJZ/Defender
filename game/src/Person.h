@@ -20,13 +20,13 @@ public:
 	Person();
 	virtual ~Person();
 
-	virtual bool Initialize();
+	bool Initialize();
 	void SetRadar(Model model);
 	void SetPlayer(Player* player);
-	virtual bool BeginRun(Camera* camera);
+	bool BeginRun(Camera* camera);
 
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Update(float deltaTime);
+	void Draw();
 
 	void Spawn(Vector3 position);
 	void Dropped();

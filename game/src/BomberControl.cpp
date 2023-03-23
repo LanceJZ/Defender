@@ -71,10 +71,10 @@ void BomberControl::SpawnBombers(int amount)
 		bomber->Initialize();
 		bomber->SetModel(BomberModel, 10.0f);
 		bomber->SetBomb(BombModel);
-		bomber->SetRadar(BomberRadarModel);
+		bomber->SetRadarModel(BomberRadarModel, 3.0f);
 		bomber->SetPlayer(ThePlayer);
 		bomber->BeginRun(TheCamera);
 		bomber->Spawn({xLine + GetRandomFloat(-100, 100),
-			GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f)}, xVol);
+			GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f), 0}, xVol);
 	}
 }

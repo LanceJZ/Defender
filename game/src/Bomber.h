@@ -1,11 +1,9 @@
 #pragma once
-#include "Model3D.h"
-#include "EnemyRadarMirror.h"
-#include "Player.h"
+#include "Enemy.h"
 #include "Bomb.h"
 #include "Timer.h"
 
-class Bomber : public Model3D
+class Bomber : public Enemy
 {
 public:
 	vector<Bomb*> Bombs;
@@ -15,20 +13,15 @@ public:
 
 	bool Initialize();
 	void SetBomb(Model model);
-	void SetRadar(Model model);
-	void SetPlayer(Player* player);
 	bool BeginRun(Camera* camera);
 
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Update(float deltaTime);
+	void Draw();
 
-	void Spawn(Vector2 position, float x);
+	void Spawn(Vector3 position, float x);
 
 private:
 	Model BombModel = { 0 };
-	EnemyRadarMirror RadarMirror;
-	Player* ThePlayer = nullptr;
-	Camera* TheCamera = nullptr;
 	Timer DropBombTimer;
 
 	void DropABomb();

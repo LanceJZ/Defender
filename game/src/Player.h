@@ -18,9 +18,9 @@ public:
 	void SetRadarModel(Model model);
 	bool BeginRun(Camera* camera);
 
-	virtual void Input();
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Input();
+	void Update(float deltaTime);
+	void Draw();
 
 	void Reset();
 	void Hit();

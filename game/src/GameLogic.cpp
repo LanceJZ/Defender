@@ -43,9 +43,8 @@ Model GameLogic::LoadModelwithTexture(string modelFileName)
 	}
 	else
 	{
-		fprintf(stderr, "**********************************************************************************************\n");
-		fprintf(stderr, "*****************  Image  :%s missing. *****************\n", const_cast<char*>(namePNG.c_str()));
-		fprintf(stderr, "**********************************************************************************************\n");
+		TraceLog(LOG_ERROR, "***********************  Image  :%s missing. ***********************\n",
+			const_cast<char*>(namePNG.c_str()));
 	}
 
 	if (FileExists(const_cast<char*>(nameOBJ.c_str())))
@@ -55,9 +54,8 @@ Model GameLogic::LoadModelwithTexture(string modelFileName)
 	}
 	else
 	{
-		fprintf(stderr, "**********************************************************************************************\n");
-		fprintf(stderr, "******************  Model  :%s missing. ****************\n", const_cast<char*>(nameOBJ.c_str()));
-		fprintf(stderr, "**********************************************************************************************\n");
+		TraceLog(LOG_ERROR, "***********************  Image  :%s missing. ***********************\n",
+			const_cast<char*>(nameOBJ.c_str()));
 	}
 
 
@@ -234,6 +232,11 @@ void GameLogic::Draw2D()
 	{
 		DrawText("Wave Completed", (int)((GetScreenWidth() * 0.5f) - ((30 * 15) * 0.25f)),
 			(int)(GetScreenHeight() * 0.5f), 30, GRAY);
+	}
+	else if (State == Pause)
+	{
+		DrawText("Paused", (int)((GetScreenWidth() * 0.5f) - ((40 * 7) * 0.25f)),
+			(int)(GetScreenHeight() * 0.5f), 40, GRAY);
 	}
 	else
 	{

@@ -13,9 +13,8 @@ public:
 	void SetPlayer(Player* player);
 	bool BeginRun(Camera* camera);
 
-	virtual void Input();
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Update(float deltaTime);
+	void Draw();
 
 	void Spawn(Vector3 position, Vector3 velocity, float life);
 	float GetShotAngle(Vector3 position);

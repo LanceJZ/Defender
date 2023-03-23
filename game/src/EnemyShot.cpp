@@ -10,7 +10,6 @@ bool EnemyShot::Initialize()
 
 	Mirror.Initialize();
 
-	//ModelScale = 3;
 	Radius = 2;
 	Enabled = false;
 
@@ -30,11 +29,6 @@ bool EnemyShot::BeginRun(Camera* camera)
 	Mirror.BeginRun(camera);
 
 	return false;
-}
-
-void EnemyShot::Input()
-{
-
 }
 
 void EnemyShot::Update(float deltaTime)
