@@ -1,40 +1,31 @@
 #pragma once
 #include "raylib.h"
-#include "Model3D.h"
-#include "EnemyShot.h"
-#include "EnemyRadarMirror.h"
+#include "Enemy.h"
 #include "Timer.h"
 
-class Swarmer : public Model3D
+class Swarmer : public Enemy
 {
 public:
 	Swarmer();
 	virtual ~Swarmer();
 
-	EnemyShot* Shots[4];
-
 	bool Initialize();
-	void SetShotModel(Model model);
-	void SetRadar(Model model);
-	void SetPlayer(Player* player);
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
 	void Draw();
 
 	void Spawn(Vector3 position, Vector3 velocity);
+	void Reset();
 
 private:
 	float XVolocity = 0;
 	float YVolocity = 0;
 
-	EnemyRadarMirror RadarMirror;
-
-	Player* ThePlayer = nullptr;
-	Camera* TheCamera = nullptr;
-	Timer ShotTimer;
-	Timer AfterSpawn;
+	Timer AfterSpawnTimer;
 
 	void FireShot();
 	void AfterSpawnMovement();
+	bool CheckCollision();
+	void Destroy();
 };

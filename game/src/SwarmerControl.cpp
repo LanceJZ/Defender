@@ -6,6 +6,7 @@ SwarmerControl::SwarmerControl()
 
 SwarmerControl::~SwarmerControl()
 {
+	Pods.clear();
 }
 
 bool SwarmerControl::Initialize()
@@ -44,6 +45,11 @@ void SwarmerControl::SetPlayer(Player* player)
 	ThePlayer = player;
 }
 
+void SwarmerControl::SetData(SharedData* data)
+{
+	Data = data;
+}
+
 bool SwarmerControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
@@ -67,37 +73,83 @@ void SwarmerControl::Draw()
 	}
 }
 
-void SwarmerControl::SpawnPods(float count)
+void SwarmerControl::NewWave()
 {
-	for (int i = 0; i < count; i++)
-	{
-		Pods.push_back(new Pod());
-	}
+	SpawnPods(Data->Wave);
+}
 
-	float xLine = 0;
-
-	if (GetRandomValue(1, 10) < 5)
-	{
-		xLine = GetRandomFloat(GetScreenWidth() * 1.5f, GetScreenWidth() * 3.5f);
-	}
-	else
-	{
-		xLine = GetRandomFloat(-GetScreenWidth() * 3.5f, -GetScreenWidth() * 1.5f);
-	}
-
-	float xVol = GetRandomFloat(35.0f, 55.5f);
-	float y = GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
+void SwarmerControl::Reset()
+{
+	int spawnAmount = 0;
 
 	for (auto pod : Pods)
 	{
-		pod->Initialize();
-		pod->SetModel(PodModel, 10.0f);
-		pod->SetRadar(PodRadarModel);
-		pod->SetShotModel(ShotModel);
-		pod->SetSwarmerModel(SwarmerModel);
-		pod->SetSwarmerRadarModel(SwarmerRadarModel);
-		pod->SetPlayer(ThePlayer);
-		pod->BeginRun(TheCamera);
-		pod->Spawn({ xLine + GetRandomFloat(-200.0f, 200.0f), y, 0 }, xVol);
+		if (pod->Enabled)
+		{
+			spawnAmount++;
+			pod->Reset();
+		}
+
+		for (auto swarmer : pod->Swarmers)
+		{
+			swarmer->Reset();
+		}
+	}
+
+	SpawnPods(spawnAmount);
+}
+
+void SwarmerControl::SpawnPods(int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		int spawnNumber = (int)Pods.size();
+		int podCount = 0;
+		bool spawnNew = true;
+
+		for (auto pod : Pods)
+		{
+			if (!pod->Enabled)
+			{
+				spawnNumber = podCount;
+				spawnNew = false;
+				break;
+			}
+
+			podCount++;
+		}
+
+		if (spawnNew)
+		{
+			Pods.push_back(new Pod());
+			Pods[spawnNumber]->Initialize();
+			Pods[spawnNumber]->SetModel(PodModel, 10.0f);
+			Pods[spawnNumber]->SetRadarModel(PodRadarModel, 3.0f);
+			Pods[spawnNumber]->SetShotModel(ShotModel);
+			Pods[spawnNumber]->SetSwarmerModel(SwarmerModel);
+			Pods[spawnNumber]->SetSwarmerRadarModel(SwarmerRadarModel);
+			Pods[spawnNumber]->SetPlayer(ThePlayer);
+			Pods[spawnNumber]->SetData(Data);
+			Pods[spawnNumber]->BeginRun(TheCamera);
+		}
+
+		float xLine = 0;
+
+		if (GetRandomValue(1, 10) < 5)
+		{
+			xLine = GetRandomFloat(GetScreenWidth() * 1.5f, GetScreenWidth() * 3.5f);
+		}
+		else
+		{
+			xLine = GetRandomFloat(-GetScreenWidth() * 3.5f, -GetScreenWidth() * 1.5f);
+		}
+
+		float xVol = GetRandomFloat(35.0f, 55.5f);
+		float y = GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
+
+		for (auto pod : Pods)
+		{
+			Pods[spawnNumber]->Spawn({ xLine + GetRandomFloat(-200.0f, 200.0f), y, 0 }, xVol);
+		}
 	}
 }

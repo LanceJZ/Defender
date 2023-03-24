@@ -302,12 +302,19 @@ void Land::CreateAllTheStars()
 		star.Initialize();
 		star.SetModel(Star, 6.0f);
 		star.BeginRun(TheCamera);
+		star.RotationAxis = { 1, 1, 1 };
+		star.RotationVelocity = 6.66f;
 	}
 }
 
 void Land::UpdateAllTheStars(float deltaTime)
 {
 	StarTimer.Update(deltaTime);
+
+	for (auto &star : AllTheStars)
+	{
+		star.Update(deltaTime);
+	}
 
 	if (StarTimer.Elapsed())
 	{

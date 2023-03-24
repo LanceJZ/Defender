@@ -17,10 +17,15 @@ public:
 	void SetPodRadarModel(Model model);
 	void SetSwarmerRadarModel(Model model);
 	void SetPlayer(Player* player);
+	void SetData(SharedData* data);
+
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
+
+	void NewWave();
+	void Reset();
 
 private:
 	Model PodModel = { 0 };
@@ -33,6 +38,6 @@ private:
 	Camera* TheCamera = nullptr;
 	SharedData* Data;
 
-	void SpawnPods(float count);
+	void SpawnPods(int count);
 };
 

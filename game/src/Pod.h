@@ -1,10 +1,10 @@
 #pragma once
 #include "raylib.h"
-#include "Model3D.h"
+#include "SharedData.h"
+#include "Enemy.h"
 #include "Swarmer.h"
-#include "EnemyRadarMirror.h"
 
-class Pod : public Model3D
+class Pod : public Enemy
 {
 public:
 	Pod();
@@ -16,22 +16,24 @@ public:
 	void SetShotModel(Model model);
 	void SetSwarmerModel(Model model);
 	void SetSwarmerRadarModel(Model model);
-	void SetRadar(Model model);
-	void SetPlayer(Player* player);
+	void SetData(SharedData* data);
+
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
 	void Draw();
 
 	void Spawn(Vector3 position, float xVol);
+	void Reset();
 
 private:
-	EnemyRadarMirror RadarMirror;
 	Model SwarmerModel = { 0 };
 	Model SwarmerRadarModel = { 0 };
 	Model ShotModel = { 0 };
-	Player* ThePlayer = nullptr;
-	Camera* TheCamera = nullptr;
+
+	SharedData* Data = nullptr;
 
 	void SpawnSwarmers(int count);
+	bool CheckCollision();
+	void Destroy();
 };

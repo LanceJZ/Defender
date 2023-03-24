@@ -1,12 +1,12 @@
 #pragma once
 #include "Enemy.h"
-#include "Bomb.h"
+#include "EnemyShot.h"
 #include "Timer.h"
 
 class Bomber : public Enemy
 {
 public:
-	vector<Bomb*> Bombs;
+	vector<EnemyShot*> Bombs;
 
 	Bomber();
 	virtual ~Bomber();
@@ -19,10 +19,14 @@ public:
 	void Draw();
 
 	void Spawn(Vector3 position, float x);
+	void Reset();
+
 
 private:
 	Model BombModel = { 0 };
 	Timer DropBombTimer;
 
 	void DropABomb();
+	bool CheckCollision();
+	void Destroy();
 };

@@ -22,7 +22,7 @@ bool Lander::Initialize()
 	}
 
 	ShotTimer.Set(1);
-	Radius = 14;
+	Radius = 14.0f;
 
 	return false;
 }
@@ -148,8 +148,6 @@ void Lander::Destroy()
 	{
 		PersonCaptured->Dropped();
 	}
-
-	Reset();
 }
 
 void Lander::GoToGround()

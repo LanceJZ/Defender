@@ -2,10 +2,6 @@
 
 Swarmer::Swarmer()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		Shots[i] = new EnemyShot();
-	}
 }
 
 Swarmer::~Swarmer()
@@ -14,59 +10,19 @@ Swarmer::~Swarmer()
 
 bool Swarmer::Initialize()
 {
-	Model3D::Initialize();
+	Enemy::Initialize();
 
-	for (auto shot : Shots)
-	{
-		shot->Initialize();
-	}
-
-	RadarMirror.Initialize();
-	//ModelScale = 10.0f;
-	Enabled = false;
+	Radius = 6.0f;
 
 	return false;
 }
 
-void Swarmer::SetShotModel(Model model)
-{
-	for (auto shot : Shots)
-	{
-		shot->SetModel(model, 3.0f);
-	}
-}
-
-void Swarmer::SetRadar(Model model)
-{
-	RadarMirror.SetRadarModel(model, 5.0f);
-}
-
-void Swarmer::SetPlayer(Player* player)
-{
-	ThePlayer = player;
-	RadarMirror.SetPlayer(player);
-
-	for (auto shot : Shots)
-	{
-		shot->SetPlayer(ThePlayer);
-	}
-}
-
 bool Swarmer::BeginRun(Camera* camera)
 {
-	Model3D::BeginRun(camera);
+	Enemy::BeginRun(camera);
 
 	RotationAxis = { 0, 1.0f, 0 };
 	RotationVelocity = GetRandomFloat(25.1f, 52.6f);
-
-	for (auto shot : Shots)
-	{
-		shot->BeginRun(camera);
-	}
-
-	TheCamera = camera;
-	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
-	RadarMirror.BeginRun(camera);
 
 	return false;
 }
@@ -74,58 +30,40 @@ bool Swarmer::BeginRun(Camera* camera)
 // Can not shoot opposite direction of movement.
 // Take a second to change Y direction of movement after passing player Y position.
 // They shot 1/4 screen width distance in front of themselves at your Y position.
-// When Pod is shot, Swarmers head towards the player.
+// When Pod is shot, Swarmers head towards the player after they separate.
 void Swarmer::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
+	Enemy::Update(deltaTime);
 
-	for (auto shot : Shots)
-	{
-		shot->Update(deltaTime);
-	}
+	AfterSpawnTimer.Update(deltaTime);
 
-	ShotTimer.Update(deltaTime);
-
-	if (ShotTimer.Elapsed())
-	{
-		FireShot();
-	}
-
-	AfterSpawn.Update(deltaTime);
-
-	if (AfterSpawn.Elapsed())
+	if (AfterSpawnTimer.Elapsed())
 	{
 		AfterSpawnMovement();
 	}
 
 	if (Enabled)
 	{
-		CheckPlayfieldSidesWarp(4.0f, 3.0f);
+		if (ShotTimer.Elapsed())
+		{
+			FireShot();
+		}
+
 		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
-		RadarMirror.PositionUpdate(Enabled, Position);
-	}
-	else
-	{
-		RadarMirror.EnabledUpdate(Enabled);
+		CheckCollision();
 	}
 }
 
 void Swarmer::Draw()
 {
-	Model3D::Draw();
+	Enemy::Draw();
 
-	for (auto shot : Shots)
-	{
-		shot->Draw();
-	}
-
-	RadarMirror.Draw();
 }
 
 void Swarmer::Spawn(Vector3 position, Vector3 velocity)
 {
-	Enabled = true;
-	Position = position;
+	Enemy::Spawn(position);
+
 	Velocity = velocity;
 	XVolocity = velocity.x;
 	YVolocity = velocity.y;
@@ -147,8 +85,30 @@ void Swarmer::Spawn(Vector3 position, Vector3 velocity)
 		Velocity.y *= -1;
 	}
 
-	ShotTimer.Reset(GetRandomFloat(0.25f, 0.35f));
-	AfterSpawn.Reset(GetRandomFloat(0.25f, 0.5f));
+	AfterSpawnTimer.Reset(GetRandomFloat(0.25f, 0.5f));
+	ShotTimer.Reset(GetRandomFloat(0.275f, 0.4375f));
+}
+
+void Swarmer::Reset()
+{
+	Enemy::Reset();
+
+}
+
+void Swarmer::Destroy()
+{
+	Enemy::Destroy();
+
+}
+
+bool Swarmer::CheckCollision()
+{
+	if (Enemy::CheckCollision())
+	{
+
+	}
+
+	return false;
 }
 
 void Swarmer::FireShot()
@@ -170,14 +130,7 @@ void Swarmer::FireShot()
 		}
 	}
 
-	for (auto shot : Shots)
-	{
-		if (!shot->Enabled)
-		{
-			shot->Spawn(Position, VelocityFromAngleZ(Shots[0]->GetShotAngle(Position), 155.0f), 7.0f);
-			return;
-		}
-	}
+	Enemy::FireShot();
 }
 
 void Swarmer::AfterSpawnMovement()

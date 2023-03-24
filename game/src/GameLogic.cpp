@@ -19,6 +19,7 @@ bool GameLogic::Initialize()
 	Bombers.Initialize();
 	Swarmers.Initialize();
 	NewWaveTimer.Set(1.5f);
+	WaveStartTimer.Set(1.666f);
 
 	return false;
 }
@@ -123,18 +124,19 @@ void GameLogic::Load()
 
 bool GameLogic::BeginRun(Camera* camera)
 {
-	TheCamera = camera;
+	//TheCamera = camera;
 	ThePlayer.BeginRun(camera);
 	TheLand.SetPlayer(&ThePlayer);
 	ControlLanderMutant.SetPlayer(&ThePlayer);
 	ControlLanderMutant.SetData(&Data);
 	Bombers.SetPlayer(&ThePlayer);
+	Bombers.SetData(&Data);
 	Swarmers.SetPlayer(&ThePlayer);
+	Swarmers.SetData(&Data);
 	TheLand.BeginRun(camera);
 	ControlLanderMutant.BeginRun(camera);
 	Bombers.BeginRun(camera);
 	Swarmers.BeginRun(camera);
-	WaveStartTimer.Reset(1.666f);
 
 	return false;
 }
@@ -238,6 +240,11 @@ void GameLogic::Draw2D()
 		DrawText("Paused", (int)((GetScreenWidth() * 0.5f) - ((40 * 7) * 0.25f)),
 			(int)(GetScreenHeight() * 0.5f), 40, GRAY);
 	}
+	else if (State == PlayerHit)
+	{
+		DrawText("Get Ready", (int)((GetScreenWidth() * 0.5f) - ((40 * 10) * 0.25f)),
+			(int)(GetScreenHeight() * 0.5f), 40, GRAY);
+	}
 	else
 	{
 		Score.Draw();
@@ -260,6 +267,13 @@ void GameLogic::CheckEndOfWave()
 		State = NewWave;
 		NewWaveTimer.Reset();
 		TheLand.NewLevel();
+		Bombers.NewWave();
+		Swarmers.NewWave();
+
+		if (Data.Wave > 0)
+		{
+
+		}
 	}
 }
 
@@ -269,4 +283,6 @@ void GameLogic::PlayerWasHit()
 	PlayerResetTimer.Reset(2.666f);
 	ThePlayer.Reset();
 	ControlLanderMutant.PlayerHitReset();
+	Bombers.Reset();
+	Swarmers.Reset();
 }

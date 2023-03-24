@@ -81,7 +81,6 @@ void Enemy::Update(float deltaTime)
 	if (Enabled)
 	{
 		RadarMirror.PositionUpdate(Enabled, Position);
-		CheckCollision();
 		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 	}
 }
@@ -107,7 +106,7 @@ bool Enemy::CheckCollision()
 		return true;
 	}
 
-	for (auto& shot : Shots)
+	for (auto &shot : Shots)
 	{
 		if (shot.Enabled)
 		{
@@ -118,7 +117,7 @@ bool Enemy::CheckCollision()
 		}
 	}
 
-	for (auto& shot : ThePlayer->Shots)
+	for (auto &shot : ThePlayer->Shots)
 	{
 		if (shot.Enabled)
 		{
@@ -136,7 +135,7 @@ bool Enemy::CheckCollision()
 
 void Enemy::FireShot()
 {
-	for (auto& shot : Shots)
+	for (auto &shot : Shots)
 	{
 		if (!shot.Enabled)
 		{
@@ -156,11 +155,17 @@ void Enemy::Spawn(Vector3 position)
 
 void Enemy::Reset()
 {
-	Enabled = false;
-	RadarMirror.EnabledUpdate(false);
+	for (auto &shot : Shots)
+	{
+		shot.Enabled = false;
+	}
+
+	Destroy();
 }
 
 void Enemy::Destroy()
 {
 	CountChange = true;
+	Enabled = false;
+	RadarMirror.EnabledUpdate(false);
 }

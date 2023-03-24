@@ -41,7 +41,7 @@ public:
 
 private:
 	GameState State = WaveStart;
-	Camera* TheCamera = nullptr;
+	//Camera* TheCamera = nullptr;
 	Player ThePlayer;
 	Land TheLand;
 	Timer NewWaveTimer;

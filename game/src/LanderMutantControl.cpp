@@ -7,6 +7,8 @@ LanderMutantControl::LanderMutantControl()
 LanderMutantControl::~LanderMutantControl()
 {
 	Data = nullptr;
+	Landers.clear();
+	Mutants.clear();
 }
 
 bool LanderMutantControl::Initialize()

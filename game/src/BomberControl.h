@@ -15,10 +15,15 @@ public:
 	void SetBomb(Model model);
 	void SetBomberRadar(Model model);
 	void SetPlayer(Player* player);
+	void SetData(SharedData* data);
+
 	bool BeginRun(Camera* camera);
 
-	virtual void Update(float deltaTime);
-	virtual void Draw();
+	void Update(float deltaTime);
+	void Draw();
+
+	void NewWave();
+	void Reset();
 
 private:
 	Model BomberModel = { 0 };

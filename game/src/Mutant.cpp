@@ -12,7 +12,7 @@ bool Mutant::Initialize()
 {
 	Enemy::Initialize();
 
-	Radius = 14;
+	Radius = 14.0f;
 
 	return false;
 }
@@ -28,14 +28,8 @@ void Mutant::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	for (auto &shot : Shots)
-	{
-		shot.Update(deltaTime);
-	}
-
 	if (Enabled)
 	{
-		ShotTimer.Update(deltaTime);
 		ChangeSpeedTimer.Update(deltaTime);
 
 		if (ShotTimer.Elapsed())
@@ -165,8 +159,4 @@ void Mutant::Destroy()
 {
 	Enemy::Destroy();
 
-	Reset();
-
-	//Enabled = false;
-	//CountChange = true;
 }

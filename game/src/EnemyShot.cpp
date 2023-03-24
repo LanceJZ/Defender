@@ -35,22 +35,22 @@ void EnemyShot::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	if (!Enabled)
-		return;
-
-	LifeTimer.Update(deltaTime);
-
-	if (LifeTimer.Elapsed())
-	{
-		Enabled = false;
-	}
-
-	if (ScreenEdgeBoundY(GetScreenHeight() * 0.15f, 0))
-	{
-		Enabled = false;
-	}
-
 	Mirror.PositionUpdate(Enabled, Position);
+
+	if (Enabled)
+	{
+		LifeTimer.Update(deltaTime);
+
+		if (LifeTimer.Elapsed())
+		{
+			Enabled = false;
+		}
+
+		if (ScreenEdgeBoundY(GetScreenHeight() * 0.15f, 0))
+		{
+			Enabled = false;
+		}
+	}
 }
 
 void EnemyShot::Draw()

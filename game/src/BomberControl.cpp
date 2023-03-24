@@ -6,6 +6,7 @@ BomberControl::BomberControl()
 
 BomberControl::~BomberControl()
 {
+	Bombers.clear();
 }
 
 bool BomberControl::Initialize()
@@ -34,6 +35,11 @@ void BomberControl::SetPlayer(Player* player)
 	ThePlayer = player;
 }
 
+void BomberControl::SetData(SharedData* data)
+{
+	Data = data;
+}
+
 bool BomberControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
@@ -56,25 +62,66 @@ void BomberControl::Draw()
 	}
 }
 
+void BomberControl::NewWave()
+{
+	SpawnBombers(Data->Wave);
+}
+
+void BomberControl::Reset()
+{
+	int spawnAmount = 0;
+
+	for (auto bomber : Bombers)
+	{
+		if (bomber->Enabled)
+		{
+			spawnAmount++;
+			bomber->Enabled = false;
+
+			for (auto &bomb : bomber->Shots)
+			{
+				bomb.Enabled = false;
+			}
+		}
+	}
+
+	SpawnBombers(spawnAmount);
+}
+
 void BomberControl::SpawnBombers(int amount)
 {
 	for (int i = 0; i < amount; i++)
 	{
-		Bombers.push_back(new Bomber());
-	}
+		int spawnNumber = (int)Bombers.size();
+		int bomberCount = 0;
+		bool spawnNew = true;
 
-	float xLine = GetRandomFloat(GetScreenWidth() * 2.5f, GetScreenWidth() * 3.5f);
-	float xVol = GetRandomFloat(-75, -25);
+		for (auto bomber : Bombers)
+		{
+			if (!bomber->Enabled)
+			{
+				spawnNumber = bomberCount;
+				spawnNew = false;
+				break;
+			}
 
-	for (auto bomber : Bombers)
-	{
-		bomber->Initialize();
-		bomber->SetModel(BomberModel, 10.0f);
-		bomber->SetBomb(BombModel);
-		bomber->SetRadarModel(BomberRadarModel, 3.0f);
-		bomber->SetPlayer(ThePlayer);
-		bomber->BeginRun(TheCamera);
-		bomber->Spawn({xLine + GetRandomFloat(-100, 100),
+			bomberCount++;
+		}
+
+		if (spawnNew)
+		{
+			Bombers.push_back(new Bomber());
+			Bombers[spawnNumber]->SetModel(BomberModel, 10.0f);
+			Bombers[spawnNumber]->SetBomb(BombModel);
+			Bombers[spawnNumber]->SetRadarModel(BomberRadarModel, 3.0f);
+			Bombers[spawnNumber]->SetPlayer(ThePlayer);
+			Bombers[spawnNumber]->BeginRun(TheCamera);
+		}
+
+		float xLine = GetRandomFloat(GetScreenWidth() * 2.5f, GetScreenWidth() * 3.5f);
+		float xVol = GetRandomFloat(-75, -25);
+		Bombers[spawnNumber]->Initialize();
+		Bombers[spawnNumber]->Spawn({xLine + GetRandomFloat(-100, 100),
 			GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f), 0}, xVol);
 	}
 }

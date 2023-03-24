@@ -6,12 +6,14 @@ Bomber::Bomber()
 
 Bomber::~Bomber()
 {
+	Bombs.clear();
 }
 
 bool Bomber::Initialize()
 {
 	Enemy::Initialize();
 
+	Radius = 14.0f;
 
 	return false;
 }
@@ -50,6 +52,7 @@ void Bomber::Update(float deltaTime)
 		}
 
 		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
+		CheckCollision();
 	}
 }
 
@@ -83,6 +86,32 @@ void Bomber::Spawn(Vector3 position, float x)
 	}
 }
 
+void Bomber::Reset()
+{
+	Enemy::Reset();
+
+	for (auto bomb : Bombs)
+	{
+		bomb->Enabled = false;
+	}
+}
+
+bool Bomber::CheckCollision()
+{
+	if (Enemy::CheckCollision())
+	{
+
+	}
+
+	return false;
+}
+
+void Bomber::Destroy()
+{
+	Enemy::Destroy();
+
+}
+
 void Bomber::DropABomb()
 {
 	size_t bombspawn = Bombs.size();
@@ -96,6 +125,7 @@ void Bomber::DropABomb()
 		{
 			newBomb = false;
 			bombspawn = (size_t)bombcount;
+			break;
 		}
 
 		bombcount++;
@@ -103,11 +133,13 @@ void Bomber::DropABomb()
 
 	if (newBomb)
 	{
-		Bombs.push_back(new Bomb());
-		Bombs[Bombs.size() - 1]->Initialize();
-		Bombs[Bombs.size() - 1]->SetModel(BombModel, 15.0f);
-		Bombs[Bombs.size() - 1]->BeginRun(TheCamera);
+		Bombs.push_back(new EnemyShot());
+		Bombs[bombspawn]->Initialize();
+		Bombs[bombspawn]->SetModel(BombModel, 15.0f);
+		Bombs[bombspawn]->BeginRun(TheCamera);
 	}
 
-	Bombs[bombspawn]->Spawn(Position);
+	float timer = GetRandomFloat(6.66f, 16.66f);
+
+	Bombs[bombspawn]->Spawn(Position, { 0 }, timer);
 }

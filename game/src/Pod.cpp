@@ -7,15 +7,15 @@ Pod::Pod()
 
 Pod::~Pod()
 {
+	Swarmers.clear();
 }
 
 bool Pod::Initialize()
 {
-	Model3D::Initialize();
+	Enemy::Initialize();
 
-	RadarMirror.Initialize();
-	//ModelScale = 10.0f;
 	Enabled = false;
+	Radius = 14.0f;
 
 	return false;
 }
@@ -35,31 +35,23 @@ void Pod::SetSwarmerRadarModel(Model model)
 	SwarmerRadarModel = model;
 }
 
-void Pod::SetRadar(Model model)
+void Pod::SetData(SharedData* data)
 {
-	RadarMirror.SetRadarModel(model, 4.0f);
-}
-
-void Pod::SetPlayer(Player* player)
-{
-	RadarMirror.SetPlayer(player);
-	ThePlayer = player;
+	Data = data;
 }
 
 bool Pod::BeginRun(Camera* camera)
 {
-	Model3D::BeginRun(camera);
+	Enemy::BeginRun(camera);
 
 	TheCamera = camera;
-	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
-	RadarMirror.BeginRun(camera);
 
 	return false;
 }
 
 void Pod::Update(float deltaTime)
 {
-	Model3D::Update(deltaTime);
+	Enemy::Update(deltaTime);
 
 	for (auto swarmer : Swarmers)
 	{
@@ -70,19 +62,13 @@ void Pod::Update(float deltaTime)
 	{
 		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
-		RadarMirror.PositionUpdate(Enabled, Position);
-	}
-	else
-	{
-		RadarMirror.EnabledUpdate(Enabled);
+		CheckCollision();
 	}
 }
 
 void Pod::Draw()
 {
-	Model3D::Draw();
-
-	RadarMirror.Draw();
+	Enemy::Draw();
 
 	for (auto swarmer : Swarmers)
 	{
@@ -92,16 +78,19 @@ void Pod::Draw()
 
 void Pod::Spawn(Vector3 position, float xVol)
 {
-	Enabled = true;
-	Position = position;
-	RotationAxis = { 0.5f, 0.95f, 0.25f }; //Make random
-	RotationVelocity = 2.5f;
+	Enemy::Spawn(position);
+
+	float rX = GetRandomFloat(-0.95f, 0.95f);
+	float rY = GetRandomFloat(-0.95f, 0.95f);
+	float rZ = GetRandomFloat(-0.95f, 0.95f);
+	RotationAxis = { rX, rY, rZ };
+	RotationVelocity = GetRandomFloat(1.5f, 3.5f);
 
 	float minY = 30;
 	float maxY = 40;
 	float yVol = GetRandomFloat(minY, maxY);
 
-	if (GetRandomValue(0, 10) < 5)
+	if (GetRandomValue(0, 100) < 50)
 	{
 		Velocity.y = -yVol;
 	}
@@ -110,7 +99,7 @@ void Pod::Spawn(Vector3 position, float xVol)
 		Velocity.y = yVol;
 	}
 
-	if (GetRandomValue(0, 10) < 5)
+	if (GetRandomValue(0, 100) < 50)
 	{
 		Velocity.x = -xVol;
 	}
@@ -120,6 +109,11 @@ void Pod::Spawn(Vector3 position, float xVol)
 	}
 }
 
+void Pod::Reset()
+{
+	Enemy::Reset();
+}
+
 void Pod::SpawnSwarmers(int count)
 {
 	for (int i = 0; i < count; i++)
@@ -127,7 +121,6 @@ void Pod::SpawnSwarmers(int count)
 		Swarmers.push_back(new Swarmer());
 	}
 
-	float xLine = GetRandomFloat(-400.0f, 400.0f);
 	float xVol = GetRandomFloat(65.0f, 75.0f);
 	float yVol = GetRandomFloat(55.0f, 65.0f);
 
@@ -135,10 +128,26 @@ void Pod::SpawnSwarmers(int count)
 	{
 		swarmer->Initialize();
 		swarmer->SetModel(SwarmerModel, 10.0f);
-		swarmer->SetRadar(SwarmerRadarModel);
+		swarmer->SetRadarModel(SwarmerRadarModel, 3.0f);
 		swarmer->SetShotModel(ShotModel);
 		swarmer->SetPlayer(ThePlayer);
 		swarmer->BeginRun(TheCamera);
-		swarmer->Spawn({ xLine, 150.0f, 0 }, { xVol, yVol, 0 });
+		swarmer->Spawn(Position, { xVol, yVol, 0 });
 	}
+}
+
+bool Pod::CheckCollision()
+{
+	if (Enemy::CheckCollision())
+	{
+		SpawnSwarmers(4 + Data->Wave);
+	}
+
+	return false;
+}
+
+void Pod::Destroy()
+{
+	Enemy::Destroy();
+
 }
