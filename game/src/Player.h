@@ -16,6 +16,7 @@ public:
 	void SetShotModel(Model model);
 	void SetTailModel(Model model);
 	void SetRadarModel(Model model);
+	void SetSounds(Sound shot, Sound explode, Sound thrust);
 	bool BeginRun(Camera* camera);
 
 	void Input();
@@ -37,9 +38,12 @@ private:
 	float MaxFowardV = 1000.0f;
 	float ForwardDrag = 20.0f;
 	float AirDrag = 0.004f;
-	Camera* TheCamera = nullptr;
+	Sound ShotSound = { 0 };
+	Sound ExplodeSound = { 0 };
+	Sound ThrustSound = { 0 };
 	Model3D Flame;
 	Model3D Radar;
+	Camera* TheCamera = nullptr;
 
 	void CameraMovement();
 	void RadarMovement();

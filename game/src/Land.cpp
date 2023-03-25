@@ -6,6 +6,10 @@ Land::Land()
 
 Land::~Land()
 {
+	UnloadModel(Star);
+	TheCamera = nullptr;
+	ThePlayer = nullptr;
+
 }
 
 bool Land::Initialize()

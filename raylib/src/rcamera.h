@@ -470,7 +470,7 @@ void UpdateCamera(Camera *camera, int mode)
 }
 #endif // !CAMERA_STANDALONE
 
-// Update camera movement, movement/rotation values should be provided by user
+// Update camera movement, movement/rotation values need to be provided by user in radians.
 void UpdateCameraPro(Camera *camera, Vector3 movement, Vector3 rotation, float zoom)
 {
     // Required values
@@ -488,9 +488,9 @@ void UpdateCameraPro(Camera *camera, Vector3 movement, Vector3 rotation, float z
     bool moveInWorldPlane = true;
 
     // Camera rotation
-    CameraPitch(camera, -rotation.y*DEG2RAD, lockView, rotateAroundTarget, rotateUp);
-    CameraYaw(camera, -rotation.x*DEG2RAD, rotateAroundTarget);
-    CameraRoll(camera, rotation.z*DEG2RAD);
+    CameraPitch(camera, -rotation.y, lockView, rotateAroundTarget, rotateUp);
+    CameraYaw(camera, -rotation.x, rotateAroundTarget);
+    CameraRoll(camera, rotation.z);
 
     // Camera movement
     CameraMoveForward(camera, movement.x, moveInWorldPlane);

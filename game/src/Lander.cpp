@@ -27,7 +27,7 @@ bool Lander::Initialize()
 	return false;
 }
 
-void Lander::SetShotModel(Model model)
+void Lander::SetShotModel(Model &model)
 {
 	for (auto &shot : Shots)
 	{
@@ -35,7 +35,12 @@ void Lander::SetShotModel(Model model)
 	}
 }
 
-bool Lander::BeginRun(Camera* camera)
+void Lander::SetPersonSound(Sound &person)
+{
+	PersonGrabbedSound = person;
+}
+
+bool Lander::BeginRun(Camera *camera)
 {
 	Enemy::BeginRun(camera);
 
@@ -98,7 +103,7 @@ void Lander::Spawn(Vector3 position)
 
 	State = GoingToGround;
 	ShotTimer.Reset(GetRandomFloat(1.1f, 1.75f));
-	PersonCaptured = nullptr;
+	PersonTarget = nullptr;
 
 	float velX = 0;
 
@@ -126,7 +131,7 @@ bool Lander::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
-
+		PlaySound(ExplodeSound);
 	}
 
 	return false;
@@ -137,16 +142,16 @@ void Lander::Reset()
 	Enemy::Reset();
 
 	State = GoingToGround;
-	PersonCaptured = nullptr;
+	PersonTarget = nullptr;
 }
 
 void Lander::Destroy()
 {
 	Enemy::Destroy();
 
-	if (PersonCaptured)
+	if (PersonTarget)
 	{
-		PersonCaptured->Dropped();
+		PersonTarget->Dropped();
 	}
 }
 
@@ -174,7 +179,7 @@ void Lander::SeekPersonMan()
 				ShotTimer.Reset(GetRandomFloat(0.275f, 0.4375f));
 				Velocity.x = 0;
 				Velocity.y = GetRandomFloat(-40.0f, -30.0f);
-				PersonCaptured = person;
+				PersonTarget = person;
 				person->State = Person::TargetedByLander;
 				return;
 			}
@@ -184,24 +189,25 @@ void Lander::SeekPersonMan()
 
 void Lander::FoundPersonManGoingDown()
 {
-	if (X() != PersonCaptured->X())
+	if (X() != PersonTarget->X())
 	{
-		if (X() > PersonCaptured->X())
+		if (X() > PersonTarget->X())
 		{
 			Velocity.x = -10.0f;
 		}
-		else if (X() < PersonCaptured->X())
+		else if (X() < PersonTarget->X())
 		{
 			Velocity.x = 10.0f;
 		}
-		else if (X() == PersonCaptured->X())
+		else if (X() == PersonTarget->X())
 		{
 			Velocity.x = 0;
 		}
 	}
 
-	if (Y() + 25 > PersonCaptured->Y() && Y() - 25 < PersonCaptured->Y())
+	if (Y() + 25 > PersonTarget->Y() && Y() - 25 < PersonTarget->Y())
 	{
+		PlaySound(PersonGrabbedSound);
 		State = PickUpPersonMan;
 		Velocity.y = GetRandomFloat(40, 60);
 		Velocity.x = 0;
@@ -216,13 +222,13 @@ void Lander::GrabPersonMan()
 		return;
 	}
 
-	PersonCaptured->Y(Y() -25.0f);
+	PersonTarget->Y(Y() -25.0f);
 }
 
 void Lander::SpawnMutatant()
 {
 	Velocity.y = 0;
-	PersonCaptured->Destroy();
+	PersonTarget->Destroy();
 	MutateLander = true;
 	Enemy::Reset();
 }

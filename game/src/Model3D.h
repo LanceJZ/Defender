@@ -11,15 +11,19 @@ public:
 	Color ModelColor = WHITE;
 	Color TheColor = WHITE;
 
+	Model3D();
+	~Model3D();
+
 	bool Initialize();
-	virtual void LoadModel(Model model, Texture2D texture);
+	virtual void LoadModel(Model &model, Texture2D &texture);
 	virtual bool BeginRun(Camera* camera);
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
 	virtual void AddChild(Model3D* child);
-	virtual void SetModel(Model model, float scale);
-	virtual Model GetModel();
+	virtual void SetModel(Model &model, float scale);
+	virtual void SetModelCopy(Model model, float scale);
+	virtual Model& GetModel();
 
 private:
 	Model TheModel;

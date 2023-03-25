@@ -53,17 +53,24 @@ void LanderMutantControl::SetMutantRadarModel(Model model)
 	MutantRadar = model;
 }
 
-void LanderMutantControl::SetPlayer(Player* player)
+void LanderMutantControl::SetPlayer(Player *player)
 {
 	ThePlayer = player;
 }
 
-void LanderMutantControl::SetData(SharedData* data)
+void LanderMutantControl::SetData(SharedData *data)
 {
 	Data = data;
 }
 
-bool LanderMutantControl::BeginRun(Camera* camera)
+void LanderMutantControl::SetSounds(Sound shot, Sound explode, Sound person)
+{
+	ShotSound = shot;
+	ExplodeSound = explode;
+	PersonGrabbedSound = person;
+}
+
+bool LanderMutantControl::BeginRun(Camera *camera)
 {
 	TheCamera = camera;
 
@@ -211,6 +218,8 @@ void LanderMutantControl::SpawnLanders(int count)
 				Landers[landerNumber]->SetRadarModel(LanderRadar, 3.0f);
 				Landers[landerNumber]->SetShotModel(ShotModel);
 				Landers[landerNumber]->SetPlayer(ThePlayer);
+				Landers[landerNumber]->SetSounds(ShotSound, ExplodeSound);
+				Landers[landerNumber]->SetPersonSound(PersonGrabbedSound);
 				Landers[landerNumber]->BeginRun(TheCamera);
 			}
 		}
@@ -255,6 +264,7 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 			Mutants[mutantNumber]->SetRadarModel(MutantRadar, 3.0f);
 			Mutants[mutantNumber]->SetShotModel(ShotModel);
 			Mutants[mutantNumber]->SetPlayer(ThePlayer);
+			Mutants[mutantNumber]->SetSounds(ShotSound, ExplodeSound);
 			Mutants[mutantNumber]->BeginRun(TheCamera);
 		}
 	}

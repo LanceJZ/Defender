@@ -1,6 +1,16 @@
 #include "Model3D.h"
 #include "rlgl.h"
 
+Model3D::Model3D()
+{
+}
+
+Model3D::~Model3D()
+{
+	Children.clear();
+	Parents.clear();
+	TheCamera = nullptr;}
+
 bool Model3D::Initialize()
 {
 	Entity::Initialize();
@@ -10,7 +20,7 @@ bool Model3D::Initialize()
 	return false;
 }
 
-void Model3D::LoadModel(Model model, Texture2D texture)
+void Model3D::LoadModel(Model &model, Texture2D &texture)
 {
 	if (IsTextureReady(texture))
 	{
@@ -92,9 +102,11 @@ void Model3D::Draw()
 				rlRotatef(parent->RotationX, 1, 0, 0);
 				rlRotatef(parent->RotationY, 0, 1, 0);
 				rlRotatef(parent->RotationZ, 0, 0, 1);
-				rlRotatef(parent->Rotation, parent->RotationAxis.x, parent->RotationAxis.y, parent->RotationAxis.z);
+				rlRotatef(parent->Rotation, parent->RotationAxis.x, parent->RotationAxis.y,
+					parent->RotationAxis.z);
 				rlScalef(parent->Scale, parent->Scale, parent->Scale);
-				rlColor4ub(parent->TheColor.r, parent->TheColor.g, parent->TheColor.b, parent->TheColor.a);
+				rlColor4ub(parent->TheColor.r, parent->TheColor.g, parent->TheColor.b,
+					parent->TheColor.a);
 			}
 		}
 
@@ -128,13 +140,19 @@ void Model3D::AddChild(Model3D* child)
 
 }
 
-void Model3D::SetModel(Model model, float scale)
+void Model3D::SetModel(Model &model, float scale)
 {
 	TheModel = model;
 	ModelScale = scale;
 }
 
-Model Model3D::GetModel()
+void Model3D::SetModelCopy(Model model, float scale)
+{
+	TheModel = model;
+	ModelScale = scale;
+}
+
+Model& Model3D::GetModel()
 {
 	return TheModel;
 }

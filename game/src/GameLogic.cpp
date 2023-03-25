@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.02");
+	SetWindowTitle("Defender Alpha 01.03");
 	ThePlayer.Initialize();
 	ControlLanderMutant.Initialize();
 	TheLand.Initialize();
@@ -87,8 +87,8 @@ void GameLogic::Load()
 		name.append(to_string(i + 1));
 		nameR.append(to_string(i + 1));
 
-		TheLand.LandParts[i].SetModel(LoadModelwithTexture(name), 50.0f);
-		TheLand.RadarLandParts[i].SetModel(LoadModelwithTexture(nameR), 3.18f);
+		TheLand.LandParts[i].SetModelCopy(LoadModelwithTexture(name), 50.0f);
+		TheLand.RadarLandParts[i].SetModelCopy(LoadModelwithTexture(nameR), 3.18f);
 	}
 
 	TheLand.SetUIBack(LoadModelwithTexture("UIBackface"));
@@ -120,11 +120,16 @@ void GameLogic::Load()
 	Swarmers.SetShotModel(shot);
 	Swarmers.SetPodRadarModel(LoadModelwithTexture("Pod Radar"));
 	Swarmers.SetSwarmerRadarModel(LoadModelwithTexture("Swarmer Radar"));
+
+	//********* Sounds ***************
+	ThePlayer.SetSounds(LoadSound("Sounds/Player Shot.wav"), LoadSound("Sounds/Player Explode.wav"),
+		LoadSound("Sounds/Player Thrust.wav"));
+	ControlLanderMutant.SetSounds(LoadSound("Sounds/Enemy Shot.wav"), LoadSound("Sounds/Enemy Explode.wav"),
+		LoadSound("Sounds/Person Grabbed.wav"));
 }
 
 bool GameLogic::BeginRun(Camera* camera)
 {
-	//TheCamera = camera;
 	ThePlayer.BeginRun(camera);
 	TheLand.SetPlayer(&ThePlayer);
 	ControlLanderMutant.SetPlayer(&ThePlayer);
@@ -143,7 +148,7 @@ bool GameLogic::BeginRun(Camera* camera)
 
 void GameLogic::Input()
 {
-	if (State != NewWave)
+	if (State == InPlay || State == WaveStart)
 		ThePlayer.Input();
 
 	if (IsKeyPressed(KEY_P))
@@ -182,12 +187,23 @@ void GameLogic::Update(float deltaTime)
 	}
 	else if (State == PlayerHit)
 	{
+		ThePlayer.Update(deltaTime);
+		PlayerDeathTimer.Update(deltaTime);
+
+		if (PlayerDeathTimer.Elapsed())
+		{
+			State = AfterPlayerHit;
+		}
+	}
+	else if (State == AfterPlayerHit)
+	{
 		PlayerResetTimer.Update(deltaTime);
-		UpdatePlayerLand(deltaTime);
 
 		if (PlayerResetTimer.Elapsed())
 		{
 			State = WaveStart;
+			WaveStartTimer.Reset();
+			ResetAfterExplode();
 		}
 	}
 	else if (State == WaveStart)
@@ -219,7 +235,7 @@ void GameLogic::Draw3D()
 		ThePlayer.Draw();
 		TheLand.Draw();
 
-		if (State == InPlay)
+		if (State == InPlay || State == PlayerHit)
 		{
 			ControlLanderMutant.Draw();
 			Bombers.Draw();
@@ -240,7 +256,7 @@ void GameLogic::Draw2D()
 		DrawText("Paused", (int)((GetScreenWidth() * 0.5f) - ((40 * 7) * 0.25f)),
 			(int)(GetScreenHeight() * 0.5f), 40, GRAY);
 	}
-	else if (State == PlayerHit)
+	else if (State == WaveStart)
 	{
 		DrawText("Get Ready", (int)((GetScreenWidth() * 0.5f) - ((40 * 10) * 0.25f)),
 			(int)(GetScreenHeight() * 0.5f), 40, GRAY);
@@ -277,12 +293,17 @@ void GameLogic::CheckEndOfWave()
 	}
 }
 
-void GameLogic::PlayerWasHit()
+void GameLogic::ResetAfterExplode()
 {
-	State = PlayerHit;
-	PlayerResetTimer.Reset(2.666f);
+	PlayerResetTimer.Reset(0.666f);
 	ThePlayer.Reset();
 	ControlLanderMutant.PlayerHitReset();
 	Bombers.Reset();
 	Swarmers.Reset();
+}
+
+void GameLogic::PlayerWasHit()
+{
+	State = PlayerHit;
+	PlayerDeathTimer.Reset(5.666f);
 }

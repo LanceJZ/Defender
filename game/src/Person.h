@@ -21,9 +21,9 @@ public:
 	virtual ~Person();
 
 	bool Initialize();
-	void SetRadar(Model model);
-	void SetPlayer(Player* player);
-	bool BeginRun(Camera* camera);
+	void SetRadar(Model &model);
+	void SetPlayer(Player *player);
+	bool BeginRun(Camera *camera);
 
 	void Update(float deltaTime);
 	void Draw();
@@ -35,10 +35,9 @@ public:
 
 private:
 	float DroppedY = 0;
-
 	EnemyRadarMirror RadarMirror;
 
-	Player* ThePlayer = nullptr;
+	Player *ThePlayer = nullptr;
 
 	void Falling();
 	void GoingForARide();

@@ -11,10 +11,10 @@ public:
 	virtual ~EnemyRadarMirror();
 
 	bool Initialize();
-	void SetRadarModel(Model model, float scale);
-	void SetMirrorModel(Model model, float scale);
-	void SetPlayer(Player* player);
-	bool BeginRun(Camera* camera);
+	void SetRadarModel(Model &model, float scale);
+	void SetMirrorModel(Model &model, float scale);
+	void SetPlayer(Player *player);
+	bool BeginRun(Camera *camera);
 	void PositionUpdate(bool enabled, Vector3 position);
 	void EnabledUpdate(bool enabled);
 	virtual void Update(float deltaTime);
@@ -22,8 +22,8 @@ public:
 
 private:
 	Vector3 OrgPosition = { 0 };
-	Camera* TheCamera = nullptr;
-	Player* ThePlayer = nullptr;
+	Camera *TheCamera = nullptr;
+	Player *ThePlayer = nullptr;
 	EnemyMirror Mirrors;
 
 	void UpdateRadar();

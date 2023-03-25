@@ -2,14 +2,13 @@
 
 Player::Player()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		//Shots[i] = new PlayerShot();
-	}
 }
 
 Player::~Player()
 {
+	UnloadSound(ShotSound);
+	UnloadSound(ExplodeSound);
+	UnloadSound(ThrustSound);
 }
 
 bool Player::Initialize()
@@ -64,20 +63,26 @@ void Player::SetRadarModel(Model model)
 	Radar.SetModel(model, 10.0f);
 }
 
+void Player::SetSounds(Sound shot, Sound explode, Sound thrust)
+{
+	ShotSound = shot;
+	ExplodeSound = explode;
+	ThrustSound = thrust;
+}
+
 bool Player::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
 
 	TheCamera = camera;
-	//Flame.ModelScale = 2.0f;
 	Flame.Position.x = -80.0f;
 	Flame.RotationVelocity = 50.0f;
 	Flame.RotationAxis.x = 1.0f;
 	Flame.BeginRun(camera);
 	AddChild(&Flame);
-
-	//Radar.ModelScale = 10;
 	Radar.BeginRun(camera);
+	SetSoundPitch(ThrustSound, 0.5f);
+	SetSoundPitch(ExplodeSound, 0.75f);
 
 	for (auto &shot : Shots)
 	{
@@ -175,6 +180,7 @@ void Player::Reset()
 	Acceleration = { 0, 0, 0 };
 	FacingRight = true;
 	RotationY = (PI * 2) - 0.045f;
+	Enabled = true;
 
 	for (auto &shot : Shots)
 	{
@@ -185,6 +191,11 @@ void Player::Reset()
 void Player::Hit()
 {
 	Entity::BeenHit = true;
+	PlaySound(ExplodeSound);
+	Velocity = { 0,0,0 };
+	Acceleration = { 0,0,0 };
+	Enabled = false;
+	ThrustOff();
 }
 
 void Player::CameraMovement()
@@ -347,6 +358,9 @@ void Player::Horzfriction()
 
 void Player::Thrust()
 {
+	if (!IsSoundPlaying(ThrustSound))
+		PlaySound(ThrustSound);
+
 	if (FacingRight)
 	{
 		MoveRight();
@@ -359,6 +373,8 @@ void Player::Thrust()
 
 void Player::ThrustOff()
 {
+	StopSound(ThrustSound);
+
 	if (Velocity.x > 0)
 	{
 		Acceleration.x = -ForwardAcceleration / (ForwardDrag / (Velocity.x * AirDrag));
@@ -373,6 +389,13 @@ void Player::ThrustOff()
 
 void Player::Fire()
 {
+	if (IsSoundPlaying(ShotSound))
+	{
+		StopSound(ShotSound);
+	}
+
+	PlaySound(ShotSound);
+
 	for (auto &shot : Shots)
 	{
 		if (!shot.Enabled)

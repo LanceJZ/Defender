@@ -11,6 +11,7 @@
 enum GameState
 {
 	PlayerHit,
+	AfterPlayerHit,
 	WaveStart,
 	NewWave,
 	Over,
@@ -41,10 +42,10 @@ public:
 
 private:
 	GameState State = WaveStart;
-	//Camera* TheCamera = nullptr;
 	Player ThePlayer;
 	Land TheLand;
 	Timer NewWaveTimer;
+	Timer PlayerDeathTimer;
 	Timer PlayerResetTimer;
 	Timer WaveStartTimer;
 	ScoreKeeper Score;
@@ -56,5 +57,6 @@ private:
 	void UpdatePlayerLand(float deltaTime);
 	void CheckEndOfWave();
 	void PlayerWasHit();
+	void ResetAfterExplode();
 };
 

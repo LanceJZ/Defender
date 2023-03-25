@@ -18,6 +18,7 @@ public:
 	void SetRadarModel(Model model, float scale);
 	void SetShotModel(Model model);
 	void SetPlayer(Player* player);
+	void SetSounds(Sound &shot, Sound &explode);
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -27,6 +28,8 @@ public:
 	virtual void Reset();
 
 protected:
+	Sound ShotSound = { 0 };
+	Sound ExplodeSound = { 0 };
 	Timer ShotTimer;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;

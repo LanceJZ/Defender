@@ -11,7 +11,7 @@ public:
 	virtual ~Mutant();
 
 	bool Initialize();
-	bool BeginRun(Camera* camera);
+	bool BeginRun(Camera *camera);
 
 	void Update(float deltaTime);
 	void Draw();

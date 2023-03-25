@@ -13,7 +13,7 @@ public:
 
 	bool Initialize();
 	void SetBomb(Model model);
-	bool BeginRun(Camera* camera);
+	bool BeginRun(Camera *camera);
 
 	void Update(float deltaTime);
 	void Draw();

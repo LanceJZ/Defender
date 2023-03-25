@@ -23,9 +23,10 @@ public:
 	void SetPersonModel(Model model);
 	void SetPersonRadar(Model model);
 	void SetMutantRadarModel(Model model);
-	void SetPlayer(Player* player);
-	void SetData(SharedData* data);
-	bool BeginRun(Camera* camera);
+	void SetPlayer(Player *player);
+	void SetData(SharedData *data);
+	void SetSounds(Sound shot, Sound explode, Sound person);
+	bool BeginRun(Camera *camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
@@ -48,6 +49,9 @@ private:
 	Model PersonRadar = { 0 };
 	Model MutantRadar = { 0 };
 
+	Sound ShotSound = { 0 };
+	Sound ExplodeSound = { 0 };
+	Sound PersonGrabbedSound = { 0 };
 	Timer SpawnTimer;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;

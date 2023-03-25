@@ -8,6 +8,8 @@ Enemy::~Enemy()
 {
 	ThePlayer = nullptr;
 	TheCamera = nullptr;
+	UnloadSound(ShotSound);
+	UnloadSound(ExplodeSound);
 }
 
 bool Enemy::Initialize()
@@ -16,7 +18,7 @@ bool Enemy::Initialize()
 
 	RadarMirror.Initialize();
 
-	ShotTimer.Set(1);
+	ShotTimer.Set(GetRandomFloat(1.0f, 2.0f));
 
 	for (auto &shot : Shots)
 	{
@@ -50,6 +52,12 @@ void Enemy::SetPlayer(Player* player)
 	}
 }
 
+void Enemy::SetSounds(Sound &shot, Sound &explode)
+{
+	ShotSound = shot;
+	ExplodeSound = explode;
+}
+
 bool Enemy::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
@@ -58,6 +66,7 @@ bool Enemy::BeginRun(Camera* camera)
 
 	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
 	RadarMirror.BeginRun(camera);
+	SetSoundVolume(ShotSound, 0.25f);
 
 	for (auto &shot : Shots)
 	{
@@ -135,6 +144,8 @@ bool Enemy::CheckCollision()
 
 void Enemy::FireShot()
 {
+	PlaySound(ShotSound);
+
 	for (auto &shot : Shots)
 	{
 		if (!shot.Enabled)
