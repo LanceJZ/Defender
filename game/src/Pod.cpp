@@ -47,11 +47,6 @@ void Pod::SetData(SharedData* data)
 	Data = data;
 }
 
-void Pod::SetExplosion(ExplosionControl* explosion)
-{
-	Explosion = explosion;
-}
-
 bool Pod::BeginRun(Camera* camera)
 {
 	Enemy::BeginRun(camera);

@@ -14,7 +14,6 @@ public:
 
 	bool Initialize();
 	void SetBomb(Model model);
-	void SetExplosion(ExplosionControl* explosion);
 
 	bool BeginRun(Camera *camera);
 
@@ -28,7 +27,6 @@ public:
 private:
 	Model BombModel = { 0 };
 	Timer DropBombTimer;
-	ExplosionControl* Explosion = nullptr;
 
 	void DropABomb();
 	bool CheckCollision();

@@ -29,11 +29,6 @@ void Bomber::SetBomb(Model model)
 	BombModel = model;
 }
 
-void Bomber::SetExplosion(ExplosionControl* explosion)
-{
-	Explosion = explosion;
-}
-
 bool Bomber::BeginRun(Camera* camera)
 {
 	Enemy::BeginRun(camera);

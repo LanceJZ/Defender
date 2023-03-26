@@ -18,11 +18,6 @@ bool Swarmer::Initialize()
 	return false;
 }
 
-void Swarmer::SetExplosion(ExplosionControl* explosion)
-{
-	Explosion = explosion;
-}
-
 bool Swarmer::BeginRun(Camera* camera)
 {
 	Enemy::BeginRun(camera);

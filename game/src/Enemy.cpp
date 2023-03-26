@@ -56,6 +56,11 @@ void Enemy::SetSounds(Sound &shot, Sound &explode)
 	ExplodeSound = explode;
 }
 
+void Enemy::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
+}
+
 bool Enemy::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
@@ -64,7 +69,7 @@ bool Enemy::BeginRun(Camera* camera)
 
 	RadarMirror.SetMirrorModel(GetModel(), ModelScale);
 	RadarMirror.BeginRun(camera);
-	SetSoundVolume(ShotSound, 0.25f);
+	SetSoundVolume(ShotSound, 0.5f);
 
 	for (auto &shot : Shots)
 	{
@@ -106,7 +111,8 @@ void Enemy::Draw()
 
 bool Enemy::CheckCollision()
 {
-	if (CirclesIntersect(ThePlayer))
+	if (CirclesIntersect(ThePlayer) || CirclesIntersect(&ThePlayer->BackCollusion) ||
+		CirclesIntersect(&ThePlayer->FrontCollusion))
 	{
 		Destroy();
 		ThePlayer->Hit();
@@ -117,7 +123,9 @@ bool Enemy::CheckCollision()
 	{
 		if (shot.Enabled)
 		{
-			if (ThePlayer->CirclesIntersect(&shot))
+			if (ThePlayer->CirclesIntersect(&shot) ||
+				ThePlayer->BackCollusion.CirclesIntersect(&shot) ||
+				ThePlayer->FrontCollusion.CirclesIntersect(&shot))
 			{
 				ThePlayer->Hit();
 			}

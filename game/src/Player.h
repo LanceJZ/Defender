@@ -6,10 +6,12 @@
 class Player : public Model3D
 {
 public:
-	PlayerShot Shots[(int)4];
-
 	Player();
 	virtual ~Player();
+
+	PlayerShot Shots[(int)4];
+	Entity BackCollusion;
+	Entity FrontCollusion;
 
 	bool Initialize();
 	void SetModel(Model model);

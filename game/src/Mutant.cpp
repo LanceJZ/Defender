@@ -18,11 +18,6 @@ bool Mutant::Initialize()
 	return false;
 }
 
-void Mutant::SetExplosion(ExplosionControl* explosion)
-{
-	Explosion = explosion;
-}
-
 bool Mutant::BeginRun(Camera* camera)
 {
 	Enemy::BeginRun(camera);

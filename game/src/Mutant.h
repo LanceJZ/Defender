@@ -12,7 +12,6 @@ public:
 	virtual ~Mutant();
 
 	bool Initialize();
-	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera *camera);
 	void Update(float deltaTime);
 	void Draw();
@@ -26,7 +25,6 @@ private:
 
 	Timer ShotTimer;
 	Timer ChangeSpeedTimer;
-	ExplosionControl* Explosion = nullptr;
 
 	void FireShot();
 	void ChasePlayer();

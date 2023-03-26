@@ -18,7 +18,6 @@ public:
 	void SetSwarmerModel(Model model);
 	void SetSwarmerRadarModel(Model model);
 	void SetData(SharedData* data);
-	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
@@ -33,7 +32,6 @@ private:
 	Model ShotModel = { 0 };
 
 	SharedData* Data = nullptr;
-	ExplosionControl* Explosion = nullptr;
 
 	void SpawnSwarmers(int count);
 	bool CheckCollision();

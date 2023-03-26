@@ -13,6 +13,7 @@ Game::~Game()
 
 bool Game::Initialize()
 {
+	SetConfigFlags(FLAG_VSYNC_HINT);
 	InitWindow(1280, 960, "Defender"); //Screen width, height and Window title.
 	InitAudioDevice();
 	SetTargetFPS(60);

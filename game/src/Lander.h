@@ -27,7 +27,6 @@ public:
 	bool Initialize();
 	void SetShotModel(Model &model);
 	void SetPersonSound(Sound &person);
-	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
@@ -41,7 +40,6 @@ private:
 	StateList State = GoingToGround;
 	Sound PersonGrabbedSound = { 0 };
 	Person* PersonTarget = nullptr;
-	ExplosionControl* Explosion = nullptr;
 
 	void GoToGround();
 	void SeekPersonMan();

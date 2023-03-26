@@ -19,6 +19,7 @@ public:
 	void SetShotModel(Model model);
 	void SetPlayer(Player* player);
 	void SetSounds(Sound &shot, Sound &explode);
+	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -33,6 +34,7 @@ protected:
 	Timer ShotTimer;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
+	ExplosionControl* Explosion = nullptr;
 
 	virtual bool CheckCollision();
 	virtual void Destroy();

@@ -23,13 +23,22 @@ bool Player::Initialize()
 {
 	Model3D::Initialize();
 
-	Radius = 13.0f;
+	Flame.Initialize();
+	Radar.Initialize();
+	BackCollusion.Initialize();
+	FrontCollusion.Initialize();
+
+	Radius = 8.25f;
+	BackCollusion.Radius = 12.0f;
+	FrontCollusion.Radius = 5.5f;
 	Cull = false;
 	Flame.Cull = false;
 	Radar.Cull = false;
 	Enabled = false;
 	Flame.Enabled = false;
 	Radar.Enabled = false;
+	BackCollusion.Enabled = false;
+	FrontCollusion.Enabled = false;
 	RotationY = (PI * 2) - 0.045f;
 
 	for (auto &shot : Shots)
@@ -101,6 +110,8 @@ bool Player::BeginRun(Camera* camera)
 	Radar.BeginRun(camera);
 	SetSoundPitch(ThrustSound, 0.5f);
 	SetSoundPitch(ExplodeSound, 0.75f);
+	SetSoundVolume(ThrustSound, 0.5f);
+	SetSoundVolume(ShotSound, 0.5f);
 
 	for (auto &shot : Shots)
 	{
@@ -160,6 +171,7 @@ void Player::Update(float deltaTime)
 	Model3D::Update(deltaTime);
 
 	Flame.Update(deltaTime);
+	BackCollusion.Update(deltaTime);
 
 	for (auto &shot : Shots)
 	{
@@ -172,6 +184,20 @@ void Player::Update(float deltaTime)
 	if (RotateFacing)
 		RotateShipFacing();
 
+	if (FacingRight)
+	{
+		BackCollusion.Position.x = Position.x - 18.0f;
+		FrontCollusion.Position.x = Position.x + 18.0f;
+	}
+	else
+	{
+		BackCollusion.Position.x = Position.x + 18.0f;
+		FrontCollusion.Position.x = Position.x - 18.0f;
+	}
+
+	BackCollusion.Position.y = Position.y;
+	FrontCollusion.Position.y = Position.y;
+
 	CameraMovement();
 	RadarMovement();
 }
@@ -182,6 +208,8 @@ void Player::Draw()
 
 	Flame.Draw();
 	Radar.Draw();
+	BackCollusion.Draw();
+	FrontCollusion.Draw();
 
 	for (auto &shot : Shots)
 	{
@@ -200,6 +228,8 @@ void Player::Reset()
 	RotationY = (PI * 2) - 0.045f;
 	Enabled = true;
 	Radar.Enabled = true;
+	BackCollusion.Enabled = true;
+	FrontCollusion.Enabled = true;
 
 	for (auto &shot : Shots)
 	{
@@ -214,8 +244,10 @@ void Player::Hit()
 	Velocity = { 0,0,0 };
 	Acceleration = { 0,0,0 };
 	Enabled = false;
+	BackCollusion.Enabled = false;
+	FrontCollusion.Enabled = false;
 	ThrustOff();
-	Explosion->Spawn(Position, 100, 5.75f);
+	Explosion->Spawn(Position, 100, 5.5f);
 }
 
 void Player::CameraMovement()
@@ -278,6 +310,8 @@ void Player::RotateShipFacing()
 		{
 			RotateFacing = false;
 		}
+
+		BackCollusion.Position.x = -24.0f;
 	}
 	else
 	{
@@ -289,6 +323,8 @@ void Player::RotateShipFacing()
 		{
 			RotateFacing = false;
 		}
+
+		BackCollusion.Position.x = 24.0f;
 	}
 }
 

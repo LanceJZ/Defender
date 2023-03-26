@@ -11,7 +11,6 @@ public:
 	virtual ~Swarmer();
 
 	bool Initialize();
-	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
@@ -25,7 +24,6 @@ private:
 	float YVolocity = 0;
 
 	Timer AfterSpawnTimer;
-	ExplosionControl* Explosion = nullptr;
 
 	void FireShot();
 	void AfterSpawnMovement();

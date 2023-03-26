@@ -47,14 +47,11 @@ void Lander::SetPersonSound(Sound &person)
 	PersonGrabbedSound = person;
 }
 
-void Lander::SetExplosion(ExplosionControl* explosion)
-{
-	Explosion = explosion;
-}
-
 bool Lander::BeginRun(Camera *camera)
 {
 	Enemy::BeginRun(camera);
+
+	SetSoundVolume(PersonGrabbedSound, 0.75f);
 
 	return false;
 }
