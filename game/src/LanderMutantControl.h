@@ -26,6 +26,7 @@ public:
 	void SetPlayer(Player *player);
 	void SetData(SharedData *data);
 	void SetSounds(Sound shot, Sound explode, Sound person);
+	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera *camera);
 
 	virtual void Update(float deltaTime);
@@ -56,6 +57,7 @@ private:
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
 	SharedData* Data = nullptr;
+	ExplosionControl* Explosion = nullptr;
 
 	void SpawnMoreLanders();
 	void SpawnLanders(int count);

@@ -1,6 +1,7 @@
 #pragma once
 #include "Model3D.h"
 #include "PlayerShot.h"
+#include "ExplosionControl.h"
 
 class Player : public Model3D
 {
@@ -17,6 +18,7 @@ public:
 	void SetTailModel(Model model);
 	void SetRadarModel(Model model);
 	void SetSounds(Sound shot, Sound explode, Sound thrust);
+	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
 	void Input();
@@ -41,9 +43,13 @@ private:
 	Sound ShotSound = { 0 };
 	Sound ExplodeSound = { 0 };
 	Sound ThrustSound = { 0 };
+	Model ShotModel;
+	Model ShotTrailModel;
+	Model RadarModel;
 	Model3D Flame;
 	Model3D Radar;
 	Camera* TheCamera = nullptr;
+	ExplosionControl* Explosion = nullptr;
 
 	void CameraMovement();
 	void RadarMovement();

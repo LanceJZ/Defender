@@ -7,6 +7,7 @@
 #include "SwarmerControl.h"
 #include "ScoreKeeper.h"
 #include "SharedData.h"
+#include "ExplosionControl.h"
 
 enum GameState
 {
@@ -41,7 +42,7 @@ public:
 	void Draw2D();
 
 private:
-	GameState State = WaveStart;
+	GameState State = MainMenu;
 	Player ThePlayer;
 	Land TheLand;
 	Timer NewWaveTimer;
@@ -50,7 +51,10 @@ private:
 	Timer WaveStartTimer;
 	ScoreKeeper Score;
 	SharedData Data;
+	ExplosionControl Explosions;
+
 	LanderMutantControl ControlLanderMutant;
+
 	BomberControl Bombers;
 	SwarmerControl Swarmers;
 

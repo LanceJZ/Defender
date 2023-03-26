@@ -6,14 +6,20 @@ Bomber::Bomber()
 
 Bomber::~Bomber()
 {
+	for (int i = 0; i < Bombs.size(); i++)
+	{
+		delete Bombs[i];
+	}
+
 	Bombs.clear();
+	Explosion = nullptr;
 }
 
 bool Bomber::Initialize()
 {
 	Enemy::Initialize();
 
-	Radius = 14.0f;
+	Radius = 12.0f;
 
 	return false;
 }
@@ -21,6 +27,11 @@ bool Bomber::Initialize()
 void Bomber::SetBomb(Model model)
 {
 	BombModel = model;
+}
+
+void Bomber::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
 }
 
 bool Bomber::BeginRun(Camera* camera)
@@ -100,7 +111,7 @@ bool Bomber::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
-
+		Explosion->Spawn(Position, 10, 1.5f);
 	}
 
 	return false;

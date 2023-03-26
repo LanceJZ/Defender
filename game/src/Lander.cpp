@@ -10,6 +10,13 @@ Lander::Lander()
 
 Lander::~Lander()
 {
+	for (int i = 0; i < 10; i++)
+	{
+		People[i] = nullptr;
+	}
+
+	PersonTarget = nullptr;
+	Explosion = nullptr;
 }
 
 bool Lander::Initialize()
@@ -38,6 +45,11 @@ void Lander::SetShotModel(Model &model)
 void Lander::SetPersonSound(Sound &person)
 {
 	PersonGrabbedSound = person;
+}
+
+void Lander::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
 }
 
 bool Lander::BeginRun(Camera *camera)
@@ -132,6 +144,7 @@ bool Lander::CheckCollision()
 	if (Enemy::CheckCollision())
 	{
 		PlaySound(ExplodeSound);
+		Explosion->Spawn(Position, 10, 1.5f);
 	}
 
 	return false;

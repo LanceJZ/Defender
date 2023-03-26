@@ -6,7 +6,17 @@ BomberControl::BomberControl()
 
 BomberControl::~BomberControl()
 {
+	for (int i = 0; i < Bombers.size(); i++)
+	{
+		delete Bombers[i];
+	}
+
 	Bombers.clear();
+
+	UnloadModel(BomberModel);
+	UnloadModel(BombModel);
+	UnloadModel(BomberRadarModel);
+	Explosion = nullptr;
 }
 
 bool BomberControl::Initialize()
@@ -38,6 +48,11 @@ void BomberControl::SetPlayer(Player* player)
 void BomberControl::SetData(SharedData* data)
 {
 	Data = data;
+}
+
+void BomberControl::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
 }
 
 bool BomberControl::BeginRun(Camera* camera)
@@ -111,16 +126,17 @@ void BomberControl::SpawnBombers(int amount)
 		if (spawnNew)
 		{
 			Bombers.push_back(new Bomber());
+			Bombers[spawnNumber]->Initialize();
 			Bombers[spawnNumber]->SetModel(BomberModel, 10.0f);
 			Bombers[spawnNumber]->SetBomb(BombModel);
 			Bombers[spawnNumber]->SetRadarModel(BomberRadarModel, 3.0f);
 			Bombers[spawnNumber]->SetPlayer(ThePlayer);
+			Bombers[spawnNumber]->SetExplosion(Explosion);
 			Bombers[spawnNumber]->BeginRun(TheCamera);
 		}
 
 		float xLine = GetRandomFloat(GetScreenWidth() * 2.5f, GetScreenWidth() * 3.5f);
 		float xVol = GetRandomFloat(-75, -25);
-		Bombers[spawnNumber]->Initialize();
 		Bombers[spawnNumber]->Spawn({xLine + GetRandomFloat(-100, 100),
 			GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f), 0}, xVol);
 	}

@@ -1,6 +1,7 @@
 #pragma once
 #include "Bomber.h"
 #include "SharedData.h"
+#include "ExplosionControl.h"
 
 class BomberControl : Common
 {
@@ -16,7 +17,7 @@ public:
 	void SetBomberRadar(Model model);
 	void SetPlayer(Player* player);
 	void SetData(SharedData* data);
-
+	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
@@ -32,6 +33,7 @@ private:
 	SharedData* Data;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
+	ExplosionControl* Explosion = nullptr;
 
 	void SpawnBombers(int amount);
 };

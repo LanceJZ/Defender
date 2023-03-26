@@ -67,3 +67,9 @@ void EnemyMirror::EnabledUpdate(bool enabled)
 	MirrorL.Enabled = enabled;
 	MirrorR.Enabled = enabled;
 }
+
+void EnemyMirror::DeleteModels()
+{
+	UnloadModel(MirrorL.GetModel());
+	UnloadModel(MirrorR.GetModel());
+}

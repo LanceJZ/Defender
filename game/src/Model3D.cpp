@@ -7,9 +7,20 @@ Model3D::Model3D()
 
 Model3D::~Model3D()
 {
-	Children.clear();
-	Parents.clear();
-	TheCamera = nullptr;}
+	if (IsChild)
+	{
+		Children.clear();
+		IsChild = false;
+	}
+
+	if (IsParent)
+	{
+		Parents.clear();
+		IsParent = false;
+	}
+
+	TheCamera = nullptr;
+}
 
 bool Model3D::Initialize()
 {
@@ -155,6 +166,11 @@ void Model3D::SetModelCopy(Model model, float scale)
 Model& Model3D::GetModel()
 {
 	return TheModel;
+}
+
+void Model3D::UnloadModel3D(Model &model)
+{
+	UnloadModel(model);
 }
 
 void Model3D::AddChildren(Model3D* child)

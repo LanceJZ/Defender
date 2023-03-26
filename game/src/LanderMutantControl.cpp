@@ -7,8 +7,27 @@ LanderMutantControl::LanderMutantControl()
 LanderMutantControl::~LanderMutantControl()
 {
 	Data = nullptr;
+
+	for (int i = 0; i < Landers.size(); i++)
+	{
+		delete Landers[i];
+	}
+
+	for (int i = 0; i < Mutants.size(); i++)
+	{
+		delete Mutants[i];
+	}
+
 	Landers.clear();
 	Mutants.clear();
+
+	UnloadModel(ShotModel);
+	UnloadModel(LanderModel);
+	UnloadModel(MutantModel);
+	UnloadModel(PersonModel);
+	UnloadModel(LanderRadar);
+	UnloadModel(MutantRadar);
+	UnloadModel(PersonRadar);
 }
 
 bool LanderMutantControl::Initialize()
@@ -68,6 +87,11 @@ void LanderMutantControl::SetSounds(Sound shot, Sound explode, Sound person)
 	ShotSound = shot;
 	ExplodeSound = explode;
 	PersonGrabbedSound = person;
+}
+
+void LanderMutantControl::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
 }
 
 bool LanderMutantControl::BeginRun(Camera *camera)
@@ -195,12 +219,14 @@ void LanderMutantControl::SpawnLanders(int count)
 	{
 		bool spawnNew = true;
 		int landerNumber = 0;
+		int landerSpawnNumber = (int)Landers.size();
 
 		for (auto lander : Landers)
 		{
 			if (!lander->Enabled)
 			{
 				spawnNew = false;
+				landerSpawnNumber = landerNumber;
 				break;
 			}
 
@@ -210,27 +236,27 @@ void LanderMutantControl::SpawnLanders(int count)
 
 		if (spawnNew)
 		{
-			landerNumber = (int)Landers.size();
 			Landers.push_back(new Lander());
 			{
-				Landers[landerNumber]->Initialize();
-				Landers[landerNumber]->SetModel(LanderModel, 14.0f);
-				Landers[landerNumber]->SetRadarModel(LanderRadar, 3.0f);
-				Landers[landerNumber]->SetShotModel(ShotModel);
-				Landers[landerNumber]->SetPlayer(ThePlayer);
-				Landers[landerNumber]->SetSounds(ShotSound, ExplodeSound);
-				Landers[landerNumber]->SetPersonSound(PersonGrabbedSound);
-				Landers[landerNumber]->BeginRun(TheCamera);
+				Landers[landerSpawnNumber]->Initialize();
+				Landers[landerSpawnNumber]->SetModel(LanderModel, 14.0f);
+				Landers[landerSpawnNumber]->SetRadarModel(LanderRadar, 3.0f);
+				Landers[landerSpawnNumber]->SetShotModel(ShotModel);
+				Landers[landerSpawnNumber]->SetPlayer(ThePlayer);
+				Landers[landerSpawnNumber]->SetExplosion(Explosion);
+				Landers[landerSpawnNumber]->SetSounds(ShotSound, ExplodeSound);
+				Landers[landerSpawnNumber]->SetPersonSound(PersonGrabbedSound);
+				Landers[landerSpawnNumber]->BeginRun(TheCamera);
 			}
 		}
 
 		float x = GetRandomFloat((-GetScreenWidth() * screenMulti), (GetScreenWidth() * screenMulti));
 		float y = GetScreenHeight() * 0.333f;
-		Landers[landerNumber]->Spawn({x, y, 0});
+		Landers[landerSpawnNumber]->Spawn({x, y, 0});
 
 		for (int i = 0; i < 10; i++)
 		{
-			Landers[landerNumber]->People[i] = &People[i];
+			Landers[landerSpawnNumber]->People[i] = &People[i];
 		}
 	}
 
@@ -242,12 +268,14 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 {
 	bool spawnNew = true;
 	int mutantNumber = 0;
+	int mutantSpawnNumber = (int)Mutants.size();
 
 	for (auto mutant : Mutants)
 	{
 		if (!mutant->Enabled)
 		{
 			spawnNew = false;
+			mutantSpawnNumber = mutantNumber;
 			break;
 		}
 
@@ -256,20 +284,20 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 
 	if (spawnNew)
 	{
-		mutantNumber = (int)Mutants.size();
 		Mutants.push_back(new Mutant());
 		{
-			Mutants[mutantNumber]->Initialize();
-			Mutants[mutantNumber]->SetModel(MutantModel, 14.0f);
-			Mutants[mutantNumber]->SetRadarModel(MutantRadar, 3.0f);
-			Mutants[mutantNumber]->SetShotModel(ShotModel);
-			Mutants[mutantNumber]->SetPlayer(ThePlayer);
-			Mutants[mutantNumber]->SetSounds(ShotSound, ExplodeSound);
-			Mutants[mutantNumber]->BeginRun(TheCamera);
+			Mutants[mutantSpawnNumber]->Initialize();
+			Mutants[mutantSpawnNumber]->SetModel(MutantModel, 14.0f);
+			Mutants[mutantSpawnNumber]->SetRadarModel(MutantRadar, 3.0f);
+			Mutants[mutantSpawnNumber]->SetShotModel(ShotModel);
+			Mutants[mutantSpawnNumber]->SetPlayer(ThePlayer);
+			Mutants[mutantSpawnNumber]->SetExplosion(Explosion);
+			Mutants[mutantSpawnNumber]->SetSounds(ShotSound, ExplodeSound);
+			Mutants[mutantSpawnNumber]->BeginRun(TheCamera);
 		}
 	}
 
-	Mutants[mutantNumber]->Spawn(lander->Position);
+	Mutants[mutantSpawnNumber]->Spawn(lander->Position);
 	lander->Enabled = false;
 }
 

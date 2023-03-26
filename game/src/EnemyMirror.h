@@ -17,6 +17,7 @@ public:
 
 	void PositionUpdate(bool enabled, Vector3 position);
 	void EnabledUpdate(bool enabled);
+	void DeleteModels();
 
 private:
 	float X = 0;

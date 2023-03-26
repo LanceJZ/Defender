@@ -6,6 +6,7 @@ Mutant::Mutant()
 
 Mutant::~Mutant()
 {
+	Explosion = nullptr;
 }
 
 bool Mutant::Initialize()
@@ -15,6 +16,11 @@ bool Mutant::Initialize()
 	Radius = 14.0f;
 
 	return false;
+}
+
+void Mutant::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
 }
 
 bool Mutant::BeginRun(Camera* camera)
@@ -149,7 +155,7 @@ bool Mutant::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
-
+		Explosion->Spawn(Position, 10, 1.5f);
 	}
 
 	return false;

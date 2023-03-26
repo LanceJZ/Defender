@@ -6,7 +6,21 @@ SwarmerControl::SwarmerControl()
 
 SwarmerControl::~SwarmerControl()
 {
+	for (int i = 0; i < Pods.size(); i++)
+	{
+		delete Pods[i];
+	}
+
 	Pods.clear();
+	ThePlayer = nullptr;
+	TheCamera = nullptr;
+	Data = nullptr;
+	Explosion = nullptr;
+
+	UnloadModel(PodModel);
+	UnloadModel(SwarmerModel);
+	UnloadModel(PodRadarModel);
+	UnloadModel(SwarmerRadarModel);
 }
 
 bool SwarmerControl::Initialize()
@@ -48,6 +62,11 @@ void SwarmerControl::SetPlayer(Player* player)
 void SwarmerControl::SetData(SharedData* data)
 {
 	Data = data;
+}
+
+void SwarmerControl::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
 }
 
 bool SwarmerControl::BeginRun(Camera* camera)
@@ -130,6 +149,7 @@ void SwarmerControl::SpawnPods(int count)
 			Pods[spawnNumber]->SetSwarmerRadarModel(SwarmerRadarModel);
 			Pods[spawnNumber]->SetPlayer(ThePlayer);
 			Pods[spawnNumber]->SetData(Data);
+			Pods[spawnNumber]->SetExplosion(Explosion);
 			Pods[spawnNumber]->BeginRun(TheCamera);
 		}
 

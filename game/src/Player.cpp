@@ -9,6 +9,14 @@ Player::~Player()
 	UnloadSound(ShotSound);
 	UnloadSound(ExplodeSound);
 	UnloadSound(ThrustSound);
+	UnloadModel(GetModel());
+	UnloadModel(Flame.GetModel());
+	UnloadModel(ShotModel);
+	UnloadModel(ShotTrailModel);
+	UnloadModel(RadarModel);
+
+	TheCamera = nullptr;
+	Explosion = nullptr;
 }
 
 bool Player::Initialize()
@@ -19,15 +27,15 @@ bool Player::Initialize()
 	Cull = false;
 	Flame.Cull = false;
 	Radar.Cull = false;
-	//ModelScale = 2.0f;
+	Enabled = false;
+	Flame.Enabled = false;
+	Radar.Enabled = false;
 	RotationY = (PI * 2) - 0.045f;
 
 	for (auto &shot : Shots)
 	{
 		shot.Initialize();
 	}
-
-	Reset();
 
 	return false;
 }
@@ -48,6 +56,8 @@ void Player::SetShotModel(Model model)
 	{
 		shot.SetModel(model, 3.0f);
 	}
+
+	ShotModel = model;
 }
 
 void Player::SetTailModel(Model model)
@@ -56,11 +66,14 @@ void Player::SetTailModel(Model model)
 	{
 		shot.SetTailModel(model);
 	}
+
+	ShotTrailModel = model;
 }
 
 void Player::SetRadarModel(Model model)
 {
 	Radar.SetModel(model, 10.0f);
+	RadarModel = model;
 }
 
 void Player::SetSounds(Sound shot, Sound explode, Sound thrust)
@@ -68,6 +81,11 @@ void Player::SetSounds(Sound shot, Sound explode, Sound thrust)
 	ShotSound = shot;
 	ExplodeSound = explode;
 	ThrustSound = thrust;
+}
+
+void Player::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
 }
 
 bool Player::BeginRun(Camera* camera)
@@ -181,6 +199,7 @@ void Player::Reset()
 	FacingRight = true;
 	RotationY = (PI * 2) - 0.045f;
 	Enabled = true;
+	Radar.Enabled = true;
 
 	for (auto &shot : Shots)
 	{
@@ -196,6 +215,7 @@ void Player::Hit()
 	Acceleration = { 0,0,0 };
 	Enabled = false;
 	ThrustOff();
+	Explosion->Spawn(Position, 100, 5.75f);
 }
 
 void Player::CameraMovement()

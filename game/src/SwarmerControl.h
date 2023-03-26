@@ -1,6 +1,7 @@
 #pragma once
 #include "Pod.h"
 #include "SharedData.h"
+#include "ExplosionControl.h"
 
 class SwarmerControl : Common
 {
@@ -18,7 +19,7 @@ public:
 	void SetSwarmerRadarModel(Model model);
 	void SetPlayer(Player* player);
 	void SetData(SharedData* data);
-
+	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -36,7 +37,8 @@ private:
 
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
-	SharedData* Data;
+	SharedData* Data = nullptr;
+	ExplosionControl* Explosion = nullptr;
 
 	void SpawnPods(int count);
 };

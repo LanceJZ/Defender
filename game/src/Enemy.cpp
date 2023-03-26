@@ -8,8 +8,6 @@ Enemy::~Enemy()
 {
 	ThePlayer = nullptr;
 	TheCamera = nullptr;
-	UnloadSound(ShotSound);
-	UnloadSound(ExplodeSound);
 }
 
 bool Enemy::Initialize()

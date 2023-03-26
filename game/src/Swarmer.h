@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Enemy.h"
 #include "Timer.h"
+#include "ExplosionControl.h"
 
 class Swarmer : public Enemy
 {
@@ -10,6 +11,7 @@ public:
 	virtual ~Swarmer();
 
 	bool Initialize();
+	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
@@ -23,6 +25,7 @@ private:
 	float YVolocity = 0;
 
 	Timer AfterSpawnTimer;
+	ExplosionControl* Explosion = nullptr;
 
 	void FireShot();
 	void AfterSpawnMovement();

@@ -14,7 +14,7 @@ public:
 	Model3D();
 	~Model3D();
 
-	bool Initialize();
+	virtual bool Initialize();
 	virtual void LoadModel(Model &model, Texture2D &texture);
 	virtual bool BeginRun(Camera* camera);
 	virtual void Update(float deltaTime);
@@ -24,6 +24,7 @@ public:
 	virtual void SetModel(Model &model, float scale);
 	virtual void SetModelCopy(Model model, float scale);
 	virtual Model& GetModel();
+	void UnloadModel3D(Model &model);
 
 private:
 	Model TheModel;

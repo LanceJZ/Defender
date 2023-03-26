@@ -7,7 +7,14 @@ Pod::Pod()
 
 Pod::~Pod()
 {
+	for (int i = 0; i < Swarmers.size(); i++)
+	{
+		delete Swarmers[i];
+	}
+
 	Swarmers.clear();
+	Data = nullptr;
+	Explosion = nullptr;
 }
 
 bool Pod::Initialize()
@@ -40,11 +47,14 @@ void Pod::SetData(SharedData* data)
 	Data = data;
 }
 
+void Pod::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
+}
+
 bool Pod::BeginRun(Camera* camera)
 {
 	Enemy::BeginRun(camera);
-
-	TheCamera = camera;
 
 	return false;
 }
@@ -116,24 +126,43 @@ void Pod::Reset()
 
 void Pod::SpawnSwarmers(int count)
 {
+
 	for (int i = 0; i < count; i++)
 	{
-		Swarmers.push_back(new Swarmer());
+		bool spawnNew = true;
+		int swarmerSpawnNumber = (int)Swarmers.size();
+		int swarmerNumber = 0;
+		float xVol = GetRandomFloat(65.0f, 75.0f);
+		float yVol = GetRandomFloat(55.0f, 65.0f);
+
+		for (auto swarmer : Swarmers)
+		{
+			if (!swarmer->Enabled)
+			{
+				spawnNew = false;
+				swarmerSpawnNumber = swarmerNumber;
+				break;
+			}
+
+			swarmerNumber++;
+		}
+
+		if (spawnNew)
+		{
+			Swarmers.push_back(new Swarmer());
+			Swarmers[swarmerSpawnNumber]->Initialize();
+			Swarmers[swarmerSpawnNumber]->SetModel(SwarmerModel, 10.0f);
+			Swarmers[swarmerSpawnNumber]->SetRadarModel(SwarmerRadarModel, 3.0f);
+			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
+			Swarmers[swarmerSpawnNumber]->SetPlayer(ThePlayer);
+			Swarmers[swarmerSpawnNumber]->SetExplosion(Explosion);
+			Swarmers[swarmerSpawnNumber]->BeginRun(TheCamera);
+		}
+
+		Swarmers[swarmerSpawnNumber]->Spawn(Position, { xVol, yVol, 0 });
 	}
 
-	float xVol = GetRandomFloat(65.0f, 75.0f);
-	float yVol = GetRandomFloat(55.0f, 65.0f);
 
-	for (auto swarmer : Swarmers)
-	{
-		swarmer->Initialize();
-		swarmer->SetModel(SwarmerModel, 10.0f);
-		swarmer->SetRadarModel(SwarmerRadarModel, 3.0f);
-		swarmer->SetShotModel(ShotModel);
-		swarmer->SetPlayer(ThePlayer);
-		swarmer->BeginRun(TheCamera);
-		swarmer->Spawn(Position, { xVol, yVol, 0 });
-	}
 }
 
 bool Pod::CheckCollision()

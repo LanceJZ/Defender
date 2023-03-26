@@ -18,6 +18,7 @@ bool GameLogic::Initialize()
 	TheLand.Initialize();
 	Bombers.Initialize();
 	Swarmers.Initialize();
+	Explosions.Initialize();
 	NewWaveTimer.Set(1.5f);
 	WaveStartTimer.Set(1.666f);
 
@@ -120,6 +121,8 @@ void GameLogic::Load()
 	Swarmers.SetShotModel(shot);
 	Swarmers.SetPodRadarModel(LoadModelwithTexture("Pod Radar"));
 	Swarmers.SetSwarmerRadarModel(LoadModelwithTexture("Swarmer Radar"));
+	// Load up cube for FX
+	Explosions.SetCubeModel(LoadModelwithTexture("Cube"));
 
 	//********* Sounds ***************
 	ThePlayer.SetSounds(LoadSound("Sounds/Player Shot.wav"), LoadSound("Sounds/Player Explode.wav"),
@@ -131,17 +134,23 @@ void GameLogic::Load()
 bool GameLogic::BeginRun(Camera* camera)
 {
 	ThePlayer.BeginRun(camera);
+	ThePlayer.SetExplosion(&Explosions);
 	TheLand.SetPlayer(&ThePlayer);
 	ControlLanderMutant.SetPlayer(&ThePlayer);
 	ControlLanderMutant.SetData(&Data);
+	ControlLanderMutant.SetExplosion(&Explosions);
 	Bombers.SetPlayer(&ThePlayer);
 	Bombers.SetData(&Data);
+	Bombers.SetExplosion(&Explosions);
 	Swarmers.SetPlayer(&ThePlayer);
 	Swarmers.SetData(&Data);
+	Swarmers.SetExplosion(&Explosions);
+	//BeginRun after everything else.
 	TheLand.BeginRun(camera);
 	ControlLanderMutant.BeginRun(camera);
 	Bombers.BeginRun(camera);
 	Swarmers.BeginRun(camera);
+	Explosions.BeginRun(camera);
 
 	return false;
 }
@@ -149,7 +158,9 @@ bool GameLogic::BeginRun(Camera* camera)
 void GameLogic::Input()
 {
 	if (State == InPlay || State == WaveStart)
+	{
 		ThePlayer.Input();
+	}
 
 	if (IsKeyPressed(KEY_P))
 	{
@@ -162,6 +173,15 @@ void GameLogic::Input()
 			State = InPlay;
 		}
 	}
+
+	if (State == MainMenu)
+	{
+		if (IsKeyPressed(KEY_N))
+		{
+			State = WaveStart;
+			ThePlayer.Reset();
+		}
+	}
 }
 
 void GameLogic::Update(float deltaTime)
@@ -172,6 +192,7 @@ void GameLogic::Update(float deltaTime)
 		ControlLanderMutant.Update(deltaTime);
 		Bombers.Update(deltaTime);
 		Swarmers.Update(deltaTime);
+		Explosions.Update(deltaTime);
 		CheckEndOfWave();
 
 		if (ThePlayer.BeenHit)
@@ -189,6 +210,7 @@ void GameLogic::Update(float deltaTime)
 	{
 		ThePlayer.Update(deltaTime);
 		PlayerDeathTimer.Update(deltaTime);
+		Explosions.Update(deltaTime);
 
 		if (PlayerDeathTimer.Elapsed())
 		{
@@ -226,6 +248,10 @@ void GameLogic::Update(float deltaTime)
 			WaveStartTimer.Reset();
 		}
 	}
+	else
+	{
+		TheLand.Update(deltaTime);
+	}
 }
 
 void GameLogic::Draw3D()
@@ -234,6 +260,7 @@ void GameLogic::Draw3D()
 	{
 		ThePlayer.Draw();
 		TheLand.Draw();
+		Explosions.Draw();
 
 		if (State == InPlay || State == PlayerHit)
 		{
@@ -260,6 +287,11 @@ void GameLogic::Draw2D()
 	{
 		DrawText("Get Ready", (int)((GetScreenWidth() * 0.5f) - ((40 * 10) * 0.25f)),
 			(int)(GetScreenHeight() * 0.5f), 40, GRAY);
+	}
+	else if (State == MainMenu)
+	{
+		DrawText("Press N to start", (int)((GetScreenWidth() * 0.5f) - ((30 * 17) * 0.25f)),
+			(int)(GetScreenHeight() * 0.5f), 30, GRAY);
 	}
 	else
 	{

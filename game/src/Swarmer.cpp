@@ -6,6 +6,7 @@ Swarmer::Swarmer()
 
 Swarmer::~Swarmer()
 {
+	Explosion = nullptr;
 }
 
 bool Swarmer::Initialize()
@@ -15,6 +16,11 @@ bool Swarmer::Initialize()
 	Radius = 6.0f;
 
 	return false;
+}
+
+void Swarmer::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
 }
 
 bool Swarmer::BeginRun(Camera* camera)
@@ -105,7 +111,7 @@ bool Swarmer::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
-
+		Explosion->Spawn(Position, 10, 1.5f);
 	}
 
 	return false;
