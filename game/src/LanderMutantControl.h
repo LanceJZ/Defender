@@ -11,8 +11,8 @@ public:
 	virtual ~LanderMutantControl();
 
 	bool LandersTurnedToMutants = false;
-	vector<Lander*> Landers;
-	vector<Mutant*> Mutants;
+	std::vector<Lander*> Landers;
+	std::vector<Mutant*> Mutants;
 	Person People[10]; //The Person Man.
 
 	bool Initialize();

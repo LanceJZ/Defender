@@ -30,7 +30,7 @@ public:
 	virtual ~GameLogic();
 
 	bool Initialize();
-	Model LoadModelwithTexture(string modelFileName);
+	Model LoadModelwithTexture(std::string modelFileName);
 	Model UploadTextureToModel(Model model, Texture2D texture);
 	void Load();
 	bool BeginRun(Camera* camera);

@@ -6,7 +6,7 @@
 class BomberControl : Common
 {
 public:
-	vector<Bomber*> Bombers;
+	std::vector<Bomber*> Bombers;
 
 	BomberControl();
 	virtual ~BomberControl();

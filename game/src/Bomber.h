@@ -7,7 +7,7 @@
 class Bomber : public Enemy
 {
 public:
-	vector<EnemyShot*> Bombs;
+	std::vector<EnemyShot*> Bombs;
 
 	Bomber();
 	virtual ~Bomber();

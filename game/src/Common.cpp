@@ -15,8 +15,8 @@ float Common::GetRandomScreenY()
 
 float Common::GetRandomFloat(float min, float max)
 {
-	default_random_engine eng(rd());
-	uniform_real_distribution<float> distr(min, max);
+	std::default_random_engine eng(rd());
+	std::uniform_real_distribution<float> distr(min, max);
 
 	return distr(eng);
 }

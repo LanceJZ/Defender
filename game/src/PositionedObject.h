@@ -30,8 +30,8 @@ public:
 	Vector3 RotationAxis = { 0, 0, 0 };
 	Vector3 ChildPosition = { 0, 0, 0 };
 	float ChildRotation = 0;
-	vector <PositionedObject*> Children;
-	vector <PositionedObject*> Parents;
+	std::vector <PositionedObject*> Children;
+	std::vector <PositionedObject*> Parents;
 
 	virtual bool Initialize();
 	virtual void Update(float deltaTime);

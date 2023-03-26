@@ -6,7 +6,7 @@
 class SwarmerControl : Common
 {
 public:
-	vector<Pod*> Pods;
+	std::vector<Pod*> Pods;
 
 	SwarmerControl();
 	virtual ~SwarmerControl();

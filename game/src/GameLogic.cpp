@@ -25,15 +25,15 @@ bool GameLogic::Initialize()
 	return false;
 }
 
-Model GameLogic::LoadModelwithTexture(string modelFileName)
+Model GameLogic::LoadModelwithTexture(std::string modelFileName)
 {
-	string path = "models/";
+	std::string path = "models/";
 
-	string namePNG = path;
+	std::string namePNG = path;
 	namePNG.append(modelFileName);
 	namePNG.append(".png");
 
-	string nameOBJ = path;
+	std::string nameOBJ = path;
 	nameOBJ.append(modelFileName);
 	nameOBJ.append(".obj");
 	Image image = { 0 };
@@ -83,10 +83,10 @@ void GameLogic::Load()
 
 	for (int i = 0; i < 7; i++)
 	{
-		string name = "Ground";
-		string nameR = "GroundRadar";
-		name.append(to_string(i + 1));
-		nameR.append(to_string(i + 1));
+		std::string name = "Ground";
+		std::string nameR = "GroundRadar";
+		name.append(std::to_string(i + 1));
+		nameR.append(std::to_string(i + 1));
 
 		TheLand.LandParts[i].SetModelCopy(LoadModelwithTexture(name), 50.0f);
 		TheLand.RadarLandParts[i].SetModelCopy(LoadModelwithTexture(nameR), 3.18f);

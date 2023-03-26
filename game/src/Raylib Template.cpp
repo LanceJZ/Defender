@@ -5,12 +5,14 @@
 
 int main()
 {
-    Game game;
+    Game *game = new Game();
 
-    game.Initialize();
-    game.Load();
-    game.BeginRun();
-    game.GameLoop();
+    game->Initialize();
+    game->Load();
+    game->BeginRun();
+    game->GameLoop();
+
+    delete game;
 }
 
 #pragma warning ( pop )

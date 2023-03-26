@@ -10,8 +10,6 @@
 #define MAX(a, b) ((a)>(b)? (a) : (b))
 #define MIN(a, b) ((a)<(b)? (a) : (b))
 
-using namespace std;
-
 class Common
 {
 public:
@@ -29,5 +27,5 @@ public:
 	Vector3 GetVelocityFromAngleZ(float rotation, float magnitude);
 
 private:
-	random_device rd;
+	std::random_device rd;
 };

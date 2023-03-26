@@ -18,7 +18,7 @@ public:
 	void Spawn(Vector3 position, int count, float time);
 
 private:
-	vector<ParticleCube*> Particles;
+	std::vector<ParticleCube*> Particles;
 	Model CubeModel = { 0 };
 	Camera* TheCamera = nullptr;
 };

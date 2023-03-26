@@ -256,10 +256,10 @@ void Land::CreateAllTheStars()
 			(unsigned char)GetRandomValue(10, 200), (unsigned char)GetRandomValue(10, 200), 255 };
 	}
 
-	vector <Vector2> starLEdge;
-	vector <Vector2> starREdge;
-	vector <Color> starLColor;
-	vector <Color> starRColor;
+	std::vector <Vector2> starLEdge;
+	std::vector <Vector2> starREdge;
+	std::vector <Color> starLColor;
+	std::vector <Color> starRColor;
 
 	for (int i = 0; i < mainStars; i++)
 	{

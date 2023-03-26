@@ -14,14 +14,14 @@ public:
 	virtual void Draw();
 
 	void Load();
-	void LoadModel(string fileName);
+	void LoadModel(std::string fileName);
 
-	vector<Vector3> GetModel();
-	vector<Vector3> LinePoints;
-	void SetModel(vector<Vector3> lines);
+	std::vector<Vector3> GetModel();
+	std::vector<Vector3> LinePoints;
+	void SetModel(std::vector<Vector3> lines);
 
 private:
-	vector<Vector3> ConvertStringToVector(string linesString);
-	void DrawLines(vector <Vector3> points, Vector3 rotationAxis, Color color);
+	std::vector<Vector3> ConvertStringToVector(std::string linesString);
+	void DrawLines(std::vector <Vector3> points, Vector3 rotationAxis, Color color);
 	void DrawLines(Color color);
 };

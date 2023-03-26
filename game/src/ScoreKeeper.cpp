@@ -33,5 +33,5 @@ void ScoreKeeper::Update(float deltaTime)
 
 void ScoreKeeper::Draw()
 {
-	DrawText(const_cast<char*>(to_string(Score).c_str()), 150, 75, 45, BLUE);
+	DrawText(const_cast<char*>(std::to_string(Score).c_str()), 150, 75, 45, BLUE);
 }

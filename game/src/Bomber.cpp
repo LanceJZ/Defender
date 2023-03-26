@@ -6,7 +6,7 @@ Bomber::Bomber()
 
 Bomber::~Bomber()
 {
-	for (int i = 0; i < Bombs.size(); i++)
+	for (int i = 0; i < (int)Bombs.size(); i++)
 	{
 		delete Bombs[i];
 	}

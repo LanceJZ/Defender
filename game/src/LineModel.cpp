@@ -53,34 +53,34 @@ void LineModel::Load()
 
 }
 
-void LineModel::LoadModel(string fileName)
+void LineModel::LoadModel(std::string fileName)
 {
 	if (FileExists(const_cast<char*>(fileName.c_str())))
 	{
-		string linestemp = LoadFileText(const_cast<char*>(fileName.c_str()));
+		std::string linestemp = LoadFileText(const_cast<char*>(fileName.c_str()));
 		LinePoints = ConvertStringToVector(linestemp);
 	}
 }
 
-vector<Vector3> LineModel::GetModel()
+std::vector<Vector3> LineModel::GetModel()
 {
 	return LinePoints;
 }
 
-void LineModel::SetModel(vector<Vector3> lines)
+void LineModel::SetModel(std::vector<Vector3> lines)
 {
 	LineModel::LinePoints = lines;
 }
 
-vector<Vector3> LineModel::ConvertStringToVector(string linesString)
+std::vector<Vector3> LineModel::ConvertStringToVector(std::string linesString)
 {
-	vector<Vector3> linesConverted;
+	std::vector<Vector3> linesConverted;
 	bool isNumber = false;
 	float x = 0;
 	float y = 0;
 	float z = 0;
-	string number;
-	string onAxis;
+	std::string number;
+	std::string onAxis;
 	Vector3 line = { 0 };
 
 	for (auto character : linesString)
@@ -122,7 +122,7 @@ vector<Vector3> LineModel::ConvertStringToVector(string linesString)
 	return linesConverted;
 }
 
-void LineModel::DrawLines(vector <Vector3> points, Vector3 rotationAxis, Color color)
+void LineModel::DrawLines(std::vector <Vector3> points, Vector3 rotationAxis, Color color)
 {
 	if (points.size() >= 2)
 	{

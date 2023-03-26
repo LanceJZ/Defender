@@ -29,8 +29,8 @@ public:
 private:
 	Model TheModel;
 	Camera* TheCamera = nullptr;
-	vector <Model3D*> Children;
-	vector <Model3D*> Parents;
+	std::vector <Model3D*> Children;
+	std::vector <Model3D*> Parents;
 
 	virtual void AddChildren(Model3D* child);
 };
