@@ -25,7 +25,9 @@ public:
 	void SetMutantRadarModel(Model model);
 	void SetPlayer(Player *player);
 	void SetData(SharedData *data);
-	void SetSounds(Sound shot, Sound explode, Sound person);
+	void SetSounds(Sound shot, Sound explode, Sound mutant,
+		Sound landerMutate, Sound landerSpawn);
+	void SetPersonSounds(Sound grabbed, Sound dropped, Sound caught, Sound left, Sound splat);
 	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera *camera);
 
@@ -39,7 +41,7 @@ public:
 
 private:
 	int TotalSpawn = 10;
-	int NumberSpawned = 5;
+	int NumberSpawned = 0;
 	float SpawnTimerAmount = 30.0f;
 
 	Model LanderModel = { 0 };
@@ -51,8 +53,16 @@ private:
 	Model MutantRadar = { 0 };
 
 	Sound ShotSound = { 0 };
+	Sound MutantShotSound = { 0 };
+	Sound LanderMutateSound = { 0 };
 	Sound ExplodeSound = { 0 };
 	Sound PersonGrabbedSound = { 0 };
+	Sound PersonDroppedSound = { 0 };
+	Sound LanderSpawnSound = { 0 };
+	Sound PersonCaughtSound = { 0 };
+	Sound PersonLeftSound = { 0 };
+	Sound PersonSplatSound = { 0 };
+
 	Timer SpawnTimer;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;

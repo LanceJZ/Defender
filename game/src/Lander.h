@@ -26,7 +26,7 @@ public:
 
 	bool Initialize();
 	void SetShotModel(Model &model);
-	void SetPersonSound(Sound &person);
+	void SetPersonSound(Sound& grabbed, Sound& dropped, Sound& mutate);
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
@@ -39,6 +39,8 @@ private:
 	float GroundHoverY = 0;
 	StateList State = GoingToGround;
 	Sound PersonGrabbedSound = { 0 };
+	Sound PersonDroppedSound = { 0 };
+	Sound MutateSound = { 0 };
 	Person* PersonTarget = nullptr;
 
 	void GoToGround();

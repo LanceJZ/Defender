@@ -106,6 +106,7 @@ bool Bomber::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
+		PlaySound(ExplodeSound);
 		Explosion->Spawn(Position, 10, 1.5f);
 	}
 

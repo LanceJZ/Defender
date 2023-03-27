@@ -23,7 +23,6 @@ private:
 	bool BackToToporBottom = false;
 	float Speed = 100;
 
-	Timer ShotTimer;
 	Timer ChangeSpeedTimer;
 
 	void FireShot();

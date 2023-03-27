@@ -42,16 +42,19 @@ void Lander::SetShotModel(Model &model)
 	}
 }
 
-void Lander::SetPersonSound(Sound &person)
+void Lander::SetPersonSound(Sound &person, Sound& dropped, Sound& mutate)
 {
 	PersonGrabbedSound = person;
+	PersonDroppedSound = dropped;
+	MutateSound = mutate;
 }
 
 bool Lander::BeginRun(Camera *camera)
 {
 	Enemy::BeginRun(camera);
 
-	SetSoundVolume(PersonGrabbedSound, 0.75f);
+	SetSoundVolume(PersonGrabbedSound, 0.5f);
+	SetSoundVolume(PersonDroppedSound, 0.5f);
 
 	return false;
 }
@@ -159,9 +162,14 @@ void Lander::Destroy()
 {
 	Enemy::Destroy();
 
-	if (PersonTarget)
+	if (PersonTarget && State != Mutate)
 	{
 		PersonTarget->Dropped();
+		PlaySound(PersonDroppedSound);
+	}
+	else if (State == Mutate)
+	{
+		PlaySound(MutateSound);
 	}
 }
 

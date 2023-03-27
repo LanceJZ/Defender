@@ -2,6 +2,7 @@
 #include "Model3D.h"
 #include "Player.h"
 #include "EnemyRadarMirror.h"
+#include "ExplosionControl.h"
 
 class Person : public Model3D
 {
@@ -23,6 +24,8 @@ public:
 	bool Initialize();
 	void SetRadar(Model &model);
 	void SetPlayer(Player *player);
+	void SetSounds(Sound& caught, Sound& left, Sound& splat);
+	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera *camera);
 
 	void Update(float deltaTime);
@@ -37,6 +40,11 @@ private:
 	float DroppedY = 0;
 	EnemyRadarMirror RadarMirror;
 
+	Sound CaughtSound = { 0 };
+	Sound LeftSound = { 0 };
+	Sound SplatSound = { 0 };
+
+	ExplosionControl* Explosion = nullptr;
 	Player *ThePlayer = nullptr;
 
 	void Falling();

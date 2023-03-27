@@ -171,7 +171,6 @@ void Player::Update(float deltaTime)
 	Model3D::Update(deltaTime);
 
 	Flame.Update(deltaTime);
-	BackCollusion.Update(deltaTime);
 
 	for (auto &shot : Shots)
 	{
@@ -248,6 +247,11 @@ void Player::Hit()
 	FrontCollusion.Enabled = false;
 	ThrustOff();
 	Explosion->Spawn(Position, 100, 5.5f);
+
+	for (auto& shot : Shots)
+	{
+		shot.Reset();
+	}
 }
 
 void Player::CameraMovement()

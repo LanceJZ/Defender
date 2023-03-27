@@ -55,6 +55,11 @@ void BomberControl::SetExplosion(ExplosionControl* explosion)
 	Explosion = explosion;
 }
 
+void BomberControl::SetSounds(Sound explosion)
+{
+	ExplosionSound = explosion;
+}
+
 bool BomberControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
@@ -132,6 +137,7 @@ void BomberControl::SpawnBombers(int amount)
 			Bombers[spawnNumber]->SetRadarModel(BomberRadarModel, 3.0f);
 			Bombers[spawnNumber]->SetPlayer(ThePlayer);
 			Bombers[spawnNumber]->SetExplosion(Explosion);
+			Bombers[spawnNumber]->SetSounds(ShotSound, ExplosionSound);
 			Bombers[spawnNumber]->BeginRun(TheCamera);
 		}
 

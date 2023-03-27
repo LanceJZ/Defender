@@ -22,6 +22,8 @@ bool Mutant::BeginRun(Camera* camera)
 {
 	Enemy::BeginRun(camera);
 
+	SetSoundVolume(ShotSound, 1.5f);
+
 	return false;
 }
 
@@ -35,7 +37,7 @@ void Mutant::Update(float deltaTime)
 
 		if (ShotTimer.Elapsed())
 		{
-			ShotTimer.Reset();
+			ShotTimer.Reset(GetRandomFloat(0.3f, 1.5f));
 			FireShot();
 		}
 
@@ -150,6 +152,7 @@ bool Mutant::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
+		PlaySound(ExplodeSound);
 		Explosion->Spawn(Position, 10, 1.5f);
 	}
 

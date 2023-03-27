@@ -78,6 +78,7 @@ void PlayerShot::Reset()
 {
 	Enabled = false;
 	Tail.Enabled = false;
+	Mirror.EnabledUpdate(false);
 }
 
 void PlayerShot::Update(float deltaTime)

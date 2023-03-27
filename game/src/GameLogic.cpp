@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.04");
+	SetWindowTitle("Defender Alpha 01.05");
 	ThePlayer.Initialize();
 	ControlLanderMutant.Initialize();
 	TheLand.Initialize();
@@ -127,8 +127,17 @@ void GameLogic::Load()
 	//********* Sounds ***************
 	ThePlayer.SetSounds(LoadSound("Sounds/Player Shot.wav"), LoadSound("Sounds/Player Explode.wav"),
 		LoadSound("Sounds/Player Thrust.wav"));
-	ControlLanderMutant.SetSounds(LoadSound("Sounds/Enemy Shot.wav"), LoadSound("Sounds/Enemy Explode.wav"),
-		LoadSound("Sounds/Person Grabbed.wav"));
+
+	Sound enemyExplodeSound = LoadSound("Sounds/Enemy Explode.wav");
+
+	ControlLanderMutant.SetSounds(LoadSound("Sounds/Enemy Shot.wav"), enemyExplodeSound,
+		LoadSound("Sounds/Mutant Shot.wav"), LoadSound("Sounds/Lander Mutate.wav"),
+		LoadSound("Sounds/Landers Spawn.wav"));
+	ControlLanderMutant.SetPersonSounds(LoadSound("Sounds/Person Grabbed.wav"),
+		LoadSound("Sounds/Person Dropped.wav"), LoadSound("Sounds/Person Caught.wav"),
+		LoadSound("Sounds/Person Landed.wav"), LoadSound("Sound/Person Exploded"));
+
+	Bombers.SetSounds(enemyExplodeSound);
 }
 
 bool GameLogic::BeginRun(Camera* camera)
@@ -208,7 +217,6 @@ void GameLogic::Update(float deltaTime)
 	}
 	else if (State == PlayerHit)
 	{
-		ThePlayer.Update(deltaTime);
 		PlayerDeathTimer.Update(deltaTime);
 		Explosions.Update(deltaTime);
 

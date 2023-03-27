@@ -30,6 +30,18 @@ void Person::SetPlayer(Player* player)
 	RadarMirror.SetPlayer(player);
 }
 
+void Person::SetSounds(Sound& caught, Sound& left, Sound& splat)
+{
+	CaughtSound = caught;
+	LeftSound = left;
+	SplatSound = splat;
+}
+
+void Person::SetExplosion(ExplosionControl* explosion)
+{
+	Explosion = explosion;
+}
+
 bool Person::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
@@ -109,7 +121,13 @@ void Person::Falling()
 
 		if (DroppedY > 0)
 		{
+			Explosion->Spawn(Position, 20.0f, 3.0f);
+			PlaySound(SplatSound);
 			Destroy();
+		}
+		else
+		{
+			PlaySound(LeftSound);
 		}
 	}
 }
@@ -121,6 +139,7 @@ void Person::GoingForARide()
 
 	if (Y() < -(GetScreenHeight() / 2.10f))
 	{
+		PlaySound(LeftSound);
 		State = OnGround;
 	}
 }
@@ -129,6 +148,7 @@ void Person::CheckCollision()
 {
 	if (CirclesIntersect(ThePlayer))
 	{
+		PlaySound(CaughtSound);
 		State = CaughtByPlayer;
 		Velocity.y = 0;
 		Acceleration.y = 0;

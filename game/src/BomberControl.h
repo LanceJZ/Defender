@@ -18,6 +18,7 @@ public:
 	void SetPlayer(Player* player);
 	void SetData(SharedData* data);
 	void SetExplosion(ExplosionControl* explosion);
+	void SetSounds(Sound explosion);
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
@@ -30,6 +31,10 @@ private:
 	Model BomberModel = { 0 };
 	Model BombModel = { 0 };
 	Model BomberRadarModel = { 0 };
+
+	Sound ExplosionSound = { 0 };
+	Sound ShotSound = { 0 };
+
 	SharedData* Data;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;

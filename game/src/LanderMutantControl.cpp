@@ -28,6 +28,17 @@ LanderMutantControl::~LanderMutantControl()
 	UnloadModel(LanderRadar);
 	UnloadModel(MutantRadar);
 	UnloadModel(PersonRadar);
+
+	UnloadSound(ExplodeSound);
+	UnloadSound(ShotSound);
+	UnloadSound(MutantShotSound);
+	UnloadSound(LanderMutateSound);
+	UnloadSound(PersonCaughtSound);
+	UnloadSound(PersonDroppedSound);
+	UnloadSound(PersonGrabbedSound);
+	UnloadSound(LanderSpawnSound);
+	UnloadSound(PersonLeftSound);
+	UnloadSound(PersonSplatSound);
 }
 
 bool LanderMutantControl::Initialize()
@@ -82,11 +93,23 @@ void LanderMutantControl::SetData(SharedData *data)
 	Data = data;
 }
 
-void LanderMutantControl::SetSounds(Sound shot, Sound explode, Sound person)
+void LanderMutantControl::SetSounds(Sound shot, Sound explode,
+	Sound mutant, Sound landerMutate, Sound landerSpawn)
 {
 	ShotSound = shot;
+	MutantShotSound = mutant;
+	LanderMutateSound = landerMutate;
 	ExplodeSound = explode;
-	PersonGrabbedSound = person;
+	LanderSpawnSound = landerSpawn;
+}
+
+void LanderMutantControl::SetPersonSounds(Sound grabbed, Sound dropped, Sound caught,
+	Sound left, Sound splat)
+{
+	PersonGrabbedSound = grabbed;
+	PersonDroppedSound = dropped;
+	PersonCaughtSound = caught;
+	PersonLeftSound = left;
 }
 
 void LanderMutantControl::SetExplosion(ExplosionControl* explosion)
@@ -104,11 +127,12 @@ bool LanderMutantControl::BeginRun(Camera *camera)
 		People[personNumber].SetModel(PersonModel, 5.0f);
 		People[personNumber].SetRadar(PersonRadar);
 		People[personNumber].SetPlayer(ThePlayer);
+		People[personNumber].SetExplosion(Explosion);
+		People[personNumber].SetSounds(PersonCaughtSound, PersonLeftSound, PersonSplatSound);
 		People[personNumber].BeginRun(TheCamera);
 	}
 
 	SpawnPoeple(10);
-	StartLanderWave();
 	return false;
 }
 
@@ -186,6 +210,7 @@ void LanderMutantControl::Draw()
 
 void LanderMutantControl::SpawnMoreLanders()
 {
+	PlaySound(LanderSpawnSound);
 	int spawn = 5;
 
 	if (NumberSpawned + spawn > TotalSpawn)
@@ -245,12 +270,14 @@ void LanderMutantControl::SpawnLanders(int count)
 				Landers[landerSpawnNumber]->SetPlayer(ThePlayer);
 				Landers[landerSpawnNumber]->SetExplosion(Explosion);
 				Landers[landerSpawnNumber]->SetSounds(ShotSound, ExplodeSound);
-				Landers[landerSpawnNumber]->SetPersonSound(PersonGrabbedSound);
+				Landers[landerSpawnNumber]->SetPersonSound(PersonGrabbedSound,
+					PersonDroppedSound, LanderMutateSound);
 				Landers[landerSpawnNumber]->BeginRun(TheCamera);
 			}
 		}
 
-		float x = GetRandomFloat((-GetScreenWidth() * screenMulti), (GetScreenWidth() * screenMulti));
+		float x = GetRandomFloat((-GetScreenWidth() * screenMulti),
+			(GetScreenWidth() * screenMulti));
 		float y = GetScreenHeight() * 0.333f;
 		Landers[landerSpawnNumber]->Spawn({x, y, 0});
 
@@ -292,7 +319,7 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 			Mutants[mutantSpawnNumber]->SetShotModel(ShotModel);
 			Mutants[mutantSpawnNumber]->SetPlayer(ThePlayer);
 			Mutants[mutantSpawnNumber]->SetExplosion(Explosion);
-			Mutants[mutantSpawnNumber]->SetSounds(ShotSound, ExplodeSound);
+			Mutants[mutantSpawnNumber]->SetSounds(MutantShotSound, ExplodeSound);
 			Mutants[mutantSpawnNumber]->BeginRun(TheCamera);
 		}
 	}
@@ -373,10 +400,6 @@ void LanderMutantControl::StartLanderWave()
 
 	NumberSpawned = 0;
 	SpawnMoreLanders();
-
-	//SpawnLanders(5);
-
-	//SpawnTimer.Reset(SpawnTimerAmount);
 }
 
 void LanderMutantControl::NewLevelWave()
