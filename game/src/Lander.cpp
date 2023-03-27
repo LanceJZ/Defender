@@ -99,9 +99,9 @@ void Lander::Update(float deltaTime)
 		{
 			SpawnMutatant();
 		}
-
-		CheckCollision();
 	}
+
+	CheckCollision();
 }
 
 void Lander::Draw()

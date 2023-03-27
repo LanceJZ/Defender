@@ -18,8 +18,12 @@ public:
 	void Spawn(Vector3 position, int count, float time);
 
 private:
+	float Xmult = 0;
+	float MirrorMult = 0;
 	std::vector<ParticleCube*> Particles;
 	Model CubeModel = { 0 };
 	Camera* TheCamera = nullptr;
+
+	int SpawnPool();
 };
 

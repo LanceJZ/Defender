@@ -21,6 +21,8 @@ public:
 
 private:
 	float X = 0;
+	float Xmult = 0;
+	float MirrorMult = 0;
 	Model3D MirrorR;
 	Model3D MirrorL;
 };

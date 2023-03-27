@@ -12,7 +12,8 @@ bool EnemyMirror::Initialize()
 {
 	MirrorL.Initialize();
 	MirrorR.Initialize();
-
+	Xmult = GetScreenWidth() * 2.75f;
+	MirrorMult = GetScreenWidth() * 7.0f;
 	return false;
 }
 
@@ -37,13 +38,11 @@ void EnemyMirror::Update(float deltaTime)
 
 void EnemyMirror::Draw()
 {
-	float xmult = 2.75f;
-
-	if (X > GetScreenWidth() * xmult)
+	if (X > Xmult)
 	{
 		MirrorL.Draw();
 	}
-	else if (X < -GetScreenWidth() * xmult)
+	else if (X < -Xmult)
 	{
 		MirrorR.Draw();
 	}
@@ -53,11 +52,10 @@ void EnemyMirror::Draw()
 void EnemyMirror::PositionUpdate(bool enabled, Vector3 position)
 {
 	X = position.x;
-	float mirror = 7.0f;
-	MirrorL.X(position.x - GetScreenWidth() * mirror);
+	MirrorL.X(position.x - MirrorMult);
 	MirrorL.Position.y = position.y;
 	MirrorL.Enabled = enabled;
-	MirrorR.X(position.x + GetScreenWidth() * mirror);
+	MirrorR.X(position.x + MirrorMult);
 	MirrorR.Position.y = position.y;
 	MirrorR.Enabled = enabled;
 }

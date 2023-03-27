@@ -111,36 +111,42 @@ void Enemy::Draw()
 
 bool Enemy::CheckCollision()
 {
-	if (CirclesIntersect(ThePlayer) || CirclesIntersect(&ThePlayer->BackCollusion) ||
-		CirclesIntersect(&ThePlayer->FrontCollusion))
+	if (Enabled)
 	{
-		Destroy();
-		ThePlayer->Hit();
-		return true;
+		for (auto &shot : ThePlayer->Shots)
+		{
+			if (shot.Enabled)
+			{
+				if (CirclesIntersect(&shot))
+				{
+					shot.Enabled = false;
+					Destroy();
+					return true;
+				}
+			}
+		}
+
+		if (CirclesIntersect(ThePlayer) || CirclesIntersect(&ThePlayer->BackCollusion) ||
+			CirclesIntersect(&ThePlayer->FrontCollusion))
+		{
+			Destroy();
+			ThePlayer->Hit();
+			return true;
+		}
 	}
 
 	for (auto &shot : Shots)
 	{
 		if (shot.Enabled)
 		{
-			if (ThePlayer->CirclesIntersect(&shot) ||
-				ThePlayer->BackCollusion.CirclesIntersect(&shot) ||
-				ThePlayer->FrontCollusion.CirclesIntersect(&shot))
+			if (ThePlayer->Enabled)
 			{
-				ThePlayer->Hit();
-			}
-		}
-	}
-
-	for (auto &shot : ThePlayer->Shots)
-	{
-		if (shot.Enabled)
-		{
-			if (CirclesIntersect(&shot))
-			{
-				shot.Enabled = false;
-				Destroy();
-				return true;
+				if (ThePlayer->CirclesIntersect(&shot) ||
+					ThePlayer->BackCollusion.CirclesIntersect(&shot) ||
+					ThePlayer->FrontCollusion.CirclesIntersect(&shot))
+				{
+					ThePlayer->Hit();
+				}
 			}
 		}
 	}

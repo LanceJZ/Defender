@@ -12,6 +12,8 @@ ExplosionControl::~ExplosionControl()
 
 bool ExplosionControl::Initialize()
 {
+	Xmult = GetScreenWidth() * 2.75f;
+	MirrorMult = GetScreenWidth() * 7.0f;
 
 	return false;
 }
@@ -45,8 +47,40 @@ void ExplosionControl::Draw()
 
 void ExplosionControl::Spawn(Vector3 position, int count, float time)
 {
+	std::vector<int> spawnedNumbers;
+
 	for (int i = 0; i < count; i++)
 	{
+		int spawnPoolNumber = SpawnPool();
+
+		Particles[spawnPoolNumber]->Spawn(position, time);
+
+		spawnedNumbers.push_back(spawnPoolNumber);
+	}
+
+	for (int i = 0; i < count; i++)
+	{
+		if (position.x > Xmult)
+		{
+			int spawnPoolNumberL = SpawnPool();
+			Vector3 lPosition = { Particles[spawnedNumbers[i]]->Position.x - MirrorMult,
+				position.y, 0};
+			Particles[spawnPoolNumberL]->Spawn(lPosition, time);
+			Particles[spawnPoolNumberL]->Velocity = Particles[i]->Velocity;
+		}
+		else if (position.x < -Xmult)
+		{
+			int spawnPoolNumberR = SpawnPool();
+			Vector3 rPosition = { Particles[spawnedNumbers[i]]->Position.x + MirrorMult,
+				position.y, 0};
+			Particles[spawnPoolNumberR]->Spawn(rPosition, time);
+			Particles[spawnPoolNumberR]->Velocity = Particles[i]->Velocity;
+		}
+	}
+}
+
+int ExplosionControl::SpawnPool()
+{
 		bool spawnNew = true;
 		int cubeSpawnNumber = (int)Particles.size();
 		int cubeNumber = 0;
@@ -71,6 +105,5 @@ void ExplosionControl::Spawn(Vector3 position, int count, float time)
 			Particles[cubeSpawnNumber]->BeginRun(TheCamera);
 		}
 
-		Particles[cubeSpawnNumber]->Spawn(position, time);
-	}
+	return cubeSpawnNumber;
 }

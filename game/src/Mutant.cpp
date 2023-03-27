@@ -43,8 +43,9 @@ void Mutant::Update(float deltaTime)
 
 		ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
 		ChasePlayer();
-		CheckCollision();
 	}
+
+	CheckCollision();
 }
 
 void Mutant::Draw()

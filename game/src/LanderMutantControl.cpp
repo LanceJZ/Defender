@@ -110,6 +110,7 @@ void LanderMutantControl::SetPersonSounds(Sound grabbed, Sound dropped, Sound ca
 	PersonDroppedSound = dropped;
 	PersonCaughtSound = caught;
 	PersonLeftSound = left;
+	PersonSplatSound = splat;
 }
 
 void LanderMutantControl::SetExplosion(ExplosionControl* explosion)

@@ -58,8 +58,9 @@ void Bomber::Update(float deltaTime)
 		}
 
 		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
-		CheckCollision();
 	}
+
+	CheckCollision();
 }
 
 void Bomber::Draw()

@@ -135,7 +135,7 @@ void GameLogic::Load()
 		LoadSound("Sounds/Landers Spawn.wav"));
 	ControlLanderMutant.SetPersonSounds(LoadSound("Sounds/Person Grabbed.wav"),
 		LoadSound("Sounds/Person Dropped.wav"), LoadSound("Sounds/Person Caught.wav"),
-		LoadSound("Sounds/Person Landed.wav"), LoadSound("Sound/Person Exploded"));
+		LoadSound("Sounds/Person Landed.wav"), LoadSound("Sounds/Person Exploded.wav"));
 
 	Bombers.SetSounds(enemyExplodeSound);
 }
