@@ -148,12 +148,15 @@ bool GameLogic::BeginRun(Camera* camera)
 	ControlLanderMutant.SetPlayer(&ThePlayer);
 	ControlLanderMutant.SetData(&Data);
 	ControlLanderMutant.SetExplosion(&Explosions);
+	ControlLanderMutant.SetScore(&Score);
 	Bombers.SetPlayer(&ThePlayer);
 	Bombers.SetData(&Data);
 	Bombers.SetExplosion(&Explosions);
+	Bombers.SetScore(&Score);
 	Swarmers.SetPlayer(&ThePlayer);
 	Swarmers.SetData(&Data);
 	Swarmers.SetExplosion(&Explosions);
+	Swarmers.SetScore(&Score);
 	//BeginRun after everything else.
 	TheLand.BeginRun(camera);
 	ControlLanderMutant.BeginRun(camera);
@@ -189,6 +192,7 @@ void GameLogic::Input()
 		{
 			State = WaveStart;
 			ThePlayer.Reset();
+			Score.ClearScore();
 		}
 	}
 }
@@ -244,6 +248,7 @@ void GameLogic::Update(float deltaTime)
 		if (WaveStartTimer.Elapsed())
 		{
 			State = InPlay;
+			NewWaveStart();
 		}
 	}
 	else if (State == NewWave)
@@ -300,6 +305,8 @@ void GameLogic::Draw2D()
 	{
 		DrawText("Press N to start", (int)((GetScreenWidth() * 0.5f) - ((30 * 17) * 0.25f)),
 			(int)(GetScreenHeight() * 0.5f), 30, GRAY);
+
+		Score.Draw();
 	}
 	else
 	{
@@ -317,20 +324,25 @@ void GameLogic::CheckEndOfWave()
 {
 	if (Data.LandersMutantsBeGone)
 	{
-		Data.Wave++;
-		ControlLanderMutant.NewLevelWave();
-		ThePlayer.Reset();
 		State = NewWave;
 		NewWaveTimer.Reset();
-		TheLand.NewLevel();
+		ThePlayer.Reset();
+		Data.Wave++;
+		ControlLanderMutant.NewLevelWave();
 		Bombers.NewWave();
 		Swarmers.NewWave();
+		TheLand.NewLevel();
 
 		if (Data.Wave > 0)
 		{
 
 		}
 	}
+}
+
+void GameLogic::NewWaveStart()
+{
+	ControlLanderMutant.StartWave();
 }
 
 void GameLogic::ResetAfterExplode()

@@ -1,9 +1,12 @@
 #pragma once
 #include "Common.h"
 #include "Model3D.h"
+#include "Timer.h"
 #include "EnemyShot.h"
 #include "Player.h"
 #include "EnemyRadarMirror.h"
+#include "ExplosionControl.h"
+#include "ScoreKeeper.h"
 
 class Enemy : public Model3D
 {
@@ -20,6 +23,7 @@ public:
 	void SetPlayer(Player* player);
 	void SetSounds(Sound &shot, Sound &explode);
 	void SetExplosion(ExplosionControl* explosion);
+	void SetScore(ScoreKeeper* score, int scoreAmount);
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -29,12 +33,14 @@ public:
 	virtual void Reset();
 
 protected:
+	int ScoreAmount = 0;
 	Sound ShotSound = { 0 };
 	Sound ExplodeSound = { 0 };
 	Timer ShotTimer;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
 	ExplosionControl* Explosion = nullptr;
+	ScoreKeeper* Score = nullptr;
 
 	virtual bool CheckCollision();
 	virtual void Destroy();

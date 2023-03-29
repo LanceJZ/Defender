@@ -42,6 +42,11 @@ void Person::SetExplosion(ExplosionControl* explosion)
 	Explosion = explosion;
 }
 
+void Person::SetScore(ScoreKeeper* score)
+{
+	Score = score;
+}
+
 bool Person::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
@@ -128,6 +133,7 @@ void Person::Falling()
 		else
 		{
 			PlaySound(LeftSound);
+			Score->AddToScore(ScoreLandedAmount);
 		}
 	}
 }
@@ -141,6 +147,7 @@ void Person::GoingForARide()
 	{
 		PlaySound(LeftSound);
 		State = OnGround;
+		Score->AddToScore(ScoreDroppedAmount);
 	}
 }
 
@@ -150,6 +157,7 @@ void Person::CheckCollision()
 	{
 		PlaySound(CaughtSound);
 		State = CaughtByPlayer;
+		Score->AddToScore(ScoreCaughtAmount);
 		Velocity.y = 0;
 		Acceleration.y = 0;
 	}

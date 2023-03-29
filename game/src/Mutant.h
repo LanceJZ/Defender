@@ -1,9 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "EnemyShot.h"
-#include "EnemyRadarMirror.h"
-#include "Timer.h"
-#include "ExplosionControl.h"
 
 class Mutant : public Enemy
 {

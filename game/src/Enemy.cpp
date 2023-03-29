@@ -61,6 +61,12 @@ void Enemy::SetExplosion(ExplosionControl* explosion)
 	Explosion = explosion;
 }
 
+void Enemy::SetScore(ScoreKeeper* score, int scoreAmount)
+{
+	Score = score;
+	ScoreAmount = scoreAmount;
+}
+
 bool Enemy::BeginRun(Camera* camera)
 {
 	Model3D::BeginRun(camera);
@@ -119,6 +125,7 @@ bool Enemy::CheckCollision()
 			{
 				if (CirclesIntersect(&shot))
 				{
+					Score->AddToScore(ScoreAmount);
 					shot.Enabled = false;
 					Destroy();
 					return true;
@@ -129,6 +136,7 @@ bool Enemy::CheckCollision()
 		if (CirclesIntersect(ThePlayer) || CirclesIntersect(&ThePlayer->BackCollusion) ||
 			CirclesIntersect(&ThePlayer->FrontCollusion))
 		{
+			Score->AddToScore(ScoreAmount);
 			Destroy();
 			ThePlayer->Hit();
 			return true;

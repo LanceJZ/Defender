@@ -2,6 +2,7 @@
 #include "Bomber.h"
 #include "SharedData.h"
 #include "ExplosionControl.h"
+#include "ScoreKeeper.h"
 
 class BomberControl : Common
 {
@@ -19,6 +20,7 @@ public:
 	void SetData(SharedData* data);
 	void SetExplosion(ExplosionControl* explosion);
 	void SetSounds(Sound explosion);
+	void SetScore(ScoreKeeper* score);
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
@@ -39,6 +41,7 @@ private:
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
 	ExplosionControl* Explosion = nullptr;
+	ScoreKeeper* Score = nullptr;
 
 	void SpawnBombers(int amount);
 };

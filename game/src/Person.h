@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "EnemyRadarMirror.h"
 #include "ExplosionControl.h"
+#include "ScoreKeeper.h"
 
 class Person : public Model3D
 {
@@ -26,6 +27,7 @@ public:
 	void SetPlayer(Player *player);
 	void SetSounds(Sound& caught, Sound& left, Sound& splat);
 	void SetExplosion(ExplosionControl* explosion);
+	void SetScore(ScoreKeeper* score);
 	bool BeginRun(Camera *camera);
 
 	void Update(float deltaTime);
@@ -37,6 +39,9 @@ public:
 	void Reset();
 
 private:
+	int ScoreLandedAmount = 250; //Landed on own;
+	int ScoreCaughtAmount = 500; //Player caught.
+	int ScoreDroppedAmount = 500; //Player dropped off player.
 	float DroppedY = 0;
 	EnemyRadarMirror RadarMirror;
 
@@ -46,6 +51,7 @@ private:
 
 	ExplosionControl* Explosion = nullptr;
 	Player *ThePlayer = nullptr;
+	ScoreKeeper* Score = nullptr;
 
 	void Falling();
 	void GoingForARide();

@@ -1,8 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "EnemyShot.h"
-#include "Timer.h"
-#include "ExplosionControl.h"
 
 class Bomber : public Enemy
 {

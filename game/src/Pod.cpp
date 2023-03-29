@@ -151,6 +151,7 @@ void Pod::SpawnSwarmers(int count)
 			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
 			Swarmers[swarmerSpawnNumber]->SetPlayer(ThePlayer);
 			Swarmers[swarmerSpawnNumber]->SetExplosion(Explosion);
+			Swarmers[swarmerSpawnNumber]->SetScore(Score, 150);
 			Swarmers[swarmerSpawnNumber]->BeginRun(TheCamera);
 		}
 

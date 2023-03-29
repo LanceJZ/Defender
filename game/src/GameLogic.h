@@ -60,6 +60,7 @@ private:
 
 	void UpdatePlayerLand(float deltaTime);
 	void CheckEndOfWave();
+	void NewWaveStart();
 	void PlayerWasHit();
 	void ResetAfterExplode();
 };

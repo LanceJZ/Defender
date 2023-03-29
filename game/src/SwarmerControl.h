@@ -2,6 +2,7 @@
 #include "Pod.h"
 #include "SharedData.h"
 #include "ExplosionControl.h"
+#include "ScoreKeeper.h"
 
 class SwarmerControl : Common
 {
@@ -20,6 +21,7 @@ public:
 	void SetPlayer(Player* player);
 	void SetData(SharedData* data);
 	void SetExplosion(ExplosionControl* explosion);
+	void SetScore(ScoreKeeper* score);
 	bool BeginRun(Camera* camera);
 
 	virtual void Update(float deltaTime);
@@ -39,6 +41,7 @@ private:
 	Camera* TheCamera = nullptr;
 	SharedData* Data = nullptr;
 	ExplosionControl* Explosion = nullptr;
+	ScoreKeeper* Score = nullptr;
 
 	void SpawnPods(int count);
 };

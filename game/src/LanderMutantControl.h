@@ -3,6 +3,7 @@
 #include "Mutant.h"
 #include "Person.h"
 #include "SharedData.h"
+#include "ScoreKeeper.h"
 
 class LanderMutantControl : Common
 {
@@ -27,14 +28,17 @@ public:
 	void SetData(SharedData *data);
 	void SetSounds(Sound shot, Sound explode, Sound mutant,
 		Sound landerMutate, Sound landerSpawn);
-	void SetPersonSounds(Sound grabbed, Sound dropped, Sound caught, Sound left, Sound splat);
+	void SetPersonSounds(Sound grabbed, Sound dropped, Sound caught, Sound left,
+		Sound splat);
 	void SetExplosion(ExplosionControl* explosion);
+	void SetScore(ScoreKeeper* score);
 	bool BeginRun(Camera *camera);
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
 	void StartLanderWave();
+	void StartWave();
 	void NewLevelWave();
 	void PlayerHitReset();
 	void TheyAllDied();
@@ -68,6 +72,7 @@ private:
 	Camera* TheCamera = nullptr;
 	SharedData* Data = nullptr;
 	ExplosionControl* Explosion = nullptr;
+	ScoreKeeper* Score = nullptr;
 
 	void SpawnMoreLanders();
 	void SpawnLanders(int count);

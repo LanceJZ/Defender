@@ -69,6 +69,11 @@ void SwarmerControl::SetExplosion(ExplosionControl* explosion)
 	Explosion = explosion;
 }
 
+void SwarmerControl::SetScore(ScoreKeeper* score)
+{
+	Score = score;
+}
+
 bool SwarmerControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
@@ -150,6 +155,7 @@ void SwarmerControl::SpawnPods(int count)
 			Pods[spawnNumber]->SetPlayer(ThePlayer);
 			Pods[spawnNumber]->SetData(Data);
 			Pods[spawnNumber]->SetExplosion(Explosion);
+			Pods[spawnNumber]->SetScore(Score, 1000);
 			Pods[spawnNumber]->BeginRun(TheCamera);
 		}
 

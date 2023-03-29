@@ -1,9 +1,7 @@
 #pragma once
-#include "raylib.h"
-#include "SharedData.h"
 #include "Enemy.h"
+#include "SharedData.h"
 #include "Swarmer.h"
-#include "ExplosionControl.h"
 
 class Pod : public Enemy
 {

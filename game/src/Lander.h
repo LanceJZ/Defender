@@ -1,10 +1,6 @@
 #pragma once
-#include "Model3D.h"
-#include "EnemyShot.h"
-#include "Timer.h"
 #include "Enemy.h"
 #include "Person.h"
-#include "ExplosionControl.h"
 
 enum StateList
 {

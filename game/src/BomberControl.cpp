@@ -60,6 +60,11 @@ void BomberControl::SetSounds(Sound explosion)
 	ExplosionSound = explosion;
 }
 
+void BomberControl::SetScore(ScoreKeeper* score)
+{
+	Score = score;
+}
+
 bool BomberControl::BeginRun(Camera* camera)
 {
 	TheCamera = camera;
@@ -138,6 +143,7 @@ void BomberControl::SpawnBombers(int amount)
 			Bombers[spawnNumber]->SetPlayer(ThePlayer);
 			Bombers[spawnNumber]->SetExplosion(Explosion);
 			Bombers[spawnNumber]->SetSounds(ShotSound, ExplosionSound);
+			Bombers[spawnNumber]->SetScore(Score, 250);
 			Bombers[spawnNumber]->BeginRun(TheCamera);
 		}
 
