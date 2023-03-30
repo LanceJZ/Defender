@@ -136,6 +136,7 @@ bool LanderMutantControl::BeginRun(Camera *camera)
 		People[personNumber].SetExplosion(Explosion);
 		People[personNumber].SetSounds(PersonCaughtSound, PersonLeftSound,
 			PersonSplatSound);
+		People[personNumber].SetScore(Score);
 		People[personNumber].BeginRun(TheCamera);
 	}
 

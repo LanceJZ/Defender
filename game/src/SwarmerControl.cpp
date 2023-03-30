@@ -21,6 +21,7 @@ SwarmerControl::~SwarmerControl()
 	UnloadModel(SwarmerModel);
 	UnloadModel(PodRadarModel);
 	UnloadModel(SwarmerRadarModel);
+	UnloadSound(SwarmerShotSound);
 }
 
 bool SwarmerControl::Initialize()
@@ -52,6 +53,12 @@ void SwarmerControl::SetPodRadarModel(Model model)
 void SwarmerControl::SetSwarmerRadarModel(Model model)
 {
 	SwarmerRadarModel = model;
+}
+
+void SwarmerControl::SetSounds(Sound explodeSound, Sound shotSound)
+{
+	ExplodeSound = explodeSound;
+	SwarmerShotSound = shotSound;
 }
 
 void SwarmerControl::SetPlayer(Player* player)
@@ -110,17 +117,14 @@ void SwarmerControl::Reset()
 	{
 		if (pod->Enabled)
 		{
-			spawnAmount++;
-			pod->Reset();
+			pod->Position.y = GetScreenWidth() * 3.5f;
 		}
 
 		for (auto swarmer : pod->Swarmers)
 		{
-			swarmer->Reset();
+			swarmer->Position.y = GetScreenWidth() * 3.5f;
 		}
 	}
-
-	SpawnPods(spawnAmount);
 }
 
 void SwarmerControl::SpawnPods(int count)
@@ -152,6 +156,7 @@ void SwarmerControl::SpawnPods(int count)
 			Pods[spawnNumber]->SetShotModel(ShotModel);
 			Pods[spawnNumber]->SetSwarmerModel(SwarmerModel);
 			Pods[spawnNumber]->SetSwarmerRadarModel(SwarmerRadarModel);
+			Pods[spawnNumber]->SetSounds(SwarmerShotSound, ExplodeSound);
 			Pods[spawnNumber]->SetPlayer(ThePlayer);
 			Pods[spawnNumber]->SetData(Data);
 			Pods[spawnNumber]->SetExplosion(Explosion);

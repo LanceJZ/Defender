@@ -149,6 +149,7 @@ void Pod::SpawnSwarmers(int count)
 			Swarmers[swarmerSpawnNumber]->SetModel(SwarmerModel, 10.0f);
 			Swarmers[swarmerSpawnNumber]->SetRadarModel(SwarmerRadarModel, 3.0f);
 			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
+			Swarmers[swarmerSpawnNumber]->SetSounds(ShotSound, ExplodeSound);
 			Swarmers[swarmerSpawnNumber]->SetPlayer(ThePlayer);
 			Swarmers[swarmerSpawnNumber]->SetExplosion(Explosion);
 			Swarmers[swarmerSpawnNumber]->SetScore(Score, 150);

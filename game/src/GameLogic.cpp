@@ -138,6 +138,8 @@ void GameLogic::Load()
 		LoadSound("Sounds/Person Landed.wav"), LoadSound("Sounds/Person Exploded.wav"));
 
 	Bombers.SetSounds(enemyExplodeSound);
+
+	//Swarmers.SetSounds(enemyExplodeSound, LoadSound("Sounds/Swarmer Shot.wav"));
 }
 
 bool GameLogic::BeginRun(Camera* camera)
