@@ -22,6 +22,7 @@ bool Swarmer::BeginRun(Camera* camera)
 {
 	Enemy::BeginRun(camera);
 
+	//SetSoundVolume(ShotSound, 1.0f);
 	RotationAxis = { 0, 1.0f, 0 };
 	RotationVelocity = GetRandomFloat(25.1f, 52.6f);
 
@@ -36,24 +37,28 @@ void Swarmer::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	AfterSpawnTimer.Update(deltaTime);
-
-	if (AfterSpawnTimer.Elapsed())
-	{
-		AfterSpawnMovement();
-	}
-
 	if (Enabled)
 	{
-		if (ShotTimer.Elapsed())
+		AfterSpawnTimer.Update(deltaTime);
+
+		if (AfterSpawnTimer.Elapsed())
 		{
-			FireShot();
+			AfterSpawnMovement();
 		}
 
-		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
-	}
+		if (Enabled)
+		{
+			if (ShotTimer.Elapsed())
+			{
+				ShotTimer.Reset(GetRandomFloat(1.1275f, 1.724375f));
+				FireShot();
+			}
 
-	CheckCollision();
+			CheckPlayfieldHeightWarp(-0.15f, 1.0f);
+		}
+
+		CheckCollision();
+	}
 }
 
 void Swarmer::Draw()

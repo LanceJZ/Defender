@@ -22,6 +22,8 @@ SwarmerControl::~SwarmerControl()
 	UnloadModel(PodRadarModel);
 	UnloadModel(SwarmerRadarModel);
 	UnloadSound(SwarmerShotSound);
+	UnloadSound(SwarmerExplodeSound);
+	UnloadSound(PodExplodeSound);
 }
 
 bool SwarmerControl::Initialize()
@@ -55,10 +57,12 @@ void SwarmerControl::SetSwarmerRadarModel(Model model)
 	SwarmerRadarModel = model;
 }
 
-void SwarmerControl::SetSounds(Sound explodeSound, Sound shotSound)
+void SwarmerControl::SetSounds(Sound explodeSound, Sound swarmerExplode,
+	Sound shotSound)
 {
-	ExplodeSound = explodeSound;
+	PodExplodeSound = explodeSound;
 	SwarmerShotSound = shotSound;
+	SwarmerExplodeSound = swarmerExplode;
 }
 
 void SwarmerControl::SetPlayer(Player* player)
@@ -90,9 +94,26 @@ bool SwarmerControl::BeginRun(Camera* camera)
 
 void SwarmerControl::Update(float deltaTime)
 {
+	Data->PodsSwarmersBeGone = true;
+
 	for (auto pod : Pods)
 	{
 		pod->Update(deltaTime);
+
+		if (pod->Enabled)
+		{
+			Data->PodsSwarmersBeGone = false;
+		}
+		else
+		{
+			for (auto swarmer : pod->Swarmers)
+			{
+				if (swarmer->Enabled)
+				{
+					Data->PodsSwarmersBeGone = false;
+				}
+			}
+		}
 	}
 }
 
@@ -106,7 +127,11 @@ void SwarmerControl::Draw()
 
 void SwarmerControl::NewWave()
 {
-	SpawnPods(Data->Wave);
+	if (Data->Wave > 0)
+	{
+		SpawnPods(Data->Wave);
+		Data->PodsSwarmersBeGone = false;
+	}
 }
 
 void SwarmerControl::Reset()
@@ -118,11 +143,13 @@ void SwarmerControl::Reset()
 		if (pod->Enabled)
 		{
 			pod->Position.y = GetScreenWidth() * 3.5f;
+			Data->PodsSwarmersBeGone = false;
 		}
 
 		for (auto swarmer : pod->Swarmers)
 		{
 			swarmer->Position.y = GetScreenWidth() * 3.5f;
+			Data->PodsSwarmersBeGone = false;
 		}
 	}
 }
@@ -156,7 +183,7 @@ void SwarmerControl::SpawnPods(int count)
 			Pods[spawnNumber]->SetShotModel(ShotModel);
 			Pods[spawnNumber]->SetSwarmerModel(SwarmerModel);
 			Pods[spawnNumber]->SetSwarmerRadarModel(SwarmerRadarModel);
-			Pods[spawnNumber]->SetSounds(SwarmerShotSound, ExplodeSound);
+			Pods[spawnNumber]->SetSounds(SwarmerShotSound, PodExplodeSound);
 			Pods[spawnNumber]->SetPlayer(ThePlayer);
 			Pods[spawnNumber]->SetData(Data);
 			Pods[spawnNumber]->SetExplosion(Explosion);

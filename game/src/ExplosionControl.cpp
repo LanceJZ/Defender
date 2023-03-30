@@ -79,6 +79,14 @@ void ExplosionControl::Spawn(Vector3 position, int count, float time)
 	}
 }
 
+void ExplosionControl::Reset()
+{
+	for (auto cube : Particles)
+	{
+		cube->Enabled = false;
+	}
+}
+
 int ExplosionControl::SpawnPool()
 {
 		bool spawnNew = true;

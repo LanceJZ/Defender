@@ -17,6 +17,8 @@ BomberControl::~BomberControl()
 	UnloadModel(BombModel);
 	UnloadModel(BomberRadarModel);
 	Explosion = nullptr;
+
+	UnloadSound(ExplosionSound);
 }
 
 bool BomberControl::Initialize()
@@ -73,9 +75,16 @@ bool BomberControl::BeginRun(Camera* camera)
 
 void BomberControl::Update(float deltaTime)
 {
+	Data->BombersBeGone = true;
+
 	for (auto bomber : Bombers)
 	{
 		bomber->Update(deltaTime);
+
+		if (bomber->Enabled)
+		{
+			Data->BombersBeGone = false;
+		}
 	}
 }
 
@@ -89,7 +98,11 @@ void BomberControl::Draw()
 
 void BomberControl::NewWave()
 {
-	SpawnBombers(Data->Wave);
+	if (Data->Wave > 0)
+	{
+		SpawnBombers(Data->Wave);
+		Data->BombersBeGone = false;
+	}
 }
 
 void BomberControl::Reset()
@@ -100,6 +113,7 @@ void BomberControl::Reset()
 	{
 		if (bomber->Enabled)
 		{
+			Data->BombersBeGone = false;
 			spawnAmount++;
 			bomber->Enabled = false;
 

@@ -42,6 +42,11 @@ void Pod::SetSwarmerRadarModel(Model model)
 	SwarmerRadarModel = model;
 }
 
+void Pod::SetSwarmerExplodeSound(Sound sound)
+{
+	SwarmerExplodeSound = sound;
+}
+
 void Pod::SetData(SharedData* data)
 {
 	Data = data;
@@ -149,7 +154,7 @@ void Pod::SpawnSwarmers(int count)
 			Swarmers[swarmerSpawnNumber]->SetModel(SwarmerModel, 10.0f);
 			Swarmers[swarmerSpawnNumber]->SetRadarModel(SwarmerRadarModel, 3.0f);
 			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
-			Swarmers[swarmerSpawnNumber]->SetSounds(ShotSound, ExplodeSound);
+			Swarmers[swarmerSpawnNumber]->SetSounds(ShotSound, SwarmerExplodeSound);
 			Swarmers[swarmerSpawnNumber]->SetPlayer(ThePlayer);
 			Swarmers[swarmerSpawnNumber]->SetExplosion(Explosion);
 			Swarmers[swarmerSpawnNumber]->SetScore(Score, 150);
@@ -166,6 +171,7 @@ bool Pod::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
+		PlaySound(ExplodeSound);
 		SpawnSwarmers(4 + Data->Wave);
 	}
 

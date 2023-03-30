@@ -18,8 +18,7 @@ public:
 	void SetShotModel(Model model);
 	void SetPodRadarModel(Model model);
 	void SetSwarmerRadarModel(Model model);
-	void SetSwarmerShotSound(Sound sound);
-	void SetExplodeSound(Sound sound);
+	void SetSounds(Sound explodeSound, Sound swarmerExplode, Sound shotSound);
 	void SetPlayer(Player* player);
 	void SetData(SharedData* data);
 	void SetExplosion(ExplosionControl* explosion);
@@ -39,7 +38,8 @@ private:
 	Model PodRadarModel = { 0 };
 	Model SwarmerRadarModel = { 0 };
 	Sound SwarmerShotSound = { 0 };
-	Sound ExplodeSound = { 0 };
+	Sound PodExplodeSound = { 0 };
+	Sound SwarmerExplodeSound = { 0 };
 
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;

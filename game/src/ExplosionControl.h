@@ -16,6 +16,7 @@ public:
 	virtual void Draw();
 
 	void Spawn(Vector3 position, int count, float time);
+	void Reset();
 
 private:
 	float Xmult = 0;

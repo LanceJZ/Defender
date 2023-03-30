@@ -164,12 +164,11 @@ bool Enemy::CheckCollision()
 
 void Enemy::FireShot()
 {
-	PlaySound(ShotSound);
-
 	for (auto &shot : Shots)
 	{
 		if (!shot.Enabled)
 		{
+			PlaySound(ShotSound);
 			shot.Spawn(Position, VelocityFromAngleZ(Shots[0].GetShotAngle(Position), 125.0f), 8.0f);
 			return;
 		}

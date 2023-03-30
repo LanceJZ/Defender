@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.05");
+	SetWindowTitle("Defender Alpha 01.10");
 	ThePlayer.Initialize();
 	ControlLanderMutant.Initialize();
 	TheLand.Initialize();
@@ -137,9 +137,10 @@ void GameLogic::Load()
 		LoadSound("Sounds/Person Dropped.wav"), LoadSound("Sounds/Person Caught.wav"),
 		LoadSound("Sounds/Person Landed.wav"), LoadSound("Sounds/Person Exploded.wav"));
 
-	Bombers.SetSounds(enemyExplodeSound);
+	Bombers.SetSounds(LoadSound("Sounds/Bomber Explode.wav"));
 
-	//Swarmers.SetSounds(enemyExplodeSound, LoadSound("Sounds/Swarmer Shot.wav"));
+	Swarmers.SetSounds(LoadSound("Sounds/Pod Explode.wav"), LoadSound("Sounds/Swarmer Explode.wav"),
+		LoadSound("Sounds/Swarmer Shot.wav"));
 }
 
 bool GameLogic::BeginRun(Camera* camera)
@@ -324,7 +325,7 @@ void GameLogic::UpdatePlayerLand(float deltaTime)
 
 void GameLogic::CheckEndOfWave()
 {
-	if (Data.LandersMutantsBeGone)
+	if (Data.LandersMutantsBeGone && Data.PodsSwarmersBeGone && Data.BombersBeGone)
 	{
 		State = NewWave;
 		NewWaveTimer.Reset();
@@ -354,6 +355,7 @@ void GameLogic::ResetAfterExplode()
 	ControlLanderMutant.PlayerHitReset();
 	Bombers.Reset();
 	Swarmers.Reset();
+	Explosions.Reset();
 }
 
 void GameLogic::PlayerWasHit()

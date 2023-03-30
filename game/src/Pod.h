@@ -15,6 +15,7 @@ public:
 	void SetShotModel(Model model);
 	void SetSwarmerModel(Model model);
 	void SetSwarmerRadarModel(Model model);
+	void SetSwarmerExplodeSound(Sound sound);
 	void SetData(SharedData* data);
 	bool BeginRun(Camera* camera);
 
@@ -28,6 +29,7 @@ private:
 	Model SwarmerModel = { 0 };
 	Model SwarmerRadarModel = { 0 };
 	Model ShotModel = { 0 };
+	Sound SwarmerExplodeSound = { 0 };
 
 	SharedData* Data = nullptr;
 
