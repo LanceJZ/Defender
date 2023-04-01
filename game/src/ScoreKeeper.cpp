@@ -32,7 +32,8 @@ void ScoreKeeper::Update(float deltaTime)
 
 void ScoreKeeper::Draw()
 {
-	DrawText(const_cast<char*>(std::to_string(Score).c_str()), 150, 75, 45, BLUE);
+	DrawText(const_cast<char*>(std::to_string(Score).c_str()),
+		100 - (1 * 45), 75, 45, BLUE);
 }
 
 void ScoreKeeper::AddToScore(int amount)

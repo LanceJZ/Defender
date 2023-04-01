@@ -199,6 +199,7 @@ void Player::Update(float deltaTime)
 
 	CameraMovement();
 	RadarMovement();
+	LivesDisplayUpdate();
 }
 
 void Player::Draw()
@@ -213,6 +214,11 @@ void Player::Draw()
 	for (auto &shot : Shots)
 	{
 		shot.Draw();
+	}
+
+	for (auto& ship : LivesShips)
+	{
+		ship->Draw();
 	}
 }
 
@@ -234,11 +240,27 @@ void Player::Reset()
 	{
 		shot.Reset();
 	}
+
+	LivesDisplay();
+}
+
+void Player::NewGame()
+{
+	Lives = 4;
+	GameOver = false;
+	Reset();
 }
 
 void Player::Hit()
 {
 	Entity::BeenHit = true;
+	Lives--;
+
+	if (Lives < 0)
+	{
+		GameOver = true;
+	}
+
 	PlaySound(ExplodeSound);
 	Velocity = { 0,0,0 };
 	Acceleration = { 0,0,0 };
@@ -472,4 +494,45 @@ void Player::SmartBomb()
 
 void Player::Hyperspace()
 {
+}
+
+void Player::LivesDisplay()
+{
+	int ships = (int)LivesShips.size();
+	float line = WindowHeight - Radius * 4.5f;
+
+	if (Lives > ships)
+	{
+		for (int i = 0; i < Lives - ships; i++)
+		{
+			LivesShips.push_back(new Model3D());
+			LivesShips[ships + i]->Initialize();
+			LivesShips[ships + i]->SetModel(GetModel(), ModelScale * 0.5f);
+			LivesShips[ships + i]->Z(200.0f);
+			LivesShips[ships + i]->BeginRun(TheCamera);
+		}
+	}
+
+	for (auto& ship : LivesShips)
+	{
+		ship->Y(line);
+		ship->Enabled = false;
+		ship->Cull = false;
+	}
+
+	for (int i = 0; i < Lives; i++)
+	{
+		LivesShips[i]->Enabled = true;
+	}
+}
+
+void Player::LivesDisplayUpdate()
+{
+	float column = WindowWidth - Radius * 4.5f;
+
+	for (auto& ship : LivesShips)
+	{
+		ship->X(-column + TheCamera->position.x);
+		column -= Radius * 5.5f;
+	}
 }

@@ -9,6 +9,7 @@ public:
 	Player();
 	virtual ~Player();
 
+	bool GameOver = false;
 	PlayerShot Shots[(int)4];
 	Entity BackCollusion;
 	Entity FrontCollusion;
@@ -28,12 +29,14 @@ public:
 	void Draw();
 
 	void Reset();
+	void NewGame();
 	void Hit();
 
 private:
 	bool FacingRight = true;
 	bool ChangedFacing = false;
 	bool RotateFacing = false;
+	int Lives = 0;
 	float moveToOffset = 1000;
 	float HorzSpeed = 30.0f;
 	float HorzMaxSpeed = 200.0f;
@@ -53,6 +56,8 @@ private:
 	Camera* TheCamera = nullptr;
 	ExplosionControl* Explosion = nullptr;
 
+	std::vector<Model3D*> LivesShips;
+
 	void CameraMovement();
 	void RadarMovement();
 	void RotateShipFacing();
@@ -67,5 +72,7 @@ private:
 	void Fire();
 	void SmartBomb();
 	void Hyperspace();
+	void LivesDisplay();
+	void LivesDisplayUpdate();
 };
 

@@ -433,20 +433,11 @@ void LanderMutantControl::StartWave()
 		mutant->Reset();
 	}
 
-	int numberOfPeopleAlive = 0;
-
-	for (auto &person : People)
+	if (NumberofPeopleAlive > 0)
 	{
-		if (person.Enabled)
-		{
-			numberOfPeopleAlive++;
-		}
-
-		person.Destroy();
+		LandersTurnedToMutants = false;
+		SpawnPoeple(NumberofPeopleAlive);
 	}
-
-	LandersTurnedToMutants = false;
-	SpawnPoeple(numberOfPeopleAlive);
 
 	StartLanderWave();
 }
@@ -457,6 +448,23 @@ void LanderMutantControl::NewLevelWave()
 		TotalSpawn += 5;
 
 	NumberSpawned = 0;
+}
+
+void LanderMutantControl::EndOfLevelWave()
+{
+	NumberofPeopleAlive = 0;
+
+	for (auto &person : People)
+	{
+		if (person.Enabled)
+		{
+			NumberofPeopleAlive++;
+		}
+
+		person.Destroy();
+	}
+
+	Score->AddToScore(NumberofPeopleAlive * (100 * Data->Wave));
 }
 
 void LanderMutantControl::PlayerHitReset()

@@ -14,10 +14,10 @@ bool GameLogic::Initialize()
 {
 	SetWindowTitle("Defender Alpha 01.10");
 	ThePlayer.Initialize();
-	ControlLanderMutant.Initialize();
+	LandersMutants.Initialize();
 	TheLand.Initialize();
 	Bombers.Initialize();
-	Swarmers.Initialize();
+	PodsSwarmers.Initialize();
 	Explosions.Initialize();
 	NewWaveTimer.Set(1.5f);
 	WaveStartTimer.Set(1.666f);
@@ -104,23 +104,23 @@ void GameLogic::Load()
 	ThePlayer.SetTailModel(LoadModelwithTexture("Player Shot Tail"));
 	//Load all the models and their textures used by Lander and Mutant.
 	Model shot = LoadModelwithTexture("Shot");
-	ControlLanderMutant.SetLanderModel(LoadModelwithTexture("Lander"));
-	ControlLanderMutant.SetMutantModel(LoadModelwithTexture("Mutant"));
-	ControlLanderMutant.SetShotModel(shot);
-	ControlLanderMutant.SetPersonModel(LoadModelwithTexture("Person"));
-	ControlLanderMutant.SetLanderRadarModel(LoadModelwithTexture("Lander Radar"));
-	ControlLanderMutant.SetPersonRadar(LoadModelwithTexture("Person Radar"));
-	ControlLanderMutant.SetMutantRadarModel(LoadModelwithTexture("Mutant Radar"));
+	LandersMutants.SetLanderModel(LoadModelwithTexture("Lander"));
+	LandersMutants.SetMutantModel(LoadModelwithTexture("Mutant"));
+	LandersMutants.SetShotModel(shot);
+	LandersMutants.SetPersonModel(LoadModelwithTexture("Person"));
+	LandersMutants.SetLanderRadarModel(LoadModelwithTexture("Lander Radar"));
+	LandersMutants.SetPersonRadar(LoadModelwithTexture("Person Radar"));
+	LandersMutants.SetMutantRadarModel(LoadModelwithTexture("Mutant Radar"));
 	//Load all the models and their textures used by the Bomber.
 	Bombers.SetBomber(LoadModelwithTexture("Bomber"));
 	Bombers.SetBomb(LoadModelwithTexture("Bomb"));
 	Bombers.SetBomberRadar(LoadModelwithTexture("Bomber Radar"));
 	//Load all the models and their textures used by Pod and Swarmer.
-	Swarmers.SetPodModel(LoadModelwithTexture("Pod"));
-	Swarmers.SetSwarmerModel(LoadModelwithTexture("Swarmer"));
-	Swarmers.SetShotModel(shot);
-	Swarmers.SetPodRadarModel(LoadModelwithTexture("Pod Radar"));
-	Swarmers.SetSwarmerRadarModel(LoadModelwithTexture("Swarmer Radar"));
+	PodsSwarmers.SetPodModel(LoadModelwithTexture("Pod"));
+	PodsSwarmers.SetSwarmerModel(LoadModelwithTexture("Swarmer"));
+	PodsSwarmers.SetShotModel(shot);
+	PodsSwarmers.SetPodRadarModel(LoadModelwithTexture("Pod Radar"));
+	PodsSwarmers.SetSwarmerRadarModel(LoadModelwithTexture("Swarmer Radar"));
 	// Load up cube for FX
 	Explosions.SetCubeModel(LoadModelwithTexture("Cube"));
 
@@ -130,16 +130,16 @@ void GameLogic::Load()
 
 	Sound enemyExplodeSound = LoadSound("Sounds/Enemy Explode.wav");
 
-	ControlLanderMutant.SetSounds(LoadSound("Sounds/Enemy Shot.wav"), enemyExplodeSound,
+	LandersMutants.SetSounds(LoadSound("Sounds/Enemy Shot.wav"), enemyExplodeSound,
 		LoadSound("Sounds/Mutant Shot.wav"), LoadSound("Sounds/Lander Mutate.wav"),
 		LoadSound("Sounds/Landers Spawn.wav"));
-	ControlLanderMutant.SetPersonSounds(LoadSound("Sounds/Person Grabbed.wav"),
+	LandersMutants.SetPersonSounds(LoadSound("Sounds/Person Grabbed.wav"),
 		LoadSound("Sounds/Person Dropped.wav"), LoadSound("Sounds/Person Caught.wav"),
 		LoadSound("Sounds/Person Landed.wav"), LoadSound("Sounds/Person Exploded.wav"));
 
 	Bombers.SetSounds(LoadSound("Sounds/Bomber Explode.wav"));
 
-	Swarmers.SetSounds(LoadSound("Sounds/Pod Explode.wav"), LoadSound("Sounds/Swarmer Explode.wav"),
+	PodsSwarmers.SetSounds(LoadSound("Sounds/Pod Explode.wav"), LoadSound("Sounds/Swarmer Explode.wav"),
 		LoadSound("Sounds/Swarmer Shot.wav"));
 }
 
@@ -148,23 +148,23 @@ bool GameLogic::BeginRun(Camera* camera)
 	ThePlayer.BeginRun(camera);
 	ThePlayer.SetExplosion(&Explosions);
 	TheLand.SetPlayer(&ThePlayer);
-	ControlLanderMutant.SetPlayer(&ThePlayer);
-	ControlLanderMutant.SetData(&Data);
-	ControlLanderMutant.SetExplosion(&Explosions);
-	ControlLanderMutant.SetScore(&Score);
+	LandersMutants.SetPlayer(&ThePlayer);
+	LandersMutants.SetData(&Data);
+	LandersMutants.SetExplosion(&Explosions);
+	LandersMutants.SetScore(&Score);
 	Bombers.SetPlayer(&ThePlayer);
 	Bombers.SetData(&Data);
 	Bombers.SetExplosion(&Explosions);
 	Bombers.SetScore(&Score);
-	Swarmers.SetPlayer(&ThePlayer);
-	Swarmers.SetData(&Data);
-	Swarmers.SetExplosion(&Explosions);
-	Swarmers.SetScore(&Score);
+	PodsSwarmers.SetPlayer(&ThePlayer);
+	PodsSwarmers.SetData(&Data);
+	PodsSwarmers.SetExplosion(&Explosions);
+	PodsSwarmers.SetScore(&Score);
 	//BeginRun after everything else.
 	TheLand.BeginRun(camera);
-	ControlLanderMutant.BeginRun(camera);
+	LandersMutants.BeginRun(camera);
 	Bombers.BeginRun(camera);
-	Swarmers.BeginRun(camera);
+	PodsSwarmers.BeginRun(camera);
 	Explosions.BeginRun(camera);
 
 	return false;
@@ -194,7 +194,7 @@ void GameLogic::Input()
 		if (IsKeyPressed(KEY_N))
 		{
 			State = WaveStart;
-			ThePlayer.Reset();
+			ThePlayer.NewGame();
 			Score.ClearScore();
 		}
 	}
@@ -205,20 +205,20 @@ void GameLogic::Update(float deltaTime)
 	if (State == InPlay)
 	{
 		UpdatePlayerLand(deltaTime);
-		ControlLanderMutant.Update(deltaTime);
+		LandersMutants.Update(deltaTime);
 		Bombers.Update(deltaTime);
-		Swarmers.Update(deltaTime);
+		PodsSwarmers.Update(deltaTime);
 		Explosions.Update(deltaTime);
-		CheckEndOfWave();
+		CheckEndOfLevelWave();
 
 		if (ThePlayer.BeenHit)
 		{
 			PlayerWasHit();
 		}
 
-		if (Data.PeopleBeGone && !ControlLanderMutant.LandersTurnedToMutants)
+		if (Data.PeopleBeGone && !LandersMutants.LandersTurnedToMutants)
 		{
-			ControlLanderMutant.TheyAllDied();
+			LandersMutants.TheyAllDied();
 			TheLand.AllThePersonManDead();
 		}
 	}
@@ -241,6 +241,11 @@ void GameLogic::Update(float deltaTime)
 			State = WaveStart;
 			WaveStartTimer.Reset();
 			ResetAfterExplode();
+
+			if (ThePlayer.GameOver)
+			{
+				State = MainMenu;
+			}
 		}
 	}
 	else if (State == WaveStart)
@@ -280,9 +285,9 @@ void GameLogic::Draw3D()
 
 		if (State == InPlay || State == PlayerHit)
 		{
-			ControlLanderMutant.Draw();
+			LandersMutants.Draw();
 			Bombers.Draw();
-			Swarmers.Draw();
+			PodsSwarmers.Draw();
 		}
 	}
 }
@@ -323,17 +328,18 @@ void GameLogic::UpdatePlayerLand(float deltaTime)
 	TheLand.Update(deltaTime);
 }
 
-void GameLogic::CheckEndOfWave()
+void GameLogic::CheckEndOfLevelWave()
 {
 	if (Data.LandersMutantsBeGone && Data.PodsSwarmersBeGone && Data.BombersBeGone)
 	{
 		State = NewWave;
+		Data.Wave++;
 		NewWaveTimer.Reset();
 		ThePlayer.Reset();
-		Data.Wave++;
-		ControlLanderMutant.NewLevelWave();
+		LandersMutants.EndOfLevelWave();
+		LandersMutants.NewLevelWave();
 		Bombers.NewWave();
-		Swarmers.NewWave();
+		PodsSwarmers.NewWave();
 		TheLand.NewLevel();
 
 		if (Data.Wave > 0)
@@ -345,16 +351,16 @@ void GameLogic::CheckEndOfWave()
 
 void GameLogic::NewWaveStart()
 {
-	ControlLanderMutant.StartWave();
+	LandersMutants.StartWave();
 }
 
 void GameLogic::ResetAfterExplode()
 {
 	PlayerResetTimer.Reset(0.666f);
 	ThePlayer.Reset();
-	ControlLanderMutant.PlayerHitReset();
+	LandersMutants.PlayerHitReset();
 	Bombers.Reset();
-	Swarmers.Reset();
+	PodsSwarmers.Reset();
 	Explosions.Reset();
 }
 

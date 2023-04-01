@@ -126,7 +126,7 @@ void Person::Falling()
 
 		if (DroppedY > 0)
 		{
-			Explosion->Spawn(Position, 20.0f, 3.0f);
+			Explosion->Spawn(Position, 20, 3.0f);
 			PlaySound(SplatSound);
 			Destroy();
 		}

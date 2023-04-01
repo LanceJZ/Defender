@@ -191,12 +191,13 @@ void Land::Draw()
 	RadarHorzL.Draw();
 	RadarHorzR.Draw();
 
+#ifdef _DEBUG
 	DrawLine3D({ (float)GetScreenWidth() * 3.5f, (float)GetScreenHeight() * 0.35f, 0},
 		{(float)GetScreenWidth() * 3.5f, -(float)GetScreenHeight(), 0}, WHITE);
 
 	DrawLine3D({ -(float)GetScreenWidth() * 3.5f, (float)GetScreenHeight() * 0.35f, 0},
 		{-(float)GetScreenWidth() * 3.5f, -(float)GetScreenHeight(), 0}, WHITE);
-
+#endif
 }
 
 void Land::AllThePersonManDead()

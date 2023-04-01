@@ -53,13 +53,12 @@ private:
 	SharedData Data;
 	ExplosionControl Explosions;
 
-	LanderMutantControl ControlLanderMutant;
-
+	LanderMutantControl LandersMutants;
 	BomberControl Bombers;
-	SwarmerControl Swarmers;
+	SwarmerControl PodsSwarmers;
 
 	void UpdatePlayerLand(float deltaTime);
-	void CheckEndOfWave();
+	void CheckEndOfLevelWave();
 	void NewWaveStart();
 	void PlayerWasHit();
 	void ResetAfterExplode();

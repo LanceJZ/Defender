@@ -40,12 +40,14 @@ public:
 	void StartLanderWave();
 	void StartWave();
 	void NewLevelWave();
+	void EndOfLevelWave();
 	void PlayerHitReset();
 	void TheyAllDied();
 
 private:
 	int TotalSpawn = 10;
 	int NumberSpawned = 0;
+	int NumberofPeopleAlive = 0;
 	float SpawnTimerAmount = 30.0f;
 
 	Model LanderModel = { 0 };
