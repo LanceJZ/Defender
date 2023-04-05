@@ -62,5 +62,6 @@ private:
 	void NewWaveStart();
 	void PlayerWasHit();
 	void ResetAfterExplode();
+	void SmartBombFired();
 };
 

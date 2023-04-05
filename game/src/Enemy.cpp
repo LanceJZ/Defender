@@ -89,8 +89,6 @@ void Enemy::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	ShotTimer.Update(deltaTime);
-
 	for (auto &shot : Shots)
 	{
 		shot.Update(deltaTime);
@@ -98,8 +96,10 @@ void Enemy::Update(float deltaTime)
 
 	if (Enabled)
 	{
+		ShotTimer.Update(deltaTime);
 		RadarMirror.PositionUpdate(Enabled, Position);
 		CheckPlayfieldSidesWarp(4.0f, 3.0f);
+		CheckCollision();
 	}
 }
 
@@ -127,6 +127,7 @@ bool Enemy::CheckCollision()
 				{
 					Score->AddToScore(ScoreAmount);
 					shot.Enabled = false;
+					Hit();
 					Destroy();
 					return true;
 				}
@@ -137,6 +138,7 @@ bool Enemy::CheckCollision()
 			CirclesIntersect(&ThePlayer->FrontCollusion))
 		{
 			Score->AddToScore(ScoreAmount);
+			Hit();
 			Destroy();
 			ThePlayer->Hit();
 			return true;
@@ -191,6 +193,12 @@ void Enemy::Reset()
 	}
 
 	Destroy();
+}
+
+void Enemy::Hit()
+{
+	PlaySound(ExplodeSound);
+	Explosion->Spawn(Position, 10, 1.5f);
 }
 
 void Enemy::Destroy()

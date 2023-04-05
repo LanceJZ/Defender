@@ -10,6 +10,7 @@ public:
 	virtual ~Player();
 
 	bool GameOver = false;
+	bool SmartBombFired = false;
 	PlayerShot Shots[(int)4];
 	Entity BackCollusion;
 	Entity FrontCollusion;
@@ -20,7 +21,8 @@ public:
 	void SetShotModel(Model model);
 	void SetTailModel(Model model);
 	void SetRadarModel(Model model);
-	void SetSounds(Sound shot, Sound explode, Sound thrust);
+	void SetSmartbombModel(Model model);
+	void SetSounds(Sound shot, Sound explode, Sound thrust, Sound bomb);
 	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
@@ -37,6 +39,7 @@ private:
 	bool ChangedFacing = false;
 	bool RotateFacing = false;
 	int Lives = 0;
+	int SmartBombs = 0;
 	float moveToOffset = 1000;
 	float HorzSpeed = 30.0f;
 	float HorzMaxSpeed = 200.0f;
@@ -48,15 +51,18 @@ private:
 	Sound ShotSound = { 0 };
 	Sound ExplodeSound = { 0 };
 	Sound ThrustSound = { 0 };
-	Model ShotModel;
-	Model ShotTrailModel;
-	Model RadarModel;
+	Sound SmartbombSound = { 0 };
+	Model ShotModel = { 0 };
+	Model ShotTrailModel = { 0 };
+	Model RadarModel = { 0 };
+	Model SmartbombModel = { 0 };
 	Model3D Flame;
 	Model3D Radar;
 	Camera* TheCamera = nullptr;
 	ExplosionControl* Explosion = nullptr;
 
 	std::vector<Model3D*> LivesShips;
+	std::vector<Model3D*> SmartbombIcons;
 
 	void CameraMovement();
 	void RadarMovement();
@@ -74,5 +80,7 @@ private:
 	void Hyperspace();
 	void LivesDisplay();
 	void LivesDisplayUpdate();
+	void SmartbombsDisplay();
+	void SmartbombsDisplayUpdate();
 };
 

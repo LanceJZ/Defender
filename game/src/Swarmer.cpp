@@ -56,8 +56,6 @@ void Swarmer::Update(float deltaTime)
 
 			CheckPlayfieldHeightWarp(-0.15f, 1.0f);
 		}
-
-		CheckCollision();
 	}
 }
 

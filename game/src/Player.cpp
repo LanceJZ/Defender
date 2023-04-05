@@ -85,11 +85,17 @@ void Player::SetRadarModel(Model model)
 	RadarModel = model;
 }
 
-void Player::SetSounds(Sound shot, Sound explode, Sound thrust)
+void Player::SetSmartbombModel(Model model)
+{
+	SmartbombModel = model;
+}
+
+void Player::SetSounds(Sound shot, Sound explode, Sound thrust, Sound bomb)
 {
 	ShotSound = shot;
 	ExplodeSound = explode;
 	ThrustSound = thrust;
+	SmartbombSound = bomb;
 }
 
 void Player::SetExplosion(ExplosionControl* explosion)
@@ -108,15 +114,17 @@ bool Player::BeginRun(Camera* camera)
 	Flame.BeginRun(camera);
 	AddChild(&Flame);
 	Radar.BeginRun(camera);
-	SetSoundPitch(ThrustSound, 0.5f);
-	SetSoundPitch(ExplodeSound, 0.75f);
-	SetSoundVolume(ThrustSound, 0.5f);
-	SetSoundVolume(ShotSound, 0.5f);
 
 	for (auto &shot : Shots)
 	{
 		shot.BeginRun(camera);
 	}
+
+	SetSoundPitch(ThrustSound, 0.5f);
+	SetSoundPitch(ExplodeSound, 0.75f);
+	SetSoundVolume(ThrustSound, 0.5f);
+	SetSoundVolume(ShotSound, 0.5f);
+	SetSoundVolume(SmartbombSound, 0.5f);
 
 	return false;
 }
@@ -200,6 +208,7 @@ void Player::Update(float deltaTime)
 	CameraMovement();
 	RadarMovement();
 	LivesDisplayUpdate();
+	SmartbombsDisplayUpdate();
 }
 
 void Player::Draw()
@@ -219,6 +228,11 @@ void Player::Draw()
 	for (auto& ship : LivesShips)
 	{
 		ship->Draw();
+	}
+
+	for (auto& bomb : SmartbombIcons)
+	{
+		bomb->Draw();
 	}
 }
 
@@ -242,11 +256,13 @@ void Player::Reset()
 	}
 
 	LivesDisplay();
+	SmartbombsDisplay();
 }
 
 void Player::NewGame()
 {
 	Lives = 4;
+	SmartBombs = 3;
 	GameOver = false;
 	Reset();
 }
@@ -490,6 +506,13 @@ void Player::Fire()
 
 void Player::SmartBomb()
 {
+	if (SmartBombs > 0)
+	{
+		SmartBombs--;
+		PlaySound(SmartbombSound);
+		SmartbombsDisplay();
+		SmartBombFired = true;
+	}
 }
 
 void Player::Hyperspace()
@@ -499,7 +522,7 @@ void Player::Hyperspace()
 void Player::LivesDisplay()
 {
 	int ships = (int)LivesShips.size();
-	float line = WindowHeight - Radius * 4.5f;
+	float row = WindowHeight - Radius * 4.5f;
 
 	if (Lives > ships)
 	{
@@ -509,15 +532,15 @@ void Player::LivesDisplay()
 			LivesShips[ships + i]->Initialize();
 			LivesShips[ships + i]->SetModel(GetModel(), ModelScale * 0.5f);
 			LivesShips[ships + i]->Z(200.0f);
+			LivesShips[ships + i]->Y(row);
+			LivesShips[ships + i]->Cull = false;
 			LivesShips[ships + i]->BeginRun(TheCamera);
 		}
 	}
 
 	for (auto& ship : LivesShips)
 	{
-		ship->Y(line);
 		ship->Enabled = false;
-		ship->Cull = false;
 	}
 
 	for (int i = 0; i < Lives; i++)
@@ -534,5 +557,46 @@ void Player::LivesDisplayUpdate()
 	{
 		ship->X(-column + TheCamera->position.x);
 		column -= Radius * 5.5f;
+	}
+}
+
+void Player::SmartbombsDisplay()
+{
+	int bombs = (int)SmartbombIcons.size();
+	float row = WindowHeight - 15 * 7.75f;
+
+	if (SmartBombs > bombs)
+	{
+		for (int i = 0; i < SmartBombs - bombs; i++)
+		{
+			SmartbombIcons.push_back(new Model3D());
+			SmartbombIcons[bombs + i]->Initialize();
+			SmartbombIcons[bombs + i]->SetModel(SmartbombModel, 15.0f);
+			SmartbombIcons[bombs + i]->Z(200.0f);
+			SmartbombIcons[bombs + i]->Y(row);
+			SmartbombIcons[bombs + i]->Cull = false;
+			SmartbombIcons[bombs + i]->BeginRun(TheCamera);
+			row += 10 * 2;
+		}
+	}
+
+	for (auto& bomb : SmartbombIcons)
+	{
+		bomb->Enabled = false;
+	}
+
+	for (int i = 0; i < SmartBombs; i++)
+	{
+		SmartbombIcons[i]->Enabled = true;
+	}
+}
+
+void Player::SmartbombsDisplayUpdate()
+{
+	float column = WindowWidth - 15 * 22.5f;
+
+	for (auto& bomb : SmartbombIcons)
+	{
+		bomb->X(-column + TheCamera->position.x);
 	}
 }

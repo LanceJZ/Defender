@@ -106,7 +106,7 @@ void SwarmerControl::Update(float deltaTime)
 		}
 		else
 		{
-			for (auto swarmer : pod->PodsSwarmers)
+			for (auto swarmer : pod->Swarmers)
 			{
 				if (swarmer->Enabled)
 				{
@@ -146,7 +146,7 @@ void SwarmerControl::Reset()
 			Data->PodsSwarmersBeGone = false;
 		}
 
-		for (auto swarmer : pod->PodsSwarmers)
+		for (auto swarmer : pod->Swarmers)
 		{
 			swarmer->Position.y = GetScreenWidth() * 3.5f;
 			Data->PodsSwarmersBeGone = false;

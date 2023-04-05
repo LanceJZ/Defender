@@ -100,8 +100,6 @@ void Lander::Update(float deltaTime)
 			SpawnMutatant();
 		}
 	}
-
-	CheckCollision();
 }
 
 void Lander::Draw()
@@ -143,8 +141,11 @@ bool Lander::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
-		PlaySound(ExplodeSound);
-		Explosion->Spawn(Position, 10, 1.5f);
+		if (PersonTarget && State != Mutate)
+		{
+			PersonTarget->Dropped();
+			PlaySound(PersonDroppedSound);
+		}
 	}
 
 	return false;
@@ -162,12 +163,7 @@ void Lander::Destroy()
 {
 	Enemy::Destroy();
 
-	if (PersonTarget && State != Mutate)
-	{
-		PersonTarget->Dropped();
-		PlaySound(PersonDroppedSound);
-	}
-	else if (State == Mutate)
+	if (State == Mutate)
 	{
 		PlaySound(MutateSound);
 	}

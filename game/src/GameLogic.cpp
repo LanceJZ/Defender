@@ -102,6 +102,7 @@ void GameLogic::Load()
 	ThePlayer.SetFlameModel(LoadModelwithTexture("Player Flame"));
 	ThePlayer.SetShotModel(LoadModelwithTexture("Player Shot"));
 	ThePlayer.SetTailModel(LoadModelwithTexture("Player Shot Tail"));
+	ThePlayer.SetSmartbombModel(LoadModelwithTexture("BombIcon"));
 	//Load all the models and their textures used by Lander and Mutant.
 	Model shot = LoadModelwithTexture("Shot");
 	LandersMutants.SetLanderModel(LoadModelwithTexture("Lander"));
@@ -126,7 +127,7 @@ void GameLogic::Load()
 
 	//********* Sounds ***************
 	ThePlayer.SetSounds(LoadSound("Sounds/Player Shot.wav"), LoadSound("Sounds/Player Explode.wav"),
-		LoadSound("Sounds/Player Thrust.wav"));
+		LoadSound("Sounds/Player Thrust.wav"), LoadSound("Sounds/Smartbomb.wav"));
 
 	Sound enemyExplodeSound = LoadSound("Sounds/Enemy Explode.wav");
 
@@ -214,6 +215,11 @@ void GameLogic::Update(float deltaTime)
 		if (ThePlayer.BeenHit)
 		{
 			PlayerWasHit();
+		}
+
+		if (ThePlayer.SmartBombFired)
+		{
+			SmartBombFired();
 		}
 
 		if (Data.PeopleBeGone && !LandersMutants.LandersTurnedToMutants)
@@ -352,6 +358,77 @@ void GameLogic::CheckEndOfLevelWave()
 void GameLogic::NewWaveStart()
 {
 	LandersMutants.StartWave();
+}
+
+void GameLogic::SmartBombFired()
+{
+	ThePlayer.SmartBombFired = false;
+	float windowWidth = GetScreenWidth() / 1.4f;
+
+	for (auto enemy : LandersMutants.Landers)
+	{
+		if (enemy->X() > ThePlayer.X() - windowWidth &&
+			enemy->X() < ThePlayer.X() + windowWidth)
+		{
+			if (enemy->Enabled)
+			{
+				enemy->Hit();
+				enemy->Reset();
+			}
+		}
+	}
+
+	for (auto enemy : LandersMutants.Mutants)
+	{
+		if (enemy->X() > ThePlayer.X() - windowWidth &&
+			enemy->X() < ThePlayer.X() + windowWidth)
+		{
+			if (enemy->Enabled)
+			{
+				enemy->Hit();
+				enemy->Reset();
+			}
+		}
+	}
+
+	for (auto enemy : Bombers.Bombers)
+	{
+		if (enemy->X() > ThePlayer.X() - windowWidth &&
+			enemy->X() < ThePlayer.X() + windowWidth)
+		{
+			if (enemy->Enabled)
+			{
+				enemy->Hit();
+				enemy->Reset();
+			}
+		}
+	}
+
+	for (auto pods : PodsSwarmers.Pods)
+	{
+		if (pods->X() > ThePlayer.X() - windowWidth &&
+			pods->X() < ThePlayer.X() + windowWidth)
+		{
+			if (pods->Enabled)
+			{
+				pods->Hit();
+				pods->Reset();
+			}
+		}
+
+		for (auto swarmers : pods->Swarmers)
+		{
+			if (swarmers->X() > ThePlayer.X() - windowWidth &&
+				swarmers->X() < ThePlayer.X() + windowWidth)
+			{
+				if (swarmers->Enabled)
+				{
+					swarmers->Hit();
+					swarmers->Reset();
+				}
+			}
+		}
+	}
 }
 
 void GameLogic::ResetAfterExplode()

@@ -31,6 +31,7 @@ public:
 
 	virtual void Spawn(Vector3 position);
 	virtual void Reset();
+	virtual void Hit();
 
 protected:
 	int ScoreAmount = 0;

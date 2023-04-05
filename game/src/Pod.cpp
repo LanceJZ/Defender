@@ -7,12 +7,12 @@ Pod::Pod()
 
 Pod::~Pod()
 {
-	for (int i = 0; i < PodsSwarmers.size(); i++)
+	for (int i = 0; i < Swarmers.size(); i++)
 	{
-		delete PodsSwarmers[i];
+		delete Swarmers[i];
 	}
 
-	PodsSwarmers.clear();
+	Swarmers.clear();
 	Data = nullptr;
 	Explosion = nullptr;
 }
@@ -63,7 +63,7 @@ void Pod::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	for (auto swarmer : PodsSwarmers)
+	for (auto swarmer : Swarmers)
 	{
 		swarmer->Update(deltaTime);
 	}
@@ -72,7 +72,6 @@ void Pod::Update(float deltaTime)
 	{
 		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
-		CheckCollision();
 	}
 }
 
@@ -80,7 +79,7 @@ void Pod::Draw()
 {
 	Enemy::Draw();
 
-	for (auto swarmer : PodsSwarmers)
+	for (auto swarmer : Swarmers)
 	{
 		swarmer->Draw();
 	}
@@ -130,12 +129,12 @@ void Pod::SpawnSwarmers(int count)
 	for (int i = 0; i < count; i++)
 	{
 		bool spawnNew = true;
-		int swarmerSpawnNumber = (int)PodsSwarmers.size();
+		int swarmerSpawnNumber = (int)Swarmers.size();
 		int swarmerNumber = 0;
 		float xVol = GetRandomFloat(65.0f, 75.0f);
 		float yVol = GetRandomFloat(55.0f, 65.0f);
 
-		for (auto swarmer : PodsSwarmers)
+		for (auto swarmer : Swarmers)
 		{
 			if (!swarmer->Enabled)
 			{
@@ -149,19 +148,19 @@ void Pod::SpawnSwarmers(int count)
 
 		if (spawnNew)
 		{
-			PodsSwarmers.push_back(new Swarmer());
-			PodsSwarmers[swarmerSpawnNumber]->Initialize();
-			PodsSwarmers[swarmerSpawnNumber]->SetModel(SwarmerModel, 10.0f);
-			PodsSwarmers[swarmerSpawnNumber]->SetRadarModel(SwarmerRadarModel, 3.0f);
-			PodsSwarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
-			PodsSwarmers[swarmerSpawnNumber]->SetSounds(ShotSound, SwarmerExplodeSound);
-			PodsSwarmers[swarmerSpawnNumber]->SetPlayer(ThePlayer);
-			PodsSwarmers[swarmerSpawnNumber]->SetExplosion(Explosion);
-			PodsSwarmers[swarmerSpawnNumber]->SetScore(Score, 150);
-			PodsSwarmers[swarmerSpawnNumber]->BeginRun(TheCamera);
+			Swarmers.push_back(new Swarmer());
+			Swarmers[swarmerSpawnNumber]->Initialize();
+			Swarmers[swarmerSpawnNumber]->SetModel(SwarmerModel, 10.0f);
+			Swarmers[swarmerSpawnNumber]->SetRadarModel(SwarmerRadarModel, 3.0f);
+			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
+			Swarmers[swarmerSpawnNumber]->SetSounds(ShotSound, SwarmerExplodeSound);
+			Swarmers[swarmerSpawnNumber]->SetPlayer(ThePlayer);
+			Swarmers[swarmerSpawnNumber]->SetExplosion(Explosion);
+			Swarmers[swarmerSpawnNumber]->SetScore(Score, 150);
+			Swarmers[swarmerSpawnNumber]->BeginRun(TheCamera);
 		}
 
-		PodsSwarmers[swarmerSpawnNumber]->Spawn(Position, { xVol, yVol, 0 });
+		Swarmers[swarmerSpawnNumber]->Spawn(Position, { xVol, yVol, 0 });
 	}
 
 

@@ -9,7 +9,7 @@ public:
 	Pod();
 	virtual ~Pod();
 
-	std::vector<Swarmer*> PodsSwarmers;
+	std::vector<Swarmer*> Swarmers;
 
 	bool Initialize();
 	void SetShotModel(Model model);
