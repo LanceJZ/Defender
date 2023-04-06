@@ -167,3 +167,22 @@ void BomberControl::SpawnBombers(int amount)
 			GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f), 0}, xVol);
 	}
 }
+
+void BomberControl::Smartbomb(float xMin, float xMax)
+{
+	for (auto& bomber : Bombers)
+	{
+		if (bomber->Enabled)
+		{
+			if (bomber->X() > xMin && bomber->X() < xMax)
+			{
+				if (bomber->Enabled)
+				{
+					Score->AddToScore(bomber->ScoreAmount);
+					bomber->Hit();
+					bomber->Reset();
+				}
+			}
+		}
+	}
+}

@@ -43,6 +43,7 @@ public:
 	void EndOfLevelWave();
 	void PlayerHitReset();
 	void TheyAllDied();
+	void Smartbomb(float xMin, float xMax);
 
 private:
 	int TotalSpawn = 10;

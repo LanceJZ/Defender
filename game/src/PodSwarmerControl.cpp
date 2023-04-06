@@ -177,6 +177,41 @@ void PodSwarmerControl::Reset()
 	}
 }
 
+void PodSwarmerControl::Smartbomb(float xMin, float xMax)
+{
+	for (auto& pod : Pods)
+	{
+		if (pod->Enabled)
+		{
+			if (pod->X() > xMin && pod->X() < xMax)
+			{
+				if (pod->Enabled)
+				{
+					Score->AddToScore(pod->ScoreAmount);
+					pod->Hit();
+					pod->Reset();
+				}
+			}
+		}
+	}
+
+	for (auto& swarmer : Swarmers)
+	{
+		if (swarmer->Enabled)
+		{
+			if (swarmer->X() > xMin && swarmer->X() < xMax)
+			{
+				if (swarmer->Enabled)
+				{
+					Score->AddToScore(swarmer->ScoreAmount);
+					swarmer->Hit();
+					swarmer->Reset();
+				}
+			}
+		}
+	}
+}
+
 void PodSwarmerControl::SpawnPods(int count)
 {
 	for (int i = 0; i < count; i++)

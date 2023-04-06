@@ -365,76 +365,12 @@ void GameLogic::SmartBombFired()
 {
 	ThePlayer.SmartBombFired = false;
 	float windowWidth = GetScreenWidth() / 1.4f;
+	float minX = ThePlayer.X() - windowWidth;
+	float maxX = ThePlayer.X() + windowWidth;
 
-	for (auto& enemy : LandersMutants.Landers)
-	{
-		if (enemy->X() > ThePlayer.X() - windowWidth &&
-			enemy->X() < ThePlayer.X() + windowWidth)
-		{
-			if (enemy->Enabled)
-			{
-				Score.AddToScore(enemy->ScoreAmount);
-				enemy->Hit();
-				enemy->Reset();
-			}
-		}
-	}
-
-	for (auto& enemy : LandersMutants.Mutants)
-	{
-		if (enemy->X() > ThePlayer.X() - windowWidth &&
-			enemy->X() < ThePlayer.X() + windowWidth)
-		{
-			if (enemy->Enabled)
-			{
-				Score.AddToScore(enemy->ScoreAmount);
-				enemy->Hit();
-				enemy->Reset();
-			}
-		}
-	}
-
-	for (auto& enemy : Bombers.Bombers)
-	{
-		if (enemy->X() > ThePlayer.X() - windowWidth &&
-			enemy->X() < ThePlayer.X() + windowWidth)
-		{
-			if (enemy->Enabled)
-			{
-				Score.AddToScore(enemy->ScoreAmount);
-				enemy->Hit();
-				enemy->Reset();
-			}
-		}
-	}
-
-	for (auto& pods : PodsSwarmers.Pods)
-	{
-		if (pods->X() > ThePlayer.X() - windowWidth &&
-			pods->X() < ThePlayer.X() + windowWidth)
-		{
-			if (pods->Enabled)
-			{
-				Score.AddToScore(pods->ScoreAmount);
-				pods->Hit();
-				pods->Reset();
-			}
-		}
-
-		for (auto& swarmers : PodsSwarmers.Swarmers)
-		{
-			if (swarmers->X() > ThePlayer.X() - windowWidth &&
-				swarmers->X() < ThePlayer.X() + windowWidth)
-			{
-				if (swarmers->Enabled)
-				{
-					Score.AddToScore(swarmers->ScoreAmount);
-					swarmers->Hit();
-					swarmers->Reset();
-				}
-			}
-		}
-	}
+	LandersMutants.Smartbomb(minX, maxX);
+	Bombers.Smartbomb(minX, maxX);
+	PodsSwarmers.Smartbomb(minX, maxX);
 }
 
 void GameLogic::ResetAfterExplode()

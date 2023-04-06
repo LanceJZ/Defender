@@ -401,6 +401,41 @@ void LanderMutantControl::TheyAllDied()
 	LandersTurnedToMutants = true;
 }
 
+void LanderMutantControl::Smartbomb(float xMin, float xMax)
+{
+	for (auto& lander : Landers)
+	{
+		if (lander->Enabled)
+		{
+			if (lander->X() > xMin && lander->X() < xMax)
+			{
+				if (lander->Enabled)
+				{
+					Score->AddToScore(lander->ScoreAmount);
+					lander->Hit();
+					lander->Reset();
+				}
+			}
+		}
+	}
+
+	for (auto& mutant : Mutants)
+	{
+		if (mutant->Enabled)
+		{
+			if (mutant->X() > xMin && mutant->X() < xMax)
+			{
+				if (mutant->Enabled)
+				{
+					Score->AddToScore(mutant->ScoreAmount);
+					mutant->Hit();
+					mutant->Reset();
+				}
+			}
+		}
+	}
+}
+
 void LanderMutantControl::StartLanderWave()
 {
 	for (auto &person : People)
