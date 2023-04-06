@@ -32,6 +32,7 @@ public:
 
 	void Reset();
 	void NewGame();
+	void NewWave();
 	void Hit();
 
 private:

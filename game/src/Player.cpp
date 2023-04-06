@@ -267,6 +267,15 @@ void Player::NewGame()
 	Reset();
 }
 
+void Player::NewWave()
+{
+	if (SmartBombs < 3)
+	{
+		SmartBombs++;
+		SmartbombsDisplay();
+	}
+}
+
 void Player::Hit()
 {
 	Entity::BeenHit = true;
@@ -290,6 +299,8 @@ void Player::Hit()
 	{
 		shot.Reset();
 	}
+
+	SmartBombs = 3;
 }
 
 void Player::CameraMovement()

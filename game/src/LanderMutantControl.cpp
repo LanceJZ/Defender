@@ -436,10 +436,31 @@ void LanderMutantControl::StartWave()
 	if (NumberofPeopleAlive > 0)
 	{
 		LandersTurnedToMutants = false;
-		SpawnPoeple(NumberofPeopleAlive);
+
+		int peopleAlive = 0;
+
+		for (auto& person : People)
+		{
+			if (person.Enabled)
+			{
+				peopleAlive++;
+			}
+		}
+
+		if (peopleAlive < NumberofPeopleAlive)
+		{
+			SpawnPoeple(NumberofPeopleAlive - peopleAlive);
+
+		}
 	}
 
 	StartLanderWave();
+
+	for (int i = 0; i < NumberMutants; i++)
+	{
+		Mutants[i]->Spawn({ GetScreenWidth() * 3.5f,
+			GetScreenHeight() * 0.5f, 0});
+	}
 }
 
 void LanderMutantControl::NewLevelWave()
@@ -469,9 +490,9 @@ void LanderMutantControl::EndOfLevelWave()
 
 void LanderMutantControl::PlayerHitReset()
 {
-	int peopleAlive = 0;
 	int landersAlive = 0;
 	int mutantsAlive = 0;
+	int peopleAlive = 0;
 
 	for (auto lander : Landers)
 	{
@@ -493,12 +514,25 @@ void LanderMutantControl::PlayerHitReset()
 		{
 			shot.Enabled = false;
 		}
+
+		if (mutant->Enabled)
+		{
+			mutantsAlive++;
+			mutant->Reset();
+		}
 	}
 
 	for (auto &person : People)
 	{
 		person.Reset();
+
+		if (person.Enabled)
+		{
+			peopleAlive++;
+		}
 	}
 
 	NumberSpawned -= landersAlive;
+	NumberMutants = mutantsAlive;
+	NumberofPeopleAlive = peopleAlive;
 }

@@ -47,6 +47,7 @@ public:
 private:
 	int TotalSpawn = 10;
 	int NumberSpawned = 0;
+	int NumberMutants = 0;
 	int NumberofPeopleAlive = 0;
 	float SpawnTimerAmount = 30.0f;
 

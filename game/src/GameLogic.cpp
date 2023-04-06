@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.10");
+	SetWindowTitle("Defender Alpha 01.11");
 	ThePlayer.Initialize();
 	LandersMutants.Initialize();
 	TheLand.Initialize();
@@ -273,6 +273,7 @@ void GameLogic::Update(float deltaTime)
 		{
 			State = WaveStart;
 			WaveStartTimer.Reset();
+			ThePlayer.NewWave();
 		}
 	}
 	else
@@ -372,6 +373,7 @@ void GameLogic::SmartBombFired()
 		{
 			if (enemy->Enabled)
 			{
+				Score.AddToScore(enemy->ScoreAmount);
 				enemy->Hit();
 				enemy->Reset();
 			}
@@ -385,6 +387,7 @@ void GameLogic::SmartBombFired()
 		{
 			if (enemy->Enabled)
 			{
+				Score.AddToScore(enemy->ScoreAmount);
 				enemy->Hit();
 				enemy->Reset();
 			}
@@ -398,6 +401,7 @@ void GameLogic::SmartBombFired()
 		{
 			if (enemy->Enabled)
 			{
+				Score.AddToScore(enemy->ScoreAmount);
 				enemy->Hit();
 				enemy->Reset();
 			}
@@ -411,6 +415,7 @@ void GameLogic::SmartBombFired()
 		{
 			if (pods->Enabled)
 			{
+				Score.AddToScore(pods->ScoreAmount);
 				pods->Hit();
 				pods->Reset();
 			}
@@ -423,6 +428,7 @@ void GameLogic::SmartBombFired()
 			{
 				if (swarmers->Enabled)
 				{
+					Score.AddToScore(swarmers->ScoreAmount);
 					swarmers->Hit();
 					swarmers->Reset();
 				}

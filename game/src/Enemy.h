@@ -15,6 +15,7 @@ public:
 	virtual ~Enemy();
 
 	bool CountChange = false;
+	int ScoreAmount = 0;
 	EnemyShot Shots[4];
 
 	bool Initialize();
@@ -34,7 +35,6 @@ public:
 	virtual void Hit();
 
 protected:
-	int ScoreAmount = 0;
 	Sound ShotSound = { 0 };
 	Sound ExplodeSound = { 0 };
 	Timer ShotTimer;
