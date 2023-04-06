@@ -4,13 +4,14 @@
 #include "ExplosionControl.h"
 #include "ScoreKeeper.h"
 
-class SwarmerControl : Common
+class PodSwarmerControl : Common
 {
 public:
 	std::vector<Pod*> Pods;
+	std::vector<Swarmer*> Swarmers;
 
-	SwarmerControl();
-	virtual ~SwarmerControl();
+	PodSwarmerControl();
+	virtual ~PodSwarmerControl();
 
 	bool Initialize();
 	void SetPodModel(Model model);
@@ -48,5 +49,6 @@ private:
 	ScoreKeeper* Score = nullptr;
 
 	void SpawnPods(int count);
+	void SpawnSwarmers(Vector3 position, int count);
 };
 

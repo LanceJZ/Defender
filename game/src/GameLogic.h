@@ -4,7 +4,7 @@
 #include "Land.h"
 #include "LanderMutantControl.h"
 #include "BomberControl.h"
-#include "SwarmerControl.h"
+#include "PodSwarmerControl.h"
 #include "ScoreKeeper.h"
 #include "SharedData.h"
 #include "ExplosionControl.h"
@@ -55,7 +55,7 @@ private:
 
 	LanderMutantControl LandersMutants;
 	BomberControl Bombers;
-	SwarmerControl PodsSwarmers;
+	PodSwarmerControl PodsSwarmers;
 
 	void UpdatePlayerLand(float deltaTime);
 	void CheckEndOfLevelWave();

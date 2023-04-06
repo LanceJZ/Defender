@@ -7,12 +7,6 @@ Pod::Pod()
 
 Pod::~Pod()
 {
-	for (int i = 0; i < Swarmers.size(); i++)
-	{
-		delete Swarmers[i];
-	}
-
-	Swarmers.clear();
 	Data = nullptr;
 	Explosion = nullptr;
 }
@@ -25,26 +19,6 @@ bool Pod::Initialize()
 	Radius = 14.0f;
 
 	return false;
-}
-
-void Pod::SetShotModel(Model model)
-{
-	ShotModel = model;
-}
-
-void Pod::SetSwarmerModel(Model model)
-{
-	SwarmerModel = model;
-}
-
-void Pod::SetSwarmerRadarModel(Model model)
-{
-	SwarmerRadarModel = model;
-}
-
-void Pod::SetSwarmerExplodeSound(Sound sound)
-{
-	SwarmerExplodeSound = sound;
 }
 
 void Pod::SetData(SharedData* data)
@@ -63,10 +37,6 @@ void Pod::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-	for (auto swarmer : Swarmers)
-	{
-		swarmer->Update(deltaTime);
-	}
 
 	if (Enabled)
 	{
@@ -79,10 +49,6 @@ void Pod::Draw()
 {
 	Enemy::Draw();
 
-	for (auto swarmer : Swarmers)
-	{
-		swarmer->Draw();
-	}
 }
 
 void Pod::Spawn(Vector3 position, float xVol)
@@ -123,55 +89,18 @@ void Pod::Reset()
 	Enemy::Reset();
 }
 
-void Pod::SpawnSwarmers(int count)
+void Pod::Hit()
 {
+	Enemy::Hit();
 
-	for (int i = 0; i < count; i++)
-	{
-		bool spawnNew = true;
-		int swarmerSpawnNumber = (int)Swarmers.size();
-		int swarmerNumber = 0;
-		float xVol = GetRandomFloat(65.0f, 75.0f);
-		float yVol = GetRandomFloat(55.0f, 65.0f);
-
-		for (auto swarmer : Swarmers)
-		{
-			if (!swarmer->Enabled)
-			{
-				spawnNew = false;
-				swarmerSpawnNumber = swarmerNumber;
-				break;
-			}
-
-			swarmerNumber++;
-		}
-
-		if (spawnNew)
-		{
-			Swarmers.push_back(new Swarmer());
-			Swarmers[swarmerSpawnNumber]->Initialize();
-			Swarmers[swarmerSpawnNumber]->SetModel(SwarmerModel, 10.0f);
-			Swarmers[swarmerSpawnNumber]->SetRadarModel(SwarmerRadarModel, 3.0f);
-			Swarmers[swarmerSpawnNumber]->SetShotModel(ShotModel);
-			Swarmers[swarmerSpawnNumber]->SetSounds(ShotSound, SwarmerExplodeSound);
-			Swarmers[swarmerSpawnNumber]->SetPlayer(ThePlayer);
-			Swarmers[swarmerSpawnNumber]->SetExplosion(Explosion);
-			Swarmers[swarmerSpawnNumber]->SetScore(Score, 150);
-			Swarmers[swarmerSpawnNumber]->BeginRun(TheCamera);
-		}
-
-		Swarmers[swarmerSpawnNumber]->Spawn(Position, { xVol, yVol, 0 });
-	}
-
-
+	BeenHit = true;
 }
 
 bool Pod::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
-		PlaySound(ExplodeSound);
-		SpawnSwarmers(4 + Data->Wave);
+		Hit();
 	}
 
 	return false;

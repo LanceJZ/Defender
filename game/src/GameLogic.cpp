@@ -366,7 +366,7 @@ void GameLogic::SmartBombFired()
 	ThePlayer.SmartBombFired = false;
 	float windowWidth = GetScreenWidth() / 1.4f;
 
-	for (auto enemy : LandersMutants.Landers)
+	for (auto& enemy : LandersMutants.Landers)
 	{
 		if (enemy->X() > ThePlayer.X() - windowWidth &&
 			enemy->X() < ThePlayer.X() + windowWidth)
@@ -380,7 +380,7 @@ void GameLogic::SmartBombFired()
 		}
 	}
 
-	for (auto enemy : LandersMutants.Mutants)
+	for (auto& enemy : LandersMutants.Mutants)
 	{
 		if (enemy->X() > ThePlayer.X() - windowWidth &&
 			enemy->X() < ThePlayer.X() + windowWidth)
@@ -394,7 +394,7 @@ void GameLogic::SmartBombFired()
 		}
 	}
 
-	for (auto enemy : Bombers.Bombers)
+	for (auto& enemy : Bombers.Bombers)
 	{
 		if (enemy->X() > ThePlayer.X() - windowWidth &&
 			enemy->X() < ThePlayer.X() + windowWidth)
@@ -408,7 +408,7 @@ void GameLogic::SmartBombFired()
 		}
 	}
 
-	for (auto pods : PodsSwarmers.Pods)
+	for (auto& pods : PodsSwarmers.Pods)
 	{
 		if (pods->X() > ThePlayer.X() - windowWidth &&
 			pods->X() < ThePlayer.X() + windowWidth)
@@ -421,7 +421,7 @@ void GameLogic::SmartBombFired()
 			}
 		}
 
-		for (auto swarmers : pods->Swarmers)
+		for (auto& swarmers : PodsSwarmers.Swarmers)
 		{
 			if (swarmers->X() > ThePlayer.X() - windowWidth &&
 				swarmers->X() < ThePlayer.X() + windowWidth)
