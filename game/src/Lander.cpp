@@ -141,7 +141,7 @@ bool Lander::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
-		if (PersonTarget && State != Mutate)
+		if (PersonTarget && State != Mutate && State != FoundPersonMan)
 		{
 			PersonTarget->Dropped();
 			PlaySound(PersonDroppedSound);

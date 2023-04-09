@@ -262,7 +262,7 @@ void Player::Reset()
 void Player::NewGame()
 {
 	Lives = 4;
-	SmartBombs = 3;
+	SmartBombs = 4;
 	GameOver = false;
 	Reset();
 }
