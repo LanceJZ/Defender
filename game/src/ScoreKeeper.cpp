@@ -41,7 +41,7 @@ void ScoreKeeper::AddToScore(int amount)
 {
 	Score += amount;
 
-	if (Score > NextBonusScore)
+	if (Score >= NextBonusScore)
 	{
 		Bonus = true;
 		NextBonusScore += BonusMult;

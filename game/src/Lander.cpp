@@ -91,7 +91,7 @@ void Lander::Update(float deltaTime)
 		{
 			FoundPersonManGoingDown();
 		}
-		else if (State == PickUpPersonMan)
+		else if (State == TakePersonMan)
 		{
 			GrabPersonMan();
 		}
@@ -141,7 +141,7 @@ bool Lander::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
-		if (PersonTarget && State != Mutate && State != FoundPersonMan)
+		if (State == TakePersonMan)
 		{
 			PersonTarget->Dropped();
 			PlaySound(PersonDroppedSound);
@@ -222,7 +222,7 @@ void Lander::FoundPersonManGoingDown()
 	if (Y() + 25 > PersonTarget->Y() && Y() - 25 < PersonTarget->Y())
 	{
 		PlaySound(PersonGrabbedSound);
-		State = PickUpPersonMan;
+		State = TakePersonMan;
 		Velocity.y = GetRandomFloat(40, 60);
 		Velocity.x = 0;
 	}

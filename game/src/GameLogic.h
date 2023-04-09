@@ -11,7 +11,7 @@
 
 enum GameState
 {
-	PlayerHit,
+	PlayerHitByEnemy,
 	AfterPlayerHit,
 	WaveStart,
 	NewWave,
@@ -52,7 +52,6 @@ private:
 	ScoreKeeper Score;
 	SharedData Data;
 	ExplosionControl Explosions;
-
 	LanderMutantControl LandersMutants;
 	BomberControl Bombers;
 	PodSwarmerControl PodsSwarmers;
@@ -63,5 +62,7 @@ private:
 	void PlayerWasHit();
 	void ResetAfterExplode();
 	void SmartBombFired();
+	void PlayerHit();
+	void CheckEndOfWave();
 };
 

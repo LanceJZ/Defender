@@ -128,7 +128,8 @@ void GameLogic::Load()
 
 	//********* Sounds ***************
 	ThePlayer.SetSounds(LoadSound("Sounds/Player Shot.wav"), LoadSound("Sounds/Player Explode.wav"),
-		LoadSound("Sounds/Player Thrust.wav"), LoadSound("Sounds/Smartbomb.wav"));
+		LoadSound("Sounds/Player Thrust.wav"), LoadSound("Sounds/Smartbomb.wav"),
+		LoadSound("Sounds/Bonus.wav"));
 
 	Sound enemyExplodeSound = LoadSound("Sounds/Enemy Explode.wav");
 
@@ -236,7 +237,7 @@ void GameLogic::Update(float deltaTime)
 			TheLand.AllThePersonManDead();
 		}
 	}
-	else if (State == PlayerHit)
+	else if (State == PlayerHitByEnemy)
 	{
 		PlayerDeathTimer.Update(deltaTime);
 		Explosions.Update(deltaTime);
@@ -298,7 +299,7 @@ void GameLogic::Draw3D()
 		TheLand.Draw();
 		Explosions.Draw();
 
-		if (State == InPlay || State == PlayerHit)
+		if (State == InPlay || State == PlayerHitByEnemy)
 		{
 			LandersMutants.Draw();
 			Bombers.Draw();
@@ -337,10 +338,18 @@ void GameLogic::Draw2D()
 	}
 }
 
+void GameLogic::PlayerHit()
+{
+}
+
 void GameLogic::UpdatePlayerLand(float deltaTime)
 {
 	ThePlayer.Update(deltaTime);
 	TheLand.Update(deltaTime);
+}
+
+void GameLogic::CheckEndOfWave()
+{
 }
 
 void GameLogic::CheckEndOfLevelWave()
@@ -417,6 +426,6 @@ void GameLogic::ResetAfterExplode()
 
 void GameLogic::PlayerWasHit()
 {
-	State = PlayerHit;
+	State = PlayerHitByEnemy;
 	PlayerDeathTimer.Reset(5.666f);
 }

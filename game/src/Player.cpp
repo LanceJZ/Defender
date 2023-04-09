@@ -90,12 +90,13 @@ void Player::SetSmartbombModel(Model model)
 	SmartbombModel = model;
 }
 
-void Player::SetSounds(Sound shot, Sound explode, Sound thrust, Sound bomb)
+void Player::SetSounds(Sound shot, Sound explode, Sound thrust, Sound bomb, Sound bonus)
 {
 	ShotSound = shot;
 	ExplodeSound = explode;
 	ThrustSound = thrust;
 	SmartbombSound = bomb;
+	BonusSound = bonus;
 }
 
 void Player::SetExplosion(ExplosionControl* explosion)
@@ -250,14 +251,12 @@ void Player::Reset()
 	BackCollusion.Enabled = true;
 	FrontCollusion.Enabled = true;
 
-	for (auto &shot : Shots)
+	for (auto& shot : Shots)
 	{
 		shot.Reset();
 	}
-
-	LivesDisplay();
-	SmartbombsDisplay();
 }
+
 
 void Player::NewGame()
 {
@@ -265,15 +264,14 @@ void Player::NewGame()
 	SmartBombs = 4;
 	GameOver = false;
 	Reset();
+
+	LivesDisplay();
+	SmartbombsDisplay();
 }
 
 void Player::NewWave()
 {
-	if (SmartBombs < 3)
-	{
-		SmartBombs++;
-		SmartbombsDisplay();
-	}
+
 }
 
 void Player::Hit()
@@ -299,12 +297,12 @@ void Player::Hit()
 	{
 		shot.Reset();
 	}
-
-	SmartBombs = 3;
 }
 
 void Player::Bonus()
 {
+	PlaySound(BonusSound);
+
 	Lives++;
 	SmartBombs++;
 
@@ -583,7 +581,7 @@ void Player::LivesDisplayUpdate()
 void Player::SmartbombsDisplay()
 {
 	int bombs = (int)SmartbombIcons.size();
-	float row = WindowHeight - 15 * 7.75f;
+	float row = WindowHeight - 15 * 7.75f + (20 * bombs);
 
 	if (SmartBombs > bombs)
 	{
@@ -596,7 +594,7 @@ void Player::SmartbombsDisplay()
 			SmartbombIcons[bombs + i]->Y(row);
 			SmartbombIcons[bombs + i]->Cull = false;
 			SmartbombIcons[bombs + i]->BeginRun(TheCamera);
-			row += (10 * 2) * (bombs + 1);
+			row += 20;
 		}
 	}
 

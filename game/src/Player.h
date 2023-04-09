@@ -22,7 +22,7 @@ public:
 	void SetTailModel(Model model);
 	void SetRadarModel(Model model);
 	void SetSmartbombModel(Model model);
-	void SetSounds(Sound shot, Sound explode, Sound thrust, Sound bomb);
+	void SetSounds(Sound shot, Sound explode, Sound thrust, Sound bomb, Sound bonus);
 	void SetExplosion(ExplosionControl* explosion);
 	bool BeginRun(Camera* camera);
 
@@ -54,6 +54,7 @@ private:
 	Sound ExplodeSound = { 0 };
 	Sound ThrustSound = { 0 };
 	Sound SmartbombSound = { 0 };
+	Sound BonusSound = { 0 };
 	Model ShotModel = { 0 };
 	Model ShotTrailModel = { 0 };
 	Model RadarModel = { 0 };

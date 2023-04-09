@@ -7,7 +7,7 @@ enum StateList
 	GoingToGround,
 	Seek,
 	FoundPersonMan,
-	PickUpPersonMan,
+	TakePersonMan,
 	Mutate
 };
 
