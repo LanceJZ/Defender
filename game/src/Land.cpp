@@ -241,15 +241,18 @@ void Land::CreateAllTheStars()
 
 	for (int i = 0; i < mainStars; i++)
 	{
-		AllTheStars[i].X(GetRandomFloat((float)(-GetScreenWidth() * 3.5f), (float)(GetScreenWidth() * 3.5f)));
+		AllTheStars[i].X(GetRandomFloat((float)(-GetScreenWidth() * 3.5f),
+			(float)(GetScreenWidth() * 3.5f)));
 
 		if (AllDead)
 		{
-			AllTheStars[i].Y(GetRandomFloat((float)(-GetScreenHeight()), (float)(GetScreenHeight() * 0.333f)));
+			AllTheStars[i].Y(GetRandomFloat((float)(-GetScreenHeight()),
+				(float)(GetScreenHeight() * 0.333f)));
 		}
 		else
 		{
-			AllTheStars[i].Y(GetRandomFloat((float)(-GetScreenHeight() * 0.3f), (float)(GetScreenHeight() * 0.333f)));
+			AllTheStars[i].Y(GetRandomFloat((float)(-GetScreenHeight() * 0.3f),
+				(float)(GetScreenHeight() * 0.333f)));
 		}
 
 		AllTheStars[i].Z(-10);
@@ -305,10 +308,10 @@ void Land::CreateAllTheStars()
 	for (auto &star : AllTheStars)
 	{
 		star.Initialize();
-		star.SetModel(Star, 6.0f);
+		star.SetModel(Star, 6.5f);
 		star.BeginRun(TheCamera);
 		star.RotationAxis = { 1, 1, 1 };
-		star.RotationVelocity = 6.66f;
+		star.RotationVelocity = 16.66f;
 	}
 }
 

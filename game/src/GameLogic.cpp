@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.11");
+	SetWindowTitle("Defender Alpha 01.12");
 	ThePlayer.Initialize();
 	LandersMutants.Initialize();
 	TheLand.Initialize();
@@ -365,12 +365,36 @@ void GameLogic::SmartBombFired()
 {
 	ThePlayer.SmartBombFired = false;
 	float windowWidth = GetScreenWidth() / 1.4f;
-	float minX = ThePlayer.X() - windowWidth;
-	float maxX = ThePlayer.X() + windowWidth;
+	float minX = 0;
+	float maxX = 0;
+
+	minX = ThePlayer.X() - windowWidth;
+	maxX = ThePlayer.X() + windowWidth;
 
 	LandersMutants.Smartbomb(minX, maxX);
 	Bombers.Smartbomb(minX, maxX);
 	PodsSwarmers.Smartbomb(minX, maxX);
+
+	float gameEdge = GetScreenWidth() * 3.5f;
+
+	if (ThePlayer.X() > (gameEdge - windowWidth))
+	{
+		minX -= (gameEdge * 2);
+		maxX -= (gameEdge * 2);
+
+		LandersMutants.Smartbomb(minX, maxX);
+		Bombers.Smartbomb(minX, maxX);
+		PodsSwarmers.Smartbomb(minX, maxX);
+	}
+	else if (ThePlayer.X() < (-gameEdge + windowWidth))
+	{
+		minX += (gameEdge * 2);
+		maxX += (gameEdge * 2);
+
+		LandersMutants.Smartbomb(minX, maxX);
+		Bombers.Smartbomb(minX, maxX);
+		PodsSwarmers.Smartbomb(minX, maxX);
+	}
 }
 
 void GameLogic::ResetAfterExplode()
