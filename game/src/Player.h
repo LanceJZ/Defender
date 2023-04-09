@@ -34,6 +34,7 @@ public:
 	void NewGame();
 	void NewWave();
 	void Hit();
+	void Bonus();
 
 private:
 	bool FacingRight = true;

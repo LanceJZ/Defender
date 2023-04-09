@@ -16,6 +16,7 @@ bool ScoreKeeper::Initialize()
 
 bool ScoreKeeper::BeginRun()
 {
+	NextBonusScore = BonusMult;
 
 	return false;
 }
@@ -39,11 +40,18 @@ void ScoreKeeper::Draw()
 void ScoreKeeper::AddToScore(int amount)
 {
 	Score += amount;
+
+	if (Score > NextBonusScore)
+	{
+		Bonus = true;
+		NextBonusScore += BonusMult;
+	}
 }
 
 void ScoreKeeper::ClearScore()
 {
 	Score = 0;
+	NextBonusScore = BonusMult;
 }
 
 void ScoreKeeper::Load()

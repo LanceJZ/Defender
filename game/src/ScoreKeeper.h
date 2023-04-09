@@ -17,6 +17,7 @@ public:
 	virtual ~ScoreKeeper();
 
 	bool GameOver = true;
+	bool Bonus = false;
 
 	unsigned int Score = 21270;
 	unsigned int HighScore = 21270;
@@ -34,6 +35,8 @@ public:
 private:
 	bool NewHighScore = false;
 	bool ShowHighScores = false;
+	int BonusMult = 10000;
+	int NextBonusScore = 0;
 	int NewHighScoreRank = 0;
 	int HighScoreSelectedLetter = 0;
 

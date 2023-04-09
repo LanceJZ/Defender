@@ -13,6 +13,7 @@ GameLogic::~GameLogic()
 bool GameLogic::Initialize()
 {
 	SetWindowTitle("Defender Alpha 01.12");
+	Score.Initialize();
 	ThePlayer.Initialize();
 	LandersMutants.Initialize();
 	TheLand.Initialize();
@@ -146,6 +147,7 @@ void GameLogic::Load()
 
 bool GameLogic::BeginRun(Camera* camera)
 {
+	Score.BeginRun();
 	ThePlayer.BeginRun(camera);
 	ThePlayer.SetExplosion(&Explosions);
 	TheLand.SetPlayer(&ThePlayer);
@@ -203,6 +205,12 @@ void GameLogic::Input()
 
 void GameLogic::Update(float deltaTime)
 {
+	if (Score.Bonus)
+	{
+		ThePlayer.Bonus();
+		Score.Bonus = false;
+	}
+
 	if (State == InPlay)
 	{
 		UpdatePlayerLand(deltaTime);

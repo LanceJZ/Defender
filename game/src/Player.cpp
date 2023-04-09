@@ -303,6 +303,15 @@ void Player::Hit()
 	SmartBombs = 3;
 }
 
+void Player::Bonus()
+{
+	Lives++;
+	SmartBombs++;
+
+	LivesDisplay();
+	SmartbombsDisplay();
+}
+
 void Player::CameraMovement()
 {
 	float facingOffset = GetScreenWidth() * 0.2f;
@@ -587,7 +596,7 @@ void Player::SmartbombsDisplay()
 			SmartbombIcons[bombs + i]->Y(row);
 			SmartbombIcons[bombs + i]->Cull = false;
 			SmartbombIcons[bombs + i]->BeginRun(TheCamera);
-			row += 10 * 2;
+			row += (10 * 2) * (bombs + 1);
 		}
 	}
 
