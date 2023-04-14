@@ -94,12 +94,13 @@ void Enemy::Update(float deltaTime)
 		shot.Update(deltaTime);
 	}
 
+	CheckCollision();
+
 	if (Enabled)
 	{
 		ShotTimer.Update(deltaTime);
 		RadarMirror.PositionUpdate(Enabled, Position);
 		CheckPlayfieldSidesWarp(4.0f, 3.0f);
-		CheckCollision();
 	}
 }
 

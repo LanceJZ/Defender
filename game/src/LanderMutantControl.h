@@ -39,6 +39,7 @@ public:
 
 	void StartLanderWave();
 	void StartWave();
+	void NewGame();
 	void NewLevelWave();
 	void EndOfLevelWave();
 	void PlayerHitReset();

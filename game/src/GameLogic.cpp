@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.12");
+	SetWindowTitle("Defender Alpha 01.15");
 	Score.Initialize();
 	ThePlayer.Initialize();
 	LandersMutants.Initialize();
@@ -197,9 +197,7 @@ void GameLogic::Input()
 	{
 		if (IsKeyPressed(KEY_N))
 		{
-			State = WaveStart;
-			ThePlayer.NewGame();
-			Score.ClearScore();
+			NewGame();
 		}
 	}
 }
@@ -219,16 +217,17 @@ void GameLogic::Update(float deltaTime)
 		Bombers.Update(deltaTime);
 		PodsSwarmers.Update(deltaTime);
 		Explosions.Update(deltaTime);
-		CheckEndOfLevelWave();
 
 		if (ThePlayer.BeenHit)
 		{
 			PlayerWasHit();
+			return;
 		}
 
 		if (ThePlayer.SmartBombFired)
 		{
 			SmartBombFired();
+			return;
 		}
 
 		if (Data.PeopleBeGone && !LandersMutants.LandersTurnedToMutants)
@@ -236,6 +235,8 @@ void GameLogic::Update(float deltaTime)
 			LandersMutants.TheyAllDied();
 			TheLand.AllThePersonManDead();
 		}
+
+		CheckEndOfLevelWave();
 	}
 	else if (State == PlayerHitByEnemy)
 	{
@@ -412,6 +413,15 @@ void GameLogic::SmartBombFired()
 		Bombers.Smartbomb(minX, maxX);
 		PodsSwarmers.Smartbomb(minX, maxX);
 	}
+}
+
+void GameLogic::NewGame()
+{
+		State = WaveStart;
+		Data.Wave = 0;
+		ThePlayer.NewGame();
+		LandersMutants.NewGame();
+		Score.ClearScore();
 }
 
 void GameLogic::ResetAfterExplode()

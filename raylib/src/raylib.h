@@ -1107,7 +1107,7 @@ RLAPI void SetExitKey(int key);                               // Set a custom ke
 RLAPI int GetKeyPressed(void);                                // Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty
 RLAPI int GetCharPressed(void);                               // Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty
 
-// Input-related functions: gamepads
+// Input-related functions: gamepad
 RLAPI bool IsGamepadAvailable(int gamepad);                   // Check if a gamepad is available
 RLAPI const char *GetGamepadName(int gamepad);                // Get gamepad internal name id
 RLAPI bool IsGamepadButtonPressed(int gamepad, int button);   // Check if a gamepad button has been pressed once

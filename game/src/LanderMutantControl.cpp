@@ -144,6 +144,17 @@ bool LanderMutantControl::BeginRun(Camera *camera)
 	return false;
 }
 
+void LanderMutantControl::SpawnPoeple(int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		float x = GetRandomFloat((-GetScreenWidth() * 3.49f),
+			(GetScreenWidth() * 3.49f));
+		float y = -(GetScreenHeight() / 2.10f);
+		People[i].Spawn({ x, y, 0 });
+	}
+}
+
 void LanderMutantControl::Update(float deltaTime)
 {
 	SpawnTimer.Update(deltaTime);
@@ -338,16 +349,6 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 	lander->Enabled = false;
 }
 
-void LanderMutantControl::SpawnPoeple(int count)
-{
-	for (int i = 0; i < count; i++)
-	{
-		float x = GetRandomFloat((-GetScreenWidth() * 3.5f), (GetScreenWidth() * 3.5f));
-		float y = -(GetScreenHeight() / 2.10f);
-		People[i].Spawn({ x, y, 0 });
-	}
-}
-
 void LanderMutantControl::CountChange()
 {
 	for (auto lander : Landers)
@@ -496,6 +497,15 @@ void LanderMutantControl::StartWave()
 		Mutants[i]->Spawn({ GetScreenWidth() * 3.5f,
 			GetScreenHeight() * 0.5f, 0});
 	}
+}
+
+void LanderMutantControl::NewGame()
+{
+	NumberofPeopleAlive = 10;
+	NumberSpawned = 0;
+	NumberMutants = 0;
+	TotalSpawn = 10;
+	SpawnTimerAmount = 30.0f;
 }
 
 void LanderMutantControl::NewLevelWave()

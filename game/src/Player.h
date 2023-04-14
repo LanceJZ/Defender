@@ -67,6 +67,8 @@ private:
 	std::vector<Model3D*> LivesShips;
 	std::vector<Model3D*> SmartbombIcons;
 
+	void Keyboard();
+	void Gamepad();
 	void CameraMovement();
 	void RadarMovement();
 	void RotateShipFacing();

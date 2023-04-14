@@ -14,6 +14,7 @@ Player::~Player()
 	UnloadModel(ShotModel);
 	UnloadModel(ShotTrailModel);
 	UnloadModel(RadarModel);
+	UnloadModel(SmartbombModel);
 
 	TheCamera = nullptr;
 	Explosion = nullptr;
@@ -132,46 +133,13 @@ bool Player::BeginRun(Camera* camera)
 
 void Player::Input()
 {
-	if (IsKeyDown(KEY_UP))
+	if (IsGamepadAvailable(0))
 	{
-		MoveUp();
-	}
-	else if (IsKeyDown(KEY_DOWN))
-	{
-		MoveDown();
+		Gamepad();
 	}
 	else
 	{
-		Horzfriction();
-	}
-
-	if (IsKeyPressed(KEY_LEFT_CONTROL) || IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_SPACE))
-	{
-		Fire();
-	}
-
-	if (IsKeyDown(KEY_LEFT_SHIFT))
-	{
-		Thrust();
-	}
-	else
-	{
-		ThrustOff();
-	}
-
-	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_LEFT))
-	{
-		Reverse();
-	}
-
-	if (IsKeyPressed(KEY_RIGHT_CONTROL))
-	{
-		SmartBomb();
-	}
-
-	if (IsKeyPressed(KEY_RIGHT_SHIFT))
-	{
-		Hyperspace();
+		Keyboard();
 	}
 }
 
@@ -534,6 +502,55 @@ void Player::SmartBomb()
 }
 
 void Player::Hyperspace()
+{
+}
+
+void Player::Keyboard()
+{
+	if (IsKeyDown(KEY_UP))
+	{
+		MoveUp();
+	}
+	else if (IsKeyDown(KEY_DOWN))
+	{
+		MoveDown();
+	}
+	else
+	{
+		Horzfriction();
+	}
+
+	if (IsKeyPressed(KEY_LEFT_CONTROL) || IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_SPACE))
+	{
+		Fire();
+	}
+
+	if (IsKeyDown(KEY_LEFT_SHIFT))
+	{
+		Thrust();
+	}
+	else
+	{
+		ThrustOff();
+	}
+
+	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_LEFT))
+	{
+		Reverse();
+	}
+
+	if (IsKeyPressed(KEY_RIGHT_CONTROL))
+	{
+		SmartBomb();
+	}
+
+	if (IsKeyPressed(KEY_RIGHT_SHIFT))
+	{
+		Hyperspace();
+	}
+}
+
+void Player::Gamepad()
 {
 }
 
