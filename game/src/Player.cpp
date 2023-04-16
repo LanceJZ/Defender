@@ -9,8 +9,8 @@ Player::~Player()
 	UnloadSound(ShotSound);
 	UnloadSound(ExplodeSound);
 	UnloadSound(ThrustSound);
-	UnloadModel(GetModel());
-	UnloadModel(Flame.GetModel());
+	Unload();
+	Flame.Unload();
 	UnloadModel(ShotModel);
 	UnloadModel(ShotTrailModel);
 	UnloadModel(RadarModel);
@@ -147,37 +147,39 @@ void Player::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 
-	Flame.Update(deltaTime);
-
 	for (auto &shot : Shots)
 	{
 		shot.Update(deltaTime);
 	}
 
-	ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
-	CheckPlayfieldSidesWarp(4.0f, 3.0f);
-
-	if (RotateFacing)
-		RotateShipFacing();
-
-	if (FacingRight)
+	if (Enabled)
 	{
-		BackCollusion.Position.x = Position.x - 18.0f;
-		FrontCollusion.Position.x = Position.x + 18.0f;
-	}
-	else
-	{
-		BackCollusion.Position.x = Position.x + 18.0f;
-		FrontCollusion.Position.x = Position.x - 18.0f;
-	}
+		Flame.Update(deltaTime);
+		ScreenEdgeBoundY(GetScreenHeight() * 0.161f, GetScreenHeight() * 0.015f);
+		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 
-	BackCollusion.Position.y = Position.y;
-	FrontCollusion.Position.y = Position.y;
+		if (RotateFacing)
+			RotateShipFacing();
 
-	CameraMovement();
-	RadarMovement();
-	LivesDisplayUpdate();
-	SmartbombsDisplayUpdate();
+		if (FacingRight)
+		{
+			BackCollusion.Position.x = Position.x - 18.0f;
+			FrontCollusion.Position.x = Position.x + 18.0f;
+		}
+		else
+		{
+			BackCollusion.Position.x = Position.x + 18.0f;
+			FrontCollusion.Position.x = Position.x - 18.0f;
+		}
+
+		BackCollusion.Position.y = Position.y;
+		FrontCollusion.Position.y = Position.y;
+
+		CameraMovement();
+		RadarMovement();
+		LivesDisplayUpdate();
+		SmartbombsDisplayUpdate();
+	}
 }
 
 void Player::Draw()
@@ -239,13 +241,15 @@ void Player::NewGame()
 
 void Player::NewWave()
 {
-
+	LivesDisplay();
+	SmartbombsDisplay();
 }
 
 void Player::Hit()
 {
 	Entity::BeenHit = true;
 	Lives--;
+	SmartBombs = 4;
 
 	if (Lives < 0)
 	{
@@ -552,6 +556,51 @@ void Player::Keyboard()
 
 void Player::Gamepad()
 {
+	//Button B is 7 for Smartbomb //Button A is 6 for Fire //Button Y is 8 for Hyperspace
+	//Button X is 5	//Left bumper is 9 //Right bumper is 11 for Reverse //Left Trigger is 10
+	//Right Trigger is 12 for Thrust //Dpad Up is 1 for Move Up	//Dpad Down is 3 for Move Down
+
+	if (IsGamepadButtonDown(0, 12))
+	{
+		Thrust();
+	}
+	else
+	{
+		ThrustOff();
+	}
+
+	if (IsGamepadButtonDown(0, 1))
+	{
+		MoveUp();
+	}
+	else if (IsGamepadButtonDown(0, 3))
+	{
+		MoveDown();
+	}
+	else
+	{
+		Horzfriction();
+	}
+
+	if (IsGamepadButtonPressed(0, 7))
+	{
+		Fire();
+	}
+
+	if (IsGamepadButtonPressed(0, 11))
+	{
+		Reverse();
+	}
+
+	if (IsGamepadButtonPressed(0, 6))
+	{
+		SmartBomb();
+	}
+
+	if (IsGamepadButtonPressed(0, 8))
+	{
+		Hyperspace();
+	}
 }
 
 void Player::LivesDisplay()

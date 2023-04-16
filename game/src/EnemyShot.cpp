@@ -44,6 +44,8 @@ void EnemyShot::Update(float deltaTime)
 		if (LifeTimer.Elapsed())
 		{
 			Enabled = false;
+			Position = { (float)GetScreenWidth() * 4.0f, (float)GetScreenHeight(), 0 };
+
 		}
 
 		if (ScreenEdgeBoundY(GetScreenHeight() * 0.15f, 0))

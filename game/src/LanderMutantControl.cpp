@@ -346,7 +346,7 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 	}
 
 	Mutants[mutantSpawnNumber]->Spawn(lander->Position);
-	lander->Enabled = false;
+	lander->Reset();
 }
 
 void LanderMutantControl::CountChange()
@@ -374,6 +374,7 @@ void LanderMutantControl::CountChange()
 	}
 
 	Data->LandersMutantsBeGone = true;
+	NumberMutants = 0;
 }
 
 void LanderMutantControl::CountPeopleChange()

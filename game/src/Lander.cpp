@@ -141,11 +141,7 @@ bool Lander::CheckCollision()
 {
 	if (Enemy::CheckCollision())
 	{
-		if (State == TakePersonMan)
-		{
-			PersonTarget->Dropped();
-			PlaySound(PersonDroppedSound);
-		}
+		Hit();
 	}
 
 	return false;
@@ -157,6 +153,17 @@ void Lander::Reset()
 
 	State = GoingToGround;
 	PersonTarget = nullptr;
+}
+
+void Lander::Hit()
+{
+	Enemy::Hit();
+
+	if (State == TakePersonMan)
+	{
+		PersonTarget->Dropped();
+		PlaySound(PersonDroppedSound);
+	}
 }
 
 void Lander::Destroy()
@@ -244,5 +251,4 @@ void Lander::SpawnMutatant()
 	Velocity.y = 0;
 	PersonTarget->Destroy();
 	MutateLander = true;
-	Enemy::Reset();
 }

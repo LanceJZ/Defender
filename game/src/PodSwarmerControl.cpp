@@ -113,6 +113,7 @@ void PodSwarmerControl::Update(float deltaTime)
 		{
 			pod->BeenHit = false;
 			SpawnSwarmers(pod->Position, 4 + Data->Wave);
+			pod->Reset();
 		}
 
 		if (pod->Enabled)

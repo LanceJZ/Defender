@@ -163,14 +163,54 @@ void Model3D::SetModelCopy(Model model, float scale)
 	ModelScale = scale;
 }
 
+bool Model3D::CirclesIntersectBullet(Entity* target)
+{
+	if (!Enabled || !target->Enabled)
+		return false;
+
+	TheRay.position = Position;
+
+	if (Velocity.x > 0)
+	{
+		TheRay.direction = { 1, 0, 0 };
+	}
+	else
+	{
+		TheRay.direction = { -1, 0, 0 };
+	}
+
+	TheRayCollision = GetRayCollisionSphere(TheRay, target->Position, target->Radius);
+
+	if (TheRayCollision.hit)
+	{
+		float distance = Position.x - LastFramePosition.x;
+		if (distance < 0) distance *= -1;
+
+		if (TheRayCollision.distance > 0)
+		{
+			if (TheRayCollision.distance > distance)
+				return false;
+		}
+		else
+		{
+			if (TheRayCollision.distance * -1 > distance)
+				return false;
+		}
+
+		return TheRayCollision.hit;
+	}
+
+	return false;
+}
+
 Model& Model3D::GetModel()
 {
 	return TheModel;
 }
 
-void Model3D::UnloadModel3D(Model &model)
+void Model3D::Unload()
 {
-	UnloadModel(model);
+	UnloadModel(TheModel);
 }
 
 void Model3D::AddChildren(Model3D* child)

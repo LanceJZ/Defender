@@ -31,7 +31,7 @@ public:
 
 private:
 	int NumberOfStars = 0;
-	Model Star = { 0 };
+	Model StarModel = { 0 };
 	Camera* TheCamera = nullptr;
 	Player* ThePlayer = nullptr;
 	Timer StarTimer;

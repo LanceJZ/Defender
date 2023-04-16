@@ -30,6 +30,7 @@ public:
 
 	void Spawn(Vector3 position);
 	void Reset();
+	void Hit();
 
 private:
 	float GroundHoverY = 0;

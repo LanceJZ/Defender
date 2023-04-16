@@ -6,10 +6,19 @@ Land::Land()
 
 Land::~Land()
 {
-	UnloadModel(Star);
+	for (int i = 0; i < 7; i++)
+	{
+		LandParts[i].Unload();
+		RadarLandParts[i].Unload();
+	}
+
+	UIBackR.Unload();
+	RadarHorzBottom.Unload();
+	RadarHorzL.Unload();
+	UnloadModel(StarModel);
+
 	TheCamera = nullptr;
 	ThePlayer = nullptr;
-
 }
 
 bool Land::Initialize()
@@ -61,7 +70,7 @@ void Land::SetRadarTopBottom(Model model)
 
 void Land::SetStar(Model model)
 {
-	Star = model;
+	StarModel = model;
 }
 
 void Land::SetPlayer(Player* player)
@@ -308,7 +317,7 @@ void Land::CreateAllTheStars()
 	for (auto &star : AllTheStars)
 	{
 		star.Initialize();
-		star.SetModel(Star, 6.5f);
+		star.SetModel(StarModel, 6.5f);
 		star.BeginRun(TheCamera);
 		star.RotationAxis = { 1, 1, 1 };
 		star.RotationVelocity = 16.66f;

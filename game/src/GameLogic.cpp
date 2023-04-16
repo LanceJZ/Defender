@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.15");
+	SetWindowTitle("Defender Alpha 01.161");
 	Score.Initialize();
 	ThePlayer.Initialize();
 	LandersMutants.Initialize();
@@ -40,42 +40,31 @@ Model GameLogic::LoadModelwithTexture(std::string modelFileName)
 	Image image = { 0 };
 	Model loadModel = { 0 };
 
-	if (FileExists(const_cast<char*>(namePNG.c_str())))
+	if (FileExists(const_cast<char*>(nameOBJ.c_str())) &&
+		FileExists(const_cast<char*>(namePNG.c_str())))
 	{
-		image = LoadImage(const_cast<char*>(namePNG.c_str()));
-	}
-	else
-	{
-		TraceLog(LOG_ERROR, "***********************  Image  :%s missing. ***********************\n",
-			const_cast<char*>(namePNG.c_str()));
-	}
-
-	if (FileExists(const_cast<char*>(nameOBJ.c_str())))
-	{
-		loadModel = UploadTextureToModel(LoadModel(const_cast<char*>(nameOBJ.c_str())), LoadTextureFromImage(image));
-		UnloadImage(image);
+		loadModel = SetTextureToModel(LoadModel(const_cast<char*>(nameOBJ.c_str())),
+			LoadTexture(const_cast<char*>(namePNG.c_str())));
 	}
 	else
 	{
 		TraceLog(LOG_ERROR, "***********************  Image  :%s missing. ***********************\n",
 			const_cast<char*>(nameOBJ.c_str()));
+		TraceLog(LOG_ERROR, "***********************  Image  :%s missing. ***********************\n",
+			const_cast<char*>(namePNG.c_str()));
 	}
-
 
 	return loadModel;
 }
 
-Model GameLogic::UploadTextureToModel(Model model, Texture2D texture)
+Model GameLogic::SetTextureToModel(Model model, Texture2D texture)
 {
-	Model buildModel = { 0 };
-
 	if (IsTextureReady(texture))
 	{
-		buildModel = model;
-		buildModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+		model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 	}
 
-	return buildModel;
+	return model;
 }
 
 void GameLogic::Load()
@@ -193,11 +182,35 @@ void GameLogic::Input()
 		}
 	}
 
+	if (IsGamepadAvailable(0))
+	{
+		if (IsGamepadButtonPressed(0, 13))
+		{	//Back Button is 13
+			if (State == InPlay)
+			{
+				State = Pause;
+			}
+			else if (State == Pause)
+			{
+				State = InPlay;
+			}
+		}
+	}
+
 	if (State == MainMenu)
 	{
 		if (IsKeyPressed(KEY_N))
 		{
 			NewGame();
+		}
+
+		if (IsGamepadAvailable(0))
+		{	//Start Button is 15
+
+			if (IsGamepadButtonPressed(0, 15))
+			{
+				NewGame();
+			}
 		}
 	}
 }
@@ -254,14 +267,16 @@ void GameLogic::Update(float deltaTime)
 
 		if (PlayerResetTimer.Elapsed())
 		{
-			State = WaveStart;
-			WaveStartTimer.Reset();
-			ResetAfterExplode();
-
 			if (ThePlayer.GameOver)
 			{
 				State = MainMenu;
+				return;
 			}
+
+			State = WaveStart;
+			WaveStartTimer.Reset();
+			ResetAfterExplode();
+			ThePlayer.NewWave();
 		}
 	}
 	else if (State == WaveStart)
@@ -361,6 +376,7 @@ void GameLogic::CheckEndOfLevelWave()
 		Data.Wave++;
 		NewWaveTimer.Reset();
 		ThePlayer.Reset();
+		Explosions.Reset();
 		LandersMutants.EndOfLevelWave();
 		LandersMutants.NewLevelWave();
 		Bombers.NewWave();
@@ -417,11 +433,11 @@ void GameLogic::SmartBombFired()
 
 void GameLogic::NewGame()
 {
-		State = WaveStart;
-		Data.Wave = 0;
-		ThePlayer.NewGame();
-		LandersMutants.NewGame();
-		Score.ClearScore();
+	State = WaveStart;
+	Data.Wave = 0;
+	ThePlayer.NewGame();
+	LandersMutants.NewGame();
+	Score.ClearScore();
 }
 
 void GameLogic::ResetAfterExplode()

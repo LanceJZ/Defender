@@ -50,7 +50,7 @@ void Swarmer::Update(float deltaTime)
 		{
 			if (ShotTimer.Elapsed())
 			{
-				ShotTimer.Reset(GetRandomFloat(1.1275f, 1.724375f));
+				ShotTimer.Reset(GetRandomFloat(1.1275f, 2.3724375f));
 				FireShot();
 			}
 

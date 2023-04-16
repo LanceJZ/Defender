@@ -27,6 +27,7 @@ public:
 	Vector3 Acceleration = { 0, 0, 0 };
 	Vector3 Velocity = { 0, 0, 0 };
 	Vector3 Position = { 0, 0, 0 };
+	Vector3 LastFramePosition = { 0, 0, 0 };
 	Vector3 RotationAxis = { 0, 0, 0 };
 	Vector3 ChildPosition = { 0, 0, 0 };
 	float ChildRotation = 0;

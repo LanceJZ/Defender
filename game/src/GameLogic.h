@@ -31,7 +31,7 @@ public:
 
 	bool Initialize();
 	Model LoadModelwithTexture(std::string modelFileName);
-	Model UploadTextureToModel(Model model, Texture2D texture);
+	Model SetTextureToModel(Model model, Texture2D texture);
 	void Load();
 	bool BeginRun(Camera* camera);
 

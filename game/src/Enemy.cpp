@@ -124,7 +124,7 @@ bool Enemy::CheckCollision()
 		{
 			if (shot.Enabled)
 			{
-				if (CirclesIntersect(&shot))
+				if (shot.CirclesIntersectBullet(this))
 				{
 					Score->AddToScore(ScoreAmount);
 					shot.Enabled = false;
@@ -191,8 +191,11 @@ void Enemy::Reset()
 	for (auto &shot : Shots)
 	{
 		shot.Enabled = false;
+		shot.Position = { (float)GetScreenWidth() * 4.0f, (float)GetScreenHeight(), 0 };
+
 	}
 
+	Position = { (float)GetScreenWidth() * 4.0f, (float)GetScreenHeight(), 0 };
 	Destroy();
 }
 

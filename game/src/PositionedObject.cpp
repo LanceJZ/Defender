@@ -12,6 +12,8 @@ bool PositionedObject::Initialize()
 
 void PositionedObject::Update(float deltaTime)
 {
+	LastFramePosition = Position;
+
 	Velocity = Vector3Add(Velocity, Acceleration);
 	Position = Vector3Add(Vector3Multiply({ deltaTime, deltaTime, deltaTime }, Velocity), Position);
 
@@ -71,16 +73,19 @@ float PositionedObject::Z()
 void PositionedObject::X(float x)
 {
 	Position.x = x;
+	LastFramePosition.x = x;
 }
 
 void PositionedObject::Y(float y)
 {
 	Position.y = y;
+	LastFramePosition.y = y;
 }
 
 void PositionedObject::Z(float z)
 {
 	Position.z = z;
+	LastFramePosition.z = z;
 }
 
 void PositionedObject::AddChild(PositionedObject* child)

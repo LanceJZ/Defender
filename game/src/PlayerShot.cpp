@@ -85,16 +85,20 @@ void PlayerShot::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
 	Tail.Update(deltaTime);
-	LifeTimer.Update(deltaTime);
 
-	if (LifeTimer.Elapsed())
+	if (Enabled)
 	{
-		Enabled = false;
-		Tail.Enabled = false;
-	}
+		LifeTimer.Update(deltaTime);
 
-	CheckPlayfieldSidesWarp(4.0f, 3.0f);
-	Mirror.PositionUpdate(Enabled, Position);
+		if (LifeTimer.Elapsed())
+		{
+			Enabled = false;
+			Tail.Enabled = false;
+		}
+
+		CheckPlayfieldSidesWarp(4.0f, 3.0f);
+		Mirror.PositionUpdate(Enabled, Position);
+	}
 }
 
 void PlayerShot::Draw()
