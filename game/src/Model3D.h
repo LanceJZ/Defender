@@ -23,13 +23,10 @@ public:
 	virtual void AddChild(Model3D* child);
 	virtual void SetModel(Model &model, float scale);
 	virtual void SetModelCopy(Model model, float scale);
-	bool CirclesIntersectBullet(Entity* target);
 	virtual Model& GetModel();
 	void Unload();
 
 private:
-	Ray TheRay = { 0 };
-	RayCollision TheRayCollision = { 0 };
 	Model TheModel;
 	Camera* TheCamera = nullptr;
 	std::vector <Model3D*> Children;
