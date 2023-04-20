@@ -168,6 +168,14 @@ void BomberControl::SpawnBombers(int amount)
 	}
 }
 
+void BomberControl::NewGame()
+{
+	for (auto bomber : Bombers)
+	{
+		bomber->Reset();
+	}
+}
+
 void BomberControl::Smartbomb(float xMin, float xMax)
 {
 	for (auto& bomber : Bombers)

@@ -35,7 +35,7 @@ void Enemy::SetShotModel(Model model)
 {
 	for (auto& shot : Shots)
 	{
-		shot.SetModel(model, 3.0f);
+		shot.SetModel(model, 4.0f);
 	}
 }
 

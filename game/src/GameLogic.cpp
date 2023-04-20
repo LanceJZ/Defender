@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.161");
+	SetWindowTitle("Defender Alpha 01.17");
 	Score.Initialize();
 	ThePlayer.Initialize();
 	LandersMutants.Initialize();
@@ -437,6 +437,8 @@ void GameLogic::NewGame()
 	Data.Wave = 0;
 	ThePlayer.NewGame();
 	LandersMutants.NewGame();
+	PodsSwarmers.NewGame();
+	Bombers.NewGame();
 	Score.ClearScore();
 }
 

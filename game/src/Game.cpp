@@ -18,7 +18,7 @@ bool Game::Initialize()
 	InitAudioDevice();
 	SetTargetFPS(60);
 
-	Image icon = LoadImage("icon-PKG_32x32.png");
+	Image icon = LoadImage("icon.png");
 	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
 	SetWindowIcon(icon);
 	// Define the camera to look into our 3D world

@@ -28,6 +28,7 @@ public:
 
 	void NewWave();
 	void Reset();
+	void NewGame();
 	void Smartbomb(float xMin, float xMax);
 
 private:

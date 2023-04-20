@@ -169,12 +169,25 @@ void PodSwarmerControl::Reset()
 			pod->Position.y = GetScreenWidth() * 3.5f;
 			Data->PodsSwarmersBeGone = false;
 		}
+	}
 
-		for (auto swarmer : Swarmers)
-		{
-			swarmer->Position.y = GetScreenWidth() * 3.5f;
-			Data->PodsSwarmersBeGone = false;
-		}
+	for (auto swarmer : Swarmers)
+	{
+		swarmer->Position.y = GetScreenWidth() * 3.5f;
+		Data->PodsSwarmersBeGone = false;
+	}
+}
+
+void PodSwarmerControl::NewGame()
+{
+	for (auto pod : Pods)
+	{
+		pod->Reset();
+	}
+
+	for (auto swarmer : Swarmers)
+	{
+		swarmer->Reset();
 	}
 }
 
@@ -190,7 +203,6 @@ void PodSwarmerControl::Smartbomb(float xMin, float xMax)
 				{
 					Score->AddToScore(pod->ScoreAmount);
 					pod->Hit();
-					pod->Reset();
 				}
 			}
 		}
