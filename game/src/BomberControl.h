@@ -27,7 +27,7 @@ public:
 	void Draw();
 
 	void NewWave();
-	void Reset();
+	void PlayerHitReset();
 	void NewGame();
 	void Smartbomb(float xMin, float xMax);
 

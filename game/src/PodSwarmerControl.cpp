@@ -158,7 +158,7 @@ void PodSwarmerControl::NewWave()
 	}
 }
 
-void PodSwarmerControl::Reset()
+void PodSwarmerControl::PlayerHitReset()
 {
 	int spawnAmount = 0;
 
@@ -173,8 +173,11 @@ void PodSwarmerControl::Reset()
 
 	for (auto swarmer : Swarmers)
 	{
+		if (swarmer->Enabled)
+		{
 		swarmer->Position.y = GetScreenWidth() * 3.5f;
 		Data->PodsSwarmersBeGone = false;
+		}
 	}
 }
 

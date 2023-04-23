@@ -105,7 +105,7 @@ void BomberControl::NewWave()
 	}
 }
 
-void BomberControl::Reset()
+void BomberControl::PlayerHitReset()
 {
 	int spawnAmount = 0;
 
@@ -115,12 +115,7 @@ void BomberControl::Reset()
 		{
 			Data->BombersBeGone = false;
 			spawnAmount++;
-			bomber->Enabled = false;
-
-			for (auto &bomb : bomber->Shots)
-			{
-				bomb.Enabled = false;
-			}
+			bomber->Reset();
 		}
 	}
 

@@ -12,7 +12,7 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.17");
+	SetWindowTitle("Defender Alpha 01.18");
 	Score.Initialize();
 	ThePlayer.Initialize();
 	LandersMutants.Initialize();
@@ -447,8 +447,8 @@ void GameLogic::ResetAfterExplode()
 	PlayerResetTimer.Reset(0.666f);
 	ThePlayer.Reset();
 	LandersMutants.PlayerHitReset();
-	Bombers.Reset();
-	PodsSwarmers.Reset();
+	Bombers.PlayerHitReset();
+	PodsSwarmers.PlayerHitReset();
 	Explosions.Reset();
 }
 

@@ -127,7 +127,7 @@ bool Enemy::CheckCollision()
 				if (shot.CirclesIntersectBullet(this))
 				{
 					Score->AddToScore(ScoreAmount);
-					shot.Enabled = false;
+					shot.Reset();
 					Hit();
 					Destroy();
 					return true;

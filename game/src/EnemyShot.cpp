@@ -34,8 +34,7 @@ bool EnemyShot::BeginRun(Camera* camera)
 void EnemyShot::Update(float deltaTime)
 {
 	Model3D::Update(deltaTime);
-
-	Mirror.PositionUpdate(Enabled, Position);
+	Mirror.EnabledUpdate(Enabled);
 
 	if (Enabled)
 	{
@@ -52,6 +51,8 @@ void EnemyShot::Update(float deltaTime)
 		{
 			Enabled = false;
 		}
+
+		Mirror.PositionUpdate(Enabled, Position);
 	}
 }
 

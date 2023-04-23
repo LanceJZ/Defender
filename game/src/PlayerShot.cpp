@@ -92,8 +92,7 @@ void PlayerShot::Update(float deltaTime)
 
 		if (LifeTimer.Elapsed())
 		{
-			Enabled = false;
-			Tail.Enabled = false;
+			Reset();
 		}
 
 		CheckPlayfieldSidesWarp(4.0f, 3.0f);
