@@ -1860,7 +1860,7 @@ void ImageMipmaps(Image *image)
     {
         void *temp = RL_REALLOC(image->data, mipSize);
 
-        if (temp != NULL) image->data = temp;      // Assign new pointer (new size) to store mipmaps data
+        if (temp != NULL) image->data = temp;      // Assign new pointer (DBG_NEW size) to store mipmaps data
         else TRACELOG(LOG_WARNING, "IMAGE: Mipmaps required memory could not be allocated");
 
         // Pointer to allocated memory point where store next mipmap level data

@@ -140,7 +140,7 @@ void Bomber::DropABomb()
 
 	if (newBomb)
 	{
-		Bombs.push_back(new EnemyShot());
+		Bombs.push_back(DBG_NEW EnemyShot());
 		Bombs[bombspawn]->Initialize();
 		Bombs[bombspawn]->SetModel(BombModel, 15.0f);
 		Bombs[bombspawn]->BeginRun(TheCamera);

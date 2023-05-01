@@ -287,7 +287,7 @@ void LanderMutantControl::SpawnLanders(int count)
 
 		if (spawnNew)
 		{
-			Landers.push_back(new Lander());
+			Landers.push_back(DBG_NEW Lander());
 			{
 				Landers[landerSpawnNumber]->Initialize();
 				Landers[landerSpawnNumber]->SetModel(LanderModel, 14.0f);
@@ -338,7 +338,7 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 
 	if (spawnNew)
 	{
-		Mutants.push_back(new Mutant());
+		Mutants.push_back(DBG_NEW Mutant());
 		{
 			Mutants[mutantSpawnNumber]->Initialize();
 			Mutants[mutantSpawnNumber]->SetModel(MutantModel, 14.0f);

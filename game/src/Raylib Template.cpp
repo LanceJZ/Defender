@@ -17,7 +17,7 @@
 
 int main()
 {
-	Game *game = new Game();
+	Game *game = DBG_NEW Game();
 
 	game->Initialize();
 	game->Load();

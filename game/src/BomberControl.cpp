@@ -155,7 +155,7 @@ void BomberControl::SpawnBombers(int amount)
 
 		if (spawnNew)
 		{
-			Bombers.push_back(new Bomber());
+			Bombers.push_back(DBG_NEW Bomber());
 			Bombers[spawnNumber]->Initialize();
 			Bombers[spawnNumber]->SetModel(BomberModel, 10.0f);
 			Bombers[spawnNumber]->SetBomb(BombModel);

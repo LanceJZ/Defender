@@ -258,7 +258,7 @@ void PodSwarmerControl::SpawnPods(int count)
 
 		if (spawnNew)
 		{
-			Pods.push_back(new Pod());
+			Pods.push_back(DBG_NEW Pod());
 			Pods[spawnNumber]->Initialize();
 			Pods[spawnNumber]->SetModel(PodModel, 10.0f);
 			Pods[spawnNumber]->SetRadarModel(PodRadarModel, 3.0f);
@@ -317,7 +317,7 @@ void PodSwarmerControl::SpawnSwarmers(Vector3 position, int count)
 
 		if (spawnNew)
 		{
-			Swarmers.push_back(new Swarmer());
+			Swarmers.push_back(DBG_NEW Swarmer());
 			Swarmers[swarmerSpawnNumber]->Initialize();
 			Swarmers[swarmerSpawnNumber]->SetModel(SwarmerModel, 10.0f);
 			Swarmers[swarmerSpawnNumber]->SetRadarModel(SwarmerRadarModel, 3.0f);

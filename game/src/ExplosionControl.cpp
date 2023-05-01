@@ -114,7 +114,7 @@ int ExplosionControl::SpawnPool()
 
 		if (spawnNew)
 		{
-			Particles.push_back(new ParticleCube());
+			Particles.push_back(DBG_NEW ParticleCube());
 			Particles[cubeSpawnNumber]->Initialize();
 			Particles[cubeSpawnNumber]->SetModel(CubeModel, 10);
 			Particles[cubeSpawnNumber]->BeginRun(TheCamera);

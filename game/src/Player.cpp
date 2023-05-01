@@ -627,7 +627,7 @@ void Player::LivesDisplay()
 	{
 		for (int i = 0; i < Lives - ships; i++)
 		{
-			LivesShips.push_back(new Model3D());
+			LivesShips.push_back(DBG_NEW Model3D());
 			LivesShips[ships + i]->Initialize();
 			LivesShips[ships + i]->SetModel(GetModel(), ModelScale * 0.5f);
 			LivesShips[ships + i]->Z(200.0f);
@@ -668,7 +668,7 @@ void Player::SmartbombsDisplay()
 	{
 		for (int i = 0; i < SmartBombs - bombs; i++)
 		{
-			SmartbombIcons.push_back(new Model3D());
+			SmartbombIcons.push_back(DBG_NEW Model3D());
 			SmartbombIcons[bombs + i]->Initialize();
 			SmartbombIcons[bombs + i]->SetModel(SmartbombModel, 15.0f);
 			SmartbombIcons[bombs + i]->Z(200.0f);
