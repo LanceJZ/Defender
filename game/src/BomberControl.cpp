@@ -8,6 +8,13 @@ BomberControl::~BomberControl()
 {
 	for (int i = 0; i < Bombers.size(); i++)
 	{
+		for (int j = 0; j < Bombers[i]->Bombs.size(); j++)
+		{
+			delete Bombers[i]->Bombs[j];
+		}
+
+		Bombers[i]->Bombs.clear();
+
 		delete Bombers[i];
 	}
 
@@ -16,9 +23,13 @@ BomberControl::~BomberControl()
 	UnloadModel(BomberModel);
 	UnloadModel(BombModel);
 	UnloadModel(BomberRadarModel);
-	Explosion = nullptr;
-
 	UnloadSound(ExplosionSound);
+
+	ThePlayer = nullptr;
+	TheCamera = nullptr;
+	Data = nullptr;
+	Explosion = nullptr;
+	Score = nullptr;
 }
 
 bool BomberControl::Initialize()

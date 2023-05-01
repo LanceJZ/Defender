@@ -18,6 +18,20 @@ Player::~Player()
 
 	TheCamera = nullptr;
 	Explosion = nullptr;
+
+	for (int i = 0; i < LivesShips.size(); i++)
+	{
+		delete LivesShips[i];
+	}
+
+	LivesShips.clear();
+
+	for (int i = 0; i < SmartbombIcons.size(); i++)
+	{
+		delete SmartbombIcons[i];
+	}
+
+	SmartbombIcons.clear();
 }
 
 bool Player::Initialize()
@@ -556,7 +570,7 @@ void Player::Keyboard()
 
 void Player::Gamepad()
 {
-	//Button B is 7 for Smartbomb //Button A is 6 for Fire //Button Y is 8 for Hyperspace
+	//Button B is 6 for Smartbomb //Button A is 7 for Fire //Button Y is 8 for Hyperspace
 	//Button X is 5	//Left bumper is 9 //Right bumper is 11 for Reverse //Left Trigger is 10
 	//Right Trigger is 12 for Thrust //Dpad Up is 1 for Move Up	//Dpad Down is 3 for Move Down
 	//Axis 1 is up -1/down 1 on left stick.

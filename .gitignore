@@ -1,4 +1,7 @@
-raylib-master
+.vs
 _build
 _bin
-.vs
+_app
+_lib
+x64
+resources

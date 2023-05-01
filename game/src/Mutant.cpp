@@ -156,9 +156,3 @@ bool Mutant::CheckCollision()
 
 	return false;
 }
-
-void Mutant::Destroy()
-{
-	Enemy::Destroy();
-
-}

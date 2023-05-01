@@ -32,6 +32,12 @@ PodSwarmerControl::~PodSwarmerControl()
 	UnloadSound(SwarmerShotSound);
 	UnloadSound(SwarmerExplodeSound);
 	UnloadSound(PodExplodeSound);
+
+	ThePlayer = nullptr;
+	TheCamera = nullptr;
+	Data = nullptr;
+	Explosion = nullptr;
+	Score = nullptr;
 }
 
 bool PodSwarmerControl::Initialize()

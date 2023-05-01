@@ -98,6 +98,7 @@ void Bomber::Reset()
 	for (auto bomb : Bombs)
 	{
 		bomb->Enabled = false;
+		bomb->Position = { (float)GetScreenWidth() * 4.0f, (float)GetScreenHeight(), 0 };
 	}
 }
 

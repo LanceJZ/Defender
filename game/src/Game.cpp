@@ -8,7 +8,6 @@ Game::Game()
 
 Game::~Game()
 {
-
 }
 
 bool Game::Initialize()
@@ -28,6 +27,7 @@ bool Game::Initialize()
 	TheCamera.fovy = (float)GetScreenHeight();   // Camera field-of-view Y. In Orthographic is scale.
 	TheCamera.projection = CAMERA_ORTHOGRAPHIC;  // Camera mode type
 	gameLogic.Initialize();
+	UnloadImage(icon);
 
 	return false;
 }

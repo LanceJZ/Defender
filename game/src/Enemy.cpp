@@ -192,7 +192,6 @@ void Enemy::Reset()
 	{
 		shot.Enabled = false;
 		shot.Position = { (float)GetScreenWidth() * 4.0f, (float)GetScreenHeight(), 0 };
-
 	}
 
 	Position = { (float)GetScreenWidth() * 4.0f, (float)GetScreenHeight(), 0 };

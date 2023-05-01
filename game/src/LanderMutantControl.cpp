@@ -13,12 +13,13 @@ LanderMutantControl::~LanderMutantControl()
 		delete Landers[i];
 	}
 
+	Landers.clear();
+
 	for (int i = 0; i < Mutants.size(); i++)
 	{
 		delete Mutants[i];
 	}
 
-	Landers.clear();
 	Mutants.clear();
 
 	UnloadModel(ShotModel);
@@ -31,14 +32,20 @@ LanderMutantControl::~LanderMutantControl()
 
 	UnloadSound(ExplodeSound);
 	UnloadSound(ShotSound);
-	UnloadSound(MutantShotSound);
 	UnloadSound(LanderMutateSound);
+	UnloadSound(LanderSpawnSound);
+	UnloadSound(MutantShotSound);
 	UnloadSound(PersonCaughtSound);
 	UnloadSound(PersonDroppedSound);
 	UnloadSound(PersonGrabbedSound);
-	UnloadSound(LanderSpawnSound);
 	UnloadSound(PersonLeftSound);
 	UnloadSound(PersonSplatSound);
+
+	ThePlayer = nullptr;
+	TheCamera = nullptr;
+	Data = nullptr;
+	Explosion = nullptr;
+	Score = nullptr;
 }
 
 bool LanderMutantControl::Initialize()

@@ -2,7 +2,6 @@
 #include "raylib.h"
 #include "GameLogic.h"
 #include <vector>
-using namespace std;
 
 class Game
 {

@@ -6,6 +6,15 @@ ScoreKeeper::ScoreKeeper()
 
 ScoreKeeper::~ScoreKeeper()
 {
+	HighScoreEntryText.clear();
+	TodaysScoreListRaw.clear();
+	AllTimeScoreListRaw.clear();
+
+	for (int i = 0; i < 8; i++)
+	{
+		AllTimeScores[i].Name.clear();
+		TodaysScores[i].Name.clear();
+	}
 }
 
 bool ScoreKeeper::Initialize()

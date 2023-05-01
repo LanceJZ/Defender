@@ -24,5 +24,4 @@ private:
 	void FireShot();
 	void ChasePlayer();
 	bool CheckCollision();
-	void Destroy();
 };

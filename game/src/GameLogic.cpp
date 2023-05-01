@@ -112,6 +112,8 @@ void GameLogic::Load()
 	PodsSwarmers.SetShotModel(shot);
 	PodsSwarmers.SetPodRadarModel(LoadModelwithTexture("Pod Radar"));
 	PodsSwarmers.SetSwarmerRadarModel(LoadModelwithTexture("Swarmer Radar"));
+	Baiters.SetModels(LoadModelwithTexture("Baiter"), shot);
+	Baiters.SetRaidarModel(LoadModelwithTexture("Baiter Raider"));
 	// Load up cube for FX
 	Explosions.SetCubeModel(LoadModelwithTexture("Cube"));
 
@@ -133,6 +135,8 @@ void GameLogic::Load()
 
 	PodsSwarmers.SetSounds(LoadSound("Sounds/Pod Explode.wav"), LoadSound("Sounds/Swarmer Explode.wav"),
 		LoadSound("Sounds/Swarmer Shot.wav"));
+
+	Baiters.SetSounds(LoadSound("Sounds/Baiter.wav"), LoadSound("Sounds/Baiter Shot.wav"));
 }
 
 bool GameLogic::BeginRun(Camera* camera)

@@ -8,6 +8,13 @@ ExplosionControl::~ExplosionControl()
 {
 	UnloadModel(CubeModel);
 	TheCamera = nullptr;
+
+	for (int i = 0; i < Particles.size(); i++)
+	{
+		delete Particles[i];
+	}
+
+	Particles.clear();
 }
 
 bool ExplosionControl::Initialize()
