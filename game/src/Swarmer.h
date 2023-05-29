@@ -17,8 +17,8 @@ public:
 	void Reset();
 
 private:
-	float XVolocity = 0;
-	float YVolocity = 0;
+	float XVelocity = 0;
+	float YVelocity = 0;
 
 	Timer AfterSpawnTimer;
 

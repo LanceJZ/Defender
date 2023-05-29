@@ -24,9 +24,9 @@ void BaiterControl::SetModels(Model baiter, Model shot)
 	BaiterShotModel = shot;
 }
 
-void BaiterControl::SetBaiterModel(Model baiter)
+void BaiterControl::SetRadarModel(Model radar)
 {
-	BaiterModel = baiter;
+	RadarModel = radar;
 }
 
 void BaiterControl::SetSounds(Sound baiter, Sound shot)

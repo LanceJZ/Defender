@@ -27,7 +27,7 @@ public:
 	void Unload();
 
 private:
-	Model TheModel;
+	Model TheModel = {};
 	Camera* TheCamera = nullptr;
 	std::vector <Model3D*> Children;
 	std::vector <Model3D*> Parents;

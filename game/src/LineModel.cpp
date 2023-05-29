@@ -38,10 +38,16 @@ void LineModel::Draw()
 	rlBegin(RL_LINES);
 	rlColor4ub(ModelColor.r, ModelColor.g, ModelColor.b, ModelColor.a);
 
+	int one = 1;
+
 	for (int i = 0; i < LinePoints.size() - 1; i++)
 	{
 		rlVertex3f(LinePoints[i].x, LinePoints[i].y, LinePoints[i].z);
-		rlVertex3f(LinePoints[i + 1].x, LinePoints[i + 1].y, LinePoints[i + 1].z);
+		rlVertex3f(
+			LinePoints[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(i) + 1].x,
+			LinePoints[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(i) + 1].y,
+			LinePoints[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(i) + 1].z
+		);
 	}
 
 	rlPopMatrix();
@@ -57,8 +63,8 @@ void LineModel::LoadModel(std::string fileName)
 {
 	if (FileExists(const_cast<char*>(fileName.c_str())))
 	{
-		std::string linestemp = LoadFileText(const_cast<char*>(fileName.c_str()));
-		LinePoints = ConvertStringToVector(linestemp);
+		std::string linesTemp = LoadFileText(const_cast<char*>(fileName.c_str()));
+		LinePoints = ConvertStringToVector(linesTemp);
 	}
 }
 
@@ -126,8 +132,6 @@ void LineModel::DrawLines(std::vector <Vector3> points, Vector3 rotationAxis, Co
 {
 	if (points.size() >= 2)
 	{
-		//if (rlCheckBufferLimit(pointsCount)) rlglDraw();
-
 		rlPushMatrix();
 		rlTranslatef(Position.x, Position.y, 0);
 		rlRotatef(Rotation * (float)(180.0f / PI), rotationAxis.x, rotationAxis.y, rotationAxis.z);
@@ -137,7 +141,11 @@ void LineModel::DrawLines(std::vector <Vector3> points, Vector3 rotationAxis, Co
 		for (int i = 0; i < points.size() - 1; i++)
 		{
 			rlVertex3f(points[i].x, points[i].y, points[i].z);
-			rlVertex3f(points[i + 1].x, points[i + 1].y, points[i + 1].z);
+			rlVertex3f(
+				points[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(i) + 1].x,
+				points[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(i) + 1].y,
+				points[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(i) + 1].z
+			);
 		}
 
 		rlEnd();
@@ -153,7 +161,11 @@ void LineModel::DrawLines(Color color)
 	for (int i = 0; i < LinePoints.size() - 1; i++)
 	{
 		rlVertex3f(LinePoints[i].x, LinePoints[i].y, LinePoints[i].z);
-		rlVertex3f(LinePoints[i + 1].x, LinePoints[i + 1].y, LinePoints[i + 1].z);
+		rlVertex3f(
+			LinePoints[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(i) + 1].x,
+			LinePoints[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(i) + 1].y,
+			LinePoints[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(i) + 1].z
+		);
 	}
 
 	rlEnd();

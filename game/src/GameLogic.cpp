@@ -113,7 +113,7 @@ void GameLogic::Load()
 	PodsSwarmers.SetPodRadarModel(LoadModelwithTexture("Pod Radar"));
 	PodsSwarmers.SetSwarmerRadarModel(LoadModelwithTexture("Swarmer Radar"));
 	Baiters.SetModels(LoadModelwithTexture("Baiter"), shot);
-	Baiters.SetBaiterModel(LoadModelwithTexture("Baiter Raider"));
+	Baiters.SetRadarModel(LoadModelwithTexture("Baiter Radar"));
 	// Load up cube for FX
 	Explosions.SetCubeModel(LoadModelwithTexture("Cube"));
 

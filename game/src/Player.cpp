@@ -628,12 +628,12 @@ void Player::LivesDisplay()
 		for (int i = 0; i < Lives - ships; i++)
 		{
 			LivesShips.push_back(DBG_NEW Model3D());
-			LivesShips[ships + i]->Initialize();
-			LivesShips[ships + i]->SetModel(GetModel(), ModelScale * 0.5f);
-			LivesShips[ships + i]->Z(200.0f);
-			LivesShips[ships + i]->Y(row);
-			LivesShips[ships + i]->Cull = false;
-			LivesShips[ships + i]->BeginRun(TheCamera);
+			LivesShips[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(ships) + i]->Initialize();
+			LivesShips[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(ships) + i]->SetModel(GetModel(), ModelScale * 0.5f);
+			LivesShips[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(ships) + i]->Z(200.0f);
+			LivesShips[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(ships) + i]->Y(row);
+			LivesShips[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(ships) + i]->Cull = false;
+			LivesShips[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(ships) + i]->BeginRun(TheCamera);
 		}
 	}
 
@@ -669,12 +669,12 @@ void Player::SmartbombsDisplay()
 		for (int i = 0; i < SmartBombs - bombs; i++)
 		{
 			SmartbombIcons.push_back(DBG_NEW Model3D());
-			SmartbombIcons[bombs + i]->Initialize();
-			SmartbombIcons[bombs + i]->SetModel(SmartbombModel, 15.0f);
-			SmartbombIcons[bombs + i]->Z(200.0f);
-			SmartbombIcons[bombs + i]->Y(row);
-			SmartbombIcons[bombs + i]->Cull = false;
-			SmartbombIcons[bombs + i]->BeginRun(TheCamera);
+			SmartbombIcons[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(bombs) + i]->Initialize();
+			SmartbombIcons[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(bombs) + i]->SetModel(SmartbombModel, 15.0f);
+			SmartbombIcons[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(bombs) + i]->Z(200.0f);
+			SmartbombIcons[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(bombs) + i]->Y(row);
+			SmartbombIcons[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(bombs) + i]->Cull = false;
+			SmartbombIcons[static_cast<std::vector<Model3D*, std::allocator<Model3D*>>::size_type>(bombs) + i]->BeginRun(TheCamera);
 			row += 20;
 		}
 	}
