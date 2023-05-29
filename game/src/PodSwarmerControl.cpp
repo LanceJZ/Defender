@@ -110,7 +110,7 @@ void PodSwarmerControl::Update(float deltaTime)
 {
 	Data->PodsSwarmersBeGone = true;
 
-	for (auto pod : Pods)
+	for (const auto& pod : Pods)
 	{
 		pod->Update(deltaTime);
 
@@ -128,9 +128,9 @@ void PodSwarmerControl::Update(float deltaTime)
 		}
 	}
 
-	for (auto swarmer : Swarmers)
+	for (const auto& swarmer : Swarmers)
 	{
-		for (auto swarmer : Swarmers)
+		for (const auto& swarmer : Swarmers)
 		{
 			if (swarmer->Enabled)
 			{
@@ -144,12 +144,12 @@ void PodSwarmerControl::Update(float deltaTime)
 
 void PodSwarmerControl::Draw()
 {
-	for (auto pod : Pods)
+	for (const auto& pod : Pods)
 	{
 		pod->Draw();
 	}
 
-	for (auto swarmer : Swarmers)
+	for (const auto& swarmer : Swarmers)
 	{
 		swarmer->Draw();
 	}
@@ -168,7 +168,7 @@ void PodSwarmerControl::PlayerHitReset()
 {
 	int spawnAmount = 0;
 
-	for (auto pod : Pods)
+	for (const auto& pod : Pods)
 	{
 		if (pod->Enabled)
 		{
@@ -177,7 +177,7 @@ void PodSwarmerControl::PlayerHitReset()
 		}
 	}
 
-	for (auto swarmer : Swarmers)
+	for (const auto& swarmer : Swarmers)
 	{
 		if (swarmer->Enabled)
 		{
@@ -189,12 +189,12 @@ void PodSwarmerControl::PlayerHitReset()
 
 void PodSwarmerControl::NewGame()
 {
-	for (auto pod : Pods)
+	for (const auto& pod : Pods)
 	{
 		pod->Reset();
 	}
 
-	for (auto swarmer : Swarmers)
+	for (const auto& swarmer : Swarmers)
 	{
 		swarmer->Reset();
 	}
@@ -202,7 +202,7 @@ void PodSwarmerControl::NewGame()
 
 void PodSwarmerControl::Smartbomb(float xMin, float xMax)
 {
-	for (auto& pod : Pods)
+	for (const auto& pod : Pods)
 	{
 		if (pod->Enabled)
 		{
@@ -217,7 +217,7 @@ void PodSwarmerControl::Smartbomb(float xMin, float xMax)
 		}
 	}
 
-	for (auto& swarmer : Swarmers)
+	for (const auto& swarmer : Swarmers)
 	{
 		if (swarmer->Enabled)
 		{
@@ -242,7 +242,7 @@ void PodSwarmerControl::SpawnPods(int count)
 		int podCount = 0;
 		bool spawnNew = true;
 
-		for (auto pod : Pods)
+		for (const auto& pod : Pods)
 		{
 			if (!pod->Enabled)
 			{
@@ -285,7 +285,7 @@ void PodSwarmerControl::SpawnPods(int count)
 		float xVol = GetRandomFloat(35.0f, 55.5f);
 		float y = GetRandomFloat(-GetScreenHeight() * 0.5f, GetScreenHeight() * 0.5f);
 
-		for (auto pod : Pods)
+		for (const auto& pod : Pods)
 		{
 			Pods[spawnNumber]->Spawn({ xLine + GetRandomFloat(-200.0f, 200.0f), y, 0 },
 				xVol);
@@ -303,7 +303,7 @@ void PodSwarmerControl::SpawnSwarmers(Vector3 position, int count)
 		float xVol = GetRandomFloat(65.0f, 75.0f);
 		float yVol = GetRandomFloat(55.0f, 65.0f);
 
-		for (auto swarmer : Swarmers)
+		for (const auto& swarmer : Swarmers)
 		{
 			if (!swarmer->Enabled)
 			{

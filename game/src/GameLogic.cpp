@@ -94,10 +94,10 @@ void GameLogic::Load()
 	ThePlayer.SetTailModel(LoadModelwithTexture("Player Shot Tail"));
 	ThePlayer.SetSmartbombModel(LoadModelwithTexture("BombIcon"));
 	//Load all the models and their textures used by Lander and Mutant.
-	Model shot = LoadModelwithTexture("Shot");
+	Model shot = LoadModelwithTexture("Shot"); //Shot model used with all enemies.
 	LandersMutants.SetLanderModel(LoadModelwithTexture("Lander"));
 	LandersMutants.SetMutantModel(LoadModelwithTexture("Mutant"));
-	LandersMutants.SetShotModel(shot);
+	LandersMutants.SetShotModel(shot); //Unloaded in LandersMutants.
 	LandersMutants.SetPersonModel(LoadModelwithTexture("Person"));
 	LandersMutants.SetLanderRadarModel(LoadModelwithTexture("Lander Radar"));
 	LandersMutants.SetPersonRadar(LoadModelwithTexture("Person Radar"));
@@ -113,7 +113,7 @@ void GameLogic::Load()
 	PodsSwarmers.SetPodRadarModel(LoadModelwithTexture("Pod Radar"));
 	PodsSwarmers.SetSwarmerRadarModel(LoadModelwithTexture("Swarmer Radar"));
 	Baiters.SetModels(LoadModelwithTexture("Baiter"), shot);
-	Baiters.SetRaidarModel(LoadModelwithTexture("Baiter Raider"));
+	Baiters.SetBaiterModel(LoadModelwithTexture("Baiter Raider"));
 	// Load up cube for FX
 	Explosions.SetCubeModel(LoadModelwithTexture("Cube"));
 

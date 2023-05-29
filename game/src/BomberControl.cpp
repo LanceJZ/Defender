@@ -88,7 +88,7 @@ void BomberControl::Update(float deltaTime)
 {
 	Data->BombersBeGone = true;
 
-	for (auto bomber : Bombers)
+	for (const auto& bomber : Bombers)
 	{
 		bomber->Update(deltaTime);
 
@@ -101,7 +101,7 @@ void BomberControl::Update(float deltaTime)
 
 void BomberControl::Draw()
 {
-	for (auto bomber : Bombers)
+	for (const auto& bomber : Bombers)
 	{
 		bomber->Draw();
 	}
@@ -120,7 +120,7 @@ void BomberControl::PlayerHitReset()
 {
 	int spawnAmount = 0;
 
-	for (auto bomber : Bombers)
+	for (const auto& bomber : Bombers)
 	{
 		if (bomber->Enabled)
 		{
@@ -141,7 +141,7 @@ void BomberControl::SpawnBombers(int amount)
 		int bomberCount = 0;
 		bool spawnNew = true;
 
-		for (auto bomber : Bombers)
+		for (const auto& bomber : Bombers)
 		{
 			if (!bomber->Enabled)
 			{
@@ -176,7 +176,7 @@ void BomberControl::SpawnBombers(int amount)
 
 void BomberControl::NewGame()
 {
-	for (auto bomber : Bombers)
+	for (const auto& bomber : Bombers)
 	{
 		bomber->Reset();
 	}
@@ -184,7 +184,7 @@ void BomberControl::NewGame()
 
 void BomberControl::Smartbomb(float xMin, float xMax)
 {
-	for (auto& bomber : Bombers)
+	for (const auto& bomber : Bombers)
 	{
 		if (bomber->Enabled)
 		{

@@ -166,7 +166,7 @@ void LanderMutantControl::Update(float deltaTime)
 {
 	SpawnTimer.Update(deltaTime);
 
-	for (auto lander : Landers)
+	for (const auto& lander : Landers)
 	{
 		lander->Update(deltaTime);
 
@@ -183,7 +183,7 @@ void LanderMutantControl::Update(float deltaTime)
 		}
 	}
 
-	for (auto mutant : Mutants)
+	for (const auto& mutant : Mutants)
 	{
 		mutant->Update(deltaTime);
 
@@ -218,12 +218,12 @@ void LanderMutantControl::Update(float deltaTime)
 
 void LanderMutantControl::Draw()
 {
-	for (auto lander : Landers)
+	for (const auto& lander : Landers)
 	{
 		lander->Draw();
 	}
 
-	for (auto mutant : Mutants)
+	for (const auto& mutant : Mutants)
 	{
 		mutant->Draw();
 	}
@@ -249,7 +249,7 @@ void LanderMutantControl::SpawnMoreLanders()
 
 	if (LandersTurnedToMutants)
 	{
-		for (auto lander : Landers)
+		for (const auto& lander : Landers)
 		{
 			if (lander->Enabled)
 			{
@@ -272,7 +272,7 @@ void LanderMutantControl::SpawnLanders(int count)
 		int landerNumber = 0;
 		int landerSpawnNumber = (int)Landers.size();
 
-		for (auto lander : Landers)
+		for (const auto& lander : Landers)
 		{
 			if (!lander->Enabled)
 			{
@@ -324,7 +324,7 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 	int mutantNumber = 0;
 	int mutantSpawnNumber = (int)Mutants.size();
 
-	for (auto mutant : Mutants)
+	for (const auto& mutant : Mutants)
 	{
 		if (!mutant->Enabled)
 		{
@@ -358,7 +358,7 @@ void LanderMutantControl::SpawnMutant(Lander* lander)
 
 void LanderMutantControl::CountChange()
 {
-	for (auto lander : Landers)
+	for (const auto& lander : Landers)
 	{
 		if (lander->Enabled)
 		{
@@ -366,7 +366,7 @@ void LanderMutantControl::CountChange()
 		}
 	}
 
-	for (auto mutant : Mutants)
+	for (const auto& mutant : Mutants)
 	{
 		if (mutant->Enabled)
 		{
@@ -399,7 +399,7 @@ void LanderMutantControl::CountPeopleChange()
 
 void LanderMutantControl::TheyAllDied()
 {
-	for (auto lander : Landers)
+	for (const auto& lander : Landers)
 	{
 		if (lander->Enabled)
 		{
@@ -412,7 +412,7 @@ void LanderMutantControl::TheyAllDied()
 
 void LanderMutantControl::Smartbomb(float xMin, float xMax)
 {
-	for (auto& lander : Landers)
+	for (const auto& lander : Landers)
 	{
 		if (lander->Enabled)
 		{
@@ -428,7 +428,7 @@ void LanderMutantControl::Smartbomb(float xMin, float xMax)
 		}
 	}
 
-	for (auto& mutant : Mutants)
+	for (const auto& mutant : Mutants)
 	{
 		if (mutant->Enabled)
 		{
@@ -457,7 +457,7 @@ void LanderMutantControl::StartLanderWave()
 
 void LanderMutantControl::StartWave()
 {
-	for (auto lander : Landers)
+	for (const auto& lander : Landers)
 	{
 		for (auto &shot : lander->Shots)
 		{
@@ -467,7 +467,7 @@ void LanderMutantControl::StartWave()
 		lander->Reset();
 	}
 
-	for (auto mutant : Mutants)
+	for (const auto& mutant : Mutants)
 	{
 		for (auto &shot : mutant->Shots)
 		{
@@ -483,7 +483,7 @@ void LanderMutantControl::StartWave()
 
 		int peopleAlive = 0;
 
-		for (auto& person : People)
+		for (auto &person : People)
 		{
 			if (person.Enabled)
 			{
@@ -547,7 +547,7 @@ void LanderMutantControl::PlayerHitReset()
 	int mutantsAlive = 0;
 	int peopleAlive = 0;
 
-	for (auto lander : Landers)
+	for (const auto& lander : Landers)
 	{
 		if (lander->Enabled)
 		{
@@ -561,7 +561,7 @@ void LanderMutantControl::PlayerHitReset()
 		}
 	}
 
-	for (auto mutant : Mutants)
+	for (const auto& mutant : Mutants)
 	{
 		for (auto &shot : mutant->Shots)
 		{

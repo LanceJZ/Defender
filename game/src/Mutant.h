@@ -16,7 +16,7 @@ public:
 
 private:
 	bool GotNearPlayer = false;
-	bool BackToToporBottom = false;
+	bool BackToTopOrBottom = false;
 	float Speed = 100;
 
 	Timer ChangeSpeedTimer;

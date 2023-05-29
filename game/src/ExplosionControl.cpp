@@ -38,7 +38,7 @@ bool ExplosionControl::BeginRun(Camera* camera)
 
 void ExplosionControl::Update(float deltaTime)
 {
-	for (auto cube : Particles)
+	for (const auto& cube : Particles)
 	{
 		cube->Update(deltaTime);
 	}
@@ -46,7 +46,7 @@ void ExplosionControl::Update(float deltaTime)
 
 void ExplosionControl::Draw()
 {
-	for (auto cube : Particles)
+	for (const auto& cube : Particles)
 	{
 		cube->Draw();
 	}
@@ -88,7 +88,7 @@ void ExplosionControl::Spawn(Vector3 position, int count, float time)
 
 void ExplosionControl::Reset()
 {
-	for (auto cube : Particles)
+	for (const auto& cube : Particles)
 	{
 		cube->Enabled = false;
 	}
@@ -100,7 +100,7 @@ int ExplosionControl::SpawnPool()
 		int cubeSpawnNumber = (int)Particles.size();
 		int cubeNumber = 0;
 
-		for (auto cube : Particles)
+		for (const auto& cube : Particles)
 		{
 			if (!cube->Enabled)
 			{

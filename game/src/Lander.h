@@ -44,7 +44,7 @@ private:
 	void SeekPersonMan();
 	void FoundPersonManGoingDown();
 	void GrabPersonMan();
-	void SpawnMutatant();
+	void SpawnMutant();
 	void FireShot();
 	bool CheckCollision();
 	void Destroy();

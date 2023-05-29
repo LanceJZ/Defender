@@ -57,7 +57,7 @@ void Mutant::Spawn(Vector3 position)
 	Enemy::Spawn(position);
 
 	GotNearPlayer = false;
-	BackToToporBottom = false;
+	BackToTopOrBottom = false;
 	ShotTimer.Reset(GetRandomFloat(0.3f, 1.5f));
 	ChangeSpeedTimer.Reset(GetRandomFloat(0.1f, 0.3f));
 }
@@ -104,7 +104,7 @@ void Mutant::ChasePlayer()
 
 	float distanceY = GetRandomFloat(100.0f, 150.0f);
 
-	if (GotNearPlayer && !BackToToporBottom)
+	if (GotNearPlayer && !BackToTopOrBottom)
 	{
 		if (ThePlayer->Y() + distanceY < Y())
 		{
@@ -117,11 +117,11 @@ void Mutant::ChasePlayer()
 
 		if (ThePlayer->X() + (GetScreenWidth() * 0.5f) < X() || ThePlayer->X() + (-GetScreenWidth() * 0.5f) > X())
 		{
-			BackToToporBottom = true;
+			BackToTopOrBottom = true;
 		}
 	}
 
-	if (BackToToporBottom)
+	if (BackToTopOrBottom)
 	{
 		if (Y() > 0)
 		{
@@ -134,7 +134,7 @@ void Mutant::ChasePlayer()
 
 		if (Y() > GetScreenHeight() * 0.333f || Y() < -GetScreenHeight() * 0.45f)
 		{
-			BackToToporBottom = false;
+			BackToTopOrBottom = false;
 			Velocity.y = 0;
 		}
 	}

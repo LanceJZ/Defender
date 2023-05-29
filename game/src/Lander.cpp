@@ -97,7 +97,7 @@ void Lander::Update(float deltaTime)
 		}
 		else if (State == Mutate)
 		{
-			SpawnMutatant();
+			SpawnMutant();
 		}
 	}
 }
@@ -246,7 +246,7 @@ void Lander::GrabPersonMan()
 	PersonTarget->Y(Y() -25.0f);
 }
 
-void Lander::SpawnMutatant()
+void Lander::SpawnMutant()
 {
 	Velocity.y = 0;
 	PersonTarget->Destroy();

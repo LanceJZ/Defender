@@ -13,7 +13,7 @@ public:
 	bool Initialize();
 
 	void SetModels(Model baiter, Model shot);
-	void SetRaidarModel(Model raidar);
+	void SetBaiterModel(Model baitar);
 	void SetSounds(Sound baiter, Sound shot);
 
 	bool BeginRun();
@@ -25,8 +25,7 @@ public:
 private:
 	Model BaiterModel = { 0 };
 	Model BaiterShotModel = { 0 };
-	Model RaidarModel = { 0 };
+	Model BaiterModel = { 0 };
 	Sound BaiterSound = { 0 };
 	Sound BaiterShotSound = { 0 };
 };
-
