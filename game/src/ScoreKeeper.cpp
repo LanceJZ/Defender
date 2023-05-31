@@ -42,7 +42,7 @@ void ScoreKeeper::Update(float deltaTime)
 
 void ScoreKeeper::Draw()
 {
-	DrawText(const_cast<char*>(std::to_string(Score).c_str()),
+	DrawText(std::to_string(Score).c_str(),
 		100 - (1 * 45), 75, 45, BLUE);
 }
 
@@ -78,12 +78,14 @@ void ScoreKeeper::Load()
 
 void ScoreKeeper::Save()
 {
-	SaveFileText("AllTimeHighScoreList.hs", const_cast<char*>(AllTimeScoreListRaw.c_str()));
+	SaveFileText("AllTimeHighScoreList.hs",
+		const_cast<char*>(AllTimeScoreListRaw.c_str()));
 }
 
 void ScoreKeeper::SaveToday()
 {
-	SaveFileText("TodayHighScoreList.hs", const_cast<char*>(TodaysScoreListRaw.c_str()));
+	SaveFileText("TodayHighScoreList.hs",
+		const_cast<char*>(TodaysScoreListRaw.c_str()));
 }
 
 void ScoreKeeper::MakeNewScoreLists()

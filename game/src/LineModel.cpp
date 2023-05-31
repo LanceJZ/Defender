@@ -61,9 +61,9 @@ void LineModel::Load()
 
 void LineModel::LoadModel(std::string fileName)
 {
-	if (FileExists(const_cast<char*>(fileName.c_str())))
+	if (FileExists(fileName.c_str()))
 	{
-		std::string linesTemp = LoadFileText(const_cast<char*>(fileName.c_str()));
+		std::string linesTemp = LoadFileText(fileName.c_str());
 		LinePoints = ConvertStringToVector(linesTemp);
 	}
 }
