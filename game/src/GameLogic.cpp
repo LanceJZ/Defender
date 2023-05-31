@@ -26,7 +26,7 @@ bool GameLogic::Initialize()
 	return false;
 }
 
-Model GameLogic::LoadModelwithTexture(std::string modelFileName)
+Model GameLogic::LoadModelWithTexture(std::string modelFileName)
 {
 	std::string path = "models/";
 
@@ -40,18 +40,18 @@ Model GameLogic::LoadModelwithTexture(std::string modelFileName)
 	Image image = { 0 };
 	Model loadModel = { 0 };
 
-	if (FileExists(const_cast<char*>(nameOBJ.c_str())) &&
-		FileExists(const_cast<char*>(namePNG.c_str())))
+	if (FileExists((nameOBJ.c_str())) &&
+		FileExists((namePNG.c_str())))
 	{
-		loadModel = SetTextureToModel(LoadModel(const_cast<char*>(nameOBJ.c_str())),
-			LoadTexture(const_cast<char*>(namePNG.c_str())));
+		loadModel = SetTextureToModel(LoadModel((nameOBJ.c_str())),
+			LoadTexture(namePNG.c_str()));
 	}
 	else
 	{
 		TraceLog(LOG_ERROR, "***********************  Image  :%s missing. ***********************\n",
-			const_cast<char*>(nameOBJ.c_str()));
+			(nameOBJ.c_str()));
 		TraceLog(LOG_ERROR, "***********************  Image  :%s missing. ***********************\n",
-			const_cast<char*>(namePNG.c_str()));
+			(namePNG.c_str()));
 	}
 
 	return loadModel;
@@ -78,44 +78,44 @@ void GameLogic::Load()
 		name.append(std::to_string(i + 1));
 		nameR.append(std::to_string(i + 1));
 
-		TheLand.LandParts[i].SetModelCopy(LoadModelwithTexture(name), 50.0f);
-		TheLand.RadarLandParts[i].SetModelCopy(LoadModelwithTexture(nameR), 3.18f);
+		TheLand.LandParts[i].SetModelCopy(LoadModelWithTexture(name), 50.0f);
+		TheLand.RadarLandParts[i].SetModelCopy(LoadModelWithTexture(nameR), 3.18f);
 	}
 
-	TheLand.SetUIBack(LoadModelwithTexture("UIBackface"));
-	TheLand.SetUIHorz(LoadModelwithTexture("RadarH"));
-	TheLand.SetRadarTopBottom(LoadModelwithTexture("RadarHOutline"));
-	TheLand.SetStar(LoadModelwithTexture("Star"));
+	TheLand.SetUIBack(LoadModelWithTexture("UIBackface"));
+	TheLand.SetUIHorz(LoadModelWithTexture("RadarH"));
+	TheLand.SetRadarTopBottom(LoadModelWithTexture("RadarHOutline"));
+	TheLand.SetStar(LoadModelWithTexture("Star"));
 	//Load all the models and their textures used by Player.
-	ThePlayer.SetModel(LoadModelwithTexture("Player Ship"));
-	ThePlayer.SetRadarModel(LoadModelwithTexture("Player Radar"));
-	ThePlayer.SetFlameModel(LoadModelwithTexture("Player Flame"));
-	ThePlayer.SetShotModel(LoadModelwithTexture("Player Shot"));
-	ThePlayer.SetTailModel(LoadModelwithTexture("Player Shot Tail"));
-	ThePlayer.SetSmartbombModel(LoadModelwithTexture("BombIcon"));
+	ThePlayer.SetModel(LoadModelWithTexture("Player Ship"));
+	ThePlayer.SetRadarModel(LoadModelWithTexture("Player Radar"));
+	ThePlayer.SetFlameModel(LoadModelWithTexture("Player Flame"));
+	ThePlayer.SetShotModel(LoadModelWithTexture("Player Shot"));
+	ThePlayer.SetTailModel(LoadModelWithTexture("Player Shot Tail"));
+	ThePlayer.SetSmartbombModel(LoadModelWithTexture("BombIcon"));
 	//Load all the models and their textures used by Lander and Mutant.
-	Model shot = LoadModelwithTexture("Shot"); //Shot model used with all enemies.
-	LandersMutants.SetLanderModel(LoadModelwithTexture("Lander"));
-	LandersMutants.SetMutantModel(LoadModelwithTexture("Mutant"));
+	Model shot = LoadModelWithTexture("Shot"); //Shot model used with all enemies.
+	LandersMutants.SetLanderModel(LoadModelWithTexture("Lander"));
+	LandersMutants.SetMutantModel(LoadModelWithTexture("Mutant"));
 	LandersMutants.SetShotModel(shot); //Unloaded in LandersMutants.
-	LandersMutants.SetPersonModel(LoadModelwithTexture("Person"));
-	LandersMutants.SetLanderRadarModel(LoadModelwithTexture("Lander Radar"));
-	LandersMutants.SetPersonRadar(LoadModelwithTexture("Person Radar"));
-	LandersMutants.SetMutantRadarModel(LoadModelwithTexture("Mutant Radar"));
+	LandersMutants.SetPersonModel(LoadModelWithTexture("Person"));
+	LandersMutants.SetLanderRadarModel(LoadModelWithTexture("Lander Radar"));
+	LandersMutants.SetPersonRadar(LoadModelWithTexture("Person Radar"));
+	LandersMutants.SetMutantRadarModel(LoadModelWithTexture("Mutant Radar"));
 	//Load all the models and their textures used by the Bomber.
-	Bombers.SetBomber(LoadModelwithTexture("Bomber"));
-	Bombers.SetBomb(LoadModelwithTexture("Bomb"));
-	Bombers.SetBomberRadar(LoadModelwithTexture("Bomber Radar"));
+	Bombers.SetBomber(LoadModelWithTexture("Bomber"));
+	Bombers.SetBomb(LoadModelWithTexture("Bomb"));
+	Bombers.SetBomberRadar(LoadModelWithTexture("Bomber Radar"));
 	//Load all the models and their textures used by Pod and Swarmer.
-	PodsSwarmers.SetPodModel(LoadModelwithTexture("Pod"));
-	PodsSwarmers.SetSwarmerModel(LoadModelwithTexture("Swarmer"));
+	PodsSwarmers.SetPodModel(LoadModelWithTexture("Pod"));
+	PodsSwarmers.SetSwarmerModel(LoadModelWithTexture("Swarmer"));
 	PodsSwarmers.SetShotModel(shot);
-	PodsSwarmers.SetPodRadarModel(LoadModelwithTexture("Pod Radar"));
-	PodsSwarmers.SetSwarmerRadarModel(LoadModelwithTexture("Swarmer Radar"));
-	Baiters.SetModels(LoadModelwithTexture("Baiter"), shot);
-	Baiters.SetRadarModel(LoadModelwithTexture("Baiter Radar"));
+	PodsSwarmers.SetPodRadarModel(LoadModelWithTexture("Pod Radar"));
+	PodsSwarmers.SetSwarmerRadarModel(LoadModelWithTexture("Swarmer Radar"));
+	Baiters.SetModels(LoadModelWithTexture("Baiter"), shot);
+	Baiters.SetRadarModel(LoadModelWithTexture("Baiter Radar"));
 	// Load up cube for FX
-	Explosions.SetCubeModel(LoadModelwithTexture("Cube"));
+	Explosions.SetCubeModel(LoadModelWithTexture("Cube"));
 
 	//********* Sounds ***************
 	ThePlayer.SetSounds(LoadSound("Sounds/Player Shot.wav"), LoadSound("Sounds/Player Explode.wav"),
