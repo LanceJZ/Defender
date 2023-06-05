@@ -47,7 +47,7 @@ private:
 	float HorzMaxSpeed = 200.0f;
 	float HorzDrag = 2.0f;
 	float ForwardAcceleration = 40.0f;
-	float MaxFowardV = 1000.0f;
+	float MaxForwardV = 1000.0f;
 	float ForwardDrag = 20.0f;
 	float AirDrag = 0.004f;
 	Sound ShotSound = { 0 };
@@ -77,7 +77,7 @@ private:
 	void MoveLeft();
 	void MoveRight();
 	void Reverse();
-	void Horzfriction();
+	void HorzFriction();
 	void Thrust();
 	void ThrustOff();
 	void Fire();
@@ -88,4 +88,3 @@ private:
 	void SmartbombsDisplay();
 	void SmartbombsDisplayUpdate();
 };
-

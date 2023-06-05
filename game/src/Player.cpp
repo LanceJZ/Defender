@@ -210,14 +210,17 @@ void Player::Draw()
 		shot.Draw();
 	}
 
-	for (auto& ship : LivesShips)
+	if (Lives >= 0)
 	{
-		ship->Draw();
-	}
+		for (auto& ship : LivesShips)
+		{
+			ship->Draw();
+		}
 
-	for (auto& bomb : SmartbombIcons)
-	{
-		bomb->Draw();
+		for (auto& bomb : SmartbombIcons)
+		{
+			bomb->Draw();
+		}
 	}
 }
 
@@ -400,7 +403,7 @@ void Player::MoveDown()
 
 void Player::MoveLeft()
 {
-	if (Velocity.x > -MaxFowardV)
+	if (Velocity.x > -MaxForwardV)
 	{
 		Acceleration.x = -HorzSpeed;
 		Flame.Enabled = true;
@@ -413,7 +416,7 @@ void Player::MoveLeft()
 
 void Player::MoveRight()
 {
-	if (Velocity.x < MaxFowardV)
+	if (Velocity.x < MaxForwardV)
 	{
 		Acceleration.x = HorzSpeed;
 		Flame.Enabled = true;
@@ -446,7 +449,7 @@ void Player::RadarMovement()
 	Radar.Y((Y() * 0.147f) + (GetScreenHeight() * 0.4374f));
 }
 
-void Player::Horzfriction()
+void Player::HorzFriction()
 {
 	if (Velocity.y > 0)
 	{
@@ -535,7 +538,7 @@ void Player::Keyboard()
 	}
 	else
 	{
-		Horzfriction();
+		HorzFriction();
 	}
 
 	if (IsKeyPressed(KEY_LEFT_CONTROL) || IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_SPACE))
@@ -594,7 +597,7 @@ void Player::Gamepad()
 	}
 	else
 	{
-		Horzfriction();
+		HorzFriction();
 	}
 
 	if (IsGamepadButtonPressed(0, 7))
