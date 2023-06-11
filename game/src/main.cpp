@@ -17,14 +17,14 @@
 
 int main()
 {
-	Game *game = DBG_NEW Game();
+	Game game;// = DBG_NEW Game();
 
-	game->Initialize();
-	game->Load();
-	game->BeginRun();
-	game->GameLoop();
+	game.Initialize();
+	game.Load();
+	game.BeginRun();
+	game.GameLoop();
 
-	delete game;
+	//delete game;
 
 	//_CrtSetReportMode( _CRT_WARN, _CRTDBG_MODE_DEBUG );
 	_CrtDumpMemoryLeaks();
