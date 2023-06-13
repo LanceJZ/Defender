@@ -7,7 +7,7 @@ BaiterControl::BaiterControl()
 
 BaiterControl::~BaiterControl()
 {
-	UnloadModel(BaiterModel);
+	//UnloadModel(BaiterModel);
 	//UnloadSound(BaiterSound);
 	//UnloadSound(BaiterShotSound);
 }

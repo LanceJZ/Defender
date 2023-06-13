@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "ContentManager.h"
 #include "Player.h"
 #include "Land.h"
 #include "LanderMutantControl.h"
@@ -31,8 +32,8 @@ public:
 	virtual ~GameLogic();
 
 	bool Initialize();
-	Model LoadModelWithTexture(std::string modelFileName);
-	Model SetTextureToModel(Model model, Texture2D texture);
+	//Model LoadModelWithTexture(std::string modelFileName);
+	//Model SetTextureToModel(Model model, Texture2D texture);
 	void Load();
 	bool BeginRun(Camera* camera);
 
@@ -50,6 +51,7 @@ private:
 	Timer PlayerDeathTimer;
 	Timer PlayerResetTimer;
 	Timer WaveStartTimer;
+	ContentManager Content;
 	ScoreKeeper Score;
 	SharedData Data;
 	ExplosionControl Explosions;

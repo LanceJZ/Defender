@@ -6,16 +6,16 @@ Land::Land()
 
 Land::~Land()
 {
-	for (int i = 0; i < 7; i++)
-	{
-		LandParts[i].Unload();
-		RadarLandParts[i].Unload();
-	}
+	//for (int i = 0; i < 7; i++)
+	//{
+	//	LandParts[i].Unload();
+	//	RadarLandParts[i].Unload();
+	//}
 
-	UIBackR.Unload();
-	RadarHorzBottom.Unload();
-	RadarHorzL.Unload();
-	UnloadModel(StarModel);
+	//UIBackR.Unload();
+	//RadarHorzBottom.Unload();
+	//RadarHorzL.Unload();
+	//UnloadModel(StarModel);
 
 	TheCamera = nullptr;
 	ThePlayer = nullptr;

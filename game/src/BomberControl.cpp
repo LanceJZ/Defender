@@ -20,9 +20,9 @@ BomberControl::~BomberControl()
 
 	Bombers.clear();
 
-	UnloadModel(BomberModel);
-	UnloadModel(BombModel);
-	UnloadModel(BomberRadarModel);
+	//UnloadModel(BomberModel);
+	//UnloadModel(BombModel);
+	//UnloadModel(BomberRadarModel);
 	UnloadSound(ExplosionSound);
 
 	ThePlayer = nullptr;

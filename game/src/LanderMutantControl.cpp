@@ -22,13 +22,13 @@ LanderMutantControl::~LanderMutantControl()
 
 	Mutants.clear();
 
-	UnloadModel(ShotModel);
-	UnloadModel(LanderModel);
-	UnloadModel(MutantModel);
-	UnloadModel(PersonModel);
-	UnloadModel(LanderRadar);
-	UnloadModel(MutantRadar);
-	UnloadModel(PersonRadar);
+	//UnloadModel(ShotModel);
+	//UnloadModel(LanderModel);
+	//UnloadModel(MutantModel);
+	//UnloadModel(PersonModel);
+	//UnloadModel(LanderRadar);
+	//UnloadModel(MutantRadar);
+	//UnloadModel(PersonRadar);
 
 	UnloadSound(ExplodeSound);
 	UnloadSound(ShotSound);

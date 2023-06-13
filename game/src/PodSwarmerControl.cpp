@@ -25,10 +25,10 @@ PodSwarmerControl::~PodSwarmerControl()
 	Data = nullptr;
 	Explosion = nullptr;
 
-	UnloadModel(PodModel);
-	UnloadModel(SwarmerModel);
-	UnloadModel(PodRadarModel);
-	UnloadModel(SwarmerRadarModel);
+	//UnloadModel(PodModel);
+	//UnloadModel(SwarmerModel);
+	//UnloadModel(PodRadarModel);
+	//UnloadModel(SwarmerRadarModel);
 	UnloadSound(SwarmerShotSound);
 	UnloadSound(SwarmerExplodeSound);
 	UnloadSound(PodExplodeSound);

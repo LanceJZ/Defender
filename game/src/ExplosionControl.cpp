@@ -6,7 +6,7 @@ ExplosionControl::ExplosionControl()
 
 ExplosionControl::~ExplosionControl()
 {
-	UnloadModel(CubeModel);
+	//UnloadModel(CubeModel);
 	TheCamera = nullptr;
 
 	for (int i = 0; i < Particles.size(); i++)
