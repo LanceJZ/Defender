@@ -6,9 +6,9 @@ Player::Player()
 
 Player::~Player()
 {
-	UnloadSound(ShotSound);
-	UnloadSound(ExplodeSound);
-	UnloadSound(ThrustSound);
+	//UnloadSound(ShotSound);
+	//UnloadSound(ExplodeSound);
+	//UnloadSound(ThrustSound);
 	//Unload();
 	//Flame.Unload();
 	//UnloadModel(ShotModel);

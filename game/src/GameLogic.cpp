@@ -117,25 +117,35 @@ void GameLogic::Load()
 	Explosions.SetCubeModel(Content.LoadAndGetModel("Cube"));
 
 	//********* Sounds ***************
-	ThePlayer.SetSounds(LoadSound("Sounds/Player Shot.wav"), LoadSound("Sounds/Player Explode.wav"),
-		LoadSound("Sounds/Player Thrust.wav"), LoadSound("Sounds/Smartbomb.wav"),
-		LoadSound("Sounds/Bonus.wav"));
+	ThePlayer.SetSounds(Content.LoadAndGetSound("Player Shot"),
+		Content.LoadAndGetSound("Player Explode"),
+		Content.LoadAndGetSound("Player Thrust"),
+		Content.LoadAndGetSound("Smartbomb"),
+		Content.LoadAndGetSound("Bonus"));
 
-	Sound enemyExplodeSound = LoadSound("Sounds/Enemy Explode.wav");
+	//Sound enemyExplodeSound = LoadSound("Sounds/Enemy Explode.wav");
+	int enemyExplodeSoundNumber = Content.LoadTheSound("Enemy Explode");
 
-	LandersMutants.SetSounds(LoadSound("Sounds/Enemy Shot.wav"), enemyExplodeSound,
-		LoadSound("Sounds/Mutant Shot.wav"), LoadSound("Sounds/Lander Mutate.wav"),
-		LoadSound("Sounds/Landers Spawn.wav"));
-	LandersMutants.SetPersonSounds(LoadSound("Sounds/Person Grabbed.wav"),
-		LoadSound("Sounds/Person Dropped.wav"), LoadSound("Sounds/Person Caught.wav"),
-		LoadSound("Sounds/Person Landed.wav"), LoadSound("Sounds/Person Exploded.wav"));
+	LandersMutants.SetSounds(Content.LoadAndGetSound("Enemy Shot"),
+		Content.GetSound(enemyExplodeSoundNumber),
+		Content.LoadAndGetSound("Mutant Shot"),
+		Content.LoadAndGetSound("Lander Mutate"),
+		Content.LoadAndGetSound("Landers Spawn"));
 
-	Bombers.SetSounds(LoadSound("Sounds/Bomber Explode.wav"));
+	LandersMutants.SetPersonSounds(Content.LoadAndGetSound("Person Grabbed"),
+		Content.LoadAndGetSound("Person Dropped"),
+		Content.LoadAndGetSound("Person Caught"),
+		Content.LoadAndGetSound("Person Landed"),
+		Content.LoadAndGetSound("Person Exploded"));
 
-	PodsSwarmers.SetSounds(LoadSound("Sounds/Pod Explode.wav"), LoadSound("Sounds/Swarmer Explode.wav"),
-		LoadSound("Sounds/Swarmer Shot.wav"));
+	Bombers.SetSounds(Content.LoadAndGetSound("Bomber Explode"));
 
-	Baiters.SetSounds(LoadSound("Sounds/Baiter.wav"), LoadSound("Sounds/Baiter Shot.wav"));
+	PodsSwarmers.SetSounds(Content.LoadAndGetSound("Pod Explode"),
+		Content.LoadAndGetSound("Swarmer Explode"),
+		Content.LoadAndGetSound("Swarmer Shot"));
+
+	Baiters.SetSounds(Content.LoadAndGetSound("Baiter"),
+		Content.LoadAndGetSound("Baiter Shot"));
 }
 
 bool GameLogic::BeginRun(Camera* camera)

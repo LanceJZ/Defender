@@ -30,16 +30,16 @@ LanderMutantControl::~LanderMutantControl()
 	//UnloadModel(MutantRadar);
 	//UnloadModel(PersonRadar);
 
-	UnloadSound(ExplodeSound);
-	UnloadSound(ShotSound);
-	UnloadSound(LanderMutateSound);
-	UnloadSound(LanderSpawnSound);
-	UnloadSound(MutantShotSound);
-	UnloadSound(PersonCaughtSound);
-	UnloadSound(PersonDroppedSound);
-	UnloadSound(PersonGrabbedSound);
-	UnloadSound(PersonLeftSound);
-	UnloadSound(PersonSplatSound);
+	//UnloadSound(ExplodeSound);
+	//UnloadSound(ShotSound);
+	//UnloadSound(LanderMutateSound);
+	//UnloadSound(LanderSpawnSound);
+	//UnloadSound(MutantShotSound);
+	//UnloadSound(PersonCaughtSound);
+	//UnloadSound(PersonDroppedSound);
+	//UnloadSound(PersonGrabbedSound);
+	//UnloadSound(PersonLeftSound);
+	//UnloadSound(PersonSplatSound);
 
 	ThePlayer = nullptr;
 	TheCamera = nullptr;

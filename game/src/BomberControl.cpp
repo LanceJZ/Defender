@@ -23,7 +23,7 @@ BomberControl::~BomberControl()
 	//UnloadModel(BomberModel);
 	//UnloadModel(BombModel);
 	//UnloadModel(BomberRadarModel);
-	UnloadSound(ExplosionSound);
+	//UnloadSound(ExplosionSound);
 
 	ThePlayer = nullptr;
 	TheCamera = nullptr;

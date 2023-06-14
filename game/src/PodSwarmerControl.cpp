@@ -29,9 +29,9 @@ PodSwarmerControl::~PodSwarmerControl()
 	//UnloadModel(SwarmerModel);
 	//UnloadModel(PodRadarModel);
 	//UnloadModel(SwarmerRadarModel);
-	UnloadSound(SwarmerShotSound);
-	UnloadSound(SwarmerExplodeSound);
-	UnloadSound(PodExplodeSound);
+	//UnloadSound(SwarmerShotSound);
+	//UnloadSound(SwarmerExplodeSound);
+	//UnloadSound(PodExplodeSound);
 
 	ThePlayer = nullptr;
 	TheCamera = nullptr;
