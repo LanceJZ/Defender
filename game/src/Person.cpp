@@ -153,7 +153,7 @@ void Person::GoingForARide()
 
 void Person::CheckCollision()
 {
-	if (CirclesIntersect(ThePlayer))
+	if (CirclesIntersect(*ThePlayer))
 	{
 		PlaySound(CaughtSound);
 		State = CaughtByPlayer;

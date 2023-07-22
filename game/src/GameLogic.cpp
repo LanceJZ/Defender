@@ -93,7 +93,7 @@ void GameLogic::Load()
 	ThePlayer.SetTailModel(Content.LoadAndGetModel("Player Shot Tail"));
 	ThePlayer.SetSmartbombModel(Content.LoadAndGetModel("BombIcon"));
 	//Load all the models and their textures used by Lander and Mutant.
-	int shotModel = Content.LoadTheModel("Shot"); //Shot model used with most enemies.
+	size_t shotModel = Content.LoadTheModel("Shot"); //Shot model used with most enemies.
 	LandersMutants.SetLanderModel(Content.LoadAndGetModel("Lander"));
 	LandersMutants.SetMutantModel(Content.LoadAndGetModel("Mutant"));
 	LandersMutants.SetShotModel(Content.GetModel(shotModel));
@@ -124,7 +124,7 @@ void GameLogic::Load()
 		Content.LoadAndGetSound("Bonus"));
 
 	//Sound enemyExplodeSound = LoadSound("Sounds/Enemy Explode.wav");
-	int enemyExplodeSoundNumber = Content.LoadTheSound("Enemy Explode");
+	size_t enemyExplodeSoundNumber = Content.LoadTheSound("Enemy Explode");
 
 	LandersMutants.SetSounds(Content.LoadAndGetSound("Enemy Shot"),
 		Content.GetSound(enemyExplodeSoundNumber),

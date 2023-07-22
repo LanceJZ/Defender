@@ -21,7 +21,7 @@ bool PlayerShot::Initialize()
 	Enabled = false;
 
 	Tail.RotationVelocity = 40.666f;
-	Tail.RotationAxis.x = 1.0f;
+	Tail.RotationAxis = { 1.0f, 0, 0 };
 	Tail.Position.x = -5.5f;
 	//Tail.ModelScale = 5.0f;
 	Tail.Enabled = false;
@@ -83,6 +83,8 @@ void PlayerShot::Reset()
 
 void PlayerShot::Update(float deltaTime)
 {
+	if (!Enabled) return;
+
 	Model3D::Update(deltaTime);
 	Tail.Update(deltaTime);
 
@@ -102,6 +104,8 @@ void PlayerShot::Update(float deltaTime)
 
 void PlayerShot::Draw()
 {
+	if (!Enabled) return;
+
 	Model3D::Draw();
 
 	Tail.Draw();

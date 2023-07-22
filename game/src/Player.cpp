@@ -126,7 +126,7 @@ bool Player::BeginRun(Camera* camera)
 	TheCamera = camera;
 	Flame.Position.x = -80.0f;
 	Flame.RotationVelocity = 50.0f;
-	Flame.RotationAxis.x = 1.0f;
+	Flame.RotationAxis = { 1.0f, 0, 0 };
 	Flame.BeginRun(camera);
 	AddChild(&Flame);
 	Radar.BeginRun(camera);

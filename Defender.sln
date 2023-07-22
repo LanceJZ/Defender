@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Defender", "_build\Defender
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "raylib", "_build\raylib.vcxproj", "{8898EA18-743A-15EF-5DF5-284349369C3F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Knightmare Engine", "Knightmare-Engine\src\Knightmare Engine.vcxproj", "{DF01C12E-D2E5-4575-B442-7BC9258EB030}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -34,6 +36,14 @@ Global
 		{8898EA18-743A-15EF-5DF5-284349369C3F}.Release|Win32.Build.0 = Release|Win32
 		{8898EA18-743A-15EF-5DF5-284349369C3F}.Release|x64.ActiveCfg = Release|x64
 		{8898EA18-743A-15EF-5DF5-284349369C3F}.Release|x64.Build.0 = Release|x64
+		{DF01C12E-D2E5-4575-B442-7BC9258EB030}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DF01C12E-D2E5-4575-B442-7BC9258EB030}.Debug|Win32.Build.0 = Debug|Win32
+		{DF01C12E-D2E5-4575-B442-7BC9258EB030}.Debug|x64.ActiveCfg = Debug|x64
+		{DF01C12E-D2E5-4575-B442-7BC9258EB030}.Debug|x64.Build.0 = Debug|x64
+		{DF01C12E-D2E5-4575-B442-7BC9258EB030}.Release|Win32.ActiveCfg = Release|Win32
+		{DF01C12E-D2E5-4575-B442-7BC9258EB030}.Release|Win32.Build.0 = Release|Win32
+		{DF01C12E-D2E5-4575-B442-7BC9258EB030}.Release|x64.ActiveCfg = Release|x64
+		{DF01C12E-D2E5-4575-B442-7BC9258EB030}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

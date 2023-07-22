@@ -124,7 +124,7 @@ bool Enemy::CheckCollision()
 		{
 			if (shot.Enabled)
 			{
-				if (shot.CirclesIntersectBullet(this))
+				if (shot.CirclesIntersectBullet(*this))
 				{
 					Score->AddToScore(ScoreAmount);
 					shot.Reset();
@@ -135,8 +135,8 @@ bool Enemy::CheckCollision()
 			}
 		}
 
-		if (CirclesIntersect(ThePlayer) || CirclesIntersect(&ThePlayer->BackCollusion) ||
-			CirclesIntersect(&ThePlayer->FrontCollusion))
+		if (CirclesIntersect(*ThePlayer) || CirclesIntersect(ThePlayer->BackCollusion) ||
+			CirclesIntersect(ThePlayer->FrontCollusion))
 		{
 			Score->AddToScore(ScoreAmount);
 			Hit();
@@ -152,9 +152,9 @@ bool Enemy::CheckCollision()
 		{
 			if (ThePlayer->Enabled)
 			{
-				if (ThePlayer->CirclesIntersect(&shot) ||
-					ThePlayer->BackCollusion.CirclesIntersect(&shot) ||
-					ThePlayer->FrontCollusion.CirclesIntersect(&shot))
+				if (ThePlayer->CirclesIntersect(shot) ||
+					ThePlayer->BackCollusion.CirclesIntersect(shot) ||
+					ThePlayer->FrontCollusion.CirclesIntersect(shot))
 				{
 					ThePlayer->Hit();
 				}
