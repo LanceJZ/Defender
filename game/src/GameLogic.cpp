@@ -11,60 +11,20 @@ GameLogic::~GameLogic()
 
 bool GameLogic::Initialize()
 {
-	SetWindowTitle("Defender Alpha 01.19");
+	SetWindowTitle("Defender Alpha 01.20");
 	Score.Initialize();
 	ThePlayer.Initialize();
 	LandersMutants.Initialize();
 	TheLand.Initialize();
 	Bombers.Initialize();
 	PodsSwarmers.Initialize();
+	Baiters.Initialize();
 	Explosions.Initialize();
 	NewWaveTimer.Set(1.5f);
 	WaveStartTimer.Set(1.666f);
 
 	return false;
 }
-
-//Model GameLogic::LoadModelWithTexture(std::string modelFileName)
-//{
-//	std::string path = "models/";
-//
-//	std::string namePNG = path;
-//	namePNG.append(modelFileName);
-//	namePNG.append(".png");
-//
-//	std::string nameOBJ = path;
-//	nameOBJ.append(modelFileName);
-//	nameOBJ.append(".obj");
-//	Image image = { 0 };
-//	Model loadModel = { 0 };
-//
-//	if (FileExists((nameOBJ.c_str())) &&
-//		FileExists((namePNG.c_str())))
-//	{
-//		loadModel = SetTextureToModel(LoadModel((nameOBJ.c_str())),
-//			LoadTexture(namePNG.c_str()));
-//	}
-//	else
-//	{
-//		TraceLog(LOG_ERROR, "***********************  Image  :%s missing. ***********************\n",
-//			(nameOBJ.c_str()));
-//		TraceLog(LOG_ERROR, "***********************  Image  :%s missing. ***********************\n",
-//			(namePNG.c_str()));
-//	}
-//
-//	return loadModel;
-//}
-//
-//Model GameLogic::SetTextureToModel(Model model, Texture2D texture)
-//{
-//	if (IsTextureReady(texture))
-//	{
-//		model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
-//	}
-//
-//	return model;
-//}
 
 void GameLogic::Load()
 {
@@ -145,7 +105,8 @@ void GameLogic::Load()
 		Content.LoadAndGetSound("Swarmer Shot"));
 
 	Baiters.SetSounds(Content.LoadAndGetSound("Baiter"),
-		Content.LoadAndGetSound("Baiter Shot"));
+		Content.LoadAndGetSound("Baiter Shot"),
+		Content.LoadAndGetSound("Baiter Explode"));
 }
 
 bool GameLogic::BeginRun(Camera* camera)
@@ -166,12 +127,18 @@ bool GameLogic::BeginRun(Camera* camera)
 	PodsSwarmers.SetData(&Data);
 	PodsSwarmers.SetExplosion(&Explosions);
 	PodsSwarmers.SetScore(&Score);
+	Baiters.SetPlayer(&ThePlayer);
+	Baiters.SetData(&Data);
+	Baiters.SetExplosion(&Explosions);
+	Baiters.SetScore(&Score);
 	//BeginRun after everything else.
 	TheLand.BeginRun(camera);
 	LandersMutants.BeginRun(camera);
 	Bombers.BeginRun(camera);
 	PodsSwarmers.BeginRun(camera);
+	Baiters.BeginRun(camera);
 	Explosions.BeginRun(camera);
+	Baiters.Activate(); //Debug
 
 	return false;
 }
@@ -242,6 +209,7 @@ void GameLogic::Update(float deltaTime)
 		LandersMutants.Update(deltaTime);
 		Bombers.Update(deltaTime);
 		PodsSwarmers.Update(deltaTime);
+		Baiters.Update(deltaTime);
 		Explosions.Update(deltaTime);
 
 		if (ThePlayer.BeenHit)
@@ -333,6 +301,7 @@ void GameLogic::Draw3D()
 			LandersMutants.Draw();
 			Bombers.Draw();
 			PodsSwarmers.Draw();
+			Baiters.Draw();
 		}
 	}
 }
@@ -348,6 +317,7 @@ void GameLogic::Draw2D()
 	{
 		DrawText("Paused", (int)((GetScreenWidth() * 0.5f) - ((40 * 7) * 0.25f)),
 			(int)(GetScreenHeight() * 0.5f), 40, GRAY);
+		Score.Draw();
 	}
 	else if (State == WaveStart)
 	{
@@ -377,10 +347,6 @@ void GameLogic::UpdatePlayerLand(float deltaTime)
 	TheLand.Update(deltaTime);
 }
 
-void GameLogic::CheckEndOfWave()
-{
-}
-
 void GameLogic::CheckEndOfLevelWave()
 {
 	if (Data.LandersMutantsBeGone && Data.PodsSwarmersBeGone && Data.BombersBeGone)
@@ -391,9 +357,9 @@ void GameLogic::CheckEndOfLevelWave()
 		ThePlayer.Reset();
 		Explosions.Reset();
 		LandersMutants.EndOfLevelWave();
-		LandersMutants.NewLevelWave();
 		Bombers.NewWave();
 		PodsSwarmers.NewWave();
+		Baiters.NewWave();
 		TheLand.NewLevel();
 
 		if (Data.Wave > 0)
@@ -432,6 +398,7 @@ void GameLogic::SmartBombFired()
 		LandersMutants.Smartbomb(minX, maxX);
 		Bombers.Smartbomb(minX, maxX);
 		PodsSwarmers.Smartbomb(minX, maxX);
+		Baiters.Smartbomb(minX, maxX);
 	}
 	else if (ThePlayer.X() < (-gameEdge + windowWidth))
 	{
@@ -441,6 +408,7 @@ void GameLogic::SmartBombFired()
 		LandersMutants.Smartbomb(minX, maxX);
 		Bombers.Smartbomb(minX, maxX);
 		PodsSwarmers.Smartbomb(minX, maxX);
+		Baiters.Smartbomb(minX, maxX);
 	}
 }
 
@@ -453,6 +421,7 @@ void GameLogic::NewGame()
 	PodsSwarmers.NewGame();
 	Bombers.NewGame();
 	Score.ClearScore();
+	Baiters.NewWave();
 }
 
 void GameLogic::ResetAfterExplode()
@@ -463,6 +432,7 @@ void GameLogic::ResetAfterExplode()
 	Bombers.PlayerHitReset();
 	PodsSwarmers.PlayerHitReset();
 	Explosions.Reset();
+	Baiters.Deactivate();
 }
 
 void GameLogic::PlayerWasHit()

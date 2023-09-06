@@ -37,7 +37,6 @@ void Pod::Update(float deltaTime)
 {
 	Enemy::Update(deltaTime);
 
-
 	if (Enabled)
 	{
 		CheckPlayfieldSidesWarp(4.0f, 3.0f);

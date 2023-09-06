@@ -20,11 +20,6 @@ BomberControl::~BomberControl()
 
 	Bombers.clear();
 
-	//UnloadModel(BomberModel);
-	//UnloadModel(BombModel);
-	//UnloadModel(BomberRadarModel);
-	//UnloadSound(ExplosionSound);
-
 	ThePlayer = nullptr;
 	TheCamera = nullptr;
 	Data = nullptr;
@@ -111,7 +106,7 @@ void BomberControl::NewWave()
 {
 	if (Data->Wave > 0)
 	{
-		SpawnBombers(Data->Wave);
+		Spawn(Data->Wave);
 		Data->BombersBeGone = false;
 	}
 }
@@ -130,10 +125,10 @@ void BomberControl::PlayerHitReset()
 		}
 	}
 
-	SpawnBombers(spawnAmount);
+	Spawn(spawnAmount);
 }
 
-void BomberControl::SpawnBombers(int amount)
+void BomberControl::Spawn(int amount)
 {
 	for (int i = 0; i < amount; i++)
 	{

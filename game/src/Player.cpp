@@ -6,16 +6,6 @@ Player::Player()
 
 Player::~Player()
 {
-	//UnloadSound(ShotSound);
-	//UnloadSound(ExplodeSound);
-	//UnloadSound(ThrustSound);
-	//Unload();
-	//Flame.Unload();
-	//UnloadModel(ShotModel);
-	//UnloadModel(ShotTrailModel);
-	//UnloadModel(RadarModel);
-	//UnloadModel(SmartbombModel);
-
 	TheCamera = nullptr;
 	Explosion = nullptr;
 

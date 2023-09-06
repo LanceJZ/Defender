@@ -13,6 +13,20 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
+	void Spawn(Vector3 position, float xVolocity);
+	void Reset();
+
 private:
+	float XVelocity = 0;
+	float YVelocity = 0;
+
+	Timer AfterSpawnTimer;
+	Timer SpeedChangeTimer;
+
+	void AfterSpawnMovement();
+	void ChangeSpeed();
+	void FireShot();
+	bool CheckCollision();
+	void Destroy();
 
 };

@@ -182,7 +182,7 @@ size_t EntityManager::AddModel3D(Model model, Camera* camera)
 {
 	size_t modelNumber = Model3Ds.size();
 	Model3Ds.push_back(new Model3D());
-	Model3Ds[modelNumber]->SetModel(model, 1);
+	Model3Ds[modelNumber]->SetModel(model, 1.0f);
 	Model3Ds[modelNumber]->Initialize();
 
 	return modelNumber;
@@ -229,7 +229,7 @@ Model3D* EntityManager::CreateModel3D(Model model, Camera* camera)
 {
 	Model3D* newModel3D = new Model3D();
 	Model3Ds.push_back(newModel3D);
-	newModel3D->SetModel(model, 1);
+	newModel3D->SetModel(model, 1.0f);
 	newModel3D->Initialize();
 	newModel3D->BeginRun(camera);
 

@@ -188,7 +188,6 @@
     <ClInclude Include="..\game\src\EnemyMirror.h" />
     <ClInclude Include="..\game\src\EnemyRadarMirror.h" />
     <ClInclude Include="..\game\src\EnemyShot.h" />
-    <ClInclude Include="..\game\src\ExplosionControl.h" />
     <ClInclude Include="..\game\src\Game.h" />
     <ClInclude Include="..\game\src\GameLogic.h" />
     <ClInclude Include="..\game\src\Land.h" />
@@ -214,7 +213,6 @@
     <ClCompile Include="..\game\src\EnemyMirror.cpp" />
     <ClCompile Include="..\game\src\EnemyRadarMirror.cpp" />
     <ClCompile Include="..\game\src\EnemyShot.cpp" />
-    <ClCompile Include="..\game\src\ExplosionControl.cpp" />
     <ClCompile Include="..\game\src\Game.cpp" />
     <ClCompile Include="..\game\src\GameLogic.cpp" />
     <ClCompile Include="..\game\src\Land.cpp" />

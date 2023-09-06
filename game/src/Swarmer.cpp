@@ -15,7 +15,7 @@ bool Swarmer::Initialize()
 
 	Radius = 6.0f;
 
-	return false;
+	return true;
 }
 
 bool Swarmer::BeginRun(Camera* camera)
@@ -26,7 +26,7 @@ bool Swarmer::BeginRun(Camera* camera)
 	RotationAxis = { 0, 1.0f, 0 };
 	RotationVelocity = GetRandomFloat(25.1f, 52.6f);
 
-	return false;
+	return true;
 }
 // Swarmer don't change X direction until they are half screen distance away.
 // Can not shoot opposite direction of movement.
@@ -46,16 +46,13 @@ void Swarmer::Update(float deltaTime)
 			AfterSpawnMovement();
 		}
 
-		if (Enabled)
+		if (ShotTimer.Elapsed())
 		{
-			if (ShotTimer.Elapsed())
-			{
-				ShotTimer.Reset(GetRandomFloat(1.1275f, 2.3724375f));
-				FireShot();
-			}
-
-			CheckPlayfieldHeightWarp(-0.15f, 1.0f);
+			ShotTimer.Reset(GetRandomFloat(1.1275f, 2.3724375f));
+			FireShot();
 		}
+
+		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
 	}
 }
 
@@ -141,25 +138,31 @@ void Swarmer::FireShot()
 
 void Swarmer::AfterSpawnMovement()
 {
-	if (ThePlayer->X() + (WindowWidth * 0.75f) < X())
+	float percentChange = 0.75f;
+
+	if (ThePlayer->X() + (WindowWidth * percentChange) < X())
 	{
 		Velocity.x = -XVelocity;
 	}
-	else if (ThePlayer->X() - (WindowWidth * 0.75f) > X())
+	else if (ThePlayer->X() - (WindowWidth * percentChange) > X())
 	{
 		Velocity.x = XVelocity;
 	}
 
-	float distanceX = GetRandomFloat(200.0f, 250.0f);
-	float distanceY = GetRandomFloat(25.0f, 50.0f);
-
-	if (ThePlayer->X() < X() + distanceX && ThePlayer->X() > X() - distanceX)
+	if (DistanceTimer.Elapsed())
 	{
-		if (ThePlayer->Y() + distanceY < Y())
+		DistanceTimer.Reset(GetRandomFloat(0.15f, 0.5f));
+		DistanceX = GetRandomFloat(200.0f, 250.0f);
+		DistanceY = GetRandomFloat(25.0f, 50.0f);
+	}
+
+	if (ThePlayer->X() < X() + DistanceX && ThePlayer->X() > X() - DistanceX)
+	{
+		if (ThePlayer->Y() + DistanceY < Y())
 		{
 			Velocity.y = -YVelocity;
 		}
-		else if (ThePlayer->Y() - distanceY > Y())
+		else if (ThePlayer->Y() - DistanceY > Y())
 
 		{
 			Velocity.y = YVelocity;

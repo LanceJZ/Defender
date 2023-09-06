@@ -22,25 +22,6 @@ LanderMutantControl::~LanderMutantControl()
 
 	Mutants.clear();
 
-	//UnloadModel(ShotModel);
-	//UnloadModel(LanderModel);
-	//UnloadModel(MutantModel);
-	//UnloadModel(PersonModel);
-	//UnloadModel(LanderRadar);
-	//UnloadModel(MutantRadar);
-	//UnloadModel(PersonRadar);
-
-	//UnloadSound(ExplodeSound);
-	//UnloadSound(ShotSound);
-	//UnloadSound(LanderMutateSound);
-	//UnloadSound(LanderSpawnSound);
-	//UnloadSound(MutantShotSound);
-	//UnloadSound(PersonCaughtSound);
-	//UnloadSound(PersonDroppedSound);
-	//UnloadSound(PersonGrabbedSound);
-	//UnloadSound(PersonLeftSound);
-	//UnloadSound(PersonSplatSound);
-
 	ThePlayer = nullptr;
 	TheCamera = nullptr;
 	Data = nullptr;
@@ -518,10 +499,6 @@ void LanderMutantControl::NewGame()
 
 void LanderMutantControl::NewLevelWave()
 {
-	if (TotalSpawn < 30)
-		TotalSpawn += 5;
-
-	NumberSpawned = 0;
 }
 
 void LanderMutantControl::EndOfLevelWave()
@@ -539,6 +516,11 @@ void LanderMutantControl::EndOfLevelWave()
 	}
 
 	Score->AddToScore(NumberofPeopleAlive * (100 * Data->Wave));
+
+	if (TotalSpawn < 30)
+		TotalSpawn += 5;
+
+	NumberSpawned = 0;
 }
 
 void LanderMutantControl::PlayerHitReset()

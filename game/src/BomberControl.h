@@ -21,6 +21,7 @@ public:
 	virtual ~BomberControl();
 
 	bool Initialize();
+
 	void SetBomber(Model model);
 	void SetBomb(Model model);
 	void SetBomberRadar(Model model);
@@ -29,6 +30,7 @@ public:
 	void SetExplosion(ExplosionControl* explosion);
 	void SetSounds(Sound explosion);
 	void SetScore(ScoreKeeper* score);
+
 	bool BeginRun(Camera* camera);
 
 	void Update(float deltaTime);
@@ -47,12 +49,12 @@ private:
 	Sound ExplosionSound = { 0 };
 	Sound ShotSound = { 0 };
 
-	SharedData* Data;
 	Player* ThePlayer = nullptr;
 	Camera* TheCamera = nullptr;
 	ExplosionControl* Explosion = nullptr;
 	ScoreKeeper* Score = nullptr;
+	SharedData* Data = nullptr;
 
-	void SpawnBombers(int amount);
+	void Spawn(int amount);
 };
 

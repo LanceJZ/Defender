@@ -67,7 +67,6 @@ private:
 	void ResetAfterExplode();
 	void SmartBombFired();
 	void PlayerHit();
-	void CheckEndOfWave();
 	void NewGame();
 };
 

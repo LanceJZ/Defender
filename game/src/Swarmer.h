@@ -19,8 +19,11 @@ public:
 private:
 	float XVelocity = 0;
 	float YVelocity = 0;
+	float DistanceX = 0;
+	float DistanceY = 0;
 
 	Timer AfterSpawnTimer;
+	Timer DistanceTimer;
 
 	void FireShot();
 	void AfterSpawnMovement();
