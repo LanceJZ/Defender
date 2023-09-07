@@ -104,9 +104,9 @@ void GameLogic::Load()
 		Content.LoadAndGetSound("Swarmer Explode"),
 		Content.LoadAndGetSound("Swarmer Shot"));
 
-	Baiters.SetSounds(Content.LoadAndGetSound("Baiter"),
-		Content.LoadAndGetSound("Baiter Shot"),
-		Content.LoadAndGetSound("Baiter Explode"));
+	//Baiters.SetSounds(Content.LoadAndGetSound("Baiter"),
+	//	Content.LoadAndGetSound("Baiter Shot"),
+	//	Content.LoadAndGetSound("Baiter Explode"));
 }
 
 bool GameLogic::BeginRun(Camera* camera)
@@ -138,7 +138,6 @@ bool GameLogic::BeginRun(Camera* camera)
 	PodsSwarmers.BeginRun(camera);
 	Baiters.BeginRun(camera);
 	Explosions.BeginRun(camera);
-	Baiters.Activate(); //Debug
 
 	return false;
 }
@@ -422,6 +421,7 @@ void GameLogic::NewGame()
 	Bombers.NewGame();
 	Score.ClearScore();
 	Baiters.NewWave();
+	Baiters.Activate(); //Debug
 }
 
 void GameLogic::ResetAfterExplode()

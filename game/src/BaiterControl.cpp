@@ -16,7 +16,7 @@ BaiterControl::~BaiterControl()
 
 bool BaiterControl::Initialize()
 {
-	SpawnTimer.Set(105.666f);
+	SpawnTimer.Set(10.666f); //105.666f
 	DownToTimer.Set(300);
 	WaveTimer.Set(1800);
 
@@ -176,7 +176,7 @@ void BaiterControl::Spawn()
 	{
 		Baiters.push_back(DBG_NEW Baiter());
 		Baiters[spawnNumber]->Initialize();
-		Baiters[spawnNumber]->SetModel(BaiterModel, 10.0f);
+		Baiters[spawnNumber]->SetModel(BaiterModel, 2.0f);
 		Baiters[spawnNumber]->SetShotModel(ShotModel);
 		Baiters[spawnNumber]->SetRadarModel(RadarModel, 3.0f);
 		Baiters[spawnNumber]->SetPlayer(ThePlayer);
@@ -186,6 +186,5 @@ void BaiterControl::Spawn()
 		Baiters[spawnNumber]->BeginRun(TheCamera);
 	}
 
-	Baiters[spawnNumber]->Spawn({ ThePlayer->X(),  -(float)GetScreenHeight(), 0},
-		-ThePlayer->Velocity.x);
+	Baiters[spawnNumber]->Spawn();
 }

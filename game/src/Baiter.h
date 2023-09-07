@@ -13,7 +13,7 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
-	void Spawn(Vector3 position, float xVolocity);
+	void Spawn();
 	void Reset();
 
 private:

@@ -6,17 +6,6 @@ Land::Land()
 
 Land::~Land()
 {
-	//for (int i = 0; i < 7; i++)
-	//{
-	//	LandParts[i].Unload();
-	//	RadarLandParts[i].Unload();
-	//}
-
-	//UIBackR.Unload();
-	//RadarHorzBottom.Unload();
-	//RadarHorzL.Unload();
-	//UnloadModel(StarModel);
-
 	TheCamera = nullptr;
 	ThePlayer = nullptr;
 }
@@ -117,6 +106,7 @@ bool Land::BeginRun(Camera* camera)
 	}
 
 	UIBackL.Y(GetScreenHeight() / 2.321f);
+	UIBackL.Z(50);
 	UIBackR.Position = UIBackL.Position;
 	UIBackR.Rotation = PI;
 	UIBackR.RotationAxis.z = 1;
@@ -126,11 +116,13 @@ bool Land::BeginRun(Camera* camera)
 	RadarHorzTop.RotationAxis = { 1.0f, 0, 0 };
 	RadarHorzTop.Rotation = PI;
 	RadarHorzTop.Y(GetScreenHeight() / 2.02f);
+	RadarHorzTop.Z(UIBackL.Z());
 	RadarHorzBottom.Y(GetScreenHeight() / 2.79f);
+	RadarHorzBottom.Z(UIBackL.Z());
 	RadarHorzTop.BeginRun(camera);
 	RadarHorzBottom.BeginRun(camera);
-	RadarHorzL.Y(RadarHorzBottom.Y());
-	RadarHorzR.Y(RadarHorzBottom.Y());
+	RadarHorzL.Position = RadarHorzBottom.Position;
+	RadarHorzR.Position = RadarHorzBottom.Position;
 	RadarHorzL.BeginRun(camera);
 	RadarHorzR.BeginRun(camera);
 

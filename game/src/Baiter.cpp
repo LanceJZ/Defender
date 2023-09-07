@@ -20,7 +20,7 @@ bool Baiter::BeginRun(Camera* camera)
 	Enemy::BeginRun(camera);
 
 	RotationAxis = { 0, 1.0f, 0 };
-	RotationVelocity = GetRandomFloat(25.1f, 52.6f);
+	RotationVelocity = GetRandomFloat(15.1f, 22.6f);
 
 	return true;
 }
@@ -32,6 +32,8 @@ void Baiter::Update(float deltaTime)
 	if (Enabled)
 	{
 		AfterSpawnTimer.Update(deltaTime);
+		SpeedChangeTimer.Update(deltaTime);
+		ShotTimer.Update(deltaTime);
 
 		if (AfterSpawnTimer.Elapsed())
 		{
@@ -51,6 +53,7 @@ void Baiter::Update(float deltaTime)
 			FireShot();
 		}
 
+		CheckPlayfieldSidesWarp(4.0f, 3.0f);
 		CheckPlayfieldHeightWarp(-0.15f, 1.0f);
 	}
 }
@@ -61,15 +64,17 @@ void Baiter::Draw()
 
 }
 
-void Baiter::Spawn(Vector3 position, float xVelocity)
+void Baiter::Spawn()
 {
-	Enemy::Spawn(position);
+	Enemy::Spawn({ ThePlayer->X(),  -(float)GetScreenHeight() + 15, 0});
 
-	Velocity.x = xVelocity;
+	ChangeSpeed();
 
-	AfterSpawnTimer.Reset(GetRandomFloat(0.5f, 1.0f));
-	ShotTimer.Reset(GetRandomFloat(0.275f, 0.4375f));
-	SpeedChangeTimer.Reset(GetRandomFloat(0.75f, 1.5f));
+	Velocity.x = ThePlayer->Velocity.x * -1;
+
+	AfterSpawnTimer.Reset(GetRandomFloat(2.5f, 4.0f));
+	ShotTimer.Reset(GetRandomFloat(0.435f, 0.6375f));
+	SpeedChangeTimer.Reset(GetRandomFloat(2.75f, 5.5f));
 }
 
 void Baiter::Reset()
@@ -80,7 +85,7 @@ void Baiter::Reset()
 
 void Baiter::AfterSpawnMovement()
 {
-	float percentChange = 0.25f;
+	float percentChange = 0.5f;
 
 	if (ThePlayer->X() + (WindowWidth * percentChange) < X())
 	{
@@ -103,8 +108,17 @@ void Baiter::AfterSpawnMovement()
 
 void Baiter::ChangeSpeed()
 {
-	XVelocity = ThePlayer->Velocity.x * 1;
-	YVelocity = ThePlayer->Velocity.y * 1;
+	float multiplier = 1.0f;
+	XVelocity = ThePlayer->Velocity.x * multiplier;
+
+	if (Y() > 0)
+	{
+		YVelocity = GetRandomFloat(-30, -20);
+	}
+	else
+	{
+		YVelocity = GetRandomFloat(20, 30);
+	}
 }
 
 void Baiter::FireShot()
